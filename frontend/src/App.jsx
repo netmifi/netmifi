@@ -1,9 +1,8 @@
-import netmifiLogo from "./assets/images";
+import Nav from "./components/Nav";
 
 const App = () => (
   <div>
-    <h1 className="text-center py-6">Welcome to netmifi</h1>
-    <img src={netmifiLogo} alt="Netmifi Logo" width={700} />
+    <Nav />
   </div>
 );
 
