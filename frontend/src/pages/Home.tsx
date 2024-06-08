@@ -1,7 +1,7 @@
 
 const Home = () => {
     return (
-        <main >
+        <main  className="max-container">
             Home
         </main>
     )

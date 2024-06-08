@@ -119,14 +119,14 @@
 
   @layer utilities {
   .padding {
-    @apply sm:px-16 px-8 sm:py-24 py-12;
+    @apply md:px-8 px-4 md:py-14 py-8;
   }
   .padding-x {
     @apply md:px-8 px-4;
   }
 
   .padding-y {
-    @apply sm:py-24 py-12;
+    @apply md:py-14 py-8;
   }
   .padding-l {
     @apply sm:pl-16 pl-8;
