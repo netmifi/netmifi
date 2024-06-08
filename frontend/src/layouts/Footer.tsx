@@ -12,10 +12,10 @@ const Footer = () => {
     return (
         <footer className={cn("flex flex-col", { "md:ml-20": isAuth })}>
             <div className="padding-x padding-y bg-custom-jet 
-            flex flex-wrap sm:justify-evenly justify-between gap-4 items-center
+            flex flex-wrap sm:justify-evenly justify-between gap-4 
             *:flex *:flex-col *:gap-4">
                 <div>
-                    <h3 className="text-2xl capitalize text-custom-red font-bold">about netmifi</h3>
+                    <h3 className="text-2xl capitalize text-destructive">about netmifi</h3>
                     <div className="text-secondary flex flex-col">
                         <NavLink to={''}>About</NavLink>
                         <NavLink to={''}>Courses</NavLink>
@@ -33,7 +33,7 @@ const Footer = () => {
                 </div >
 
                 <div>
-                    <h3 className="text-2xl capitalize text-custom-red font-bold">featured courses</h3>
+                    <h3 className="text-2xl capitalize text-destructive">featured courses</h3>
                     <div className="text-secondary flex flex-col">
                         <NavLink to={''}>Content Production</NavLink>
                         <NavLink to={''}>Digital Marketing</NavLink>
@@ -49,7 +49,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div>
-                    <h3 className="text-2xl capitalize text-custom-red font-bold">contact</h3>
+                    <h3 className="text-2xl capitalize text-destructive">contact</h3>
                     <div className="flex flex-col text-secondary gap-2">
                         <p>support@netmifi.com</p>
                         <p>+234-8160-1746-68</p>

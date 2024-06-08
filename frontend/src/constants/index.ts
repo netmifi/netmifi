@@ -1,20 +1,21 @@
 
-import from 'react-icons/'
-
+import { AiFillInfoCircle, AiFillPhone, AiOutlineDashboard, AiOutlineInbox } from "react-icons/ai";
 import { profile } from "../assets/images";
+import { FaChalkboardTeacher, FaHome, FaUsers } from "react-icons/fa";
+import {FaBookOpenReader, FaMoneyBill } from "react-icons/fa6";
 
 
-const navLinks: object[] = [
-  { href: "/", label: "Home", icon: faHome, onlyUser: false, onlyGuest: false, onlySmScreen: false },
-  { href: "/dashboard", label: "Dashboard", icon: faDashboard, onlyUser: true, onlyGuest: false, onlySmScreen: false },
-  { href: "/messages", label: "Messages", icon: faInbox, onlyUser: true, onlyGuest: false, onlySmScreen: false },
-  { href: "/courses", label: "Courses", icon: faBookOpenReader, onlyUser: false, onlyGuest: false, onlySmScreen: false },
-  { href: "/:username", label: "Me", icon: profile, onlyUser: true, onlyGuest: false, onlySmScreen: true },
-  { href: "/blogs", label: "Blogs", icon: faBlog, onlyUser: false, onlyGuest: false },
-  { href: "/pricing", label: "Pricing", icon: faMoneyBillAlt, onlyUser: false, onlyGuest: false, onlySmScreen: false },
-  { href: "/instructors", label: "Instructors", icon: faUserPen, onlyUser: false, onlyGuest: false, onlySmScreen: false },
-  { href: "/about", label: "About", icon: faUserGroup, onlyUser: false, onlyGuest: true, onlySmScreen: false },
-  { href: "/contact", label: "Contact", icon: faPhoneAlt, onlyUser: false, onlyGuest: true, onlySmScreen: false },
+const navLinks: NavLinks[] = [
+  { href: "/", label: "Home", icon: FaHome, onlyUser: false, onlyGuest: false, onlySmallScreen: false },
+  { href: "/dashboard", label: "Dashboard", icon: AiOutlineDashboard, onlyUser: true, onlyGuest: false, onlySmallScreen: false },
+  { href: "/messages", label: "Messages", icon: AiOutlineInbox, onlyUser: true, onlyGuest: false, onlySmallScreen: false },
+  { href: "/courses", label: "Courses", icon: FaBookOpenReader, onlyUser: false, onlyGuest: false, onlySmallScreen: false },
+  { href: "/:username", label: "Me", icon: profile, onlyUser: true, onlyGuest: false, onlySmallScreen: true },
+  { href: "/blogs", label: "Blogs", icon: AiFillInfoCircle, onlyUser: false, onlyGuest: false, onlySmallScreen: false },
+  { href: "/pricing", label: "Pricing", icon: FaMoneyBill, onlyUser: false, onlyGuest: false, onlySmallScreen: false },
+  { href: "/instructors", label: "Instructors", icon: FaChalkboardTeacher, onlyUser: false, onlyGuest: false, onlySmallScreen: false },
+  { href: "/about", label: "About", icon: FaUsers, onlyUser: false, onlyGuest: true, onlySmallScreen: false },
+  { href: "/contact", label: "Contact", icon: AiFillPhone, onlyUser: false, onlyGuest: true, onlySmallScreen: false },
 ];
 
 const courseSubjects: string[] = [

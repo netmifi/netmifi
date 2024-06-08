@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './pages/Home';
 import Footer from "./layouts/Footer";
+import NotFound from "./pages/NotFound";
+import Navbar from "./layouts/navbar/Navbar";
 
 
 const App = () => (
   <div className="app">
     <Router>
+      <Navbar />
       <Routes>
         {/* ROOT ROUTES */}
         <Route path="/" element={<Home />} />
@@ -25,7 +28,7 @@ const App = () => (
         <Route path="/auth/signup" element={<h1>Auth signup</h1>} />
 
         {/* 404 page ROUTES */}
-        <Route path="*" element={<h1>404</h1>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>
