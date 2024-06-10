@@ -1,10 +1,10 @@
-import { useStoreState } from "easy-peasy";
 import UserNavbar from "./user/Index";
 import GuestNavbar from "./guest/Index";
-import { logo } from "@/assets/svg";
+import { useStoreState } from '@/store/store';
 
 const Navbar = () => {
-  const isAuth = useStoreState((state) => state.isAuth);
+
+  const isAuth = useStoreState((state) => state.auth.isAuth);
 
   return (
     <nav className="sticky top-0 z-20">

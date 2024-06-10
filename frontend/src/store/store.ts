@@ -1,24 +1,16 @@
-import { action, createStore } from "easy-peasy";
-import { model } from "./model";
+import { createStore, createTypedHooks } from "easy-peasy";
+import model, { StoreModel } from "./models";
 
-const store = createStore<model>({
-    /* --- navbar states  --- */
-    nav: {
-    navState: false,
-    setNavState: action((state, payload) => {
-        state.navState = payload;
-    }),
-},
-/* --- navbar states  --- */
 
-    /* --- auth states and thunks --- */
-   auth: {
-    isAuth: false,
-    setIsAuth: action((state, payload) => {
-        state.isAuth = payload;
-    }),
-   }
-    /* --- auth states and thunks --- */
-});
+const typedHooks = createTypedHooks<StoreModel>();
+
+export const useStoreActions = typedHooks.useStoreActions;
+export const useStoreDispatch = typedHooks.useStoreDispatch;
+export const useStoreState = typedHooks.useStoreState;
+
+
+
+
+const store = createStore(model);
 
 export default store;

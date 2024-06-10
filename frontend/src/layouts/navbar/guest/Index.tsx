@@ -1,43 +1,49 @@
-import { logo } from '@/assets/svg';
 import BrandIcon from '@/components/navbar/BrandIcon';
-import NavToggler from '@/components/navbar/NavToggler';
 import SearchBox from '@/components/navbar/SearchBox';
 import { Button } from '@/components/ui/button';
 import { navLinks } from '@/constants';
-import useWindowSize from '@/hooks/useWindowSize';
-import store from '@/store/store';
-import { useStoreActions, useStoreState } from 'easy-peasy';
-import { FaAlignRight } from 'react-icons/fa6';
+import { useStoreActions, useStoreState } from '@/store/store';
+import { FaTimes, } from 'react-icons/fa';
+import { FaBars } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
-const GuestNavbar = () => {
-    const { width } = useWindowSize();
-    const navState = store.getState().nav.navState;
-    // const navState = useStoreState((state) => state.navState);
-    const setNavState = store.getActions().nav.setNavState();
+const GuestNavbar = () => {    
+    const navState = useStoreState(state => state.nav.navState);
+    const setNavState = useStoreActions((action) => action.nav.set);
 
     return (
-        <div className='flex justify-between relative items-center padding-x py-3 shadow-sm max-sm:gap-1'>
+        <div className='bg-background flex justify-between relative items-center padding-x py-3 shadow-sm max-sm:gap-1'>
             <BrandIcon />
+            <div className={`h-full max-md:w-full max-md:fixed max-md:top-0 max-md:left-0 max-md:transition-all ${!navState && 'max-md:hidden'}`}>
+                <div className="md:hidden absolute bg-custom-transparent-black w-full h-full left-0 top-0 px-1 -z-10" onClick={() => setNavState(false)}></div>
+                <div className="h-full max-md:w-[250px] max-md:flex max-md:flex-col max-md:gap-5 max-md:bg-background max-md:p-3">
+                    <Button className='md:hidden bg-transparent text-custom-jet border ml-auto hover:text-secondary' onClick={() => setNavState(false)}><FaTimes /></Button>
 
-            <ul className='h-full flex gap-4 items-center max-md:flex-col max-md:gap-0 text-lg'>
-                {navLinks.map((link) => (
-                    !link.onlyUser
-                    &&
-                    <li key={link.label} className="">
-                        <NavLink to={link.href} className={` flex items-center hover:text-custom-red ${({ isActive, isPending, isTransitioning }: NavbarNavLinks) =>
-                            [
-                                isPending ? "pending" : "",
-                                isActive ? "active" : "",
-                                isTransitioning ? "transitioning" : "",
-                            ].join(" ")}`
-                        }>
-                            <span className="hidden lg:block">{link.label}</span>
-                            <span className="lg:hidden">{<link.icon />}</span>
-                        </NavLink>
-                    </li>
+                    <ul className=' flex gap-4 items-center text-lg  max-md:flex-col  
+                    max-md:py-4
+                    max-md:gap-5
+                '>
 
-                ))}
-            </ul>
+                        {navLinks.map((link) => (
+                            !link.onlyUser
+                            &&
+                            <li key={link.label} className="">
+                                <NavLink to={link.href} className={`flex items-center hover:text-custom-red ${({ isActive, isPending, isTransitioning }) =>
+                                    [
+                                        isPending ? "pending" : "",
+                                        isActive ? "text-custom-red" : "",
+                                        isTransitioning ? "transitioning" : "",
+                                    ].join(" ")}`
+                                }>
+                                    <span className="block md:hidden lg:block">{link.label}</span>
+                                    <span className="hidden md:block lg:hidden text-2xl mr-2">{<link.icon />}</span>
+                                </NavLink>
+                            </li>
+                        ))}
+
+                    </ul>
+                    <Button className="bg-custom-red md:hidden mx-auto"><NavLink to="auth/signin">Signin</NavLink></Button>
+                </div>
+            </div>
 
             <div className="flex gap-1">
                 <SearchBox type="guest" />
@@ -45,10 +51,9 @@ const GuestNavbar = () => {
             </div>
 
             <Button onClick={() => setNavState(true)} className='md:hidden bg-transparent text-custom-jet text-lg rounded-full hover:bg-primary-foreground'>
-                <FaAlignRight />
+                <FaBars />
             </Button>
-            {/* <NavToggler /> */}
-        </div>
+        </div >
     )
 }
 

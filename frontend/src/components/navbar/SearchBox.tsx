@@ -16,8 +16,8 @@ import {
     AlertDialogTitle,
     AlertDialog,
 } from "@/components/ui/alert-dialog";
-import { Alert } from "../ui/alert";
 import { NavLink } from "react-router-dom";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 
 const SearchBox = ({ type = "" }: { type?: string }) => {
@@ -75,32 +75,23 @@ const SearchBox = ({ type = "" }: { type?: string }) => {
                     </AlertDialogTitle>
 
                     {/* Download scrollable area for this  */}
-                    <AlertDialogFooter className="absolute top-16 bg-background overflow-y-auto -mt-4 w-full">
+                    <AlertDialogFooter className="absolute top-14 bg-background w-full">
                         {search ?
-                            <div className="flex flex-col w-full ">
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary ">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
-                                <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                            <ScrollArea className=" h-[300px] w-full">
+                                <div className="flex flex-col">
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary ">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">The best content production course Lorem ipsum dolor sit amet consectetur.</NavLink>
+                                    <NavLink to={`/search?keyword=search1`} className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary">Affiliate marketing in 5 mins</NavLink>
 
-                            </div>
+                                </div>
+                            </ScrollArea>
 
                             : <p className="w-full p-4 text-lg">Type to see suggestions...</p>
 
@@ -109,16 +100,6 @@ const SearchBox = ({ type = "" }: { type?: string }) => {
                 </div>
             </AlertDialogContent>
         </AlertDialog>
-
-{/* <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
-Jokester began sneaking into the castle in the middle of the night and leaving
-jokes all over the place: under the king's pillow, in his soup, even in the
-royal toilet. The king was furious, but he couldn't seem to stop Jokester. And
-then, one day, the people of the kingdom discovered that the jokes left by
-Jokester were so funny that they couldn't help but laugh. And once they
-started laughing, they couldn't stop.
-</ScrollArea> */}
-
 
     )
 }

@@ -143,4 +143,8 @@
   .padding-b {
     @apply sm:pb-24 pb-12;
   }
+
+  a.active{
+    color: var(--custom-red);
+  }
 }
