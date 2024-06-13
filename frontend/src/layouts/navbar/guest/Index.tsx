@@ -2,13 +2,17 @@ import BrandIcon from '@/components/navbar/BrandIcon';
 import SearchBox from '@/components/navbar/SearchBox';
 import { Button } from '@/components/ui/button';
 import { navLinks } from '@/constants';
+import { cn } from '@/lib/utils';
 import { useStoreActions, useStoreState } from '@/store/store';
 import { FaTimes, } from 'react-icons/fa';
 import { FaBars } from 'react-icons/fa6';
-import { NavLink } from 'react-router-dom';
-const GuestNavbar = () => {    
+import { NavLink, useLocation } from 'react-router-dom';
+const GuestNavbar = () => {
     const navState = useStoreState(state => state.nav.navState);
     const setNavState = useStoreActions((action) => action.nav.set);
+
+    const { pathname } = useLocation();
+
 
     return (
         <div className='bg-background flex justify-between relative items-center padding-x py-3 shadow-sm max-sm:gap-1'>
@@ -23,22 +27,21 @@ const GuestNavbar = () => {
                     max-md:gap-5
                 '>
 
-                        {navLinks.map((link) => (
-                            !link.onlyUser
-                            &&
-                            <li key={link.label} className="">
-                                <NavLink to={link.href} className={`flex items-center hover:text-custom-red ${({ isActive, isPending, isTransitioning }) =>
-                                    [
-                                        isPending ? "pending" : "",
-                                        isActive ? "text-custom-red" : "",
-                                        isTransitioning ? "transitioning" : "",
-                                    ].join(" ")}`
-                                }>
-                                    <span className="block md:hidden lg:block">{link.label}</span>
-                                    <span className="hidden md:block lg:hidden text-2xl mr-2">{<link.icon />}</span>
-                                </NavLink>
-                            </li>
-                        ))}
+                        {navLinks.map((link) => {
+                            const isActive = pathname === link.href;
+
+                            return (
+                                !link.onlyUser
+                                &&
+                                <li key={link.label} className="">
+                                    <NavLink to={link.href} className={cn("flex items-center hover:text-custom-red", { "text-custom-red": isActive })}>
+                                        <span className="block md:hidden lg:block">{link.label}</span>
+                                        <span className="hidden md:block lg:hidden text-2xl mr-2">{<link.icon />}</span>
+                                    </NavLink>
+                                </li>
+                            )
+                        }
+                        )}
 
                     </ul>
                     <Button className="bg-custom-red md:hidden mx-auto"><NavLink to="auth/signin">Signin</NavLink></Button>
