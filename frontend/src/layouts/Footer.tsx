@@ -1,16 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { AiFillFacebook, AiOutlineInstagram } from 'react-icons/ai'
 import { FaTiktok, FaXTwitter, FaYoutube } from 'react-icons/fa6'
-import { cn } from "@/lib/utils";
-import { useStoreState } from "@/store/store";
 
-const Footer = () => {
+const Footer = ({ className }: PageProps) => {
     const year = new Date().getFullYear().toString();
-
-    const isAuth = useStoreState((state) => state.auth.isAuth);
-    // grid md:grid-cols-3 grid-cols-2 max-md:gap-3 justify-between 
     return (
-        <footer className={cn("flex flex-col", { "md:ml-20": isAuth })}>
+        <footer className={className}>
             <div className="padding-x padding-y bg-custom-jet 
             flex flex-wrap sm:justify-evenly justify-between gap-4 
             *:flex *:flex-col *:gap-4">

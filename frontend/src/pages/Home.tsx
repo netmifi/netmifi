@@ -1,7 +1,7 @@
 
-const Home = () => {
+const Home = ({ className }: PageProps) => {
     return (
-        <main  className="max-container">
+        <main className={className}>
             Home
         </main>
     )

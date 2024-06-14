@@ -33,8 +33,10 @@ const GuestNavbar = () => {
                             return (
                                 !link.onlyUser
                                 &&
-                                <li key={link.label} className="">
-                                    <NavLink to={link.href} className={cn("flex items-center hover:text-custom-red", { "text-custom-red": isActive })}>
+                                <li key={link.label} className="*:flex *:items-center *:hover:text-custom-red">
+                                    <NavLink to={link.href} className={({ isActive, isPending }) =>
+                                        isPending ? "pending" : isActive ? "text-custom-red underline underline-offset-8 md:underline-offset-[25px]  decoration-4" : ""
+                                    }>
                                         <span className="block md:hidden lg:block">{link.label}</span>
                                         <span className="hidden md:block lg:hidden text-2xl mr-2">{<link.icon />}</span>
                                     </NavLink>

@@ -12,4 +12,8 @@ declare interface NavLinks {
     onlySmallScreen: boolean
 } 
 
+declare interface PageProps {
+    className: string
+}
+
 declare interface NavbarNavLinks  { isActive: boolean, isPending: boolean, isTransitioning: boolean }

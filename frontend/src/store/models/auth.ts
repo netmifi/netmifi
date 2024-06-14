@@ -7,7 +7,7 @@ export interface AuthModel {
 }
 
 const auth:AuthModel = {
-    isAuth: true,
+    isAuth: false,
     set: action((state, payload:boolean)=> {
         state.isAuth = payload
     })
