@@ -61,8 +61,8 @@ const UserNavbar = () => {
               </div>
             </div>
           </NavbarPopover>
-          <NavbarPopover type='message' counter={50} />
           <NavbarPopover type='cart' counter={50} />
+          <NavbarPopover type='message' counter={50} />
 
           <NavLink to="/user/:username" className="flex items-center">
             <Avatar>

@@ -1,18 +1,18 @@
-import { dice, hold_bulb, meeting, profile, userLaptop1, userLaptop2 } from "@/assets/images"
-import { Avatar, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { courseSubjects } from "@/constants"
-import { cn } from "@/lib/utils"
-import { AvatarFallback } from "@radix-ui/react-avatar"
-import { useRef, useState } from "react"
-import { AiOutlineArrowDown, AiOutlineArrowRight } from "react-icons/ai"
-import { FaCircle, FaPlayCircle, FaSearch } from "react-icons/fa"
-import { FaEllipsis, FaLock } from "react-icons/fa6"
-import { NavLink } from "react-router-dom"
+import { dice, hold_bulb, meeting, profile, userLaptop1, userLaptop2 } from "@/assets/images";
+import Newsletter from "@/components/Newsletter";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { courseSubjects } from "@/constants";
+import { cn } from "@/lib/utils";
+import { useRef, useState } from "react";
+import { AiOutlineArrowDown, AiOutlineArrowRight } from "react-icons/ai";
+import { FaCircle, FaPlayCircle, FaSearch } from "react-icons/fa";
+import { FaEllipsis, FaLock } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 
 const Courses = ({ className }: PageProps) => {
     const [search, setSearch] = useState<string>('');
@@ -539,7 +539,7 @@ const Courses = ({ className }: PageProps) => {
                         </div>
 
 
-                        <NavLink to={`/courses/${currentSubject}`}>
+                        <NavLink state={{ course: currentSubject, courseType }} to={`/courses/${currentSubject}`}>
                             <Button className="mx-auto mt-5 bg-custom-red flex items-center"> <span>Load more</span> <AiOutlineArrowRight /></Button>
                         </NavLink>
                     </div>
@@ -565,9 +565,7 @@ const Courses = ({ className }: PageProps) => {
             </section>
 
 
-            <section>
-
-            </section>
+           <Newsletter />
         </main>
     )
 }

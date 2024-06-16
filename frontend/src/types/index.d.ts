@@ -16,4 +16,10 @@ declare interface PageProps {
     className: string
 }
 
+declare interface LoaderProps  {
+ className?: string, 
+ type: 'text' | 'loader' | 'all', 
+ size?: number, 
+}
+
 declare interface NavbarNavLinks  { isActive: boolean, isPending: boolean, isTransitioning: boolean }

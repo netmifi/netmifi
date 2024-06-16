@@ -144,7 +144,16 @@
     @apply sm:pb-24 pb-12;
   }
 
-  a.active{
-    color: var(--custom-red);
+  .spin {
+    animation: spin infinite 2s linear;
   }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 }

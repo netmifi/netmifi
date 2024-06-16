@@ -6,6 +6,7 @@ import Navbar from "./layouts/navbar/Navbar";
 import { cn } from "./lib/utils";
 import { useStoreState } from "./store/store";
 import Courses from "./pages/Courses";
+import Course from "./layouts/courses/Course";
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="about" element={<h1>About us</h1>} />
         <Route path="contact" element={<h1>Contact</h1>} />
         <Route path="courses" element={<Courses className={cn("max-container", { "md:ml-20": isAuth })} />} />
+        <Route path="courses/:course" element={<Course className={cn("max-container", { "md:ml-20": isAuth })} />} />
         <Route path="pricing" element={<h1>Pricing</h1>} />
         <Route path="blog" element={<h1>Blog</h1>} />
 
@@ -34,6 +36,7 @@ const App = () => {
 
         {/* 404 page ROUTES */}
         <Route path="*" element={<NotFound />} />
+        <Route path="/404" element={<NotFound />} />
       </Routes>
       <Footer className={cn({ "md:ml-20": isAuth })} />
     </div >

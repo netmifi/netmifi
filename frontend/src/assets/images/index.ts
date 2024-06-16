@@ -2,6 +2,7 @@ import airbnbImg from './airbnb.png';
 import amazonImg from './amazon.png';
 import bubbles from './bubbles.jpg';
 import buzzCall from './buzz_call.png';
+import classroom2 from './classroom-2.png';
 import contentCreatorAsian from './content-creator-asian.jpg';
 import conversation1 from './conversation-1.jpg';
 import conversation2 from './conversation-2.jpg';
@@ -21,7 +22,7 @@ import youtubeImg from './youtube.png';
 export {
     airbnbImg, amazonImg,
     bubbles, buzzCall,
-    contentCreatorAsian, conversation1, conversation2,
+    contentCreatorAsian, conversation1, conversation2, classroom2,
     dice,
     googleImg,
     hold_bulb,
