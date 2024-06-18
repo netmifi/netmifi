@@ -14,7 +14,7 @@ import Loader from "@/components/Loader";
 const Course = ({ className }: PageProps) => {
     const { state } = useLocation();
     const { course } = state;
-    const [isLazyLoading, setIsLazyLoading] = useState<boolean>(false);
+    const [isLazyLoading, setIsLazyLoading] = useState<boolean>(true);
     const [courseType, setCourseType] = useState<'paid' | 'free'>(state.courseType || 'paid');
 
 
@@ -40,7 +40,7 @@ const Course = ({ className }: PageProps) => {
                                 <p className=" text-muted-foreground font-montserrat text-lg sm:text-xl">Unleash your inner craftsman, dive into our enriching courses. Because your journey to crafts mastery starts here.</p>
 
                                 <div className="mt-10">
-                                    <Button onClick={handleHandleExplore} className="text-lg flex items-center bg-custom-red hover:bg-secondary hover:text-custom-red px-10 py-3"> Explore<AiOutlineArrowDown /></Button>
+                                    <Button onClick={handleHandleExplore} className="rounded-full py-6 text-lg flex items-center bg-custom-red hover:bg-secondary hover:text-custom-red px-10"> Explore<AiOutlineArrowDown /></Button>
                                 </div>
                             </div>
 
@@ -155,7 +155,7 @@ const Course = ({ className }: PageProps) => {
                                 </Card>
                             </div>
 
-                            <Button disabled={isLazyLoading} onClick={handleLazyLoad} className="mx-auto px-10">
+                            <Button disabled={isLazyLoading} onClick={handleLazyLoad} className="mx-auto px-10 rounded-full">
                                 {isLazyLoading ? <Loader type="all" size={20} /> : 'Load more'}
                             </Button>
                         </section>

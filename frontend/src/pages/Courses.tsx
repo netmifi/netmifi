@@ -10,7 +10,7 @@ import { courseSubjects } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 import { AiOutlineArrowDown, AiOutlineArrowRight } from "react-icons/ai";
-import { FaCircle, FaPlayCircle, FaSearch } from "react-icons/fa";
+import { FaCircle, FaPlayCircle, FaSearch, FaUnlockAlt } from "react-icons/fa";
 import { FaEllipsis, FaLock } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 
@@ -90,7 +90,9 @@ const Courses = ({ className }: PageProps) => {
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    {
+                                                        courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                                    }
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -214,7 +216,7 @@ const Courses = ({ className }: PageProps) => {
                             </Carousel>
                         </div>
 
-                        <Button className="mx-auto mt-5 bg-custom-red *:flex *:items-center"><NavLink to={'courses/top'}> <span>View more</span> <AiOutlineArrowRight /></NavLink></Button>
+                        <Button className="mx-auto rounded-full  mt-5 bg-custom-red *:flex *:items-center"><NavLink to={'courses/top'}> <span>View more</span> <AiOutlineArrowRight /></NavLink></Button>
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -371,7 +373,7 @@ const Courses = ({ className }: PageProps) => {
                             </Carousel>
                         </div>
 
-                        <Button className="mx-auto mt-5 bg-custom-red *:flex *:items-center"><NavLink to={'courses/top'}> <span>View more</span> <AiOutlineArrowRight /></NavLink></Button>
+                        <Button className="mx-auto mt-5 rounded-full  bg-custom-red *:flex *:items-center"><NavLink to={'courses/top'}> <span>View more</span> <AiOutlineArrowRight /></NavLink></Button>
                     </div>
 
                     <div className="flex flex-col gap-16 ">
@@ -391,14 +393,14 @@ const Courses = ({ className }: PageProps) => {
                         <Carousel>
                             <CarouselContent>
                                 <CarouselItem className={cn("basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit", {})}>
-                                    <Button onClick={() => setCurrentSubject('for you')} disabled={currentSubject === 'for you'} className={cn("bg-transparent border-2 border-custom-red text-primary hover:bg-custom-red hover:text-secondary w-full", { "bg-custom-red text-secondary": currentSubject === 'for you' })}>
+                                    <Button onClick={() => setCurrentSubject('for you')} disabled={currentSubject === 'for you'} className={cn("bg-transparent border-2 border-custom-red text-custom-red font-montserrat hover:bg-custom-red hover:text-secondary w-full rounded-full", { "bg-custom-red text-secondary": currentSubject === 'for you' })}>
                                         For you
                                     </Button>
                                 </CarouselItem>
 
                                 {courseSubjects.map((subject) =>
                                     <CarouselItem className=" basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit ">
-                                        <Button onClick={() => setCurrentSubject(subject)} disabled={currentSubject === subject} className={cn("bg-transparent border-2 border-custom-red text-primary hover:bg-custom-red hover:text-secondary capitalize w-full", { "bg-custom-red text-secondary": currentSubject === subject })}>{subject}</Button>
+                                        <Button onClick={() => setCurrentSubject(subject)} disabled={currentSubject === subject} className={cn("bg-transparent border-2 border-custom-red text-custom-red font-montserrat hover:bg-custom-red hover:text-secondary capitalize w-full rounded-full", { "bg-custom-red text-secondary": currentSubject === subject })}>{subject}</Button>
                                     </CarouselItem>)}
                             </CarouselContent>
                         </Carousel>
@@ -427,7 +429,9 @@ const Courses = ({ className }: PageProps) => {
                                             </div>
                                         </div>
 
-                                        <FaLock className="text-custom-red" />
+                                        {
+                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                        }
                                     </div>
                                 </CardContent>
                             </Card>
@@ -453,7 +457,9 @@ const Courses = ({ className }: PageProps) => {
                                             </div>
                                         </div>
 
-                                        <FaLock className="text-custom-red" />
+                                        {
+                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                        }
                                     </div>
                                 </CardContent>
                             </Card>
@@ -479,7 +485,9 @@ const Courses = ({ className }: PageProps) => {
                                             </div>
                                         </div>
 
-                                        <FaLock className="text-custom-red" />
+                                        {
+                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                        }
                                     </div>
                                 </CardContent>
                             </Card>
@@ -505,7 +513,9 @@ const Courses = ({ className }: PageProps) => {
                                             </div>
                                         </div>
 
-                                        <FaLock className="text-custom-red" />
+                                        {
+                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                        }
                                     </div>
                                 </CardContent>
                             </Card>
@@ -531,7 +541,9 @@ const Courses = ({ className }: PageProps) => {
                                             </div>
                                         </div>
 
-                                        <FaLock className="text-custom-red" />
+                                        {
+                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                        }
                                     </div>
                                 </CardContent>
                             </Card>
@@ -565,7 +577,7 @@ const Courses = ({ className }: PageProps) => {
             </section>
 
 
-           <Newsletter />
+            <Newsletter />
         </main>
     )
 }
