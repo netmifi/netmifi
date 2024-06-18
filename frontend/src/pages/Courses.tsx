@@ -34,7 +34,7 @@ const Courses = ({ className }: PageProps) => {
                     <p className=" text-muted-foreground font-montserrat text-lg sm:text-xl">Unleash your inner craftsman, dive into our enriching courses. Because your journey to crafts mastery starts here.</p>
 
                     <div className="mt-10">
-                        <Button className="bg-custom-red text-lg hover:bg-secondary hover:text-custom-red "><NavLink to="#explore" onClick={handleHandleExplore} className='flex items-center'> Explore<AiOutlineArrowDown /></NavLink></Button>
+                        <Button className="bg-custom-red rounded-full  p-5 text-lg hover:bg-secondary hover:text-custom-red "><NavLink to="#explore" onClick={handleHandleExplore} className='flex items-center'> Explore<AiOutlineArrowDown /></NavLink></Button>
                     </div>
                 </div>
 
