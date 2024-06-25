@@ -6,15 +6,15 @@ ________________________________ assets(folder)
                                                |
                                                |_______________________     images(folder)                                    
                                                |_______________________     fonts(folder)                                    
-                                               |_______________________     icons(folder)                                    
+                                               |_______________________     icons(folder)                             
+                                               |_______________________     svg(folder)                             
 |
 |
 |
 ________________________________ components(folder)
                                                |
                                                |_______________________    ui(folder "shadcn ui")                                   
-                                               |_______________________    Page(folder [eg. home(folder)])                                   
-                                               |_______________________   reuseables(files=[type: .tsx])                                   
+                                               |_______________________    Page(folder [eg. home(folder)])                                                            
 |
 |
 |

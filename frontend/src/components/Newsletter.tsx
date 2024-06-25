@@ -28,8 +28,8 @@ const Newsletter = () => {
             <div className="flex flex-col gap-10">
 
                 <div className="flex flex-col">
-                    <h3 className='text-custom-red text-2xl'>Signup to our newsletter</h3>
-                    <p className='text-custom-jet'>Be the first to know about any updated, give-away packages and lots more.</p>
+                    <h3 className='text-red text-2xl'>Signup to our newsletter</h3>
+                    <p className='text-low-contrast'>Be the first to know about any updated, give-away packages and lots more.</p>
                 </div>
 
                 <Form {...form}>
@@ -47,7 +47,7 @@ const Newsletter = () => {
                                         <FormControl className=' basis-4/6 px-3 bg-secondary border outline-none focus-visible:bg-background focus-visible:ring-0'>
                                             <Input placeholder='eg. myname@example.com' {...field} className="rounded-e-0 rounded-s-4" />
                                         </FormControl>
-                                        <Button disabled={isLoading} className='rounded-s-0 rounded-e-4 bg-custom-red hover:brightness-75 hover:bg-custom-red'>
+                                        <Button disabled={isLoading} className='rounded-s-0 rounded-e-4 bg-red hover:brightness-75 hover:bg-red'>
                                             {isLoading
                                                 ? <Loader type='loader' />
                                                 : 'Sign up'

@@ -28,13 +28,13 @@ const Courses = ({ className }: PageProps) => {
     return (
         <main className={className}>
 
-            <section className="py-16 padding-x bg-secondary-foreground flex items-center max-sm:flex-col">
+            <section className="h-screen py-16 padding-x bg-secondary-foreground flex items-center max-sm:flex-col">
                 <div className="flex flex-col gap-3">
                     <h1 className="text-white sm:text-6xl text-4xl">Courses</h1>
                     <p className=" text-muted-foreground font-montserrat text-lg sm:text-xl">Unleash your inner craftsman, dive into our enriching courses. Because your journey to crafts mastery starts here.</p>
 
                     <div className="mt-10">
-                        <Button className="bg-custom-red rounded-full  p-5 text-lg hover:bg-secondary hover:text-custom-red "><NavLink to="#explore" onClick={handleHandleExplore} className='flex items-center'> Explore<AiOutlineArrowDown /></NavLink></Button>
+                        <Button className="rounded-full hover:bg-secondary hover:text-red"><NavLink to="#explore" onClick={handleHandleExplore} className='flex items-center'> Explore<AiOutlineArrowDown /></NavLink></Button>
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@ const Courses = ({ className }: PageProps) => {
 
             <section ref={exploreSectionRef} className="flex flex-col gap-7 padding-x py-24">
                 <div className="flex flex-col gap-5">
-                    <h2 className="text-xl text-custom-jet font-bold font-montserrat text-center">Pick over 50+ online video course with new addition published every month.</h2>
+                    <h2 className="text-xl text-low-contrast font-bold font-montserrat text-center">Pick over 50+ online video course with new addition published every month.</h2>
                     <div className="flex  justify-center items-center">
                         <Input
                             className=" w-2/5 p-6 rounded-e-none focus-visible:outline-none text-lg font-bold"
@@ -58,7 +58,7 @@ const Courses = ({ className }: PageProps) => {
                 <hr />
 
                 <div className="flex flex-col gap-20 w-full">
-                    <h2 className="text-custom-red sm:text-3xl text-2xl text-center mb-7">Explore Our Diverse Learning Landscape </h2>
+                    <h2 className="text-red sm:text-3xl text-2xl text-center mb-7">Explore Our Diverse Learning Landscape </h2>
 
                     <div className="flex flex-col gap-2">
                         <h3 className="text-2xl font-montserrat font-bold"> Top courses</h3>
@@ -71,7 +71,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={userLaptop1} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -85,13 +85,13 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
                                                     {
-                                                        courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                                        courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
                                                     }
                                                 </div>
                                             </CardContent>
@@ -101,7 +101,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={dice} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -115,12 +115,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -129,7 +129,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={hold_bulb} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -143,12 +143,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -157,7 +157,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={hold_bulb} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -171,12 +171,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -185,7 +185,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={hold_bulb} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -199,12 +199,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -230,7 +230,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={userLaptop1} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -244,12 +244,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -258,7 +258,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={dice} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -272,12 +272,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -286,7 +286,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={hold_bulb} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -300,12 +300,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -314,7 +314,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={hold_bulb} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -328,12 +328,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -342,7 +342,7 @@ const Courses = ({ className }: PageProps) => {
                                         <Card>
                                             <CardHeader className="p-0 relative">
                                                 <img src={hold_bulb} className="h-[200px] w-full object-cover" alt="" />
-                                                <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                                <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                                 <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                             </CardHeader>
@@ -356,12 +356,12 @@ const Courses = ({ className }: PageProps) => {
                                                         </Avatar>
 
                                                         <div className="flex flex-col">
-                                                            <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                            <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                             <p className="text-sm font-montserrat">Instructor</p>
                                                         </div>
                                                     </div>
 
-                                                    <FaLock className="text-custom-red" />
+                                                    <FaLock className="text-red" />
                                                 </div>
                                             </CardContent>
                                         </Card>
@@ -393,14 +393,14 @@ const Courses = ({ className }: PageProps) => {
                         <Carousel>
                             <CarouselContent>
                                 <CarouselItem className={cn("basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit", {})}>
-                                    <Button onClick={() => setCurrentSubject('for you')} disabled={currentSubject === 'for you'} className={cn("bg-transparent border-2 border-custom-red text-custom-red font-montserrat hover:bg-custom-red hover:text-secondary w-full rounded-full", { "bg-custom-red text-secondary": currentSubject === 'for you' })}>
+                                    <Button onClick={() => setCurrentSubject('for you')} disabled={currentSubject === 'for you'} className={cn("bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary w-full rounded-full", { "bg-red text-secondary": currentSubject === 'for you' })}>
                                         For you
                                     </Button>
                                 </CarouselItem>
 
                                 {courseSubjects.map((subject) =>
                                     <CarouselItem className=" basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit ">
-                                        <Button onClick={() => setCurrentSubject(subject)} disabled={currentSubject === subject} className={cn("bg-transparent border-2 border-custom-red text-custom-red font-montserrat hover:bg-custom-red hover:text-secondary capitalize w-full rounded-full", { "bg-custom-red text-secondary": currentSubject === subject })}>{subject}</Button>
+                                        <Button onClick={() => setCurrentSubject(subject)} disabled={currentSubject === subject} className={cn("bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary capitalize w-full rounded-full", { "bg-red text-secondary": currentSubject === subject })}>{subject}</Button>
                                     </CarouselItem>)}
                             </CarouselContent>
                         </Carousel>
@@ -410,7 +410,7 @@ const Courses = ({ className }: PageProps) => {
                             <Card className=" basis-full md:basis-[45%] lg:basis-[30%]">
                                 <CardHeader className="p-0 relative">
                                     <img src={userLaptop1} className="h-[200px] w-full object-cover" alt="" />
-                                    <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                    <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                     <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                 </CardHeader>
@@ -424,13 +424,13 @@ const Courses = ({ className }: PageProps) => {
                                             </Avatar>
 
                                             <div className="flex flex-col">
-                                                <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                 <p className="text-sm font-montserrat">Instructor</p>
                                             </div>
                                         </div>
 
                                         {
-                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                            courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
                                         }
                                     </div>
                                 </CardContent>
@@ -438,7 +438,7 @@ const Courses = ({ className }: PageProps) => {
                             <Card className=" basis-full md:basis-[45%] lg:basis-[30%]">
                                 <CardHeader className="p-0 relative">
                                     <img src={userLaptop1} className="h-[200px] w-full object-cover" alt="" />
-                                    <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                    <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                     <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                 </CardHeader>
@@ -452,13 +452,13 @@ const Courses = ({ className }: PageProps) => {
                                             </Avatar>
 
                                             <div className="flex flex-col">
-                                                <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                 <p className="text-sm font-montserrat">Instructor</p>
                                             </div>
                                         </div>
 
                                         {
-                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                            courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
                                         }
                                     </div>
                                 </CardContent>
@@ -466,7 +466,7 @@ const Courses = ({ className }: PageProps) => {
                             <Card className=" basis-full md:basis-[45%] lg:basis-[30%]">
                                 <CardHeader className="p-0 relative">
                                     <img src={userLaptop1} className="h-[200px] w-full object-cover" alt="" />
-                                    <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                    <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                     <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                 </CardHeader>
@@ -480,13 +480,13 @@ const Courses = ({ className }: PageProps) => {
                                             </Avatar>
 
                                             <div className="flex flex-col">
-                                                <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                 <p className="text-sm font-montserrat">Instructor</p>
                                             </div>
                                         </div>
 
                                         {
-                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                            courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
                                         }
                                     </div>
                                 </CardContent>
@@ -494,7 +494,7 @@ const Courses = ({ className }: PageProps) => {
                             <Card className=" basis-full md:basis-[45%] lg:basis-[30%]">
                                 <CardHeader className="p-0 relative">
                                     <img src={userLaptop1} className="h-[200px] w-full object-cover" alt="" />
-                                    <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                    <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                     <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                 </CardHeader>
@@ -508,13 +508,13 @@ const Courses = ({ className }: PageProps) => {
                                             </Avatar>
 
                                             <div className="flex flex-col">
-                                                <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                 <p className="text-sm font-montserrat">Instructor</p>
                                             </div>
                                         </div>
 
                                         {
-                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                            courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
                                         }
                                     </div>
                                 </CardContent>
@@ -522,7 +522,7 @@ const Courses = ({ className }: PageProps) => {
                             <Card className=" basis-full md:basis-[45%] lg:basis-[30%]">
                                 <CardHeader className="p-0 relative">
                                     <img src={userLaptop1} className="h-[200px] w-full object-cover" alt="" />
-                                    <CardDescription className="capitalize text-custom-jet text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
+                                    <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
                                     <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
 
                                 </CardHeader>
@@ -536,13 +536,13 @@ const Courses = ({ className }: PageProps) => {
                                             </Avatar>
 
                                             <div className="flex flex-col">
-                                                <NavLink to="/user/collins-mahal" className="text-custom-red text-base">Collins Mahal</NavLink>
+                                                <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
                                                 <p className="text-sm font-montserrat">Instructor</p>
                                             </div>
                                         </div>
 
                                         {
-                                            courseType === 'paid' ? <FaLock className="text-custom-red" /> : <FaUnlockAlt className="text-custom-red" />
+                                            courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
                                         }
                                     </div>
                                 </CardContent>

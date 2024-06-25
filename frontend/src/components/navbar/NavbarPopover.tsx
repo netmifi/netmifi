@@ -11,7 +11,7 @@ const NavbarPopover = ({ children = '', type, counter }: { children?: JSX.Elemen
             <PopoverTrigger>
                 <div className='relative'>
                     <Button className='bg-transparent text-jet-black hover:bg-transparent px-1'>
-                        {counter > 0 && <small className="absolute -top-1 left-2 scale-75 bg-custom-red font-montserrat rounded-full px-2 py-1 text-secondary font-bold z-30">{counter}</small>}
+                        {counter > 0 && <small className="absolute -top-1 left-2 scale-75 bg-red font-montserrat rounded-full px-2 py-1 text-secondary font-bold z-30">{counter}</small>}
                         <div className="text-lg">   {type === 'message' ? <FaMessage /> : type === 'notification' ? <FaBell /> : <AiOutlineShoppingCart />} </div>
                     </Button>
                 </div>

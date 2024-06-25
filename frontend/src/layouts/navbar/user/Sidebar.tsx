@@ -35,9 +35,9 @@ const Sidebar = () => {
                         return (
                             !link.onlyGuest
                             &&
-                            <li key={link.label} className={cn("list-none *:flex *:gap-3 *:items-center *:text-xl *:hover:text-custom-red", { "*:justify-center": lgWidth && !navState })}>
+                            <li key={link.label} className={cn("list-none *:flex *:gap-3 *:items-center *:text-xl *:hover:text-red", { "*:justify-center": lgWidth && !navState })}>
                                 <NavLink to={link.href} className={({ isActive, isPending }) =>
-                                    isPending ? "pending" : isActive ? "text-custom-red after:content-[''] after:absolute after:right-3 after:block after:w-1 after:h-8 after:bg-custom-red" : ""
+                                    isPending ? "pending" : isActive ? "text-red after:content-[''] after:absolute after:right-3 after:block after:w-1 after:h-8 after:bg-custom-red" : ""
                                 }>
                                     <span className={cn({ "text-3xl": lgWidth && !navState })}>{<link.icon />}</span>
                                     <span className={cn('hidden', { 'block': navState || mdWidth })}>{link.label}</span>
@@ -71,7 +71,7 @@ const Sidebar = () => {
 
                     <div className="flex flex-col gap-3 mt-5 pb-5">
                         <NavLink to={'/about'} className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "relative text-custom-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
+                            isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
                         } >
                             <div className=" flex items-center text-xl gap-3">
                                 <FaUsers />
@@ -79,7 +79,7 @@ const Sidebar = () => {
                             </div>
                         </NavLink>
                         <NavLink to={'/help'} className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "relative text-custom-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
+                            isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
                         } >
                             <div className=" flex items-center text-xl gap-3">
                                 <AiFillQuestionCircle />
@@ -87,7 +87,7 @@ const Sidebar = () => {
                             </div>
                         </NavLink>
                         <NavLink to={'/feedback'} className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "relative text-custom-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
+                            isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
                         } >
                             <div className=" flex items-center text-xl gap-3">
                                 <FaMicrophone />
@@ -95,7 +95,7 @@ const Sidebar = () => {
                             </div>
                         </NavLink>
                         <NavLink to={'/policy'} className={({ isActive, isPending }) =>
-                            isPending ? "pending" : isActive ? "relative text-custom-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
+                            isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
                         } >
                             <div className=" flex items-center text-xl gap-3">
                                 <FaFile />

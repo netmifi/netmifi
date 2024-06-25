@@ -6,7 +6,7 @@ const Footer = ({ className }: PageProps) => {
     const year = new Date().getFullYear().toString();
     return (
         <footer className={className}>
-            <div className="padding-x padding-y bg-custom-jet 
+            <div className="padding-x padding-y bg-low-contrast 
             flex flex-wrap sm:justify-evenly justify-between gap-4 
             *:flex *:flex-col *:gap-4">
                 <div>
@@ -60,7 +60,7 @@ const Footer = ({ className }: PageProps) => {
                 </div>
             </div >
 
-            <div className=" bg-custom-eerie text-gray-300 py-3 text-center">
+            <div className="bg-high-contrast text-gray-300 py-3 text-center">
                 Copyright &copy; {year}, Netmifi Edutech Ltd. All rights reserved
             </div>
         </footer >

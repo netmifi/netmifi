@@ -3,9 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { AiOutlineSearch } from 'react-icons/ai';
 import { cn, searchFormSchema } from '@/lib/utils';
-import { Form, FormControl, FormField, FormItem } from '../ui/form';
+import { Form, FormControl, FormField } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { FaSearch, FaTimes } from "react-icons/fa";
 import {
@@ -18,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { NavLink } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { z } from "zod";
 
 
 const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
@@ -26,11 +26,7 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
 
     const formSchema = searchFormSchema();
     const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-        },
+        resolver: zodResolver(formSchema)
     });
 
     return (
@@ -47,7 +43,7 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
                                         <Input
                                             className="h-full rounded-e border-none ring-0 py-1 focus-visible::ring-0 focus-visible:outline-none"
                                             placeholder="Search anything..."
-                                            value={search} onInput={(e) => setSearch(e.target.value)}
+                                            value={search} onInput={(e) => setSearch(e.currentTarget.value)}
                                         />
                                     </FormControl>
                                     <Button type="button" onClick={() => setSearch('')} className={cn("px-1 bg-transparent text-secondary-foreground hover:bg-transparent", { "opacity-0 pointer-events-none": !search })}>
@@ -57,21 +53,21 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
                             )}
                         />
 
-                        <Button type="button" className="rounded-e-lg rounded-s-none bg-custom-red hover:bg-custom-red hover:brightness-95" >
+                        <Button type="button">
                             <FaSearch />
                         </Button>
                     </form>
                 </Form>
                 :
                 <AlertDialog>
-                    <AlertDialogTrigger type="button" className="rounded-s bg-transparent hover:bg-transparent text-custom-jet">
-                        <Button>
+                    <AlertDialogTrigger type="button" className="rounded-s bg-transparent hover:bg-transparent text-low-contrast">
+                        <Button variant={'secondary'} className="rounded-full px-3 py-2 text-red brightness-20">
                             <FaSearch />
                         </Button>
                     </AlertDialogTrigger>
 
                     <AlertDialogContent className="bg-secondary flex flex-col justify-center -mt-24">
-                        <AlertDialogCancel className="ml-auto text-secondary bg-custom-red hover:text-secondary hover:bg-custom-red hover:brightness-95"> <FaTimes /></AlertDialogCancel>
+                        <AlertDialogCancel className="ml-auto text-secondary bg-red hover:text-secondary hover:bg-red hover:brightness-95"> <FaTimes /></AlertDialogCancel>
                         <div className="relative">
                             <AlertDialogTitle>
                                 <Form {...form}>
@@ -85,7 +81,7 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
                                                         <Input
                                                             className="h-full rounded-e border-none ring-0 py-1 focus-visible::ring-0 focus-visible:outline-none"
                                                             placeholder="Search anything..."
-                                                            value={search} onInput={(e) => setSearch(e.target.value)}
+                                                            value={search} onInput={(e) => setSearch(e.currentTarget.value)}
                                                         />
                                                     </FormControl>
                                                     <Button type="button" onClick={() => setSearch('')} className={cn("px-1 bg-transparent text-secondary-foreground hover:bg-transparent", { "opacity-0 pointer-events-none": !search })}>
@@ -95,7 +91,7 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
                                             )}
                                         />
 
-                                        <Button type="button" className="rounded-e-lg rounded-s-none bg-custom-red hover:bg-custom-red hover:brightness-95" >
+                                        <Button type="button" className="rounded-e-lg rounded-s-none bg-red hover:bg-red hover:brightness-95" >
                                             <FaSearch />
                                         </Button>
                                     </form>

@@ -26,12 +26,11 @@ const twConfig = {
       colors: {
 
         // CUSTOM COLORS
-        "custom-background": "hsl(var(--custom-background))",
-        "custom-red": "hsl(var(--custom-red))",
-        "custom-blue": "hsl(var(--custom-blue))",
-        "custom-transparent-black": "hsl(var(--custom-transparent-black))",
-        "custom-eerie": "hsl(var(--custom-eerie))",
-        "custom-jet": "hsl(var(--custom-jet))",
+        // "custom-background": "hsl(var(--custom-background))",
+        // "custom-red": "hsl(var(--custom-red))",
+        // "custom-blue": "hsl(var(--custom-blue))",
+        // "custom-eerie": "hsl(var(--custom-eerie))",
+        // "custom-jet": "hsl(var(--custom-jet))",
         // CUSTOM COLORS
 
         border: "hsl(var(--border))",
@@ -39,6 +38,27 @@ const twConfig = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        "transparent-black": "hsl(var(--transparent-black))",
+        base: {
+          DEFAULT: "hsl(var(--base))",
+          foreground: "hsl(var(--base-foreground))",
+        },
+        red: {
+          DEFAULT: "hsl(var(--red))",
+          foreground: "hsl(var(--red-foreground))",
+        },
+        blue: {
+          DEFAULT: "hsl(var(--blue))",
+          foreground: "hsl(var(--blue-foreground))",
+        },
+        "high-contrast": {
+          DEFAULT: "hsl(var(--high-contrast))",
+          foreground: "hsl(var(--high-contrast-foreground))",
+        },
+        "low-contrast": {
+          DEFAULT: "hsl(var(--low-contrast))",
+          foreground: "hsl(var(--low-contrast-foreground))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

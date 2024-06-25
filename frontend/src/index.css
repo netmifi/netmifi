@@ -20,25 +20,34 @@
 
   @layer base {
     :root {
-      /* custom */
-      --custom-background: 0, 0%, 98%; /* white smoke background*/
-      --custom-red: 0, 100%, 31%; /*  penn red*/
-      --custom-blue: 223, 100%, 28%; /* resolution blue */
-      --custom-transparent-black: 0, 0%, 0%, 0.718; /* transparent black background */
-      --custom-eerie: 0, 0%, 12%; /* eerie black */
-      --custom-jet: 0, 0%, 19%; /* jet black */
-      /* custom */
-
-      --background: 0 0% 100%;
+  
+      --base: 0 0% 100%;
+      --base-foreground: 0, 0%, 0%;
+      
+      --background: 0 0% 98.3%;
       --foreground: 222.2 84% 4.9%;
+
+      --red: 0, 100%, 31%; /*penn red*/
+      --red-foreground: 0, 100%, 64%;
+
+      --blue: 223, 100%, 28%; /* resolution blue */
+      --blue-foreground: 223, 100%, 76%;
+
+      --high-contrast: 0, 0%, 12%; /* eerie black */
+      --high-contrast-foreground: 0, 0%, 84%; 
+
+      --low-contrast: 0, 0%, 19%; /* jet black */
+      --low-contrast-foreground: 0, 0%, 80%; 
+
+      --transparent-black: 0, 0%, 0%, 0.718; /* transparent black background */
 
       --card: 0 0% 100%;
       --card-foreground: 222.2 84% 4.9%;
 
-      --popover: 0 0% 100%;
+      --popover: 0 0% 99%;
       --popover-foreground: 222.2 84% 4.9%;
 
-      --primary: 222.2 47.4% 11.2%;
+      --primary: 222.2 47.4% 11.2%; 
       --primary-foreground: 210 40% 98%;
 
       --secondary: 210 40% 96.1%;
@@ -62,16 +71,31 @@
 
     .dark {
     /* custom */
-    --custom-background: 0, 0%, 7%; /* black background */
-    --custom-red: 0, 100%, 64%; /* imperial red */
-    --custom-blue: 223, 100%, 76%; /*  vista blue */
-    --custom-transparent-black: 0, 1%, 1%, 0.718; /* lightened transparent background*/
-    --custom-eerie: 0, 0%, 84%; /* eerie to timber wolf */
-    --custom-jet: 0, 0%, 80%; /* jet to silver white */
-    /* custom */
 
+    
+    
+      --base: 0 0% 100%;
+      --base-foreground: 0, 0%, 0%;
+      
       --background: 222.2 84% 4.9%;
       --foreground: 210 40% 98%;
+
+      --background: 222.2 84% 4.9%;
+      --foreground: 0 0% 98.3%;
+
+      --red: 0, 100%, 64%; /*penn red*/
+      --red-foreground: 0, 100%, 31%;
+
+      --blue: 223, 100%, 76%; /* resolution blue */
+      --blue-foreground: 223, 100%, 28% ;
+
+      --high-contrast: 0, 0%, 84%; /* eerie black */
+      --high-contrast-foreground: 0, 0%, 12%; 
+
+      --low-contrast: 0, 0%, 80%; /* jet black */
+      --low-contrast-foreground: 0, 0%, 19%; 
+
+      --transparent-black: 0, 0%, 0%, 0.728; /* transparent black background */
 
       --card: 222.2 84% 4.9%;
       --card-foreground: 210 40% 98%;
