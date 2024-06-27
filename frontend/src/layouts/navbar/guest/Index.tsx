@@ -2,6 +2,7 @@ import BrandIcon from '@/components/navbar/BrandIcon';
 import SearchBox from '@/components/navbar/SearchBox';
 import { Button } from '@/components/ui/button';
 import { navLinks } from '@/constants';
+import { cn } from '@/lib/utils';
 import { useStoreActions, useStoreState } from '@/store/store';
 import { FaTimes, } from 'react-icons/fa';
 import { FaBars } from 'react-icons/fa6';
@@ -13,7 +14,7 @@ const GuestNavbar = () => {
     return (
         <div className='bg-background flex justify-between relative items-center padding-x py-3 shadow-sm max-sm:gap-1'>
             <BrandIcon />
-            <div className={`h-full max-md:w-full max-md:fixed max-md:top-0 max-md:left-0 max-md:transition-all ${!navState && 'max-md:hidden'}`}>
+            <div className={cn("h-full max-md:w-full max-md:fixed max-md:top-0 max-md:left-0 max-md:transition-all z-10", { 'max-md:hidden': !navState })}>
                 <div className="md:hidden absolute bg-custom-transparent-black w-full h-full left-0 top-0 px-1 -z-10" onClick={() => setNavState(false)}></div>
                 <div className="h-full max-md:w-[250px] max-md:flex max-md:flex-col max-md:gap-5 max-md:bg-background max-md:p-3">
                     <Button className='md:hidden bg-transparent text-low-contrast border ml-auto hover:text-secondary' onClick={() => setNavState(false)}><FaTimes /></Button>

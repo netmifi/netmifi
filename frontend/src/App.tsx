@@ -30,13 +30,13 @@ const App = () => {
         <Route path="/user/:id/courses" element={<h1>Recent Courses</h1>} />
 
         {/* AUTH ROUTES */}
-        <Route path="/auth" element={<h1>Auth index</h1>} />
-        <Route path="/auth/signin" element={<h1>Auth signin</h1>} />
-        <Route path="/auth/signup" element={<h1>Auth signup</h1>} />
+        <Route path="auth" element={<h1>Auth index</h1>} />
+        <Route path="auth/signin" element={<h1>Auth signin</h1>} />
+        <Route path="auth/signup" element={<h1>Auth signup</h1>} />
 
         {/* 404 page ROUTES */}
         <Route path="*" element={<NotFound />} />
-        <Route path="/404" element={<NotFound />} />
+        <Route path="404" element={<NotFound />} />
       </Routes>
       <Footer className={cn({ "md:ml-20": isAuth })} />
     </div >

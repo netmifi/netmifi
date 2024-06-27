@@ -1,4 +1,5 @@
 
+import { students2 } from "@/assets/images";
 import { AiFillInfoCircle, AiFillPhone, AiOutlineDashboard } from "react-icons/ai";
 import { FaChalkboardTeacher, FaHome, FaUsers } from "react-icons/fa";
 import {FaBookOpenReader, FaMoneyBill } from "react-icons/fa6";
@@ -16,15 +17,15 @@ const navLinks: NavLinks[] = [
 ];
 
 const courseSubjects = [
-  'affiliate marketing',
-  'content creation',
-  'copy writing',
-  'digital marketing',
-  'email copy writing',
-  'email marketing',
-  'graphic design',
-  'technical writing',
-  'UI/UX design',
+  {label: 'affiliate marketing' , thumbnail: students2},
+  {label: 'content creation' , thumbnail: students2},
+  {label: 'copy writing' , thumbnail: students2},
+  {label: 'digital marketing' , thumbnail: students2},
+  {label: 'email copy writing' , thumbnail: students2},
+  {label: 'email marketing' , thumbnail: students2},
+  {label: 'graphic design' , thumbnail: students2},
+  {label: 'technical writing' , thumbnail: students2},
+  {label: 'UI/UX design' , thumbnail: students2}
 ];
 
 export { navLinks, courseSubjects }

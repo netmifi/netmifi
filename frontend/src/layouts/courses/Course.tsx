@@ -1,28 +1,25 @@
-import { classroom2, dice, meeting, profile, userLaptop1 } from "@/assets/images";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { meeting, profile, students1 } from "@/assets/images";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useRef, useState } from "react";
-import { AiOutlineArrowDown } from "react-icons/ai";
-import { FaEllipsis, FaLock } from "react-icons/fa6";
-import { Navigate, NavLink, useLocation } from "react-router-dom";
-import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
-import { FaPlayCircle, FaUnlockAlt } from "react-icons/fa";
+import { FaEllipsis } from "react-icons/fa6";
+import { Navigate, useLocation } from "react-router-dom";
 import Loader from "@/components/Loader";
+import Jumbotron from "@/components/courses/Jumbotron";
+import { courseSubjects } from "@/constants";
+import CourseCard from "@/components/CourseCard";
+import { testVid } from "@/assets/videos";
 
 
 const Course = ({ className }: PageProps) => {
     const { state } = useLocation();
     const { course } = state;
-    const [isLazyLoading, setIsLazyLoading] = useState<boolean>(true);
+    const [isLazyLoading, setIsLazyLoading] = useState<boolean>(false);
     const [courseType, setCourseType] = useState<'paid' | 'free'>(state.courseType || 'paid');
 
+    const courseThumbnail = courseSubjects.find((subject) => { return subject.label === course })?.thumbnail || meeting;
 
-    const mainSection = useRef<HTMLElement>(null)
-
-    const handleHandleExplore = () => {
-        mainSection?.current?.scrollIntoView({ behavior: "smooth" })
-    }
+    const mainSection = useRef<HTMLElement>(null);
 
     const handleLazyLoad = () => {
         setIsLazyLoading(true);
@@ -34,18 +31,7 @@ const Course = ({ className }: PageProps) => {
             {
                 state ?
                     <div className='min-h-screen flex flex-col gap-7 mb-20'>
-                        <section className="py-16 padding-x bg-secondary-foreground flex items-center max-sm:flex-col">
-                            <div className="flex flex-col gap-3">
-                                <h1 className="text-white sm:text-6xl text-4xl capitalize">{course}</h1>
-                                <p className=" text-muted-foreground font-montserrat text-lg sm:text-xl">Unleash your inner craftsman, dive into our enriching courses. Because your journey to crafts mastery starts here.</p>
-
-                                <div className="mt-10">
-                                    <Button onClick={handleHandleExplore} className="rounded-full py-6 text-lg flex items-center bg-red hover:bg-secondary hover:text-red px-10"> Explore<AiOutlineArrowDown /></Button>
-                                </div>
-                            </div>
-
-                            <div className=""><img className="md:w-[800px] md:h-[400px]  sm:w-[800px] sm:h-[200px]" src={classroom2} alt="" /></div>
-                        </section>
+                        <Jumbotron title={course} thumbnail={courseThumbnail} exploreSectionRef={mainSection} />
 
                         <section ref={mainSection} className="flex flex-col gap-7 padding-x mt-20">
                             <div className="flex justify-between">
@@ -63,96 +49,12 @@ const Course = ({ className }: PageProps) => {
 
 
                             <div className="flex flex-wrap gap-5 justify-center items-center">
-                                <Card className=" basis-full md:basis-[45%] lg:basis-[30%]">
-                                    <CardHeader className="p-0 relative">
-                                        <img src={dice} className="h-[200px] w-full object-cover" alt="" />
-                                        <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
-                                        <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80 drop-shadow"><FaPlayCircle fill="currentColor" className="fill-high-contrast text-5xl" /></Button>
+                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
+                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
+                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
+                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
+                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
 
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex justify-between">
-
-                                            <div className="flex items-center gap-2">
-                                                <Avatar>
-                                                    <AvatarImage src={profile} />
-                                                    <AvatarFallback>IN</AvatarFallback>
-                                                </Avatar>
-
-                                                <div className="flex flex-col">
-                                                    <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
-                                                    <p className="text-sm font-montserrat">Instructor</p>
-                                                </div>
-                                            </div>
-
-                                            {
-                                                courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
-                                            }
-
-
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                <Card className=" basis-full md:basis-[45%] lg:basis-[30%]">
-                                    <CardHeader className="p-0 relative">
-                                        <img src={meeting} className="h-[200px] w-full object-cover" alt="" />
-                                        <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
-                                        <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-high-contrast text-5xl" /></Button>
-
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex justify-between">
-
-                                            <div className="flex items-center gap-2">
-                                                <Avatar>
-                                                    <AvatarImage src={profile} />
-                                                    <AvatarFallback>IN</AvatarFallback>
-                                                </Avatar>
-
-                                                <div className="flex flex-col">
-                                                    <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
-                                                    <p className="text-sm font-montserrat">Instructor</p>
-                                                </div>
-                                            </div>
-
-                                            {
-                                                courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
-                                            }
-
-
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                <Card className=" basis-full md:basis-[45%] lg:basis-[30%]">
-                                    <CardHeader className="p-0 relative">
-                                        <img src={userLaptop1} className="h-[200px] w-full object-cover" alt="" />
-                                        <CardDescription className="capitalize text-low-contrast text-lg px-2 font-bold font-montserrat">Photo Editing for pro</CardDescription>
-                                        <Button className="absolute top-1/3 left-[45%] bg-transparent opacity-50 hover:bg-transparent hover:opacity-80  drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" /></Button>
-
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="flex justify-between">
-
-                                            <div className="flex items-center gap-2">
-                                                <Avatar>
-                                                    <AvatarImage src={profile} />
-                                                    <AvatarFallback>IN</AvatarFallback>
-                                                </Avatar>
-
-                                                <div className="flex flex-col">
-                                                    <NavLink to="/user/collins-mahal" className="text-red text-base">Collins Mahal</NavLink>
-                                                    <p className="text-sm font-montserrat">Instructor</p>
-                                                </div>
-                                            </div>
-
-                                            {
-                                                courseType === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />
-                                            }
-
-
-                                        </div>
-                                    </CardContent>
-                                </Card>
                             </div>
 
                             <Button disabled={isLazyLoading} onClick={handleLazyLoad} className="mx-auto px-10 rounded-full">
