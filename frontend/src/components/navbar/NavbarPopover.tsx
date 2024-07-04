@@ -8,9 +8,9 @@ import { ScrollArea } from '../ui/scroll-area'
 const NavbarPopover = ({ children = '', type, counter }: { children?: JSX.Element | string, type: 'message' | 'notification' | 'cart', counter: number }) => {
     return (
         <Popover>
-            <PopoverTrigger>
+            <PopoverTrigger asChild>
                 <div className='relative'>
-                    <Button className='bg-transparent text-jet-black hover:bg-transparent px-1'>
+                    <Button className='bg-transparent text-low-contrast hover:bg-transparent px-1'>
                         {counter > 0 && <small className="absolute -top-1 left-2 scale-75 bg-red font-montserrat rounded-full px-2 py-1 text-secondary font-bold z-30">{counter}</small>}
                         <div className="text-lg">   {type === 'message' ? <FaMessage /> : type === 'notification' ? <FaBell /> : <AiOutlineShoppingCart />} </div>
                     </Button>

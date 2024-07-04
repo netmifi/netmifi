@@ -4,7 +4,7 @@ import { courseSubjects } from "@/constants";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { FaEllipsis } from "react-icons/fa6";
-import CourseCard from "@/components/CourseCard";
+import CourseCard from "@/components/courses/CourseCard";
 import { students2 } from "@/assets/images";
 import { testVid } from "@/assets/videos";
 import { NavLink } from "react-router-dom";
@@ -14,7 +14,7 @@ import { tempCourses } from "@/constants/temp";
 
 
 const Recommendations = () => {
-  const [data, setData] = useState<Course[]>([...tempCourses, ...tempCourses,  ...tempCourses]);
+  const [data, setData] = useState<Course[]>([...tempCourses, ...tempCourses, ...tempCourses]);
   const [currentSubject, setCurrentSubject] = useState<string>('for you');
   const [courseType, setCourseType] = useState<'all' | 'paid' | 'free'>('paid');
 
@@ -24,9 +24,9 @@ const Recommendations = () => {
       setData(tempCourses.filter((course) => course.type === type && course.subject.toLowerCase() === subject.toLowerCase()));
     } else if (type === 'all' && subject !== 'for you') {
       setData(tempCourses.filter((course) => course.subject.toLowerCase() === subject.toLowerCase()));
-    } else if (type !== 'all' && subject === 'for you'){
+    } else if (type !== 'all' && subject === 'for you') {
       setData(tempCourses.filter((course) => course.type === type));
-    }else {
+    } else {
       setData(tempCourses)
     }
   }
@@ -70,9 +70,22 @@ const Recommendations = () => {
         </CarouselContent>
       </Carousel>
 
-      <div className="flex flex-wrap gap-5 ">
+      <div className="flex flex-wrap gap-5 max-md:justify-center">
         {data.length > 0 ? data.map((datum) => (
-          <CourseCard id={datum.id} title={datum.title} subject={datum.subject} thumbnail={students2} type={datum.type} videoURL={testVid} instructorName={datum.instructorName} instructorProfileImage={datum.instructorProfileImage} instructorProfileURL={datum.instructorProfileURL} date={datum.date} />
+          <CourseCard
+            id={datum.id}
+            title={datum.title}
+            subject={datum.subject}
+            thumbnail={students2}
+            type={datum.type}
+            videoURL={testVid}
+            instructorName={datum.instructorName}
+            instructorProfileImage={datum.instructorProfileImage}
+            instructorProfileURL={datum.instructorProfileURL}
+            isVerified={datum.isVerified}
+            isFollowing={datum.isFollowing}
+            date={datum.date}
+          />
         ))
           :
           <div className="text-lg w-full flex flex-col items-center">

@@ -1,8 +1,7 @@
 import { useStoreActions, useStoreState } from '@/store/store';
 import { navLinks } from '@/constants';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { profile } from '@/assets/images';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { FaTimes, FaUsers } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
@@ -18,13 +17,12 @@ const Sidebar = () => {
     const navState = useStoreState(state => state.nav.navState);
     const setNavState = useStoreActions(action => action.nav.set);
 
-
     const lgWidth = width && width >= 768;
     const mdWidth = width && width < 768;
 
     return (
         <div className={cn('fixed bg-background z-40 md:w-20  md:h-screen transition-all', { 'md:w-60 md:top-0 md:h-screen': navState, "w-60 top-0 h-screen": mdWidth, "-translate-x-full": !navState && mdWidth })}>
-            {navState && <div className="fixed h-full bg-custom-transparent-black left-0 right-0 top-0 -z-10" onClick={() => setNavState(false)}></div>}
+            {navState && <div className="fixed h-full  left-0 right-0 top-0 -z-10" onClick={() => setNavState(false)}></div>}
 
             <ScrollArea className={cn(' py-2 z-30  flex flex-col gap-3 bg-background', { 'h-screen padding-x': navState || mdWidth })}>
                 <div className="flex sticky top-0 bg-background py-2">

@@ -2,11 +2,10 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import CourseCard from "./CourseCard";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
   const trimmedData = data.slice(0, 10);
-
 
   return (
     <div className="flex flex-col gap-2">
@@ -17,8 +16,21 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
         >
           <CarouselContent>
             {trimmedData.map((datum) => (
-              <CarouselItem className="md:basis-1/2 lg:basis-1/3">
-                <CourseCard id={datum.id} subject={datum.subject} title={datum.title} thumbnail={datum.thumbnail} type={datum.type} videoURL={datum.videoURL} instructorName={datum.instructorName} instructorProfileImage={datum.instructorProfileImage} instructorProfileURL={datum.instructorProfileURL} date={datum.date} />
+              <CarouselItem key={datum.id} className="md:basis-1/2 lg:basis-1/3 *:md:max-w-full *:lg:max-w-full *:mx-auto">
+                <CourseCard
+                  id={datum.id}
+                  subject={datum.subject}
+                  title={datum.title}
+                  thumbnail={datum.thumbnail}
+                  type={datum.type}
+                  videoURL={datum.videoURL}
+                  instructorName={datum.instructorName}
+                  instructorProfileImage={datum.instructorProfileImage}
+                  instructorProfileURL={datum.instructorProfileURL}
+                  date={datum.date}
+                  isVerified={datum.isVerified}
+                  isFollowing={datum.isFollowing}
+                />
               </CarouselItem>
             ))}
           </CarouselContent>

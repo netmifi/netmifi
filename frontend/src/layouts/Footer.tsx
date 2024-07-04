@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { AiFillFacebook, AiOutlineInstagram } from 'react-icons/ai'
-import { FaTiktok, FaXTwitter, FaYoutube } from 'react-icons/fa6'
+import { FaEnvelope, FaTiktok, FaXTwitter, FaYoutube } from 'react-icons/fa6'
+import { ChevronRight } from "lucide-react";
+import { FaMobileAlt } from "react-icons/fa";
 
 const Footer = ({ className }: PageProps) => {
     const year = new Date().getFullYear().toString();
@@ -12,42 +14,42 @@ const Footer = ({ className }: PageProps) => {
                 <div>
                     <h3 className="text-2xl capitalize text-destructive">about netmifi</h3>
                     <div className="text-secondary flex flex-col">
-                        <NavLink to={''}>About</NavLink>
-                        <NavLink to={''}>Courses</NavLink>
-                        <NavLink to={''}>Instructors</NavLink>
-                        <NavLink to={''}>Mentors</NavLink>
-                        <NavLink to={''}>Ebook</NavLink>
-                        <NavLink to={''}>Blogs</NavLink>
-                        <NavLink to={''}>Pricing</NavLink>
-                        <NavLink to={''}>Become an affiliate</NavLink>
-                        <NavLink to={''}>Become an instructor</NavLink>
-                        <NavLink to={''}>Privacy and Policy</NavLink>
-                        <NavLink to={''}>Terms of use</NavLink>
-                        <NavLink to={''}>Help</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> About</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Courses</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Instructors</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Mentors</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Ebook</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Blogs</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Pricing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Become an affiliate</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Become an instructor</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Privacy and Policy</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Terms of use</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Help</NavLink>
                     </div>
                 </div >
 
                 <div>
                     <h3 className="text-2xl capitalize text-destructive">featured courses</h3>
                     <div className="text-secondary flex flex-col">
-                        <NavLink to={''}>Content Production</NavLink>
-                        <NavLink to={''}>Digital Marketing</NavLink>
-                        <NavLink to={''}>Technical Writing</NavLink>
-                        <NavLink to={''}>Copy Writing</NavLink>
-                        <NavLink to={''}>Email copy-writing</NavLink>
-                        <NavLink to={''}>Video Editing</NavLink>
-                        <NavLink to={''}>Photo Editing</NavLink>
-                        <NavLink to={''}>2d Animation</NavLink>
-                        <NavLink to={''}>3d Animation</NavLink>
-                        <NavLink to={''}>Graphic Design</NavLink>
-                        <NavLink to={''}>Photography</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Content Production</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Digital Marketing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Technical Writing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Copy Writing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Email copy-writing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Video Editing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Photo Editing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> 2d Animation</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> 3d Animation</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Graphic Design</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Photography</NavLink>
                     </div>
                 </div>
                 <div>
                     <h3 className="text-2xl capitalize text-destructive">contact</h3>
-                    <div className="flex flex-col text-secondary gap-2">
-                        <p>support@netmifi.com</p>
-                        <p>+234-8160-1746-68</p>
+                    <div className="flex flex-col text-secondary gap-2 ">
+                        <p className="flex gap-1 items-center"><FaEnvelope /> support@netmifi.com</p>
+                        <p className="flex gap-1 items-center"><FaMobileAlt />+234-8160-1746-68</p>
 
                         <div className="handles flex gap-2 items-center justify-center text-xl mt-3">
                             <NavLink to={'https://facebook.com/netmifi'} className="hover:text-destructive" ><AiFillFacebook /></NavLink>

@@ -24,15 +24,6 @@ const twConfig = {
         dancingScript: ["Dancing Script", "cursive"], // script font
       },
       colors: {
-
-        // CUSTOM COLORS
-        // "custom-background": "hsl(var(--custom-background))",
-        // "custom-red": "hsl(var(--custom-red))",
-        // "custom-blue": "hsl(var(--custom-blue))",
-        // "custom-eerie": "hsl(var(--custom-eerie))",
-        // "custom-jet": "hsl(var(--custom-jet))",
-        // CUSTOM COLORS
-
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

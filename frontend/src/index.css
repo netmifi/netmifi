@@ -70,10 +70,6 @@
     }
 
     .dark {
-    /* custom */
-
-    
-    
       --base: 0 0% 100%;
       --base-foreground: 0, 0%, 0%;
       
@@ -135,8 +131,8 @@
 
   @layer components {
     .max-container {
-    max-width: 1440px;
-    margin: 0 auto;
+    /* max-width: 1440px; */
+    /* margin: 0 auto; */
   }
 }
 
@@ -168,16 +164,11 @@
     @apply sm:pb-24 pb-12;
   }
 
-  .spin {
-    animation: spin infinite 2s linear;
-  }
+  .input_field {
+		@apply flex gap-6 w-full h-6 border-0 bg-transparent rounded-xl p-0 text-black outline-primary;
+	}
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+  .contact-input {
+		@apply relative flex items-center w-full bg-transparent rounded-xl focus-within:ring-0 focus-within:ring-primary;
+	}
 }

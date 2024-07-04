@@ -1,4 +1,4 @@
-import { meeting, profile, students1 } from "@/assets/images";
+import { meeting } from "@/assets/images";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useRef, useState } from "react";
@@ -7,13 +7,16 @@ import { Navigate, useLocation } from "react-router-dom";
 import Loader from "@/components/Loader";
 import Jumbotron from "@/components/courses/Jumbotron";
 import { courseSubjects } from "@/constants";
-import CourseCard from "@/components/CourseCard";
+import CourseCard from "@/components/courses/CourseCard";
 import { testVid } from "@/assets/videos";
+import { tempCourses } from "@/constants/temp";
+import { AiOutlineWarning } from "react-icons/ai";
 
 
 const Course = ({ className }: PageProps) => {
     const { state } = useLocation();
     const { course } = state;
+    const [data, setData] = useState<Course[]>([...tempCourses, ...tempCourses, ...tempCourses]);
     const [isLazyLoading, setIsLazyLoading] = useState<boolean>(false);
     const [courseType, setCourseType] = useState<'paid' | 'free'>(state.courseType || 'paid');
 
@@ -25,6 +28,8 @@ const Course = ({ className }: PageProps) => {
         setIsLazyLoading(true);
         // collect type and course and handle lazy loading
     }
+
+
 
     return (
         <main className={className}>
@@ -49,12 +54,27 @@ const Course = ({ className }: PageProps) => {
 
 
                             <div className="flex flex-wrap gap-5 justify-center items-center">
-                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
-                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
-                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
-                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
-                            <CourseCard id="12079127097287087" title="photoshop pro" thumbnail={students1} type={courseType} videoURL={testVid} instructorName="roman reigns" instructorProfileImage={'https://github.com/api/users/45'} instructorProfileURL={profile} date="2 years ago" />
-
+                                {data.length > 0 ? data.map((datum) => (
+                                    <CourseCard
+                                        id={datum.id}
+                                        title={datum.title}
+                                        subject={datum.subject}
+                                        thumbnail={datum.thumbnail}
+                                        type={datum.type}
+                                        videoURL={testVid}
+                                        instructorName={datum.instructorName}
+                                        instructorProfileImage={datum.instructorProfileImage}
+                                        instructorProfileURL={datum.instructorProfileURL}
+                                        isVerified={datum.isVerified}
+                                        isFollowing={datum.isFollowing}
+                                        date={datum.date}
+                                    />
+                                )) :
+                                    <div className="text-lg w-full flex flex-col items-center">
+                                        <AiOutlineWarning className="text-6xl" />
+                                        <h2 >No Course Found</h2>
+                                    </div>
+                                }
                             </div>
 
                             <Button disabled={isLazyLoading} onClick={handleLazyLoad} className="mx-auto px-10 rounded-full">

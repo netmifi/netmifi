@@ -8,13 +8,13 @@ import { Form, FormControl, FormField } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { FaSearch, FaTimes } from "react-icons/fa";
 import {
-    AlertDialogContent,
-    AlertDialogCancel,
-    AlertDialogFooter,
-    AlertDialogTrigger,
-    AlertDialogTitle,
-    AlertDialog,
-} from "@/components/ui/alert-dialog";
+    DialogContent,
+    DialogClose,
+    DialogFooter,
+    DialogTrigger,
+    DialogTitle,
+    Dialog,
+} from "@/components/ui/dialog";
 import { NavLink } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { z } from "zod";
@@ -41,7 +41,7 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
                                 <div className="flex items-center border rounded-s-lg rounded-e-none bg-background w-full">
                                     <FormControl className="px-4">
                                         <Input
-                                            className="h-full rounded-e border-none ring-0 py-1 focus-visible::ring-0 focus-visible:outline-none"
+                                            className="h-full rounded-e-none border-none ring-0 py-1 focus-visible::ring-0 focus-visible:outline-none"
                                             placeholder="Search anything..."
                                             value={search} onInput={(e) => setSearch(e.currentTarget.value)}
                                         />
@@ -53,23 +53,23 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
                             )}
                         />
 
-                        <Button type="button">
+                        <Button type="button" className="rounded-s-none">
                             <FaSearch />
                         </Button>
                     </form>
                 </Form>
                 :
-                <AlertDialog>
-                    <AlertDialogTrigger type="button" className="rounded-s bg-transparent hover:bg-transparent text-low-contrast">
+                <Dialog>
+                    <DialogTrigger asChild type="button" className="rounded-s bg-transparent hover:bg-transparent text-low-contrast">
                         <Button variant={'secondary'} className="rounded-full px-3 py-2 text-red brightness-20">
                             <FaSearch />
                         </Button>
-                    </AlertDialogTrigger>
+                    </DialogTrigger>
 
-                    <AlertDialogContent className="bg-secondary flex flex-col justify-center -mt-24">
-                        <AlertDialogCancel className="ml-auto text-secondary bg-red hover:text-secondary hover:bg-red hover:brightness-95"> <FaTimes /></AlertDialogCancel>
+                    <DialogContent className="bg-secondary flex flex-col justify-center -mt-24">
+                        <DialogClose className="ml-auto text-secondary bg-red hover:text-secondary hover:bg-red hover:brightness-95"> <FaTimes /></DialogClose>
                         <div className="relative">
-                            <AlertDialogTitle>
+                            <DialogTitle>
                                 <Form {...form}>
                                     <form className="flex items-center w-full">
                                         <FormField
@@ -97,10 +97,10 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
                                     </form>
                                 </Form>
 
-                            </AlertDialogTitle>
+                            </DialogTitle>
 
                             {/* Download scrollable area for this  */}
-                            <AlertDialogFooter className="absolute top-14 bg-background w-full">
+                            <DialogFooter className="absolute top-14 bg-background w-full">
                                 {search ?
                                     <ScrollArea className=" h-[300px] w-full">
                                         <div className="flex flex-col">
@@ -121,10 +121,10 @@ const SearchBox = ({ type = 'guest' }: { type?: 'guest' | 'user' }) => {
                                     : <p className="w-full p-4 text-lg">Type to see suggestions...</p>
 
                                 }
-                            </AlertDialogFooter>
+                            </DialogFooter>
                         </div>
-                    </AlertDialogContent>
-                </AlertDialog>
+                    </DialogContent>
+                </Dialog>
             }
 
         </>

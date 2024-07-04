@@ -8,6 +8,7 @@ import conversation1 from './conversation-1.jpg';
 import conversation2 from './conversation-2.jpg';
 import dice from './dice.jpg';
 import googleImg from './google.png';
+import greenBgLaptop from './green_bg_laptop.png';
 import hold_bulb from './hold_bulb.jpg';
 import meeting from './meeting.png';
 import profile from './profile.png';
@@ -24,7 +25,7 @@ export {
     bubbles, buzzCall,
     contentCreatorAsian, conversation1, conversation2, classroom2,
     dice,
-    googleImg,
+    googleImg, greenBgLaptop,
     hold_bulb,
     meeting,
     profile,

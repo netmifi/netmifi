@@ -36,9 +36,9 @@ const Courses = ({ className }: PageProps) => {
                 <div className="flex flex-col gap-20 w-full">
                     <h2 className="text-red sm:text-3xl text-2xl text-center mb-7">Explore Our Diverse Learning Landscape </h2>
 
-                    <TopCourses />
-                    <RecentCourses />
-                    <Recommendations />
+                    <TopCourses page="child" />
+                    <RecentCourses page="child" />
+                    <Recommendations  />
                 </div>
             </section>
 

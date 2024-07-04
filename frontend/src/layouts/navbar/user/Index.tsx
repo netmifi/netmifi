@@ -67,6 +67,7 @@ const UserNavbar = () => {
           <NavLink to="/user/:username" className="flex items-center">
             <Avatar>
               <AvatarImage src={profile} />
+              {/* use username first letters here */}
               <AvatarFallback>NM</AvatarFallback>
             </Avatar>
 
