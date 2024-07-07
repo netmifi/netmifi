@@ -1,9 +1,9 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { splitCamelCaseToWords } from "@/lib/utils";
+import { cn, splitCamelCaseToWords } from "@/lib/utils";
 import { Textarea } from "../ui/textarea";
-const CustomFormField = ({ control, name, type, isPasswordVisible, placeholder, label = "", isNotLabeled = false, defaultValue = "", disabled = false, hidden = false }: CustomFormFieldProps) => {
+const CustomFormField = ({ control, name, type, textareaType = 'normal', isPasswordVisible, placeholder, label = "", isNotLabeled = false, defaultValue = "", disabled = false, hidden = false }: CustomFormFieldProps) => {
 	const isContactField = name === "phone";
 	return (
 		<FormField
@@ -12,17 +12,18 @@ const CustomFormField = ({ control, name, type, isPasswordVisible, placeholder, 
 			defaultValue={defaultValue}
 			disabled={disabled}
 			render={({ field }) => (
-				<FormItem className="form-item">
+				<FormItem className="form-item" hidden={hidden}>
 					<div className="flex w-full gap-2 flex-col">
 						<FormLabel className="capitalize text-lg">
 							{!isNotLabeled ? (label || splitCamelCaseToWords(name)) : ''}
 						</FormLabel>
-						<FormControl>
+						<FormControl >
 							{type === 'textarea'
 								? (
 									<Textarea
+										rows={ textareaType === 'comment' && 1}
 										placeholder={placeholder}
-										className="resize-none"
+										className={cn("resize-none", { 'min-h-1 border-e-0 border-s-0 border-t-0 border-b-2 focus-visible:ring-transparent focus-visible:border-b-base-foreground': textareaType === 'comment' })}
 										{...field}
 									/>
 								)
@@ -49,7 +50,6 @@ const CustomFormField = ({ control, name, type, isPasswordVisible, placeholder, 
 										<Input
 											className="input_field"
 											placeholder={placeholder}
-											hidden={hidden}
 											{...field}
 											type={
 												name === "password" && isPasswordVisible

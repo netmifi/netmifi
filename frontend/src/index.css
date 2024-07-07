@@ -20,10 +20,6 @@
 
   @layer base {
     :root {
-  
-      --base: 0 0% 100%;
-      --base-foreground: 0, 0%, 0%;
-      
       --background: 0 0% 98.3%;
       --foreground: 222.2 84% 4.9%;
 

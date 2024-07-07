@@ -3,6 +3,7 @@ declare interface Comments {
     comments?: {
         readonly id: string;
         comment: string;
+        isLiked: boolean;
         likes: number;
         date: string;
 
@@ -10,14 +11,23 @@ declare interface Comments {
             readonly id: string;
             username: string;
             profile: string;
+            isVerified: boolean;
         };
 
         replies?: {
             count: number;
             replies: {
                 readonly id: string;
+                commentId: string;
                 reply: string;
+                isLiked: boolean;
                 date: string;
+                replier: {
+                    id: string;
+                    username: string;
+                    profile: string;
+                    isVerified: boolean;
+                };
                 replyTo: {
                     readonly id: string;
                     username: string;
@@ -107,6 +117,7 @@ declare interface PostAvatarProps {
     profileURL: string;
     description?: string;
     isVerified: boolean;
+    onlyAvatar?: boolean;
 }
 declare interface BlogCardProps extends Blog {
     className?: string;
@@ -134,6 +145,7 @@ declare interface CustomFormFieldProps {
     control: Control<z.infer<typeof formSchema>>;
     name: FieldPath<z.infer<typeof formSchema>>;
     type: 'textarea' | 'input',
+    textareaType?: 'comment' | 'normal';
     placeholder: string;
     isPasswordVisible?: boolean;
     label?: string;
@@ -143,7 +155,73 @@ declare interface CustomFormFieldProps {
     hidden?: boolean;
 }
 
-declare interface CommentsProps {
-    data: Comments;
+declare interface CommentTemplateProps {
+    page: 'blog' | 'course';
+    id: string;
+    comment: string;
+    likes: number;
+    date: string;
+    user: {
+        readonly id: string;
+        username: string;
+        profile: string;
+        isVerified: boolean;
+    };
+}
+declare interface CommentProps {
+    page: 'blog' | 'course';
     postId: string;
+    comment: {
+        readonly id: string;
+        comment: string;
+        likes: number;
+        isLiked: boolean;
+        date: string;
+        commenter: {
+            readonly id: string;
+            username: string;
+            profile: string;
+            isVerified: boolean;
+        };
+
+        replies?: {
+            count: number;
+            replies: {
+                readonly id: string;
+                reply: string;
+                isLiked: boolean;
+                date: string;
+                replier: {
+                    id: string;
+                    username: string;
+                    profile: string;
+                    isVerified: boolean;
+                };
+                replyTo: {
+                    readonly id: string;
+                    username: string;
+                    profile: string;
+                }
+            }[]
+        }
+    };
+
+}
+
+declare interface CommentBoxProps {
+    page: 'blog' | 'course';
+    state: 'comment' | 'reply';
+    postId: string;
+    commentId?: string;
+    replyTo?: string;
+}
+
+declare interface CommentOptionsProps {
+    page: 'blog' | 'course';
+    postId: string;
+    isLiked: boolean;
+    likes: number;
+    commentId: string;
+    replyTo: string;
+    isReply: boolean
 }

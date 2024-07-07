@@ -39,7 +39,7 @@ const Newsletter = () => {
                             name='email'
                             render={({ field }) => (
                                 <FormItem className='bg-transparent'>
-                                    <FormLabel className="text-base">
+                                    <FormLabel className="text-primary-foreground">
                                         Enter your email address
                                     </FormLabel>
 

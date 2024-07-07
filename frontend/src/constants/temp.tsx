@@ -179,10 +179,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -192,7 +194,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
                                 date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -225,11 +235,13 @@ const tempBlogs: Blog[] = [
             comments: [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
-                    comment: 'This is a very nice course',
+                    comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni dolorem, dicta maiores vel sequi adipisci necessitatibus hic iure quibusdam facilis sint harum corporis minima itaque ad assumenda sed cumque numquam optio? Qui quisquam eveniet quod quis quasi veniam magnam rem nemo. Quos unde illum laborum architecto optio reiciendis possimus expedita!  Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni dolorem, dicta maiores vel sequi adipisci necessitatibus hic iure quibusdam facilis sint harum corporis minima itaque ad assumenda sed cumque numquam optio? Qui quisquam eveniet quod quis quasi veniam magnam rem nemo. Quos unde illum laborum architecto optio reiciendis possimus expedita! Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni dolorem, dicta maiores vel sequi adipisci necessitatibus hic iure quibusdam facilis sint harum corporis minima itaque ad assumenda sed cumque numquam optio? Qui quisquam eveniet quod quis quasi veniam magnam rem nemo. Quos unde illum laborum architecto optio reiciendis possimus expedita!',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
-                        username: 'marvis travail',
+                        username: 'king mane',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -239,7 +251,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -248,7 +268,79 @@ const tempBlogs: Blog[] = [
                             }
                         ]
                     }
-                }
+                },
+                {
+                    id: '13245-tu672-91890-u1h721gew7',
+                    comment: 'This is a very nice course',
+                    isLiked: true,
+                    commenter: {
+                        id: '178gbd3-4094nyu-teb53b3',
+                        username: 'marvis travail',
+                        profile: profile,
+                        isVerified: true,
+                    },
+                    likes: 7,
+                    date: '7 hours ago',
+                    replies: {
+                        count: 4,
+                        replies: [
+                            {
+                                id: '158793-ifujuds-6784-euyvw',
+                                reply: 'Thanks, hope you enjoyed it',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
+                                replyTo: {
+                                    id: '13245-tu672-91890-u1h721gew7',
+                                    username: 'marvis travail',
+                                    profile: profile,
+                                },
+                            }
+                        ]
+                    }
+                },
+                {
+                    id: '13245-tu672-91890-u1h721gew7',
+                    comment: 'This is a very nice course',
+                    isLiked: true,
+                    commenter: {
+                        id: '178gbd3-4094nyu-teb53b3',
+                        username: 'marvis travail',
+                        profile: profile,
+                        isVerified: true,
+                    },
+                    likes: 7,
+                    date: '7 hours ago',
+                    replies: {
+                        count: 4,
+                        replies: [
+                            {
+                                id: '158793-ifujuds-6784-euyvw',
+                                reply: 'Thanks, hope you enjoyed it',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
+                                replyTo: {
+                                    id: '13245-tu672-91890-u1h721gew7',
+                                    username: 'marvis travail',
+                                    profile: profile,
+                                },
+                            }
+                        ]
+                    }
+                },
             ]
         },
         views: 90,
@@ -273,10 +365,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: false,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -286,7 +380,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -320,10 +422,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -333,7 +437,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -367,10 +479,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -380,7 +494,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -414,10 +536,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -427,7 +551,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -461,10 +593,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -474,7 +608,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -508,10 +650,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -521,7 +665,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -555,10 +707,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -568,7 +722,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',
@@ -602,10 +764,12 @@ const tempBlogs: Blog[] = [
                 {
                     id: '13245-tu672-91890-u1h721gew7',
                     comment: 'This is a very nice course',
+                    isLiked: true,
                     commenter: {
                         id: '178gbd3-4094nyu-teb53b3',
                         username: 'marvis travail',
                         profile: profile,
+                        isVerified: true,
                     },
                     likes: 7,
                     date: '7 hours ago',
@@ -615,7 +779,15 @@ const tempBlogs: Blog[] = [
                             {
                                 id: '158793-ifujuds-6784-euyvw',
                                 reply: 'Thanks, hope you enjoyed it',
-                                    date: '8 minutes ago',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
                                 replyTo: {
                                     id: '13245-tu672-91890-u1h721gew7',
                                     username: 'marvis travail',

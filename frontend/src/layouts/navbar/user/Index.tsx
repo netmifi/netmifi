@@ -24,7 +24,7 @@ const UserNavbar = () => {
 
       <div className=" bg-background flex justify-between padding-x py-3 shadow-sm">
         <div className="flex gap-1">
-          <Button onClick={() => setNavState(!navState)} className='bg-transparent text-base sm:text-xl text-low-contrast rounded-full hover:bg-primary-foreground'>
+          <Button onClick={() => setNavState(!navState)} className='bg-transparent text-primary-foreground sm:text-xl text-low-contrast rounded-full hover:bg-primary-foreground'>
             <FaBars />
           </Button>
 

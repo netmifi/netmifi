@@ -1,4 +1,3 @@
-import React from 'react'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaBell, FaMessage } from 'react-icons/fa6'
 import { Button } from '../ui/button'

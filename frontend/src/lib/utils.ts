@@ -35,9 +35,11 @@ export const searchFormSchema = () =>
   });
 
 
-export const commentFormSchema = (isReply: boolean) =>
+export const commentFormSchema = (state: 'comment' | 'reply') =>
   z.object({
     postId: z.string(),
-    comment: !isReply ? z.string().min(1, { message: 'This field cannot be empty' }) : z.string().optional(),
-    commentId: isReply ? z.string() : z.string().optional()
+    comment: state === 'comment' ? z.string().min(1, { message: 'This field cannot be empty' }) : z.string().optional(),
+    commentId: state === 'reply' ? z.string() : z.string().optional(),
+    reply: state === 'reply' ? z.string().min(1, { message: 'This field cannot be empty' }) : z.string().optional(),
+    replyTo: state === 'reply' ? z.string() : z.string().optional(),
   });

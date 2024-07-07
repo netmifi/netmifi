@@ -13,36 +13,36 @@ const Footer = ({ className }: PageProps) => {
             *:flex *:flex-col *:gap-4">
                 <div>
                     <h3 className="text-2xl capitalize text-destructive">about netmifi</h3>
-                    <div className="text-secondary flex flex-col">
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> About</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Courses</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Instructors</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Mentors</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Ebook</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Blogs</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Pricing</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Become an affiliate</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Become an instructor</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Privacy and Policy</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Terms of use</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Help</NavLink>
+                    <div className="text-secondary flex flex-col gap-1">
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> About</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Courses</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Instructors</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Mentors</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Ebook</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Blogs</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Pricing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Become an affiliate</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Become an instructor</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Privacy and Policy</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Terms of use</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Help</NavLink>
                     </div>
                 </div >
 
                 <div>
                     <h3 className="text-2xl capitalize text-destructive">featured courses</h3>
-                    <div className="text-secondary flex flex-col">
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Content Production</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Digital Marketing</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Technical Writing</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Copy Writing</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Email copy-writing</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Video Editing</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Photo Editing</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> 2d Animation</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> 3d Animation</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Graphic Design</NavLink>
-                        <NavLink to={''} className="flex gap-1 items-center"><ChevronRight /> Photography</NavLink>
+                    <div className="text-secondary flex flex-col gap-1">
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Content Production</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Digital Marketing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Technical Writing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Copy Writing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Email copy-writing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Video Editing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Photo Editing</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> 2d Animation</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> 3d Animation</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Graphic Design</NavLink>
+                        <NavLink to={''} className="flex gap-1 items-center hover:translate-x-1 transition-all"><ChevronRight /> Photography</NavLink>
                     </div>
                 </div>
                 <div>

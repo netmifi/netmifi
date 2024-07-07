@@ -30,10 +30,6 @@ const twConfig = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         "transparent-black": "hsl(var(--transparent-black))",
-        base: {
-          DEFAULT: "hsl(var(--base))",
-          foreground: "hsl(var(--base-foreground))",
-        },
         red: {
           DEFAULT: "hsl(var(--red))",
           foreground: "hsl(var(--red-foreground))",
