@@ -196,6 +196,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -253,6 +254,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -289,6 +291,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -325,6 +328,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -337,7 +341,45 @@ const tempBlogs: Blog[] = [
                                     username: 'marvis travail',
                                     profile: profile,
                                 },
-                            }
+                            },
+                            {
+                                id: '158793-ifujuds-6784-euyvw',
+                                reply: 'Thanks, hope you enjoyed it',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                likes: 400,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
+                                replyTo: {
+                                    id: '13245-tu672-91890-u1h721gew7',
+                                    username: 'marvis travail',
+                                    profile: profile,
+                                },
+                            },
+                            {
+                                id: '158793-ifujuds-6784-euyvw',
+                                reply: 'Thanks, hope you enjoyed it',
+                                commentId: '13415-gt83rghwriuoes-574289',
+                                isLiked: true,
+                                likes: 400,
+                                date: '8 minutes ago',
+                                replier: {
+                                    id: '31267fdgvx-71tsyewew-7239b1',
+                                    username: 'Rick Tochukwu',
+                                    profile: bubbles,
+                                    isVerified: true,
+                                },
+                                replyTo: {
+                                    id: '13245-tu672-91890-u1h721gew7',
+                                    username: 'marvis travail',
+                                    profile: profile,
+                                },
+                            },
                         ]
                     }
                 },
@@ -382,6 +424,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -439,6 +482,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -496,6 +540,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -553,6 +598,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -610,6 +656,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -667,6 +714,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -724,6 +772,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',
@@ -781,6 +830,7 @@ const tempBlogs: Blog[] = [
                                 reply: 'Thanks, hope you enjoyed it',
                                 commentId: '13415-gt83rghwriuoes-574289',
                                 isLiked: true,
+                                likes: 400,
                                 date: '8 minutes ago',
                                 replier: {
                                     id: '31267fdgvx-71tsyewew-7239b1',

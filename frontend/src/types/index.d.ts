@@ -20,6 +20,7 @@ declare interface Comments {
                 readonly id: string;
                 commentId: string;
                 reply: string;
+                likes: number;
                 isLiked: boolean;
                 date: string;
                 replier: {
@@ -35,7 +36,7 @@ declare interface Comments {
                 }
             }[]
         }
-    }[];
+    }[]
 }
 
 declare interface Course {
@@ -174,9 +175,10 @@ declare interface CommentProps {
     comment: {
         readonly id: string;
         comment: string;
-        likes: number;
         isLiked: boolean;
+        likes: number;
         date: string;
+
         commenter: {
             readonly id: string;
             username: string;
@@ -188,7 +190,9 @@ declare interface CommentProps {
             count: number;
             replies: {
                 readonly id: string;
+                commentId: string;
                 reply: string;
+                likes: number;
                 isLiked: boolean;
                 date: string;
                 replier: {
@@ -205,9 +209,32 @@ declare interface CommentProps {
             }[]
         }
     };
-
 }
 
+declare interface ReplyProps {
+    page: 'blog' | 'course';
+    postId: string;
+    commentId: string;
+    reply: {
+        readonly id: string;
+        commentId: string;
+        reply: string;
+        likes: number;
+        isLiked: boolean;
+        date: string;
+        replier: {
+            id: string;
+            username: string;
+            profile: string;
+            isVerified: boolean;
+        };
+        replyTo: {
+            readonly id: string;
+            username: string;
+            profile: string;
+        }
+    };
+}
 declare interface CommentBoxProps {
     page: 'blog' | 'course';
     state: 'comment' | 'reply';

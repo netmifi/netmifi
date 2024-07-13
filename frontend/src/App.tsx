@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from './pages/Home';
+import Home from "./pages/Home";
 import Footer from "./layouts/Footer";
 import NotFound from "./pages/NotFound";
 import Navbar from "./layouts/navbar/Navbar";
@@ -14,7 +14,7 @@ import RecentCourses from "./layouts/courses/RecentCourses";
 import FeaturedBlogs from "./layouts/blogs/FeaturedBlogs";
 import PopularBlogs from "./layouts/blogs/PopularBlogs";
 import RecentBlogs from "./layouts/blogs/RecentBlogs";
-
+import Instructors from "./pages/Instructors";
 
 const App = () => {
   const isAuth = useStoreState((state) => state.auth.isAuth);
@@ -24,24 +24,99 @@ const App = () => {
       <Navbar />
       <Routes>
         {/* ROOT ROUTES */}
-        <Route path="/" element={<Home className={cn("max-container", { "md:ml-20": isAuth })} />} />
+        <Route
+          path="/"
+          element={
+            <Home className={cn("max-container", { "md:ml-20": isAuth })} />
+          }
+        />
         <Route path="about" element={<h1>About us</h1>} />
         <Route path="contact" element={<h1>Contact</h1>} />
 
         {/* COURSES ROUTE */}
-        <Route path="courses" element={<Courses className={cn("max-container", { "md:ml-20": isAuth })} />} />
-        <Route path="courses/top" element={<TopCourses className={cn("max-container", { "md:ml-20": isAuth })} page="self" />} />
-        <Route path="courses/recent" element={<RecentCourses className={cn("max-container", { "md:ml-20": isAuth })} page="self" />} />
-        <Route path="courses/:course" element={<Course className={cn("max-container", { "md:ml-20": isAuth })} />} />
+        <Route
+          path="courses"
+          element={
+            <Courses className={cn("max-container", { "md:ml-20": isAuth })} />
+          }
+        />
+        <Route
+          path="courses/top"
+          element={
+            <TopCourses
+              className={cn("max-container", { "md:ml-20": isAuth })}
+              page="self"
+            />
+          }
+        />
+        <Route
+          path="courses/recent"
+          element={
+            <RecentCourses
+              className={cn("max-container", { "md:ml-20": isAuth })}
+              page="self"
+            />
+          }
+        />
+        <Route
+          path="courses/:course"
+          element={
+            <Course className={cn("max-container", { "md:ml-20": isAuth })} />
+          }
+        />
 
         <Route path="pricing" element={<h1>Pricing</h1>} />
 
         {/* BLOGS ROUTE */}
-        <Route path="blogs" element={<Blogs className={cn("max-container", { "md:ml-20": isAuth })} />} />
-        <Route path="blogs/featured" element={<FeaturedBlogs className={cn("max-container", { "md:ml-20": isAuth })} page="self" />} />
-        <Route path="blogs/popular" element={<PopularBlogs className={cn("max-container", { "md:ml-20": isAuth })} page="self" />} />
-        <Route path="blogs/recent" element={<RecentBlogs className={cn("max-container", { "md:ml-20": isAuth })} page="self" />} />
-        <Route path="blogs/:id" element={<Blog className={cn("max-container", { "md:ml-20": isAuth })} />} />
+        <Route
+          path="blogs"
+          element={
+            <Blogs className={cn("max-container", { "md:ml-20": isAuth })} />
+          }
+        />
+        <Route
+          path="blogs/featured"
+          element={
+            <FeaturedBlogs
+              className={cn("max-container", { "md:ml-20": isAuth })}
+              page="self"
+            />
+          }
+        />
+        <Route
+          path="blogs/popular"
+          element={
+            <PopularBlogs
+              className={cn("max-container", { "md:ml-20": isAuth })}
+              page="self"
+            />
+          }
+        />
+        <Route
+          path="blogs/recent"
+          element={
+            <RecentBlogs
+              className={cn("max-container", { "md:ml-20": isAuth })}
+              page="self"
+            />
+          }
+        />
+        <Route
+          path="blogs/:id"
+          element={
+            <Blog className={cn("max-container", { "md:ml-20": isAuth })} />
+          }
+        />
+
+        {/* INSTRUCTORS ROUTE */}
+        <Route
+          path="instructor"
+          element={
+            <Instructors
+              className={cn("max-container", { "md:ml-20": isAuth })}
+            />
+          }
+        />
 
         {/* USER ROUTES */}
         <Route path="/user/:id" element={<h1>User</h1>} />
@@ -59,7 +134,7 @@ const App = () => {
       </Routes>
       <Footer className={cn({ "md:ml-20": isAuth })} />
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;

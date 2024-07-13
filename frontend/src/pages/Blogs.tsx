@@ -36,7 +36,6 @@ const Blogs = ({ className }: PageProps) => {
             </section>
 
             <FeaturedBlogs page="child" />
-
             <Newsletter />
         </main>
     )
