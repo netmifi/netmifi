@@ -46,7 +46,7 @@ const Recommendations = () => {
       <div className="flex justify-between">
         <h3 className="text-2xl font-montserrat font-bold"> Recommended for you</h3>
         <Popover>
-          <PopoverTrigger ><Button><FaEllipsis /></Button></PopoverTrigger>
+          <PopoverTrigger asChild><Button><FaEllipsis /></Button></PopoverTrigger>
           <PopoverContent className="flex flex-col w-[100px] gap-2 *:bg-custom-red *:hover:text-secondary">
             <Button disabled={courseType === 'all'} onClick={() => handleCourseType('all')} >All</Button>
             <Button disabled={courseType === 'paid'} onClick={() => handleCourseType('paid')} >Paid</Button>
@@ -65,7 +65,7 @@ const Recommendations = () => {
 
           {courseSubjects.map((subject) =>
             <CarouselItem className="basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit ">
-              <Button onClick={() => handleCurrentSubject(subject.label)} disabled={currentSubject === subject.label} className={cn("bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary capitalize w-full rounded-full", { "bg-red text-secondary": currentSubject === subject.label })}>{subject.label}</Button>
+              <Button key={subject.label} onClick={() => handleCurrentSubject(subject.label)} disabled={currentSubject === subject.label} className={cn("bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary capitalize w-full rounded-full", { "bg-red text-secondary": currentSubject === subject.label })}>{subject.label}</Button>
             </CarouselItem>)}
         </CarouselContent>
       </Carousel>

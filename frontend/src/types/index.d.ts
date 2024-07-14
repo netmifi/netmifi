@@ -252,3 +252,15 @@ declare interface CommentOptionsProps {
     replyTo: string;
     isReply: boolean
 }
+
+
+declare interface JumbotronProps {
+    className?: string;
+    image: string;
+    imageStyle?: string;
+    title: string;
+    titleStyle?: string;
+    body?: string;
+    bodyStyle?: string,
+    button?: JSX.Element;
+}

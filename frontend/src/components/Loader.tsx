@@ -7,4 +7,4 @@ const Loader = ({ className = "", type, size = 20 }: LoaderProps) => {
         </div >
     )
 }
-export default Loader;
+export default Loader

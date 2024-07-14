@@ -110,7 +110,7 @@ const App = () => {
 
         {/* INSTRUCTORS ROUTE */}
         <Route
-          path="instructor"
+          path="instructors"
           element={
             <Instructors
               className={cn("max-container", { "md:ml-20": isAuth })}
