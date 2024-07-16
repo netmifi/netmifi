@@ -1,4 +1,4 @@
-import { buzzCall } from "@/assets/images";
+import { buzzCall } from "@/assets/svg";
 
 const Jumbotron = () => {
   return (

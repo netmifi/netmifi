@@ -43,6 +43,9 @@ declare interface Course {
     // course type-of-data for backend
     readonly id: string;
     type: 'paid' | 'free';
+    price?: number;
+    rating: number;
+    reviews: number;
     subject: string;
     thumbnail: string;
     title: string;
@@ -105,6 +108,7 @@ declare interface CoursesJumbotronProps {
 
 declare interface CoursesCardProps extends Course {
     className?: string;
+    course: Course;
 }
 
 declare interface CourseCarouselProps {

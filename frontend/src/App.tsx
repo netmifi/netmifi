@@ -15,6 +15,7 @@ import FeaturedBlogs from "./layouts/blogs/FeaturedBlogs";
 import PopularBlogs from "./layouts/blogs/PopularBlogs";
 import RecentBlogs from "./layouts/blogs/RecentBlogs";
 import Instructors from "./pages/Instructors";
+import CoursePreview from "./layouts/courses/CoursePreview";
 
 const App = () => {
   const isAuth = useStoreState((state) => state.auth.isAuth);
@@ -59,9 +60,9 @@ const App = () => {
           }
         />
         <Route
-          path="courses/:course"
+          path="courses/course/:id/"
           element={
-            <Course className={cn("max-container", { "md:ml-20": isAuth })} />
+            <CoursePreview className={cn("max-container", { "md:ml-20": isAuth })} />
           }
         />
 

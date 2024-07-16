@@ -1,4 +1,4 @@
-import { meeting, userLaptop2 } from "@/assets/images";
+import { CoursesSvg } from "@/assets/svg";
 import Jumbotron from "@/components/Jumbotron";
 import Newsletter from "@/components/Newsletter";
 import { Button } from "@/components/ui/button";
@@ -20,11 +20,11 @@ const Courses = ({ className }: PageProps) => {
   return (
     <main className={className}>
       <Jumbotron
-        className="bg-primary *:text-secondary has-[p]:"
+        className="bg-secondary text-black"
         title={"courses"}
-        image={meeting}
-              body="Unleash your inner craftsman, dive into our enriching courses. Because your journey to crafts mastery starts here."
-              bodyStyle="text-muted-foreground"
+        image={CoursesSvg}
+        body="Unleash your inner craftsman, dive into our enriching courses. Because your journey to crafts mastery starts here."
+        bodyStyle=""
         button={
           <Button
             onClick={handleHandleExplore}
@@ -36,7 +36,7 @@ const Courses = ({ className }: PageProps) => {
           </Button>
         }
       />
-      {/* <Jumbotron title={'courses'} exploreSectionRef={exploreSectionRef} thumbnail={meeting} /> */}
+      {/* <Jumbotron title={'courses'} exploreSectionRef={exploreSectionRef} thumbnail={AboutUsSvg} /> */}
 
       <section
         ref={exploreSectionRef}
@@ -72,14 +72,12 @@ const Courses = ({ className }: PageProps) => {
         </div>
       </section>
 
-      <section className="flex flex-wrap justify-between items-center padding-x py-24 bg-blue">
-        <img
-          src={userLaptop2}
-          className=" -scale-x-[1] max-md:w-[300px] max-md:h-[300px]"
-          alt=""
-        />
+      <section className="flex flex-wrap gap-5 justify-between items-center padding-x py-24 bg-blue">
+        <div className="sm:basis-[40%] flex items-center justify-center">
+          <img src={CoursesSvg} className="size-3/4" alt="" />
+        </div>
 
-        <div className="flex flex-col justify-between gap-5">
+        <div className="flex flex-col justify-between gap-5 sm:basis-[55%]">
           <h2 className="text-secondary sm:text-3xl text-xl">
             How to Become a Successful{" "}
             <span className=" text-destructive"> Content Creator</span>

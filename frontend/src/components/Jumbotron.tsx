@@ -12,12 +12,12 @@ const Jumbotron = ({
     <section
       className={
         className +
-        " min-h-fit lg:min-h-screen flex flex-wrap lg:items-center max-lg:flex-col gap-4 lg:gap-0  padding-x padding-y"
+        " min-h-fit sm:min-h-screen flex items-center max-sm:flex-wrap max-sm:gap-4 gap-0 padding-x padding-y"
       }
     >
       <div className="flex flex-col gap-3 md:basis-[60%]">
         <h1
-          className={titleStyle + "text-white sm:text-6xl text-4xl capitalize"}
+          className={titleStyle + "  sm:text-6xl text-4xl capitalize"}
         >
           {title}
         </h1>
@@ -31,7 +31,10 @@ const Jumbotron = ({
       <div className="md:basis-[40%]">
         <img
           src={image}
-          className={imageStyle + " object-cover h-[300px] w-[400px] md:w-full md:h-[500px]"}
+          className={
+            imageStyle +
+            " object-contain w-[400px] md:w-full h-auto"
+          }
           alt=""
         />
       </div>

@@ -27,7 +27,7 @@ const UserNavbar = () => {
         <div className="flex gap-1">
           <Button
             onClick={() => setNavState(!navState)}
-            className="bg-transparent text-primary-foreground sm:text-xl text-low-contrast rounded-full hover:bg-primary-foreground"
+            className="bg-transparent sm:text-xl text-low-contrast rounded-full hover:bg-primary-foreground"
           >
             <FaBars />
           </Button>
