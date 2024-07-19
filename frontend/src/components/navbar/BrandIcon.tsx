@@ -1,5 +1,5 @@
 // import { logo, logoText } from "../../assets/svg"
-import { logo, logoText } from "@/assets/svg";
+import { logo, logoText } from "@/assets/logo";
 import useWindowSize from "@/hooks/useWindowSize";
 
 function BrandIcon({ type = 'guest', className = "" }: { type?: 'guest' | 'user', className?: string, }) {

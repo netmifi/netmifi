@@ -1,43 +1,103 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { FaPlayCircle, FaUnlockAlt } from "react-icons/fa";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "../ui/button";
-import { FaLock } from "react-icons/fa6";
+import { FaNairaSign } from "react-icons/fa6";
 import PostAvatar from "../PostAvatar";
+import { PlusCircle, Unlock } from "lucide-react";
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
+import { NavLink } from "react-router-dom";
 
-const CourseCard = ({ className = "", id, thumbnail, title, videoURL, instructorName, instructorProfileImage, instructorProfileURL, date, type, isVerified, isFollowing }: CoursesCardProps) => {
+const CourseCard = ({ className = "", course }: CoursesCardProps) => {
+  const handleAddToCart = () => {
+    alert("Please add add to cart feature");
+  };
 
-  const handlePlay = () => {
-    console.log(videoURL);
-    // Parse video here and play video by directing to the play page
-  }
   return (
-    <Card key={id} className={className + " min-h-full basis-full sm:basis-[45%] sm:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col "}>
+    <Card
+      key={course.id}
+      className={
+        className +
+        " min-h-full basis-full sm:basis-[45%] sm:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col "
+      }
+    >
       <CardHeader className="p-0 relative mb-auto">
         <div className="overflow-hidden">
-          <img src={thumbnail} className="h-[250px] w-full object-cover hover:scale-125 transition-transform" alt="" />
+          <NavLink to={`course/${course.id}/`}>
+            <img
+              src={course.thumbnail}
+              className="h-[250px] w-full object-cover hover:scale-125 transition-transform"
+              alt=""
+            />
+          </NavLink>
         </div>
-        <CardTitle className="capitalize text-low-contrast text-lg py-2 px-5 font-bold font-montserrat">{title.length > 45 ? title.slice(0, 45) + '...' : title}</CardTitle>
-        <Button variant={"transparent"} className="absolute top-1/3 right-[40%] opacity-50 hover:opacity-80 drop-shadow"><FaPlayCircle fill="currentColor" className="fill-custom-eerie text-5xl" onClick={handlePlay} /></Button>
 
+
+        <div className="flex flex-col">
+          <NavLink to={`course/${course.id}/`}>
+            <CardTitle className="capitalize text-low-contrast text-base font-bold font-montserrat px-5">
+              {course.title.length > 45
+                ? course.title.slice(0, 45) + "..."
+                : course.title}
+            </CardTitle>
+          </NavLink>
+          <CardDescription className="text-xs px-5 py-2 capitalize bg-secondary">
+            {course.subject}
+          </CardDescription>
+        </div>
       </CardHeader>
-      <CardContent>
-        <CardFooter className="flex justify-between mt-auto">
+      <CardContent className="flex flex-col gap-2">
+        <div className="flex justify-between gap-4">
+          <div className="flex items-center gap-1">
+            <span className="font-bold text-xs">{course.rating}</span>
+            <Rating
+              value={Math.floor(course.rating)}
+              halfFillMode="svg"
+              className="w-20 h-5 py-0"
+              readOnly
+            />
+            <div className="flex items-center"></div>
+          </div>
 
+          {course.price && (
+            <p className="flex items-center text-sm">
+              <FaNairaSign size={12} /> {course.price?.toLocaleString()}
+            </p>
+          )}
+        </div>
+
+        <CardFooter className="flex justify-between mt-auto">
           <div className="flex items-center gap-2">
             <PostAvatar
-              profileName={instructorName}
-              profileImage={instructorProfileImage}
-              profileURL={instructorProfileURL}
-              description={date}
-              isVerified={isVerified}
+              profileName={course.instructorName}
+              profileImage={course.instructorProfileImage}
+              profileURL={course.instructorProfileURL}
+              description={course.date}
+              isVerified={course.isVerified}
             />
           </div>
 
-          {type === 'paid' ? <FaLock className="text-red" /> : <FaUnlockAlt className="text-red" />}
+          {course.type === "paid" ? (
+            <Button
+              variant={"transparent"}
+              className="p-0"
+              onClick={handleAddToCart}
+            >
+              <PlusCircle className="fill-red text-primary-foreground drop-shadow-md" />
+            </Button>
+          ) : (
+            <Unlock className="text-red" />
+          )}
         </CardFooter>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default CourseCard
+export default CourseCard;

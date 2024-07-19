@@ -1,4 +1,4 @@
-import { students2 } from "@/assets/images";
+import { AffiliateMarketingSvg } from "@/assets/svg";
 import {
   AiFillInfoCircle,
   AiFillPhone,
@@ -77,15 +77,15 @@ const navLinks: NavLinks[] = [
 ];
 
 const courseSubjects = [
-  { label: "affiliate marketing", thumbnail: students2 },
-  { label: "content creation", thumbnail: students2 },
-  { label: "copy writing", thumbnail: students2 },
-  { label: "digital marketing", thumbnail: students2 },
-  { label: "email copy writing", thumbnail: students2 },
-  { label: "email marketing", thumbnail: students2 },
-  { label: "graphic design", thumbnail: students2 },
-  { label: "technical writing", thumbnail: students2 },
-  { label: "UI/UX design", thumbnail: students2 },
+  { label: "affiliate marketing", thumbnail: AffiliateMarketingSvg },
+  { label: "content creation", thumbnail: AffiliateMarketingSvg },
+  { label: "copy writing", thumbnail: AffiliateMarketingSvg },
+  { label: "digital marketing", thumbnail: AffiliateMarketingSvg },
+  { label: "email copy writing", thumbnail: AffiliateMarketingSvg },
+  { label: "email marketing", thumbnail: AffiliateMarketingSvg },
+  { label: "graphic design", thumbnail: AffiliateMarketingSvg },
+  { label: "technical writing", thumbnail: AffiliateMarketingSvg },
+  { label: "UI/UX design", thumbnail: AffiliateMarketingSvg },
 ];
 
 export { navLinks, courseSubjects };

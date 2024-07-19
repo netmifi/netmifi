@@ -14,6 +14,7 @@ import FeaturedBlogs from "./layouts/blogs/FeaturedBlogs";
 import PopularBlogs from "./layouts/blogs/PopularBlogs";
 import RecentBlogs from "./layouts/blogs/RecentBlogs";
 import Instructors from "./pages/Instructors";
+import CoursePreview from "./layouts/courses/CoursePreview";
 import About from "./pages/About";
 
 const App = () => {
@@ -55,6 +56,14 @@ const App = () => {
             <RecentCourses
               className={cn("max-container", { "md:ml-20": isAuth })}
               page="self"
+            />
+          }
+        />
+        <Route
+          path="courses/course/:id/"
+          element={
+            <CoursePreview
+              className={cn("max-container", { "md:ml-20": isAuth })}
             />
           }
         />

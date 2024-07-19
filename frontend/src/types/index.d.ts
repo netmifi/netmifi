@@ -105,6 +105,7 @@ declare interface CoursesJumbotronProps {
 
 declare interface CoursesCardProps extends Course {
   className?: string;
+  course: Course;
 }
 
 declare interface CourseCarouselProps {

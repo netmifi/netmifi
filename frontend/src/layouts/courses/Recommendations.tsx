@@ -1,106 +1,162 @@
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 import { courseSubjects } from "@/constants";
 import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { FaEllipsis } from "react-icons/fa6";
 import CourseCard from "@/components/courses/CourseCard";
-import { students2 } from "@/assets/images";
+import { TechnicalWriterSvg } from "@/assets/svg";
 import { testVid } from "@/assets/videos";
 import { NavLink } from "react-router-dom";
 import { AiOutlineArrowRight, AiOutlineWarning } from "react-icons/ai";
 import { useState } from "react";
 import { tempCourses } from "@/constants/temp";
 
-
 const Recommendations = () => {
-  const [data, setData] = useState<Course[]>([...tempCourses, ...tempCourses, ...tempCourses]);
-  const [currentSubject, setCurrentSubject] = useState<string>('for you');
-  const [courseType, setCourseType] = useState<'all' | 'paid' | 'free'>('paid');
+  const [data, setData] = useState<Course[]>([
+    ...tempCourses,
+    ...tempCourses,
+    ...tempCourses,
+  ]);
+  const [currentSubject, setCurrentSubject] = useState<string>("for you");
+  const [courseType, setCourseType] = useState<"all" | "paid" | "free">("paid");
 
   const filterCourse = (type: string, subject: string) => {
-
-    if (type !== 'all' && subject !== 'for you') {
-      setData(tempCourses.filter((course) => course.type === type && course.subject.toLowerCase() === subject.toLowerCase()));
-    } else if (type === 'all' && subject !== 'for you') {
-      setData(tempCourses.filter((course) => course.subject.toLowerCase() === subject.toLowerCase()));
-    } else if (type !== 'all' && subject === 'for you') {
+    if (type !== "all" && subject !== "for you") {
+      setData(
+        tempCourses.filter(
+          (course) =>
+            course.type === type &&
+            course.subject.toLowerCase() === subject.toLowerCase()
+        )
+      );
+    } else if (type === "all" && subject !== "for you") {
+      setData(
+        tempCourses.filter(
+          (course) => course.subject.toLowerCase() === subject.toLowerCase()
+        )
+      );
+    } else if (type !== "all" && subject === "for you") {
       setData(tempCourses.filter((course) => course.type === type));
     } else {
-      setData(tempCourses)
+      setData(tempCourses);
     }
-  }
+  };
 
-  const handleCourseType = (type: 'all' | 'paid' | 'free') => {
+  const handleCourseType = (type: "all" | "paid" | "free") => {
     setCourseType(type);
-    filterCourse(type, currentSubject)
-  }
+    filterCourse(type, currentSubject);
+  };
 
   const handleCurrentSubject = (subject: string) => {
     setCurrentSubject(subject);
     filterCourse(courseType, subject);
-  }
+  };
 
   return (
     <div className="flex flex-col gap-16 ">
       <div className="flex justify-between">
-        <h3 className="text-2xl font-montserrat font-bold"> Recommended for you</h3>
+        <h3 className="text-2xl font-montserrat font-bold">
+          {" "}
+          Recommended for you
+        </h3>
         <Popover>
-          <PopoverTrigger ><Button><FaEllipsis /></Button></PopoverTrigger>
+          <PopoverTrigger asChild>
+            <Button>
+              <FaEllipsis />
+            </Button>
+          </PopoverTrigger>
           <PopoverContent className="flex flex-col w-[100px] gap-2 *:bg-custom-red *:hover:text-secondary">
-            <Button disabled={courseType === 'all'} onClick={() => handleCourseType('all')} >All</Button>
-            <Button disabled={courseType === 'paid'} onClick={() => handleCourseType('paid')} >Paid</Button>
-            <Button disabled={courseType === 'free'} onClick={() => handleCourseType('free')}>Free</Button>
+            <Button
+              disabled={courseType === "all"}
+              onClick={() => handleCourseType("all")}
+            >
+              All
+            </Button>
+            <Button
+              disabled={courseType === "paid"}
+              onClick={() => handleCourseType("paid")}
+            >
+              Paid
+            </Button>
+            <Button
+              disabled={courseType === "free"}
+              onClick={() => handleCourseType("free")}
+            >
+              Free
+            </Button>
           </PopoverContent>
         </Popover>
       </div>
 
       <Carousel>
         <CarouselContent>
-          <CarouselItem className={"basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit"}>
-            <Button onClick={() => handleCurrentSubject('for you')} disabled={currentSubject === 'for you'} className={cn("bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary w-full rounded-full", { "bg-red text-secondary": currentSubject === 'for you' })}>
+          <CarouselItem
+            className={"basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit"}
+          >
+            <Button
+              onClick={() => handleCurrentSubject("for you")}
+              disabled={currentSubject === "for you"}
+              className={cn(
+                "bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary w-full rounded-full",
+                { "bg-red text-secondary": currentSubject === "for you" }
+              )}
+            >
               For you
             </Button>
           </CarouselItem>
 
-          {courseSubjects.map((subject) =>
-            <CarouselItem className="basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit ">
-              <Button onClick={() => handleCurrentSubject(subject.label)} disabled={currentSubject === subject.label} className={cn("bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary capitalize w-full rounded-full", { "bg-red text-secondary": currentSubject === subject.label })}>{subject.label}</Button>
-            </CarouselItem>)}
+          {courseSubjects.map((subject) => (
+            <CarouselItem
+              key={subject.label}
+              className="basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit "
+            >
+              <Button
+                key={subject.label}
+                onClick={() => handleCurrentSubject(subject.label)}
+                disabled={currentSubject === subject.label}
+                className={cn(
+                  "bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary capitalize w-full rounded-full",
+                  { "bg-red text-secondary": currentSubject === subject.label }
+                )}
+              >
+                {subject.label}
+              </Button>
+            </CarouselItem>
+          ))}
         </CarouselContent>
       </Carousel>
 
       <div className="flex flex-wrap gap-5 max-md:justify-center">
-        {data.length > 0 ? data.map((datum) => (
-          <CourseCard
-            id={datum.id}
-            title={datum.title}
-            subject={datum.subject}
-            thumbnail={students2}
-            type={datum.type}
-            videoURL={testVid}
-            instructorName={datum.instructorName}
-            instructorProfileImage={datum.instructorProfileImage}
-            instructorProfileURL={datum.instructorProfileURL}
-            isVerified={datum.isVerified}
-            isFollowing={datum.isFollowing}
-            date={datum.date}
-          />
-        ))
-          :
+        {data.length > 0 ? (
+          data.map((datum) => <CourseCard course={datum} />)
+        ) : (
           <div className="text-lg w-full flex flex-col items-center">
             <AiOutlineWarning className="text-6xl" />
-            <h2 >No Course Found</h2>
-          </div>}
+            <h2>No Course Found</h2>
+          </div>
+        )}
       </div>
 
-
-      <NavLink state={{ course: currentSubject, courseType }} to={`/courses/${currentSubject}`}>
-        <Button className="mx-auto mt-5 flex items-center"> <span>Load more</span> <AiOutlineArrowRight /></Button>
+      <NavLink
+        state={{ course: currentSubject, courseType }}
+        to={`/courses/${currentSubject}`}
+      >
+        <Button className="mx-auto mt-5 flex items-center">
+          {" "}
+          <span>Load more</span> <AiOutlineArrowRight />
+        </Button>
       </NavLink>
     </div>
+  );
+};
 
-  )
-}
-
-export default Recommendations
+export default Recommendations;

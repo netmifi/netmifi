@@ -19,8 +19,6 @@ import students2 from "./students-2.png";
 import userLaptop1 from "./user-laptop-1.png";
 import userLaptop2 from "./user-laptop-2.png";
 import youtubeImg from "./youtube.png";
-// import aboutHero from "./aboutHero.jpg";
-import aboutHeroIlustrator from "./aboutHero-illustrator.png";
 
 export {
   airbnbImg,
@@ -44,5 +42,4 @@ export {
   userLaptop1,
   userLaptop2,
   youtubeImg,
-  aboutHeroIlustrator,
 };

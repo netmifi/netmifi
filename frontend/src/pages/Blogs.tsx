@@ -1,44 +1,45 @@
-import { buzzCall, greenBgLaptop } from "@/assets/images"
-import Newsletter from "@/components/Newsletter"
-import { Button } from "@/components/ui/button"
-import FeaturedBlogs from "@/layouts/blogs/FeaturedBlogs"
-import PopularBlogs from "@/layouts/blogs/PopularBlogs"
-import RecentBlogs from "@/layouts/blogs/RecentBlogs"
-import { NavLink } from "react-router-dom"
+import { BlogSvg } from "@/assets/svg";
+import Jumbotron from "@/components/Jumbotron";
+import Newsletter from "@/components/Newsletter";
+import { Button } from "@/components/ui/button";
+import FeaturedBlogs from "@/layouts/blogs/FeaturedBlogs";
+import PopularBlogs from "@/layouts/blogs/PopularBlogs";
+import RecentBlogs from "@/layouts/blogs/RecentBlogs";
+import { NavLink } from "react-router-dom";
 
 const Blogs = ({ className }: PageProps) => {
-    return (
-        <main className={className}>
-            <section className="min-h-screen bg-secondary flex flex-wrap items-center max-md:flex-col-reverse gap-0 padding-x padding-y">
-                <img src={buzzCall} className="h-[300px] w-[400px] md:w-[600px] md:h-[500px]" alt="" />
+  return (
+    <main className={className}>
+      <Jumbotron
+        image={BlogSvg}
+        className="bg-low-contrast *:text-secondary"
+        title="Blogs"
+        titleStyle="text-red-foreground"
+        body="Exploring ideas, Inspiring minds: Where creativity meets insight.
+          A Tapestry of Bloggers Sharing stories, tips ands ideas."
+      />
+      <RecentBlogs page="child" />
+      <PopularBlogs page="child" />
 
-                <div className="flex flex-col gap-5">
-                    <h1 className="text-7xl font-bold">Blogs</h1>
-                    <p className="text-lg font-montserrat">Exploring ideas, Inspiring minds: Where creativity meets insight.
-                        <br />
-                        A Tapestry of Bloggers Sharing stories, tips ands ideas.
-                    </p>
-                </div>
-            </section>
+      <Jumbotron
+      className="sm:min-h-fit bg-high-contrast"
+        image={BlogSvg}
+        title="Request to blog on netmifi"
+        titleStyle="text-2xl sm:text-[36px] text-secondary"
+        body="We give access to aspiring and immediate content writers platform to
+            blog on"
+        bodyStyle="text-secondary sm:text-lg"
+        button={
+          <Button variant={"secondary"} className="mx-auto mt-4 px-10 text-lg">
+            <NavLink to="blogs/apply">Request Now</NavLink>
+          </Button>
+        }
+      />
 
-            <RecentBlogs page="child" />
-            <PopularBlogs page="child" />
+      <FeaturedBlogs page="child" />
+      <Newsletter />
+    </main>
+  );
+};
 
-            <section className="padding-x padding-y flex flex-wrap w-full bg-[#28cf7fff]">
-                <div className="flex flex-col  flex-1 gap-6 p-5">
-                    <h3 className="font-montserrat text-white text-2xl font-bold mt-auto uppercase">Request to blog on netmifi</h3>
-                    <p className="text-muted">We give access to aspiring and immediate content writers platform to blog on. </p>
-
-                    <Button variant={"secondary"} className="mx-auto mt-4 px-10 text-lg"><NavLink to="blogs/apply">Request Now</NavLink></Button>
-                </div>
-
-                <img src={greenBgLaptop} className="w-[500px]" alt="" />
-            </section>
-
-            <FeaturedBlogs page="child" />
-            <Newsletter />
-        </main>
-    )
-}
-
-export default Blogs
+export default Blogs;

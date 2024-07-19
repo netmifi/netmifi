@@ -1,7 +1,9 @@
 
 const Instructors = ({ className }: PageProps) => {
   return (
-    <main className={className}>Instructors</main>
+    <main className={className}>
+      
+    </main>
   )
 }
 
