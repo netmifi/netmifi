@@ -6,7 +6,6 @@ import Navbar from "./layouts/navbar/Navbar";
 import { cn } from "./lib/utils";
 import { useStoreState } from "./store/store";
 import Courses from "./pages/Courses";
-import Course from "./layouts/courses/Course";
 import Blogs from "./pages/Blogs";
 import Blog from "./layouts/blogs/Blog";
 import TopCourses from "./layouts/courses/TopCourses";
@@ -15,6 +14,7 @@ import FeaturedBlogs from "./layouts/blogs/FeaturedBlogs";
 import PopularBlogs from "./layouts/blogs/PopularBlogs";
 import RecentBlogs from "./layouts/blogs/RecentBlogs";
 import Instructors from "./pages/Instructors";
+import About from "./pages/About";
 
 const App = () => {
   const isAuth = useStoreState((state) => state.auth.isAuth);
@@ -30,7 +30,7 @@ const App = () => {
             <Home className={cn("max-container", { "md:ml-20": isAuth })} />
           }
         />
-        <Route path="about" element={<h1>About us</h1>} />
+
         <Route path="contact" element={<h1>Contact</h1>} />
 
         {/* COURSES ROUTE */}
@@ -56,12 +56,6 @@ const App = () => {
               className={cn("max-container", { "md:ml-20": isAuth })}
               page="self"
             />
-          }
-        />
-        <Route
-          path="courses/:course"
-          element={
-            <Course className={cn("max-container", { "md:ml-20": isAuth })} />
           }
         />
 
@@ -110,11 +104,19 @@ const App = () => {
 
         {/* INSTRUCTORS ROUTE */}
         <Route
-          path="instructor"
+          path="instructors"
           element={
             <Instructors
               className={cn("max-container", { "md:ml-20": isAuth })}
             />
+          }
+        />
+
+        {/* ABOUT ROUTE */}
+        <Route
+          path="about"
+          element={
+            <About className={cn("max-container", { "md:ml-20": isAuth })} />
           }
         />
 
