@@ -47,7 +47,7 @@ const Courses = ({ className }: PageProps) => {
             Pick over 50+ online video course with new addition published every
             month.
           </h2>
-          <div className="flex  justify-center items-center">
+          {/* <div className="flex  justify-center items-center">
             <Input
               className=" w-2/5 p-6 rounded-e-none focus-visible:outline-none text-lg font-bold"
               value={search}
@@ -57,7 +57,7 @@ const Courses = ({ className }: PageProps) => {
             <Button className="p-6  rounded-s-none">
               <FaSearch />
             </Button>
-          </div>
+          </div> */}
         </div>
         <hr />
 

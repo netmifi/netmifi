@@ -13,6 +13,7 @@ import { PlusCircle, Unlock } from "lucide-react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { NavLink } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const CourseCard = ({ className = "", course }: CoursesCardProps) => {
   const handleAddToCart = () => {
@@ -22,10 +23,10 @@ const CourseCard = ({ className = "", course }: CoursesCardProps) => {
   return (
     <Card
       key={course.id}
-      className={
-        className +
-        " min-h-full basis-full sm:basis-[45%] sm:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col "
-      }
+      className={cn(
+        "min-h-full basis-full sm:basis-[45%] sm:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col",
+        className
+      )}
     >
       <CardHeader className="p-0 relative mb-auto">
         <div className="overflow-hidden">
@@ -37,7 +38,6 @@ const CourseCard = ({ className = "", course }: CoursesCardProps) => {
             />
           </NavLink>
         </div>
-
 
         <div className="flex flex-col">
           <NavLink to={`course/${course.id}/`}>

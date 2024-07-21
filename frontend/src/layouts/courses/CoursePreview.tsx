@@ -10,6 +10,14 @@ import "@smastrom/react-rating/style.css";
 import { Check, Dot, Languages, Timer, TimerReset } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import VideoPlayer from "@/components/VideoPlayer";
+import { testVid } from "@/assets/videos";
+import PostAvatar from "@/components/PostAvatar";
+import { profile } from "@/assets/images";
+import { Button } from "@/components/ui/button";
+import { FaCartPlus, FaMoneyBillTransfer, FaNairaSign } from "react-icons/fa6";
+import ReviewCard from "@/components/ReviewCard";
+import CourseCarousel from "@/components/courses/CourseCarousel";
+import { tempCourses } from "@/constants/temp";
 
 const CoursePreview = ({ className }: PageProps) => {
   return (
@@ -40,7 +48,7 @@ const CoursePreview = ({ className }: PageProps) => {
           </div>
 
           <div className="flex gap-2">
-            <span>Created By: </span>{" "}
+            <span>Created By: </span>
             <NavLink to="" className="text-blue-foreground underline">
               Maximilian Johnson
             </NavLink>
@@ -57,6 +65,20 @@ const CoursePreview = ({ className }: PageProps) => {
               <Languages /> English
             </div>
           </div>
+
+          <div className="flex flex-col gap-3">
+            <p className="flex items-center">
+            Price: &nbsp; <FaNairaSign size={14} /> 8500
+            </p>
+            <div className="flex flex-wrap gap-3 *:font-montserrat *:flex *:gap-2 *:text-lg *:rounded-full">
+              <Button variant={"primary"}>
+                <FaCartPlus /> Add to cart
+              </Button>
+              <Button>
+                <FaMoneyBillTransfer /> Buy now
+              </Button>
+            </div>
+          </div>
         </div>
 
         <div className="basis-[40%]">
@@ -66,7 +88,7 @@ const CoursePreview = ({ className }: PageProps) => {
 
       <section className="padding-x padding-y flex flex-col">
         <div className="flex flex-col gap-5 mx-auto sm:max-w-[80%]">
-          <VideoPlayer />
+          <VideoPlayer thumbnail={AboutUsSvg} videoUrl={testVid} />
 
           <div className="flex flex-col items-start gap-5 border-b pb-8">
             <h3 className="text-high-contrast font-bold font-montserrat text-2xl">
@@ -106,7 +128,7 @@ const CoursePreview = ({ className }: PageProps) => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="bg-secondary px-3 hover:no-underline">
                     <div className="flex items-center gap-3">
-                      <h4>Getting Started</h4>
+                      <h4 className="max-sm:text-sm">Getting Started</h4>
 
                       <p className="text-low-contrast text-xs flex items-center">
                         4 lectures <Dot /> 2:08:03
@@ -130,7 +152,9 @@ const CoursePreview = ({ className }: PageProps) => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="bg-secondary px-3 hover:no-underline">
                     <div className="flex items-center gap-3">
-                      <h4>Integrating New Features</h4>
+                      <h4 className="max-sm:text-sm">
+                        Integrating New Features
+                      </h4>
 
                       <p className="text-low-contrast text-xs flex items-center">
                         4 lectures <Dot /> 2:08:03
@@ -157,27 +181,69 @@ const CoursePreview = ({ className }: PageProps) => {
               Requirements
             </h3>
 
-            <ul></ul>
+            <ul className="list-inside list-disc pl-3">
+              <li>A laptop</li>
+              <li>Quality service</li>
+              <li>
+                Basic knowledge of AWS or other web server provider service
+              </li>
+            </ul>
           </div>
 
           <div className="flex flex-col items-start gap-5 border-b pb-8">
             <h3 className="text-high-contrast font-bold font-montserrat text-2xl">
               Instructor
             </h3>
+
+            <div className="flex flex-col gap-10">
+              <PostAvatar
+                isVerified={true}
+                profileName="Maxmilian Junior"
+                profileURL={AboutUsSvg}
+                description="facebook certified content management professional"
+              />
+
+              <div className="flex flex-col gap-3">
+                <h2 className="font-bold">About Maxmilian Junior</h2>
+
+                <p>
+                  Maxmilian Junior is an experienced content producer with 25
+                  years of experience. Lorem ipsum dolor sit amet, consectetur
+                  adipisicing elit. Molestiae, sint magni eligendi sit eaque
+                  quasi delectus possimus. Reprehenderit eius libero distinctio
+                  dicta cupiditate possimus, molestias, assumenda voluptatum
+                  deserunt odio animi.
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-col items-start gap-5 border-b pb-8">
             <h3 className="text-high-contrast font-bold font-montserrat text-2xl">
               Reviews
             </h3>
-          </div>
 
-          <div className="flex flex-col items-start gap-5 border-b pb-8">
-            <h3 className="text-high-contrast font-bold font-montserrat text-2xl">
-              More Courses my Maxmilian
-            </h3>
+            <div className="flex flex-wrap gap-6 justify-center">
+              <ReviewCard
+                className="lg:basis-[45%]"
+                isVerified={false}
+                name="reviewer name"
+                profile={profile}
+                profileUrl="reviwerurl"
+                rating={5}
+                review="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus asperiores commodi est modi debitis inventore iste, velit accusantium possimus vitae?"
+              />
+            </div>
           </div>
         </div>
+      </section>
+
+      <section className="flex flex-col padding-x w-full mb-20">
+        <CourseCarousel
+          data={tempCourses}
+          link="courses/4125867912/"
+          title="More Courses from Maxmilian"
+        />
       </section>
     </main>
   );

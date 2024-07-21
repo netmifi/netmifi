@@ -24,6 +24,22 @@ export const convertToReadableNumber = (number: number) => {
   return (number / 1000000000000).toPrecision(2) + 'T';
 }
 
+export const convertToReadableTime = (timeInSeconds: number) => {
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
+
+  const formattedHours = hours.toString().padStart(2, '0');
+  const formattedMinutes = minutes.toString().padStart(2, '0');
+  const formattedSeconds = seconds.toString().padStart(2, '0');
+
+  if (hours === 0) {
+    return `${formattedMinutes}:${formattedSeconds}`;
+  } else {
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  }
+}
+
 export const newsletterFormSchema = () =>
   z.object({
     email: z.string().email({ message: 'Must be a valid email eg. myname@example.com' })

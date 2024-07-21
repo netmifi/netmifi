@@ -14,7 +14,7 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
   const trimmedData = data.slice(0, 10);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-5">
       <h3 className="text-2xl font-montserrat font-bold capitalize">{title}</h3>
 
       <div className="flex justify-center items-center">
@@ -39,7 +39,6 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
 
       <Button className="mx-auto mt-5 rounded-full *:flex *:items-center">
         <NavLink to={link}>
-          {" "}
           <span>View more</span> <AiOutlineArrowRight />
         </NavLink>
       </Button>

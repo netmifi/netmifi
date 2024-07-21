@@ -179,4 +179,25 @@
   .contact-input {
     @apply relative flex items-center w-full bg-transparent rounded-xl focus-within:ring-0 focus-within:ring-primary;
   }
+
+  .custom-slider .track {
+    @apply bg-[#c7c7c777] h-1 backdrop-brightness-95;
+  }
+
+  .custom-slider .track .range {
+    @apply bg-red;
+  }
+
+  .custom-slider .thumb {
+    @apply border-0 bg-red size-4;
+  }
+  .volume-slider .track {
+    @apply bg-[#c7c7c777] h-1 backdrop-brightness-95;
+  }
+  .volume-slider .track .range {
+    @apply bg-slate-100;
+  }
+  .volume-slider .thumb {
+    @apply border-0  size-2;
+  }
 }

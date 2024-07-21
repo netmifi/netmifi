@@ -268,3 +268,32 @@ declare interface JumbotronProps {
     bodyStyle?: string,
     button?: JSX.Element;
 }
+
+declare interface VideoPlayerProps {
+    className?: string;
+    thumbnail: string;
+    videoUrl: string;
+    hasCollection?: boolean;
+}
+
+declare interface PlayerTooltipProps {
+    hoverLabel: string;
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
+    children: React.ReactNode;
+    disabled?: boolean;
+}
+
+declare interface CustomElementClickProps {
+    children: React.ReactNode;
+    handleSingleClick?: () => void;
+    handleDoubleClick?: () => void;
+}
+
+declare interface ReviewCardProps {
+    className: string;
+    name: string; profile: string;
+    isVerified: boolean;
+    profileUrl: string;
+    review: string;
+    rating: number
+}
