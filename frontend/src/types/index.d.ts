@@ -285,6 +285,7 @@ declare interface PlayerTooltipProps {
 
 declare interface CustomElementClickProps {
     children: React.ReactNode;
+    className?: ClassValue;
     handleSingleClick?: () => void;
     handleDoubleClick?: () => void;
 }

@@ -17,8 +17,6 @@ import {
   FullscreenIcon,
   Info,
   Loader,
-  LoaderCircle,
-  LoaderPinwheel,
   Pause,
   PictureInPicture,
   Play,
@@ -28,14 +26,12 @@ import {
   SkipForward,
   StepBack,
   StepForward,
-  Video,
-  X,
 } from "lucide-react";
 import { Slider } from "./ui/slider";
 import { Button } from "./ui/button";
 import { Popover, PopoverTrigger } from "./ui/popover";
 import { PopoverContent } from "@radix-ui/react-popover";
-import { FaTimes, FaVolumeDown, FaVolumeMute } from "react-icons/fa";
+import { FaVolumeDown, FaVolumeMute } from "react-icons/fa";
 import { cn, convertToReadableTime } from "@/lib/utils";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { FaVolumeHigh } from "react-icons/fa6";
@@ -43,7 +39,7 @@ import { ClassValue } from "clsx";
 import CustomElementClick from "./CustomElementClick";
 import useWindowSize from "@/hooks/useWindowSize";
 
-type ReactPlayerProps = React.ComponentProps<typeof ReactPlayer>;
+type ReactPlayerProps = React.ComponentPnullrops<typeof ReactPlayer>;
 
 export function PlayerTooltip({
   onClick,
@@ -78,7 +74,7 @@ const VideoPlayer = ({
   videoUrl,
   hasCollection = false,
 }: VideoPlayerProps) => {
-  const videoPlayerRef = useRef<ReactPlayerProps>();
+  const videoPlayerRef = useRef<ReactPlayerProps>(null);
   const [isPreview, setIsPreview] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isControlsVisible, setIsControlsVisible] = useState(false);
@@ -234,18 +230,20 @@ const VideoPlayer = ({
     <FullScreen
       handle={handle}
       className={cn("w-full", { "h-screen": isFullScreen })}
-      onChange={()=>setIsFullScreen(!isFullScreen)}
+      onChange={(state) =>setIsFullScreen(state)}
     >
       <ContextMenu>
-        <ContextMenuTrigger className="w-full h-full bg-red">
+        <ContextMenuTrigger asChild>
           <div
             className={cn(
-              " relative bg-black flex justify-center items-center w-full h-[50dvh] sm:h-[70vh]",
+              " relative bg-black flex justify-center items-center w-full h-[50dvh] sm:h-[60vh]",
               className,
               { "h-screen sm:h-screen": isFullScreen }
             )}
           >
-            <CustomElementClick handleSingleClick={handleControlsVisibility}>
+            <CustomElementClick
+              handleSingleClick={handleControlsVisibility}
+            >
               <div className="w-full h-full flex rounded-md justify-center items-center">
                 <ReactPlayer
                   url={videoUrl}

@@ -1,13 +1,15 @@
 import { useRef } from "react";
 import useDoubleClick from "use-double-click";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 const CustomElementClick = ({
   children,
+  className = "",
   handleSingleClick = () => {},
   handleDoubleClick = () => {},
 }: CustomElementClickProps) => {
-  const ref = useRef();
+  const ref = useRef(null);
 
   useDoubleClick({
     onSingleClick: () => {
@@ -21,7 +23,7 @@ const CustomElementClick = ({
   });
 
   return (
-    <Button ref={ref} asChild variant={"transparent"} className="p-0">
+    <Button ref={ref} asChild variant={"transparent"} className={cn("p-0", className)}>
       {children}
     </Button>
   );
