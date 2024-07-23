@@ -85,7 +85,7 @@ const Comment = ({ page, postId, comment }: CommentProps) => {
                 "h-0": !isRepliesOpen,
               })}
             >
-              <div className="flex flex-col gap-5 py-6 pr-4 border-l-2 border-secondary *:before:content *:before:bg-secondary *:before:w-20 *:before:h-[1.2px] *:before:relative *:before:my-auto">
+              <div className="flex flex-col gap-5 py-6 sm:pr-4 border-l-2 border-secondary *:before:content *:before:bg-secondary *:before:w-2 *:sm:before:w-20 *:before:h-[1.2px] *:before:relative *:before:my-auto">
                 {comment?.replies?.replies.map((reply) => (
                   <Reply
                     key={reply.id}

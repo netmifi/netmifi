@@ -23,8 +23,8 @@ const Reply = ({ page, postId, commentId, reply }: ReplyProps) => {
       <div className="flex flex-col gap-1 w-full">
         <div className="flex justify-between w-full">
           <div className="flex items-center w-full gap-1">
-            <b className="capitalize">{currentReply.replier.username}</b>
-            <span className="text-sm">&bull;{currentReply.date}</span>
+            <b className="capitalize text-sm">{currentReply.replier.username}</b>
+            <span className="max-sm:text-xs">&bull;{currentReply.date}</span>
           </div>
 
           <CommentPopover isCurrentUser={true} />
@@ -37,7 +37,7 @@ const Reply = ({ page, postId, commentId, reply }: ReplyProps) => {
                 0,
                 isShorten ? 300 : currentReply.reply.length
               )}
-              {isShorten && "..."}{" "}
+              {isShorten && "..."}
             </p>
             {currentReply.reply.length > 299 && (
               <Button
@@ -45,7 +45,7 @@ const Reply = ({ page, postId, commentId, reply }: ReplyProps) => {
                 className="p-0 text-blue"
                 onClick={() => setIsShorten(!isShorten)}
               >
-                {isShorten ? "Show more" : "Show Less"}{" "}
+                {isShorten ? "Show more" : "Show Less"}
                 <ChevronUp className={cn("", { "rotate-180": isShorten })} />
               </Button>
             )}

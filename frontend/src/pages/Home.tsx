@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 
-const Home = ({ className }: PageProps) => {
+const Home = () => {
   return (
-    <main className={className}>
+    <main>
       <br />
       <br />
       <br />

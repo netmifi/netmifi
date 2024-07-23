@@ -19,9 +19,9 @@ import ReviewCard from "@/components/ReviewCard";
 import CourseCarousel from "@/components/courses/CourseCarousel";
 import { tempCourses } from "@/constants/temp";
 
-const CoursePreview = ({ className }: PageProps) => {
+const CoursePreview = () => {
   return (
-    <main className={className}>
+    <main>
       <section className="min-h-fit bg-high-contrast padding-x padding-y flex gap-5 justify-between text-secondary max-md:flex-col max-md:items-center">
         <div className="flex flex-col gap-6 basis-[60%]">
           <h1 className=" text-4xl md:text-5xl">
@@ -68,7 +68,7 @@ const CoursePreview = ({ className }: PageProps) => {
 
           <div className="flex flex-col gap-3">
             <p className="flex items-center">
-            Price: &nbsp; <FaNairaSign size={14} /> 8500
+              Price: &nbsp; <FaNairaSign size={14} /> 8500
             </p>
             <div className="flex flex-wrap gap-3 *:font-montserrat *:flex *:gap-2 *:text-lg *:rounded-full">
               <Button variant={"primary"}>

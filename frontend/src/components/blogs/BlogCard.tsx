@@ -38,7 +38,7 @@ const BlogCard = ({
       }
     >
       <CardHeader className="p-0" data-category={category}>
-        <NavLink to={`/blogs/${id}`}>
+        <NavLink to={`/blogs/blog/${id}`}>
           <div className="overflow-hidden">
             <img
               src={thumbnail}

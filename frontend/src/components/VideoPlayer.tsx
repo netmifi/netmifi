@@ -29,19 +29,18 @@ import {
   StepBack,
   StepForward,
   Video,
+  X,
 } from "lucide-react";
 import { Slider } from "./ui/slider";
 import { Button } from "./ui/button";
 import { Popover, PopoverTrigger } from "./ui/popover";
 import { PopoverContent } from "@radix-ui/react-popover";
-import { FaVolumeDown, FaVolumeMute } from "react-icons/fa";
+import { FaTimes, FaVolumeDown, FaVolumeMute } from "react-icons/fa";
 import { cn, convertToReadableTime } from "@/lib/utils";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { FaVolumeHigh } from "react-icons/fa6";
-import useDoubleClick from "use-double-click";
 import { ClassValue } from "clsx";
 import CustomElementClick from "./CustomElementClick";
-import { Select, SelectTrigger } from "./ui/select";
 import useWindowSize from "@/hooks/useWindowSize";
 
 type ReactPlayerProps = React.ComponentProps<typeof ReactPlayer>;
@@ -114,8 +113,7 @@ const VideoPlayer = ({
           hoverLabel="Playback speed"
           onClick={handlePlayBackSpeed}
         >
-          <div className="flex gap-px text-white text-xs sm:text-base">
-            <Video className={defaultIconClass()} />
+          <div className="flex items-center bg-white rounded-sm p-1 text-black text-xs font-montserrat font-bold">
             {playBackSpeed}x
           </div>
         </PlayerTooltip>
@@ -179,7 +177,6 @@ const VideoPlayer = ({
 
   const handleFullscreen = () => {
     isFullScreen ? handle.exit() : handle.enter();
-    setIsFullScreen(!isFullScreen);
   };
 
   const handleProgress = (played: number) => {
@@ -234,18 +231,22 @@ const VideoPlayer = ({
   const handleNext = () => {};
 
   return (
-    <FullScreen handle={handle}>
+    <FullScreen
+      handle={handle}
+      className={cn("w-full", { "h-screen": isFullScreen })}
+      onChange={()=>setIsFullScreen(!isFullScreen)}
+    >
       <ContextMenu>
-        <ContextMenuTrigger>
+        <ContextMenuTrigger className="w-full h-full bg-red">
           <div
             className={cn(
-              " relative bg-black flex justify-center items-center h-[50vh] sm:h-[70vh]",
+              " relative bg-black flex justify-center items-center w-full h-[50dvh] sm:h-[70vh]",
               className,
-              { "h-screen": isFullScreen }
+              { "h-screen sm:h-screen": isFullScreen }
             )}
           >
             <CustomElementClick handleSingleClick={handleControlsVisibility}>
-              <div className="w-full h-full flex rounded-md justify-center items-center *:basis-full">
+              <div className="w-full h-full flex rounded-md justify-center items-center">
                 <ReactPlayer
                   url={videoUrl}
                   ref={videoPlayerRef}
@@ -308,13 +309,17 @@ const VideoPlayer = ({
                         {isLoading ? (
                           <Loader
                             className={defaultIconClass(
-                              "animate-spin size-20 drop-shadow-3xl"
+                              "animate-spin size-16 sm:size-20 drop-shadow-3xl"
                             )}
                           />
                         ) : isPlaying ? (
-                          <Pause className={defaultIconClass("size-20")} />
+                          <Pause
+                            className={defaultIconClass("size-16 sm:size-20")}
+                          />
                         ) : (
-                          <Play className={defaultIconClass("size-20")} />
+                          <Play
+                            className={defaultIconClass("size-16 sm:size-20")}
+                          />
                         )}
                       </Button>
                     </CustomElementClick>

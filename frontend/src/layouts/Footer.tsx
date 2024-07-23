@@ -4,10 +4,10 @@ import { FaEnvelope, FaTiktok, FaXTwitter, FaYoutube } from 'react-icons/fa6'
 import { ChevronRight } from "lucide-react";
 import { FaMobileAlt } from "react-icons/fa";
 
-const Footer = ({ className }: PageProps) => {
+const Footer = () => {
     const year = new Date().getFullYear().toString();
     return (
-        <footer className={className}>
+        <footer>
             <div className="padding-x padding-y bg-low-contrast 
             flex flex-wrap sm:justify-evenly justify-between gap-4 
             *:flex *:flex-col *:gap-4">

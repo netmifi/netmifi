@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { Heart } from "lucide-react";
+import { Heart, ThumbsUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CommentBox from "./CommentBox";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -35,15 +35,15 @@ const CommentOptions = ({
             className="p-0"
             onClick={() => handleLike()}
           >
-            <Heart
-              className={cn("", {
-                "text-low-contrast fill-red-foreground": isCommentLiked,
+            <ThumbsUp
+              className={cn({
+                "text-low-contrast fill-blue-foreground": isCommentLiked,
               })}
             />
           </Button>
           {likesCount}
         </div>
-  
+
         <Popover>
           <PopoverTrigger className="text-blue">Reply</PopoverTrigger>
           <PopoverContent className="sm:min-w-[400px]" align="start">

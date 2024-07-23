@@ -16,7 +16,7 @@ import { testVid } from "@/assets/videos";
 import { tempCourses } from "@/constants/temp";
 import { AiOutlineWarning } from "react-icons/ai";
 
-const Course = ({ className }: PageProps) => {
+const Course = () => {
   const { state } = useLocation();
   const { course } = state;
   const [data, setData] = useState<Course[]>([
@@ -42,7 +42,7 @@ const Course = ({ className }: PageProps) => {
   };
 
   return (
-    <main className={className}>
+    <main>
       {state ? (
         <div className="min-h-screen flex flex-col gap-7 mb-20">
           <Jumbotron

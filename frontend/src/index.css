@@ -129,6 +129,7 @@
 @layer base {
   * {
     @apply border-border font-poppins;
+    scrollbar-width: thin;
   }
 
   body {
