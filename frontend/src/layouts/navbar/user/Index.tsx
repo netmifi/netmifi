@@ -9,6 +9,7 @@ import NavbarPopover from "@/components/navbar/NavbarPopover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { profile } from "@/assets/images";
 import useWindowSize from "@/hooks/useWindowSize";
+import { ModeToggle } from "@/components/mode-toggle";
 import {
   Popover,
   PopoverContent,
@@ -77,6 +78,7 @@ const UserNavbar = () => {
 
             <p className="capitalize text-sm hidden md:block">thompson</p>
           </NavLink>
+          <ModeToggle />
         </div>
       </div>
 

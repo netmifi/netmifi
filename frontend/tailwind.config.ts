@@ -3,10 +3,10 @@ import type { Config } from "tailwindcss";
 const twConfig = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -16,6 +16,13 @@ const twConfig = {
       screens: {
         "2xl": "1400px",
       },
+    },
+    screens: {
+      xs: { max: "600px" },
+      sm: "600px",
+      md: "768px",
+      lg: "992px",
+      xl: "1200px",
     },
     extend: {
       fontFamily: {
@@ -99,5 +106,4 @@ const twConfig = {
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 
-
-export default twConfig; 
+export default twConfig;

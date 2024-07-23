@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Footer from "./layouts/Footer";
@@ -21,130 +22,134 @@ const App = () => {
   const isAuth = useStoreState((state) => state.auth.isAuth);
 
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        {/* ROOT ROUTES */}
-        <Route
-          path="/"
-          element={
-            <Home className={cn("max-container", { "md:ml-20": isAuth })} />
-          }
-        />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Router>
+        <Navbar />
+        <Routes>
+          {/* ROOT ROUTES */}
+          <Route
+            path="/"
+            element={
+              <Home className={cn("max-container", { "md:ml-20": isAuth })} />
+            }
+          />
 
-        <Route path="contact" element={<h1>Contact</h1>} />
+          <Route path="contact" element={<h1>Contact</h1>} />
 
-        {/* COURSES ROUTE */}
-        <Route
-          path="courses"
-          element={
-            <Courses className={cn("max-container", { "md:ml-20": isAuth })} />
-          }
-        />
-        <Route
-          path="courses/top"
-          element={
-            <TopCourses
-              className={cn("max-container", { "md:ml-20": isAuth })}
-              page="self"
-            />
-          }
-        />
-        <Route
-          path="courses/recent"
-          element={
-            <RecentCourses
-              className={cn("max-container", { "md:ml-20": isAuth })}
-              page="self"
-            />
-          }
-        />
-        <Route
-          path="courses/course/:id/"
-          element={
-            <CoursePreview
-              className={cn("max-container", { "md:ml-20": isAuth })}
-            />
-          }
-        />
+          {/* COURSES ROUTE */}
+          <Route
+            path="courses"
+            element={
+              <Courses
+                className={cn("max-container", { "md:ml-20": isAuth })}
+              />
+            }
+          />
+          <Route
+            path="courses/top"
+            element={
+              <TopCourses
+                className={cn("max-container", { "md:ml-20": isAuth })}
+                page="self"
+              />
+            }
+          />
+          <Route
+            path="courses/recent"
+            element={
+              <RecentCourses
+                className={cn("max-container", { "md:ml-20": isAuth })}
+                page="self"
+              />
+            }
+          />
+          <Route
+            path="courses/course/:id/"
+            element={
+              <CoursePreview
+                className={cn("max-container", { "md:ml-20": isAuth })}
+              />
+            }
+          />
 
-        <Route path="pricing" element={<h1>Pricing</h1>} />
+          <Route path="pricing" element={<h1>Pricing</h1>} />
 
-        {/* BLOGS ROUTE */}
-        <Route
-          path="blogs"
-          element={
-            <Blogs className={cn("max-container", { "md:ml-20": isAuth })} />
-          }
-        />
-        <Route
-          path="blogs/featured"
-          element={
-            <FeaturedBlogs
-              className={cn("max-container", { "md:ml-20": isAuth })}
-              page="self"
-            />
-          }
-        />
-        <Route
-          path="blogs/popular"
-          element={
-            <PopularBlogs
-              className={cn("max-container", { "md:ml-20": isAuth })}
-              page="self"
-            />
-          }
-        />
-        <Route
-          path="blogs/recent"
-          element={
-            <RecentBlogs
-              className={cn("max-container", { "md:ml-20": isAuth })}
-              page="self"
-            />
-          }
-        />
-        <Route
-          path="blogs/:id"
-          element={
-            <Blog className={cn("max-container", { "md:ml-20": isAuth })} />
-          }
-        />
+          {/* BLOGS ROUTE */}
+          <Route
+            path="blogs"
+            element={
+              <Blogs className={cn("max-container", { "md:ml-20": isAuth })} />
+            }
+          />
+          <Route
+            path="blogs/featured"
+            element={
+              <FeaturedBlogs
+                className={cn("max-container", { "md:ml-20": isAuth })}
+                page="self"
+              />
+            }
+          />
+          <Route
+            path="blogs/popular"
+            element={
+              <PopularBlogs
+                className={cn("max-container", { "md:ml-20": isAuth })}
+                page="self"
+              />
+            }
+          />
+          <Route
+            path="blogs/recent"
+            element={
+              <RecentBlogs
+                className={cn("max-container", { "md:ml-20": isAuth })}
+                page="self"
+              />
+            }
+          />
+          <Route
+            path="blogs/:id"
+            element={
+              <Blog className={cn("max-container", { "md:ml-20": isAuth })} />
+            }
+          />
 
-        {/* INSTRUCTORS ROUTE */}
-        <Route
-          path="instructors"
-          element={
-            <Instructors
-              className={cn("max-container", { "md:ml-20": isAuth })}
-            />
-          }
-        />
+          {/* INSTRUCTORS ROUTE */}
+          <Route
+            path="instructors"
+            element={
+              <Instructors
+                className={cn("max-container", { "md:ml-20": isAuth })}
+              />
+            }
+          />
 
-        {/* ABOUT ROUTE */}
-        <Route
-          path="about"
-          element={
-            <About className={cn("max-container", { "md:ml-20": isAuth })} />
-          }
-        />
+          {/* ABOUT ROUTE */}
+          <Route
+            path="about"
+            element={
+              <About className={cn("max-container", { "md:ml-20": isAuth })} />
+            }
+          />
 
-        {/* USER ROUTES */}
-        <Route path="/user/:id" element={<h1>User</h1>} />
-        <Route path="/user/:id/courses" element={<h1>Recent Courses</h1>} />
+          {/* USER ROUTES */}
+          <Route path="/user/:id" element={<h1>User</h1>} />
+          <Route path="/user/:id/courses" element={<h1>Recent Courses</h1>} />
 
-        {/* AUTH ROUTES */}
-        <Route path="auth" element={<h1>Auth index</h1>}>
-          <Route path="signin" element={<h1>Auth signin</h1>} />
-          <Route path="signup" element={<h1>Auth signup</h1>} />
-        </Route>
+          {/* AUTH ROUTES */}
+          <Route path="auth" element={<h1>Auth index</h1>}>
+            <Route path="signin" element={<h1>Auth signin</h1>} />
+            <Route path="signup" element={<h1>Auth signup</h1>} />
+          </Route>
 
-        {/* 404 page ROUTES */}
-        <Route path="*" element={<NotFound />} />
-        <Route path="404" element={<NotFound />} />
-      </Routes>
-      <Footer className={cn({ "md:ml-20": isAuth })} />
-    </Router>
+          {/* 404 page ROUTES */}
+          <Route path="*" element={<NotFound />} />
+          <Route path="404" element={<NotFound />} />
+        </Routes>
+        <Footer className={cn({ "md:ml-20": isAuth })} />
+      </Router>
+    </ThemeProvider>
   );
 };
 
