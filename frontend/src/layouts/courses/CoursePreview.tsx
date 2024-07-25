@@ -5,19 +5,26 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { AboutUsSvg } from "@/assets/svg";
-import { Rating } from "@smastrom/react-rating";
-import "@smastrom/react-rating/style.css";
-import { Check, Dot, Languages, Timer, TimerReset } from "lucide-react";
+import Rating from "react-rating";
+import { Check, Dot, Languages, Star, Timer, TimerReset } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import VideoPlayer from "@/components/VideoPlayer";
 import { testVid } from "@/assets/videos";
 import PostAvatar from "@/components/PostAvatar";
 import { profile } from "@/assets/images";
 import { Button } from "@/components/ui/button";
-import { FaCartPlus, FaMoneyBillTransfer, FaNairaSign } from "react-icons/fa6";
+import {
+  FaCartPlus,
+  FaMoneyBillTransfer,
+  FaNairaSign,
+  FaLink,
+  FaLinkedinIn,
+} from "react-icons/fa6";
 import ReviewCard from "@/components/ReviewCard";
 import CourseCarousel from "@/components/courses/CourseCarousel";
 import { tempCourses } from "@/constants/temp";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const CoursePreview = () => {
   return (
@@ -38,10 +45,13 @@ const CoursePreview = () => {
             <div className="flex gap-1">
               <span>4.6</span>
               <Rating
-                value={4}
-                halfFillMode="svg"
-                className="w-20 h-5 py-0"
-                readOnly
+                start={0}
+                stop={5}
+                fractions={2}
+                initialRating={4.6}
+                emptySymbol={<Star />}
+                fullSymbol={<Star className="fill-yellow-500" />}
+                readonly={true}
               />
             </div>
             (23,000 reviews) 21,014 students
@@ -195,6 +205,28 @@ const CoursePreview = () => {
               Instructor
             </h3>
 
+            <div className="flex flex-wrap gap-3">
+              <Link to={"https://facebook"}>
+                <Button variant={"primary"} className="text-lg sm:text-xl">
+                  <FaFacebook />
+                </Button>
+              </Link>
+              <Link to={"https://instagram"}>
+                <Button variant={"primary"} className="text-lg sm:text-xl">
+                  <FaInstagram />
+                </Button>
+              </Link>
+              <Link to={"https://linkedin"}>
+                <Button variant={"primary"} className="text-lg sm:text-xl">
+                  <FaLinkedinIn />
+                </Button>
+              </Link>
+              <Link to={"https://linkedin"}>
+                <Button variant={"primary"} className="text-lg sm:text-xl">
+                  <FaLink />
+                </Button>
+              </Link>
+            </div>
             <div className="flex flex-col gap-10">
               <PostAvatar
                 isVerified={true}

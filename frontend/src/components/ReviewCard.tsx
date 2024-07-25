@@ -7,9 +7,9 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Rating } from "@smastrom/react-rating";
+import Rating from "react-rating";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Ellipsis, Flag } from "lucide-react";
+import { Ellipsis, Flag, Star } from "lucide-react";
 import { Button } from "./ui/button";
 
 const ReviewCard = ({
@@ -21,7 +21,6 @@ const ReviewCard = ({
   review,
   rating,
 }: ReviewCardProps) => {
-  const fixedRating = Math.floor(rating);
   return (
     <Card
       className={cn("min-h-fit hover:bg-secondary transition-all", className)}
@@ -42,7 +41,10 @@ const ReviewCard = ({
               </PopoverTrigger>
 
               <PopoverContent className="w-fit p-0">
-                <Button variant={"transparent"} className="hover:bg-primary hover:text-secondary">
+                <Button
+                  variant={"transparent"}
+                  className="hover:bg-primary hover:text-secondary"
+                >
                   <Flag /> Report
                 </Button>
               </PopoverContent>
@@ -51,12 +53,16 @@ const ReviewCard = ({
           <CardDescription>{review}</CardDescription>
         </CardHeader>
 
-        <CardFooter className="">
+        <CardFooter>
           <Rating
-            value={fixedRating}
-            halfFillMode="svg"
-            className="w-20 h-6 py-0 ml-auto"
-            readOnly
+            start={0}
+            stop={5}
+            fractions={2}
+            initialRating={rating}
+            emptySymbol={<Star />}
+            fullSymbol={<Star className="fill-yellow-500" />}
+            readonly={true}
+            className="ml-auto"
           />
         </CardFooter>
       </CardContent>

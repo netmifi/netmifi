@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-import { cn } from "./lib/utils";
 import Courses from "./pages/Courses";
-import Course from "./layouts/courses/Course";
 import Blogs from "./pages/Blogs";
 import Blog from "./layouts/blogs/Blog";
 import TopCourses from "./layouts/courses/TopCourses";
@@ -36,7 +34,7 @@ const App = () => {
               element={<RecentCourses page="self" />}
             />
             <Route path="course/:id" element={<CoursePreview />} />
-            <Route path="mylearnings/:id" element={<LearnPlay />} />
+            <Route path="my-courses/:id" element={<LearnPlay />} />
           </Route>
 
           {/* COURSES ROUTE */}

@@ -9,9 +9,8 @@ import {
 import { Button } from "../ui/button";
 import { FaNairaSign } from "react-icons/fa6";
 import PostAvatar from "../PostAvatar";
-import { PlusCircle, Unlock } from "lucide-react";
-import { Rating } from "@smastrom/react-rating";
-import "@smastrom/react-rating/style.css";
+import { PlusCircle, Star, Unlock } from "lucide-react";
+import Rating from "react-rating";
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -57,10 +56,13 @@ const CourseCard = ({ className = "", course }: CoursesCardProps) => {
           <div className="flex items-center gap-1">
             <span className="font-bold text-xs">{course.rating}</span>
             <Rating
-              value={Math.floor(course.rating)}
-              halfFillMode="svg"
-              className="w-20 h-5 py-0"
-              readOnly
+              start={0}
+              stop={5}
+              fractions={2}
+              initialRating={course.rating}
+              emptySymbol={<Star />}
+              fullSymbol={<Star className="fill-yellow-500" />}
+              readonly={true}
             />
             <div className="flex items-center"></div>
           </div>

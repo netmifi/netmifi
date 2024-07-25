@@ -269,11 +269,16 @@ declare interface JumbotronProps {
     button?: JSX.Element;
 }
 
+
+
+// declare interface ReactPlayerProps extends {}
 declare interface VideoPlayerProps {
     className?: string;
     thumbnail: string;
-    videoUrl: string;
-    hasCollection?: boolean;
+    videoUrl?: string;
+    videoCollection?: string[];
+    currentCourseVideo?: string;
+    setCurrentCourseVideo?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 declare interface PlayerTooltipProps {
@@ -294,7 +299,25 @@ declare interface ReviewCardProps {
     className: string;
     name: string; profile: string;
     isVerified: boolean;
-    profileUrl: string;
+    profileUrl?: string;
     review: string;
     rating: number
+}
+
+type RatingTranslation = (
+    "no rating" | //0
+    "very poor" | // 0.5
+    "poor" | // 1
+    "fair" | // 1.5
+    "good" | // 2
+    "very good" | //2.5
+    "average" | // 3
+    "excellent" | // 3.5
+    "outstanding" | // 4
+    "phenomenal" | // 4,5
+    "perfect" // 5
+)
+
+declare interface RateDialogProps {
+    child: React.ReactNode;
 }

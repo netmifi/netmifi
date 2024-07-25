@@ -1,5 +1,5 @@
 import ReactPlayer from "react-player";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -39,7 +39,7 @@ import { ClassValue } from "clsx";
 import CustomElementClick from "./CustomElementClick";
 import useWindowSize from "@/hooks/useWindowSize";
 
-type ReactPlayerProps = React.ComponentPnullrops<typeof ReactPlayer>;
+type ReactPlayerProps = React.ComponentProps<typeof ReactPlayer>;
 
 export function PlayerTooltip({
   onClick,
@@ -72,9 +72,14 @@ const VideoPlayer = ({
   className,
   thumbnail,
   videoUrl,
-  hasCollection = false,
+  videoCollection = [],
+  currentCourseVideo = "",
+  setCurrentCourseVideo,
 }: VideoPlayerProps) => {
   const videoPlayerRef = useRef<ReactPlayerProps>(null);
+  const [currentVideo, setCurrentVideo] = useState(
+    currentCourseVideo || videoUrl || videoCollection[0]
+  );
   const [isPreview, setIsPreview] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isControlsVisible, setIsControlsVisible] = useState(false);
@@ -223,30 +228,59 @@ const VideoPlayer = ({
     else setPlayBackSpeed(1);
   };
 
-  const handlePrev = () => {};
-  const handleNext = () => {};
+  const handleUpdateUrl = (url: string) => {
+    setCurrentVideo(url);
+    setCurrentCourseVideo && setCurrentCourseVideo(url);
+  };
+
+  const handlePrev = () => {
+    const currentVideoIndex = videoCollection.indexOf(currentVideo);
+    currentVideoIndex > 0
+      ? videoCollection.find((url, index) => {
+          return index === currentVideoIndex - 1 && handleUpdateUrl(url);
+        })
+      : handleUpdateUrl(videoCollection[0]);
+  };
+
+  const handleNext = () => {
+    const currentVideoIndex = videoCollection.indexOf(currentVideo);
+
+    currentVideoIndex < videoCollection.length - 1
+      ? videoCollection.find((url, index) => {
+          return index === currentVideoIndex + 1 && handleUpdateUrl(url);
+        })
+      : alert("Course completed");
+
+    console.log(currentVideoIndex, currentVideoIndex < videoCollection.length);
+  };
+
+  const handleOnEnded = () => {
+    handleNext();
+  };
+
+  useEffect(() => {
+    return setCurrentVideo(currentCourseVideo);
+  }, [currentCourseVideo]);
 
   return (
     <FullScreen
       handle={handle}
       className={cn("w-full", { "h-screen": isFullScreen })}
-      onChange={(state) =>setIsFullScreen(state)}
+      onChange={(state) => setIsFullScreen(state)}
     >
       <ContextMenu>
         <ContextMenuTrigger asChild>
           <div
             className={cn(
-              " relative bg-black flex justify-center items-center w-full h-[50dvh] sm:h-[60vh]",
+              " relative bg-black flex justify-center items-center w-full h-[50dvh] sm:h-[60vh] z-10",
               className,
               { "h-screen sm:h-screen": isFullScreen }
             )}
           >
-            <CustomElementClick
-              handleSingleClick={handleControlsVisibility}
-            >
+            <CustomElementClick handleSingleClick={handleControlsVisibility}>
               <div className="w-full h-full flex rounded-md justify-center items-center">
                 <ReactPlayer
-                  url={videoUrl}
+                  url={currentVideo}
                   ref={videoPlayerRef}
                   light={thumbnail}
                   width={"100%"}
@@ -262,6 +296,7 @@ const VideoPlayer = ({
                   onReady={handleReady}
                   onProgress={(progress) => handleProgress(progress.played)}
                   onDisablePIP={handlePlayPause}
+                  onEnded={handleOnEnded}
                 />
               </div>
             </CustomElementClick>
@@ -364,7 +399,10 @@ const VideoPlayer = ({
                         <PlayerTooltip
                           hoverLabel="Previous"
                           onClick={() => handlePrev()}
-                          disabled={hasCollection}
+                          disabled={
+                            videoCollection.length < 2 ||
+                            videoCollection.indexOf(currentVideo) === 0
+                          }
                         >
                           <SkipBack className={defaultIconClass()} />
                         </PlayerTooltip>
@@ -394,7 +432,11 @@ const VideoPlayer = ({
                         <PlayerTooltip
                           hoverLabel="Next"
                           onClick={() => handleNext()}
-                          disabled={hasCollection}
+                          disabled={
+                            videoCollection.length < 2 ||
+                            videoCollection.indexOf(currentVideo) ===
+                              videoCollection.length - 1
+                          }
                         >
                           <SkipForward className={defaultIconClass()} />
                         </PlayerTooltip>
