@@ -59,3 +59,9 @@ export const commentFormSchema = (state: 'comment' | 'reply') =>
     reply: state === 'reply' ? z.string().min(1, { message: 'This field cannot be empty' }) : z.string().optional(),
     replyTo: state === 'reply' ? z.string() : z.string().optional(),
   });
+
+export const reviewFormSchema = () =>
+  z.object({
+    review: z.string().min(3, { message: "Review must have at least 3 characters" }),
+    rating: z.number()
+  });

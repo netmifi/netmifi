@@ -155,7 +155,8 @@ declare interface CustomFormFieldProps {
     isPasswordVisible?: boolean;
     label?: string;
     isNotLabeled?: boolean;
-    defaultValue?: string;
+    defaultValue?: string | number;
+    value?: string | number;
     disabled?: boolean;
     hidden?: boolean;
 }

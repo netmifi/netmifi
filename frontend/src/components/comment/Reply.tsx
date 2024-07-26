@@ -11,7 +11,7 @@ const Reply = ({ page, postId, commentId, reply }: ReplyProps) => {
   const [currentReply, setCurrentReply] = useState(reply);
 
   return (
-    <div className="flex gap-2 items-start">
+    <div key={reply.id} className="flex gap-2 items-start">
       <PostAvatar
         onlyAvatar={true}
         profileName={currentReply.replier.username}

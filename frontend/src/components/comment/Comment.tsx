@@ -16,7 +16,7 @@ const Comment = ({ page, postId, comment }: CommentProps) => {
   const [isRepliesOpen, setIsRepliesOpen] = useState(false);
 
   return (
-    <div className="flex gap-2 items-start">
+    <div key={comment.id} className="flex gap-2 items-start">
       <PostAvatar
         onlyAvatar={true}
         profileName={currentComment.commenter.username}

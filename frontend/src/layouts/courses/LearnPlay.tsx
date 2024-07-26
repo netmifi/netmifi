@@ -30,7 +30,7 @@ import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { convertToReadableTime } from "@/lib/utils";
 import { CircleProgress } from "@/components/ui/progress";
-import RateDialog from "@/components/RateDialog";
+import WriteReviewDialog from "@/components/WriteReviewDialog";
 import CommentBox from "@/components/comment/CommentBox";
 import Comment from "@/components/comment/Comment";
 import ReviewCard from "@/components/ReviewCard";
@@ -172,22 +172,39 @@ const LearnPlay = () => {
     );
   }, [courseContents, currentCourseVideo]);
 
-  const getVideoDuration = (videoUrl: string) => {
-    let rawDuration = 0;
-    let readableDuration = "00:00";
-    <ReactPlayer
-      url={videoUrl}
-      stopOnUnmount={false}
-      onDuration={(duration) => handleDuration(duration)}
-    />;
-
-    const handleDuration = (duration: number) => {
-      console.log(duration);
-      rawDuration = duration;
-      readableDuration = convertToReadableTime(duration);
-    };
-    return { rawDuration, readableDuration };
+  const getVideoDuration = (url: string): Promise<number> => {
+    return new Promise((resolve) => {
+      const video = document.createElement("video");
+      video.src = url;
+      video.addEventListener("loadedmetadata", () => {
+        resolve(video.duration);
+      });
+    });
   };
+
+  interface URLDurationData {
+    url: string;
+    duration: number;
+  }
+
+  const [urlDuration, setUrlDuration] = useState<URLDurationData[]>([
+    { url: "", duration: 0 },
+  ]);
+
+  useEffect(() => {
+    // Fetch video durations and update state
+    const fetchVideoData = async () => {
+      const data = await Promise.all(
+        totalVideos.map(async (url) => {
+          const duration = await getVideoDuration(url);
+          return { url, duration };
+        })
+      );
+      setUrlDuration(data);
+    };
+
+    fetchVideoData();
+  }, [totalVideos]);
 
   return (
     <main className="flex flex-col w-full ">
@@ -199,15 +216,16 @@ const LearnPlay = () => {
             Course title the course title of this course will be here.
           </h2>
         </div>
+
         <div className="flex gap-3">
           <Button>
             <Share2Icon />
           </Button>
 
-          <RateDialog
+          <WriteReviewDialog
             child={
               <Button variant={"outline"} className="text-primary-foreground">
-                Rate this Course
+                Write a review
               </Button>
             }
           />
@@ -405,28 +423,37 @@ const LearnPlay = () => {
                         </div>
                       </AccordionTrigger>
                       <AccordionContent className="p-5 flex flex-col gap-3">
-                        {content.courses.map((course) => (
-                          <Button
-                            variant={
-                              currentCourseVideo === course.videoUrl
-                                ? "secondary"
-                                : "transparent"
-                            }
-                            className="flex justify-between"
-                            key={course.id}
-                            onClick={() =>
-                              setCurrentCourseVideo(course.videoUrl)
-                            }
-                          >
-                            <div className="flex gap-2 items-center">
-                              <FaTv />
-                              <h6 className="text-[14px] capitalize">
-                                {course.title}
-                              </h6>
-                            </div>
-                            <span>00:00</span>
-                          </Button>
-                        ))}
+                        {content.courses.map((course) => {
+                          const correspondingUrlDuration = urlDuration.find(
+                            (item) => item.url === course.videoUrl
+                          );
+                          return (
+                            <Button
+                              variant={
+                                currentCourseVideo === course.videoUrl
+                                  ? "secondary"
+                                  : "transparent"
+                              }
+                              className="flex justify-between"
+                              key={course.id}
+                              onClick={() =>
+                                setCurrentCourseVideo(course.videoUrl)
+                              }
+                            >
+                              <div className="flex gap-2 items-center">
+                                <FaTv />
+                                <h6 className="text-[14px] capitalize">
+                                  {course.title}
+                                </h6>
+                              </div>
+                              <span>
+                                {convertToReadableTime(
+                                  correspondingUrlDuration?.duration || 0
+                                )}
+                              </span>
+                            </Button>
+                          );
+                        })}
                       </AccordionContent>
                     </AccordionItem>
                   </Accordion>
