@@ -1,17 +1,32 @@
-import { cn } from '@/lib/utils'
-import { useStoreState } from '@/store/store';
-import { AiFillWarning } from 'react-icons/ai'
-import { NavLink } from 'react-router-dom'
+import { cn } from "@/lib/utils";
+import { useStoreState } from "@/store/store";
+import { AiFillWarning } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 
 const NotFound = () => {
-    const isAuth = useStoreState((state) => state.auth.isAuth);
+  // const isAuth = useStoreState((state) => state.auth.isAuth);
 
-    return (
-        <main className={cn("max-container h-screen flex flex-col gap-2 justify-center items-center", { "md:ml-20": isAuth })}>
-            <AiFillWarning className='fill-red text-9xl' />
-            <h2 className='text-2xl text-center md:text-3xl'>Page not found, <NavLink to="/" className="text-blue underline underline-offset-4 ">Back to Home</NavLink></h2>
-        </main>
-    )
-}
+  return (
+    <main
+      className={
+        "max-container h-screen flex flex-col gap-px justify-center items-center"
+      }
+    >
+      <AiFillWarning className="fill-red text-9xl" />
+      <h2 className="text-lg text-center md:text-xl">
+        <span className="border-r-2 border-primary/40 pr-2 text-red">404</span>
+        <span className="pl-2">
+          Page not found
+          <NavLink
+            to="/"
+            className="text-blue underline underline-offset-4 ml-1"
+          >
+            Back to Home
+          </NavLink>
+        </span>
+      </h2>
+    </main>
+  );
+};
 
-export default NotFound
+export default NotFound;

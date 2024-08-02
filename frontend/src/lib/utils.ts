@@ -15,13 +15,13 @@ export const convertToReadableNumber = (number: number) => {
   if (number < 999)
     return number;
   else if (number <= 999000)
-    return (number / 1000).toPrecision(2) + 'k';
+    return (number / 1000).toFixed(1) + 'k';
   else if (number <= 999000000)
-    return (number / 1000000).toPrecision(2) + 'm';
+    return (number / 1000000).toFixed(1) + 'm';
   else if (number <= 999000000000)
-    return (number / 1000000000).toPrecision(2) + 'B';
+    return (number / 1000000000).toFixed(1) + 'B';
   else (number <= 999000000000000)
-  return (number / 1000000000000).toPrecision(2) + 'T';
+  return (number / 1000000000000).toFixed(1) + 'T';
 }
 
 export const convertToReadableTime = (timeInSeconds: number) => {
@@ -40,6 +40,15 @@ export const convertToReadableTime = (timeInSeconds: number) => {
   }
 }
 
+export const getFirstLettersForProfile = (name: string) => {
+  const nameArray = name.split(' ');
+  const firstLetterOfFirstName = nameArray[0].charAt(0);
+  const firstLetterOfLastName = nameArray[1].charAt(0);
+
+  return (firstLetterOfFirstName + firstLetterOfLastName)
+}
+
+// --- DEFINE SCHEMAS
 export const newsletterFormSchema = () =>
   z.object({
     email: z.string().email({ message: 'Must be a valid email eg. myname@example.com' })
@@ -65,3 +74,10 @@ export const reviewFormSchema = () =>
     review: z.string().min(3, { message: "Review must have at least 3 characters" }),
     rating: z.number()
   });
+
+export const createCollectionFormSchema = () =>
+  z.object({
+    collection: z.string().min(3, { message: "Collection name must have at least 3 characters" }),
+    courseId: z.string()
+  });
+

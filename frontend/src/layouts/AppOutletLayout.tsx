@@ -1,11 +1,16 @@
 import { cn } from "@/lib/utils";
 import { useStoreState } from "@/store/store";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import Footer from "./Footer";
 
 const AppOutletLayout = () => {
   const isAuth = useStoreState((state) => state.auth.isAuth);
+  const { pathname } = useLocation();
+
+  if (pathname === "/") {
+    return <Navigate to="/home" />;
+  }
 
   return (
     <>

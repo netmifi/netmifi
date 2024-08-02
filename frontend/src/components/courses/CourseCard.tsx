@@ -60,8 +60,8 @@ const CourseCard = ({ className = "", course }: CoursesCardProps) => {
               stop={5}
               fractions={2}
               initialRating={course.rating}
-              emptySymbol={<Star />}
-              fullSymbol={<Star className="fill-yellow-500" />}
+              emptySymbol={<Star size={16} />}
+              fullSymbol={<Star size={16} className="fill-yellow-500" />}
               readonly={true}
             />
             <div className="flex items-center"></div>

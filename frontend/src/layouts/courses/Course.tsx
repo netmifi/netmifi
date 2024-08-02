@@ -9,10 +9,9 @@ import { useRef, useState } from "react";
 import { FaEllipsis } from "react-icons/fa6";
 import { Navigate, useLocation } from "react-router-dom";
 import Loader from "@/components/Loader";
-import Jumbotron from "@/components/courses/Jumbotron";
+import Jumbotron from "@/components/Jumbotron";
 import { courseSubjects } from "@/constants";
 import CourseCard from "@/components/courses/CourseCard";
-import { testVid } from "@/assets/videos";
 import { tempCourses } from "@/constants/temp";
 import { AiOutlineWarning } from "react-icons/ai";
 

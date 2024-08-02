@@ -1,27 +1,27 @@
+import { cn } from "@/lib/utils";
+
 const Jumbotron = ({
   className,
   image,
-  imageStyle,
+  imageClassName,
   title,
-  titleStyle,
+  titleClassName,
   body,
-  bodyStyle,
+  bodyClassName,
   button,
 }: JumbotronProps) => {
   return (
     <section
-      className={
-        className +
-        " min-h-fit sm:min-h-screen flex items-center max-sm:flex-wrap max-sm:gap-4 gap-0 padding-x padding-y"
-      }
+      className={cn(
+        " min-h-fit flex md:justify-between items-center max-sm:flex-wrap max-sm:flex-col gap-3 padding-x padding-y",
+        className
+      )}
     >
       <div className="flex flex-col gap-3 md:basis-[60%]">
-        <h1
-          className={titleStyle + "  sm:text-6xl text-4xl capitalize"}
-        >
+        <h1 className={cn(" sm:text-6xl text-4xl capitalize", titleClassName)}>
           {title}
         </h1>
-        <p className={bodyStyle + " font-montserrat text-lg sm:text-xl"}>
+        <p className={cn("font-montserrat text-lg sm:text-xl", bodyClassName)}>
           {body}
         </p>
 
@@ -31,10 +31,10 @@ const Jumbotron = ({
       <div className="md:basis-[40%]">
         <img
           src={image}
-          className={
-            imageStyle +
-            " object-contain w-[400px] md:w-full h-auto"
-          }
+          className={cn(
+            "object-contain size-[30rem] md:ml-auto",
+            imageClassName
+          )}
           alt=""
         />
       </div>

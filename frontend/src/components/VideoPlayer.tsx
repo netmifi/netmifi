@@ -98,7 +98,7 @@ const VideoPlayer = ({
 
   const defaultIconClass = (className?: ClassValue) =>
     cn(
-      "drop-shadow-lg fill-secondary text-primary-foreground size-4 sm:size-5",
+      "drop-shadow-lg fill-slate-200 text-white size-4 sm:size-5 hover:fill-slate-100",
       className
     );
 
@@ -485,7 +485,7 @@ const VideoPlayer = ({
                           </PopoverContent>
                         </Popover>
 
-                        <time className="text-secondary opacity-8 text-[10px] sm:text-[13px]">
+                        <time className="text-white/60 opacity-8 text-[10px] sm:text-[13px]">
                           {convertToReadableTime(
                             currentTime * videoPlayerRef.current?.getDuration()
                           )}

@@ -5,12 +5,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import CourseCard from "./CourseCard";
+import InstructorCard from "./InstructorCard";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
 
-const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
+const InstructorCarousel = ({ title, link, data }: InstructorCarouselProps) => {
   const trimmedData = data.slice(0, 10);
 
   return (
@@ -28,7 +28,7 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
                 key={datum.id}
                 className="md:basis-1/2 lg:basis-1/3 *:md:max-w-full *:lg:max-w-full *:mx-auto"
               >
-                <CourseCard course={datum} />
+                <InstructorCard instructor={datum} />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -39,7 +39,7 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
       {link && (
         <Button className="mx-auto mt-5 rounded-full *:flex *:items-center">
           <NavLink to={link}>
-            <span>View more</span> <AiOutlineArrowRight />
+            <span>See more</span> <AiOutlineArrowRight />
           </NavLink>
         </Button>
       )}
@@ -47,4 +47,4 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
   );
 };
 
-export default CourseCarousel;
+export default InstructorCarousel;

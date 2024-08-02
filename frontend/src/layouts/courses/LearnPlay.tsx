@@ -13,9 +13,7 @@ import {
   MessageCircleOff,
   PenBoxIcon,
   Share2Icon,
-  ShareIcon,
   TimerReset,
-  Tv,
 } from "lucide-react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaLink, FaLinkedinIn, FaTv } from "react-icons/fa6";

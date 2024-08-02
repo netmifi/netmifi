@@ -2,20 +2,18 @@ import { CoursesSvg } from "@/assets/svg";
 import Jumbotron from "@/components/Jumbotron";
 import Newsletter from "@/components/Newsletter";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import RecentCourses from "@/layouts/courses/RecentCourses";
 import Recommendations from "@/layouts/courses/Recommendations";
 import TopCourses from "@/layouts/courses/TopCourses";
 import { ArrowDown } from "lucide-react";
-import { useRef, useState } from "react";
-import { FaCircle, FaSearch } from "react-icons/fa";
+import { useRef } from "react";
+import { FaCircle } from "react-icons/fa";
 import { Outlet, useLocation } from "react-router-dom";
 
 const Courses = () => {
   const rootCourses = ["/courses/", "/courses"];
   const { pathname } = useLocation();
 
-  const [search, setSearch] = useState<string>("");
   const exploreSectionRef = useRef<HTMLElement>(null);
   const handleHandleExplore = () => {
     exploreSectionRef?.current?.scrollIntoView({ behavior: "smooth" });
@@ -26,11 +24,10 @@ const Courses = () => {
       {rootCourses.some((route) => pathname === route) ? (
         <main>
           <Jumbotron
-            className="bg-secondary text-black"
+            // className="bg-secondary text-primary"
             title={"courses"}
             image={CoursesSvg}
             body="Unleash your inner craftsman, dive into our enriching courses. Because your journey to crafts mastery starts here."
-            bodyStyle=""
             button={
               <Button
                 onClick={handleHandleExplore}
@@ -68,7 +65,7 @@ const Courses = () => {
 
             <div className="flex flex-col gap-20 w-full">
               <h2 className="text-red sm:text-3xl text-2xl text-center mb-7">
-                Explore Our Diverse Learning Landscape{" "}
+                Explore Our Diverse Learning Landscape
               </h2>
 
               <TopCourses page="child" />
@@ -84,21 +81,21 @@ const Courses = () => {
 
             <div className="flex flex-col justify-between gap-5 sm:basis-[55%]">
               <h2 className="text-secondary sm:text-3xl text-xl">
-                How to Become a Successful{" "}
+                How to Become a Successful
                 <span className=" text-destructive"> Content Creator</span>
               </h2>
 
               <ul className="flex flex-col gap-3 text-sm sm:text-lg *:flex *:gap-2 *:items-center text-gray-300">
                 <li>
-                  <FaCircle className="fill-destructive" />{" "}
+                  <FaCircle className="fill-destructive" />
                   <span>Discover the latest trends about your content</span>
                 </li>
                 <li>
-                  <FaCircle className="fill-destructive" />{" "}
+                  <FaCircle className="fill-destructive" />
                   <span>Understand what content creation is all about</span>
                 </li>
                 <li>
-                  <FaCircle className="fill-destructive" />{" "}
+                  <FaCircle className="fill-destructive" />
                   <span>
                     To go viral, your content has to be QUICK, ENTERTAINING, and
                     INFORMATIVE

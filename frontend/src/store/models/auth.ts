@@ -6,9 +6,9 @@ export interface AuthModel {
     set: Action<AuthModel, boolean | void>
 }
 
-const auth:AuthModel = {
+const auth: AuthModel = {
     isAuth: true,
-    set: action((state, payload:boolean)=> {
+    set: action((state, payload: boolean) => {
         state.isAuth = payload
     })
 }

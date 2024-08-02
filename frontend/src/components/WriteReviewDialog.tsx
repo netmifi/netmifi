@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
-import Rating from "react-rating";
+// import Rating from "react-rating";
 import { useState } from "react";
 import { Star } from "lucide-react";
 import { reviewFormSchema } from "@/lib/utils";
@@ -17,6 +17,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "./ui/form";
 import CustomFormField from "./Form/CustomFormField";
+import Rating from "react-rating";
 
 const WriteReviewDialog = ({ child, postId }: RateDialogProps) => {
   const formSchema = reviewFormSchema();

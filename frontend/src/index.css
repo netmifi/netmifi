@@ -5,12 +5,12 @@
 /* fonts can be used for development and production for */
 @font-face {
   font-family: "Dancing Script";
-  src: url(./assets/fonts/Dancing_Script/DancingScript-Regular.ttf);
+  src: url(./assets/fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf);
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url(./assets/fonts/Montserrat/Montserrat-Regular.ttf);
+  src: url(./assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
 }
 
 @font-face {
@@ -19,6 +19,9 @@
 }
 
 @layer base {
+  * {
+    @apply border-border font-poppins;
+  }
   :root {
     --background: 0 0% 98.3%;
     --foreground: 222.2 84% 4.9%;
@@ -68,6 +71,22 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-3xl;
+  }
+  h3 {
+    @apply text-2xl;
+  }
+  h4 {
+    @apply text-xl;
   }
 
   .dark {
@@ -200,5 +219,12 @@
   }
   .volume-slider .thumb {
     @apply border-0  size-2;
+  }
+
+  .hover-item:hover .hover-item-container {
+    @apply top-1/2;
+  }
+  .hover-item-container {
+    @apply absolute bg-transparent-black flex items-center w-full top-full bottom-0 text-white/80 shadow-xl shadow-primary transition-all delay-200;
   }
 }

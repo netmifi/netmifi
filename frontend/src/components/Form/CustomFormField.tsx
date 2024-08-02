@@ -12,10 +12,10 @@ import { Textarea } from "../ui/textarea";
 const CustomFormField = ({
   control,
   name,
-  type,
+  type = "input",
   textareaType = "normal",
   isPasswordVisible,
-  placeholder,
+  placeholder = "",
   label = "",
   isNotLabeled = false,
   defaultValue = "",
@@ -63,12 +63,12 @@ const CustomFormField = ({
                     value={value || field.value || ""}
                     onChange={field.onChange}
                     readOnly={true}
-                    className="border-none focus-visible:ring-0 bg-transparent"
+                    className="border-none focus-visible:ring-0 bg-secondary focus-visible:bg-transparent"
                   />
                 </div>
               ) : (
                 <Input
-                  className="border-none focus-visible:ring-secondary focus-visible:ring-1 focus-visible:border-0 bg-transparent"
+                  className="border-none focus-visible:ring-secondary focus-visible:ring-1 focus-visible:border-0 bg-secondary focus-visible:bg-transparent"
                   placeholder={placeholder}
                   {...field}
                   type={

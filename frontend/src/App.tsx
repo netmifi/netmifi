@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/theme-provider";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -14,61 +15,69 @@ import CoursePreview from "./layouts/courses/CoursePreview";
 import AppOutletLayout from "./layouts/AppOutletLayout";
 import AuthOutletLayout from "./layouts/AuthOutletLayout";
 import LearnPlay from "./layouts/courses/LearnPlay";
+import About from "./pages/About";
+import MyCourses from "./layouts/courses/MyCourses";
+import { Toaster } from "@/components/ui/sonner"
+
 
 const App = () => {
-
   return (
-    <Router>
-      <Routes>
-        {/* ROOT ROUTES */}
-        <Route path="/" element={<AppOutletLayout />}>
-          <Route path="" element={<Home />} />
-          <Route path="about" element={<h1>About us</h1>} />
-          <Route path="contact" element={<h1>Contact</h1>} />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Router>
+        <Routes>
+          {/* ROOT ROUTES */}
+          <Route path="/" element={<AppOutletLayout />}>
+            <Route path="home" element={<Home />} />
 
-          {/* COURSES ROUTE */}
-          <Route path="courses" element={<Courses />}>
-            <Route path="courses/top" element={<TopCourses page="self" />} />
-            <Route
-              path="courses/recent"
-              element={<RecentCourses page="self" />}
-            />
-            <Route path="course/:id" element={<CoursePreview />} />
-            <Route path="my-courses/:id" element={<LearnPlay />} />
+            <Route path="contact" element={<h1>Contact</h1>} />
+
+            {/* COURSES ROUTE */}
+            <Route path="courses" element={<Courses />}>
+              <Route path="top" element={<TopCourses page="self" />} />
+              <Route
+                path="recent"
+                element={<RecentCourses page="self" />}
+              />
+              <Route path="course/:id" element={<CoursePreview />} />
+              <Route path="my-courses" element={<MyCourses />} />
+              <Route path="my-courses/:id" element={<LearnPlay />} />
+            </Route>
+
+            {/* COURSES ROUTE */}
+
+            <Route path="pricing" element={<h1>Pricing</h1>} />
+
+            {/* BLOGS ROUTE */}
+            <Route path="blogs" element={<Blogs />}>
+              <Route path="featured" element={<FeaturedBlogs page="self" />} />
+              <Route path="popular" element={<PopularBlogs page="self" />} />
+              <Route path="recent" element={<RecentBlogs page="self" />} />
+              <Route path="blog/:id" element={<Blog />} />
+            </Route>
+
+            {/* INSTRUCTORS ROUTE */}
+            <Route path="instructors" element={<Instructors />} />
+
+            {/* USER ROUTES */}
+            <Route path="/user/:id" element={<h1>User</h1>} />
+            <Route path="/user/:id/courses" element={<h1>Recent Courses</h1>} />
+
+            {/* 404 page ROUTES */}
+            <Route path="*" element={<NotFound />} />
+            <Route path="404" element={<NotFound />} />
           </Route>
-
-          {/* COURSES ROUTE */}
-
-          <Route path="pricing" element={<h1>Pricing</h1>} />
-
-          {/* BLOGS ROUTE */}
-          <Route path="blogs" element={<Blogs />}>
-            <Route path="featured" element={<FeaturedBlogs page="self" />} />
-            <Route path="popular" element={<PopularBlogs page="self" />} />
-            <Route path="recent" element={<RecentBlogs page="self" />} />
-            <Route path="blog/:id" element={<Blog />} />
-          </Route>
-
-          {/* INSTRUCTORS ROUTE */}
-          <Route path="instructors" element={<Instructors />} />
-
-          {/* USER ROUTES */}
-          <Route path="/user/:id" element={<h1>User</h1>} />
-          <Route path="/user/:id/courses" element={<h1>Recent Courses</h1>} />
 
           {/* AUTH ROUTES */}
+          <Route path="/auth" element={<AuthOutletLayout />}>
+            <Route path="signin" element={<h1>Auth signin</h1>} />
+            <Route path="signup" element={<h1>Auth signup</h1>} />
+          </Route>
+        </Routes>
+        <Toaster />
 
-          {/* 404 page ROUTES */}
-          <Route path="*" element={<NotFound />} />
-          <Route path="404" element={<NotFound />} />
-        </Route>
+      </Router>
 
-        <Route path="/auth" element={<AuthOutletLayout />}>
-          <Route path="signin" element={<h1>Auth signin</h1>} />
-          <Route path="signup" element={<h1>Auth signup</h1>} />
-        </Route>
-      </Routes>
-    </Router>
+    </ThemeProvider>
   );
 };
 

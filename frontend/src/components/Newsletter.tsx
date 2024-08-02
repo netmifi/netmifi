@@ -4,17 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
+import { Form } from "./ui/form";
 import { Button } from "./ui/button";
 import Loader from "./Loader";
+import CustomFormField from "./Form/CustomFormField";
+import { toast } from "sonner";
 
 const Newsletter = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -25,11 +19,22 @@ const Newsletter = () => {
   });
 
   const handleSubmit = (email: string) => {
-    alert(email);
     setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      toast("Subscribed to our newsletter", {
+        duration: 4000,
+        richColors: true,
+        dismissible: true,
+        important: true,
+        description: "We will always keep you updated.",
+        closeButton: true,
+      });
+    }, 500);
   };
   return (
-    <section className="w-full padding-x py-10 flex max-md:flex-wrap gap-5 items-center justify-between max-md:justify-center">
+    <section className="w-full padding-x py-10 flex max-md:flex-wrap gap-5 items-center justify-evenly max-md:justify-center">
       <div className="basis-full sm:basis-[40%]">
         <img src={EmailSubscriptionSvg} className="" alt="" />
       </div>
@@ -46,36 +51,18 @@ const Newsletter = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(({ email }) => handleSubmit(email))}
-            className="max-sm:mx-auto"
+            className="flex flex-col gap-5"
           >
-            <FormField
+            <CustomFormField
               control={form.control}
               name="email"
-              render={({ field }) => (
-                <FormItem className="bg-transparent">
-                  <FormLabel className="text-primary-foreground">
-                    Enter your email address
-                  </FormLabel>
-
-                  <div className="flex gap-1">
-                    <FormControl className=" basis-4/6 px-3 bg-secondary border outline-none focus-visible:bg-background focus-visible:ring-0">
-                      <Input
-                        placeholder="eg. myname@example.com"
-                        {...field}
-                        className="rounded-e-0 rounded-s-4"
-                      />
-                    </FormControl>
-                    <Button
-                      disabled={isLoading}
-                      className="rounded-s-0 rounded-e-4 bg-red hover:brightness-75 hover:bg-red"
-                    >
-                      {isLoading ? <Loader type="loader" /> : "Sign up"}
-                    </Button>
-                  </div>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
+              label="Enter email address"
+              placeholder="eg. johndoe.demo.com"
             />
+
+            <Button disabled={isLoading}>
+              {isLoading ? <Loader type="all" /> : "Subscribe"}
+            </Button>
           </form>
         </Form>
       </div>
