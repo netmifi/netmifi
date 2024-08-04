@@ -6,7 +6,16 @@ import {
 } from "@/components/ui/accordion";
 import { AboutUsSvg } from "@/assets/svg";
 import Rating from "react-rating";
-import { Check, Dot, Languages, Star, Timer, TimerReset } from "lucide-react";
+import {
+  Check,
+  Dot,
+  Languages,
+  Share,
+  Share2,
+  Star,
+  Timer,
+  TimerReset,
+} from "lucide-react";
 import { NavLink } from "react-router-dom";
 import VideoPlayer from "@/components/VideoPlayer";
 import { testVid } from "@/assets/videos";
@@ -25,6 +34,7 @@ import CourseCarousel from "@/components/courses/CourseCarousel";
 import { tempCourses } from "@/constants/temp";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import ShareComponent from "@/components/ShareComponent";
 
 const CoursePreview = () => {
   return (
@@ -81,6 +91,19 @@ const CoursePreview = () => {
               Price: &nbsp; <FaNairaSign size={14} /> 8500
             </p>
             <div className="flex flex-wrap gap-3 *:font-montserrat *:flex *:gap-2 *:text-lg *:rounded-full">
+              <ShareComponent
+                child={
+                  <Button
+                    variant={"outline"}
+                    className="text-primary-foreground"
+                  >
+                    <Share2 /> Share
+                  </Button>
+                }
+                url={`https://www.netmifi.com/courses/course/course_id`}
+                title="Course Title"
+                text="Course description"
+              />
               <Button variant={"primary"}>
                 <FaCartPlus /> Add to cart
               </Button>

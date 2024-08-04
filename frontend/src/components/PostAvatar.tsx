@@ -14,7 +14,7 @@ const PostAvatar = ({
 }: PostAvatarProps) => {
   return (
     <div className="flex items-center gap-1">
-      <NavLink to={profileURL} className="relative w-fit bg-red rounded-full">
+      <NavLink to={profileURL} className="relative w-fit rounded-full">
         <Avatar className={cn("relative", profileImageClassName)}>
           <AvatarImage src={profileImage} className="object-cover" />
           <AvatarFallback className="uppercase bg-primary text-secondary flex justify-center overflow-visible">

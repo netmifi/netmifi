@@ -373,3 +373,11 @@ declare interface InstructorCardProps {
   className?: ClassValue;
   instructor: Instructor;
 }
+
+declare interface ShareComponentProps {
+  child: React.ReactNode;
+  url: string;
+  title?: string;
+  text?: string;
+  files?: File[]
+}

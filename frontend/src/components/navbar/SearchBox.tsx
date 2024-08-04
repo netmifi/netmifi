@@ -1,69 +1,132 @@
 // THIS COMPONENT IS FOR REUSABLE SEARCH BOX ON THE NAVBAR
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { cn, searchFormSchema } from "@/lib/utils";
-import { Form, FormControl, FormField } from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { useForm } from "react-hook-form";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import {
   DialogContent,
-  DialogFooter,
   DialogTrigger,
   DialogTitle,
   Dialog,
   DialogHeader,
 } from "@/components/ui/dialog";
-import { NavLink } from "react-router-dom";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { z } from "zod";
+import { PopoverPortal } from "@radix-ui/react-popover";
+import { Search, X } from "lucide-react";
+import { ClassValue } from "class-variance-authority/types";
 
 const SearchBox = ({ type = "guest" }: { type?: "guest" | "user" }) => {
   const [search, setSearch] = useState<string>("");
+
+  const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    setSearch(value);
+    // value ? setOpen(true) : setOpen(false);
+  };
 
   const formSchema = searchFormSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
+  const suggestions = [
+    "graphical design: quality and quantity balance",
+    "basics of email marketing",
+    "content creation: from amateur to professional",
+    "project management from 1 to 100",
+    "technical writing for pro",
+  ];
+
+  const searchField = () => {
+    return (
+      <FormField
+        name="search"
+        control={form.control}
+        render={() => (
+          <FormItem className="flex items-center border-b bg-secondary/20 focus-within:border-b-primary rounded-none focus-within:bg-background">
+            <Button
+              asChild
+              type="button"
+              variant={"transparent"}
+              className="p-0 mt-2 text-primary/20"
+            >
+              <FormLabel>
+                <Search size={16} className="" />
+              </FormLabel>
+            </Button>
+            {/* <div> */}
+            <FormControl className="p-0">
+              <Input
+                className="h-full bg-transparent pl-2 rounded-e-none py-0 border-none ring-0 focus-visible::ring-0 focus-visible:outline-none"
+                placeholder="Search anything..."
+                value={search}
+                aria-label="Search"
+                onInput={(e) => handleInput(e)}
+              />
+            </FormControl>
+
+            <Button
+              type="button"
+              variant={"transparent"}
+              onClick={() => setSearch("")}
+              className={cn("p-0 text-primary/80", {
+                "opacity-0 pointer-events-none": !search,
+              })}
+            >
+              <X size={16} />
+            </Button>
+            {/* </div> */}
+          </FormItem>
+        )}
+      />
+    );
+  };
+
+  const suggestionArea = (className?: ClassValue) => {
+    return (
+      <div
+        className={cn(
+          "absolute -left-[10px] bg-background shadow-md",
+          className,
+          {
+            hidden: search.length < 1,
+          }
+        )}
+      >
+        <ScrollArea>
+          <div className="flex flex-col items-start min-w-fit max-w-full max-h-[70dvh]">
+            {[...suggestions, ...suggestions, ...suggestions, ...suggestions]
+              .filter((suggestion) => suggestion.includes(search))
+              .map((suggestion) => (
+                <Button
+                  variant={"transparent"}
+                  className="capitalize hover:bg-secondary rounded-none text-left min-w-full justify-start"
+                  onClick={() => setSearch(suggestion)}
+                >
+                  {suggestion}
+                </Button>
+              ))}
+          </div>
+        </ScrollArea>
+      </div>
+    );
+  };
+
   return (
     <>
       {type == "user" ? (
-        <Form {...form}>
-          <form className="flex items-center w-full">
-            <FormField
-              name="search"
-              control={form.control}
-              render={() => (
-                <div className="flex items-center border rounded-s-lg rounded-e-none bg-background w-full">
-                  <FormControl className="px-4">
-                    <Input
-                      className="h-full rounded-e-none border-none ring-0 py-1 focus-visible::ring-0 focus-visible:outline-none"
-                      placeholder="Search anything..."
-                      value={search}
-                      onInput={(e) => setSearch(e.currentTarget.value)}
-                    />
-                  </FormControl>
-                  <Button
-                    type="button"
-                    onClick={() => setSearch("")}
-                    className={cn(
-                      "px-1 bg-transparent text-secondary-foreground hover:bg-transparent",
-                      { "opacity-0 pointer-events-none": !search }
-                    )}
-                  >
-                    <FaTimes />
-                  </Button>
-                </div>
-              )}
-            />
-
-            <Button type="button" className="rounded-s-none">
-              <FaSearch />
-            </Button>
-          </form>
-        </Form>
+        <div className="relative">
+          <Form {...form}>
+            <form className="flex items-center w-full">{searchField()}</form>
+          </Form>
+          {suggestionArea()}
+        </div>
       ) : (
         <Dialog>
           <DialogTrigger
@@ -78,137 +141,19 @@ const SearchBox = ({ type = "guest" }: { type?: "guest" | "user" }) => {
             </Button>
           </DialogTrigger>
 
-          <DialogContent className="flex flex-col justify-center max-h-screen">
-            {/* <DialogClose className="ml-auto text-secondary bg-red hover:text-secondary hover:bg-red hover:brightness-95"> <FaTimes /></DialogClose> */}
-
+          <DialogContent className="flex flex-col justify-center max-h-screen top-[10%]">
             <div className="relative mt-4">
               <DialogHeader>
                 <DialogTitle>
                   <Form {...form}>
-                    <form className="flex items-center w-full bg-secondary">
-                      <FormField
-                        name="search"
-                        control={form.control}
-                        render={() => (
-                          <div className="flex items-center border rounded-s-lg rounded-e-none bg-transparent w-full">
-                            <FormControl className="px-4">
-                              <Input
-                                className="h-full bg-transparent rounded-e border-0 outline-0 ring-0 py-1 focus-visible:ring-0 focus-visible:outline-none"
-                                placeholder="Search anything..."
-                                value={search}
-                                onInput={(e) =>
-                                  setSearch(e.currentTarget.value)
-                                }
-                              />
-                            </FormControl>
-                            <Button
-                              type="button"
-                              onClick={() => setSearch("")}
-                              className={cn(
-                                "px-1 bg-transparent text-secondary-foreground hover:bg-transparent",
-                                { "opacity-0 pointer-events-none": !search }
-                              )}
-                            >
-                              <FaTimes />
-                            </Button>
-                          </div>
-                        )}
-                      />
-
-                      <Button
-                        type="button"
-                        variant={"transparent"}
-                        className=""
-                      >
-                        <FaSearch />
-                      </Button>
+                    <form className="flex items-center w-full bg-secondary *:w-full">
+                      {searchField()}
                     </form>
                   </Form>
                 </DialogTitle>
               </DialogHeader>
 
-              {/* Download scrollable area for this  */}
-              <DialogFooter className="absolute top-14 bg-background w-full">
-                {search ? (
-                  <ScrollArea className=" h-[300px] w-full">
-                    <div className="flex flex-col">
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary "
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        The best content production course Lorem ipsum dolor sit
-                        amet consectetur.
-                      </NavLink>
-                      <NavLink
-                        to={`/search?keyword=search1`}
-                        className="py-3 px-4 pr-8 w-full text-lg overflow-x-hidden text-nowrap hover:bg-secondary"
-                      >
-                        Affiliate marketing in 5 mins
-                      </NavLink>
-                    </div>
-                  </ScrollArea>
-                ) : (
-                  <p className="w-full p-4 text-lg">
-                    Type to see suggestions...
-                  </p>
-                )}
-              </DialogFooter>
+              {suggestionArea("top-full left-[0px] right-0")}
             </div>
           </DialogContent>
         </Dialog>

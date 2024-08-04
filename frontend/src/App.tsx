@@ -17,8 +17,8 @@ import AuthOutletLayout from "./layouts/AuthOutletLayout";
 import LearnPlay from "./layouts/courses/LearnPlay";
 import About from "./pages/About";
 import MyCourses from "./layouts/courses/MyCourses";
-import { Toaster } from "@/components/ui/sonner"
-
+import { Toaster } from "@/components/ui/sonner";
+import Instructor from "./layouts/instructors/Instructor";
 
 const App = () => {
   return (
@@ -34,10 +34,7 @@ const App = () => {
             {/* COURSES ROUTE */}
             <Route path="courses" element={<Courses />}>
               <Route path="top" element={<TopCourses page="self" />} />
-              <Route
-                path="recent"
-                element={<RecentCourses page="self" />}
-              />
+              <Route path="recent" element={<RecentCourses page="self" />} />
               <Route path="course/:id" element={<CoursePreview />} />
               <Route path="my-courses" element={<MyCourses />} />
               <Route path="my-courses/:id" element={<LearnPlay />} />
@@ -56,7 +53,9 @@ const App = () => {
             </Route>
 
             {/* INSTRUCTORS ROUTE */}
-            <Route path="instructors" element={<Instructors />} />
+            <Route path="instructors" element={<Instructors />}>
+              <Route path="instructor/:id" element={<Instructor />} />
+            </Route>
 
             {/* USER ROUTES */}
             <Route path="/user/:id" element={<h1>User</h1>} />
@@ -74,9 +73,7 @@ const App = () => {
           </Route>
         </Routes>
         <Toaster />
-
       </Router>
-
     </ThemeProvider>
   );
 };

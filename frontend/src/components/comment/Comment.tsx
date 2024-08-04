@@ -42,7 +42,7 @@ const Comment = ({ page, postId, comment }: CommentProps) => {
                 0,
                 isShorten ? 300 : currentComment.comment.length
               )}
-              {isShorten && "..."}{" "}
+              {isShorten && "..."}
             </p>
             {currentComment.comment.length > 299 && (
               <Button
@@ -50,7 +50,7 @@ const Comment = ({ page, postId, comment }: CommentProps) => {
                 className="p-0 text-blue"
                 onClick={() => setIsShorten(!isShorten)}
               >
-                {isShorten ? "Show more" : "Show Less"}{" "}
+                {isShorten ? "Show more" : "Show Less"}
                 <ChevronUp className={cn("", { "rotate-180": isShorten })} />
               </Button>
             )}

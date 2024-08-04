@@ -29,7 +29,7 @@ const CourseCard = ({ className = "", course }: CoursesCardProps) => {
     >
       <CardHeader className="p-0 relative mb-auto">
         <div className="overflow-hidden">
-          <NavLink to={`course/${course.id}/`}>
+          <NavLink to={`/courses/course/${course.id}/`}>
             <img
               src={course.thumbnail}
               className="h-[250px] w-full object-cover hover:scale-125 transition-transform"
@@ -39,7 +39,7 @@ const CourseCard = ({ className = "", course }: CoursesCardProps) => {
         </div>
 
         <div className="flex flex-col">
-          <NavLink to={`course/${course.id}/`}>
+          <NavLink to={`/courses/course/${course.id}/`}>
             <CardTitle className="capitalize text-low-contrast text-base font-bold font-montserrat px-5">
               {course.title.length > 45
                 ? course.title.slice(0, 45) + "..."
