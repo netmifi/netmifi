@@ -31,15 +31,22 @@ const CustomFormField = ({
       defaultValue={defaultValue}
       disabled={disabled}
       render={({ field }) => (
-        <FormItem className="form-item" hidden={hidden}>
-          <div className="w-full flex flex-col gap-1">
-            <FormLabel className="capitalize">
-              {!isNotLabeled ? label || splitCamelCaseToWords(name) : ""}
-            </FormLabel>
+        <FormItem className={cn({ "form-item": !hidden })} hidden={hidden}>
+          <div
+            className={cn({
+              "form-field": !isNotLabeled,
+              "unlabeled-form-field": isNotLabeled,
+            })}
+          >
+            {!isNotLabeled && (
+              <FormLabel className="capitalize">
+                {label || splitCamelCaseToWords(name)}
+              </FormLabel>
+            )}
             <FormControl>
               {type === "textarea" ? (
                 <Textarea
-                  rows={textareaType === "comment" ? 1 : 5}
+                  // rows={textareaType === "comment" ? 1 : 5}
                   placeholder={placeholder}
                   className={cn("resize-none", {
                     "min-h-1 border-e-0 border-s-0 border-t-0 border-b-2 focus-visible:ring-transparent focus-visible:border-b-base-foreground":
@@ -68,7 +75,6 @@ const CustomFormField = ({
                 </div>
               ) : (
                 <Input
-                  className="border-none focus-visible:ring-secondary focus-visible:ring-1 focus-visible:border-0 bg-secondary focus-visible:bg-transparent"
                   placeholder={placeholder}
                   {...field}
                   type={

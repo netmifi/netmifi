@@ -227,4 +227,31 @@
   .hover-item-container {
     @apply absolute bg-transparent-black flex items-center w-full top-full bottom-0 text-white/80 shadow-xl shadow-primary transition-all delay-200;
   }
+
+  .form-item {
+    @apply flex flex-col;
+  }
+  .form-item .form-field {
+    @apply relative bg-secondary rounded-lg border border-primary/20 overflow-hidden focus-within:overflow-visible;
+  }
+
+  .form-item .form-field label {
+    @apply px-3 bg-secondary flex items-center text-sm absolute inset-0 w-full h-full;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .form-item .form-field:focus-within label {
+    @apply px-1 py-px text-xs -top-4 left-[1.5%] w-fit h-fit shadow-sm;
+  }
+
+  .form-item .form-field input {
+    @apply px-3 pb-2 pt-4 bg-transparent border-0 rounded-none focus-visible:outline-0;
+    transition: all 0.2s ease-in-out;
+  }
+  .form-item .unlabeled-form-field {
+    @apply bg-secondary rounded-lg border border-primary/20 overflow-hidden focus-within:overflow-visible;
+  }
+  .form-item .unlabeled-form-field input {
+    @apply bg-transparent focus-visible:outline-0;
+  }
 }
