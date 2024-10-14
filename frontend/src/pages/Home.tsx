@@ -13,11 +13,12 @@ import {
 } from "@/constants/temp";
 import RecentCourses from "@/layouts/courses/RecentCourses";
 import TopCourses from "@/layouts/courses/TopCourses";
-import { convertToReadableNumber } from "@/lib/utils";
+import { cn, convertToReadableNumber } from "@/lib/utils";
 import { useStoreState } from "@/store/store";
 import { ArrowDownIcon } from "lucide-react";
-import { useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { useRef, useState } from "react";
+import { NavLink, useAsyncValue } from "react-router-dom";
+// import CountUp from "react-countup";
 
 const Home = () => {
   const isAuth = useStoreState((state) => state.auth.isAuth);
@@ -25,6 +26,7 @@ const Home = () => {
   const greetingPhrases = [
     "Ahoy There",
     "Hi There",
+    "Hello There",
     "Good to See You",
     "Welcome Back",
   ];
@@ -36,6 +38,21 @@ const Home = () => {
   const handleHandleExplore = () => {
     exploreSectionRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
+  const [isCountEnded, setIsCountEnded] = useState(false);
+  const netmifiNumbers = [
+    {
+      count: 152020,
+      label: "students",
+    },
+    {
+      count: 28020,
+      label: "online courses",
+    },
+    {
+      count: 6820,
+      label: "certified",
+    },
+  ];
 
   return (
     <main className="flex flex-col gap-16">
@@ -73,27 +90,31 @@ const Home = () => {
             </Button>
 
             <div className="flex gap-3">
-              <div className="flex flex-col items-center">
-                <h4 className="w-full  text-center font-bold text-xl pb-px border-b-2 border-b-gray-500">
-                  {convertToReadableNumber(5000) + "+"}
-                </h4>
+              {netmifiNumbers.map((item) => (
+                <div key={item.label} className="flex flex-col items-center">
+                  <h4 className="w-full  text-center font-bold text-xl pb-px border-b-2 border-b-gray-500">
+                    {/* <CountUp
+                      enableScrollSpy
+                      duration={5}
+                      scrollSpyDelay={2}
+                      end={item.count}
+                      start={0}
+                      startOnMount
+                      scrollSpyOnce
+                      onEnd={() => {
+                        setIsCountEnded(true);
+                        console.log("ended");
+                      }}
+                      className={cn({ hidden: isCountEnded })}
+                    /> */}
 
-                <p className="font-montserrat">Students</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <h4 className="w-full  text-center font-bold text-xl pb-px border-b-2 border-b-gray-500">
-                  {convertToReadableNumber(250000) + "+"}
-                </h4>
-
-                <p className="font-montserrat">Online courses</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <h4 className="w-full  text-center font-bold text-xl pb-px border-b-2 border-b-gray-500">
-                  {convertToReadableNumber(5000) + "+"}
-                </h4>
-
-                <p className="font-montserrat">Certified</p>
-              </div>
+                    {isCountEnded && (
+                      <>{convertToReadableNumber(item.count) + "+"}</>
+                    )}
+                  </h4>
+                  <p className="font-montserrat">{item.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         }

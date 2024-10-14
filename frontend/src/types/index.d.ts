@@ -191,12 +191,14 @@ declare interface CustomFormFieldProps {
   textareaType?: 'comment' | 'normal';
   placeholder?: string;
   isPasswordVisible?: boolean;
+  inputType?: React.HTMLInputTypeAttribute;
   label?: string;
   isNotLabeled?: boolean;
   defaultValue?: string | number;
   value?: string | number;
   disabled?: boolean;
   hidden?: boolean;
+  readOnly?: boolean;
 }
 
 declare interface CommentTemplateProps {

@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 
 import { cn, splitCamelCaseToWords } from "@/lib/utils";
 import { Textarea } from "../ui/textarea";
+import { useState } from "react";
+import { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form";
+import { z } from "zod";
 const CustomFormField = ({
   control,
   name,
@@ -16,14 +19,30 @@ const CustomFormField = ({
   textareaType = "normal",
   isPasswordVisible,
   placeholder = "",
+  inputType = "",
   label = "",
   isNotLabeled = false,
   defaultValue = "",
   value = "",
   disabled = false,
   hidden = false,
+  readOnly = false,
 }: CustomFormFieldProps) => {
   const isContactField = name === "phone";
+
+  const [inputValue, setInputValue] = useState(value || defaultValue || "");
+
+  const handleInputValue = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: ControllerRenderProps<FieldValues, FieldPath<z.infer<any>>>
+  ) => {
+    const value = e.currentTarget.value;
+    console.log(field.value);
+
+    field.onChange(e);
+    setInputValue(value);
+  };
+
   return (
     <FormField
       control={control}
@@ -36,6 +55,7 @@ const CustomFormField = ({
             className={cn({
               "form-field": !isNotLabeled,
               "unlabeled-form-field": isNotLabeled,
+              filled: !isNotLabeled && field.value,
             })}
           >
             {!isNotLabeled && (
@@ -46,31 +66,33 @@ const CustomFormField = ({
             <FormControl>
               {type === "textarea" ? (
                 <Textarea
-                  // rows={textareaType === "comment" ? 1 : 5}
                   placeholder={placeholder}
                   className={cn("resize-none", {
                     "min-h-1 border-e-0 border-s-0 border-t-0 border-b-2 focus-visible:ring-transparent focus-visible:border-b-base-foreground":
                       textareaType === "comment",
                   })}
+                  readOnly={readOnly}
+                  // value={inputValue}
+                  // onChange={(e) => handleInputValue(e, field)}
+                  hidden={hidden}
                   {...field}
-                  value={value || field.value || ""}
                 />
               ) : isContactField ? (
                 <div className="contact-input">
                   <div className=" inset-y-0 left-0 flex items-center">
-                    <span className="text-white bg-primary rounded-xl px-3 py-2 ">
+                    <span className="text-white bg-primary rounded-0 px-3 py-2 ">
                       +234
                     </span>
                   </div>
                   <Input
                     type="tel"
-                    name={name}
                     placeholder={placeholder}
                     hidden={hidden}
-                    value={value || field.value || ""}
-                    onChange={field.onChange}
-                    readOnly={true}
-                    className="border-none focus-visible:ring-0 bg-secondary focus-visible:bg-transparent"
+                    readOnly={readOnly}
+                    {...field}
+
+                    // onChange={handleInputValue}
+                    // className="border-none focus-visible:ring-0 bg-secondary focus-visible:bg-transparent"
                   />
                 </div>
               ) : (
@@ -84,8 +106,11 @@ const CustomFormField = ({
                       ? "password"
                       : "text"
                   }
-                  value={value || field.value || ""}
-                  onChange={field.onChange}
+                  hidden={hidden}
+                  readOnly={readOnly}
+                  // value={inputValue}
+                  // onChange={(e) => handleInputValue(e, field)}
+                  // {...field}
                 />
               )}
             </FormControl>

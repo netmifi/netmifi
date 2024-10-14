@@ -26,9 +26,10 @@ const twConfig = {
     // },
     extend: {
       fontFamily: {
+        "dm-sans": ["Dm Sans", "sans-serif"], // Heading/important font
         poppins: ["Poppins", "sans-serif"], // Heading/important font
         montserrat: ["Montserrat", "sans-serif"], //Body/paragraph font
-        dancingScript: ["Dancing Script", "cursive"], // script font
+        "dancing-script": ["Dancing Script", "cursive"], // script font
       },
       colors: {
         border: "hsl(var(--border))",
@@ -96,10 +97,15 @@ const twConfig = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
     },
   },

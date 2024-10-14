@@ -1,5 +1,5 @@
 import { EmailSubscriptionSvg } from "@/assets/svg";
-import { newsletterFormSchema } from "@/lib/utils";
+import { onlyEmailFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,13 +13,14 @@ import { toast } from "sonner";
 const Newsletter = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const formSchema = newsletterFormSchema();
+  const formSchema = onlyEmailFormSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const handleSubmit = (email: string) => {
     setIsLoading(true);
+    console.log(email);
 
     setTimeout(() => {
       setIsLoading(false);
@@ -58,6 +59,7 @@ const Newsletter = () => {
               name="email"
               label="Enter email address"
               placeholder="eg. johndoe.demo.com"
+              value={" johndoe.demo.com"}
             />
 
             <Button disabled={isLoading}>

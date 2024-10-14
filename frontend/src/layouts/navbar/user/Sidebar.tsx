@@ -9,6 +9,7 @@ import useWindowSize from '@/hooks/useWindowSize';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { FaFile, FaMicrophone } from 'react-icons/fa6';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { File, HelpCircleIcon, MicIcon, Phone, Users } from 'lucide-react';
 
 
 const Sidebar = () => {
@@ -72,15 +73,23 @@ const Sidebar = () => {
                             isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
                         } >
                             <div className=" flex items-center text-xl gap-3">
-                                <FaUsers />
+                                <Users />
                                 <span>About Us</span>
+                            </div>
+                        </NavLink>
+                        <NavLink to={'/contact'} className={({ isActive, isPending }) =>
+                            isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
+                        } >
+                            <div className=" flex items-center text-xl gap-3">
+                                <Phone />
+                                <span>Contact Us</span>
                             </div>
                         </NavLink>
                         <NavLink to={'/help'} className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
                         } >
                             <div className=" flex items-center text-xl gap-3">
-                                <AiFillQuestionCircle />
+                                <HelpCircleIcon />
                                 <span>Help</span>
                             </div>
                         </NavLink>
@@ -88,7 +97,7 @@ const Sidebar = () => {
                             isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
                         } >
                             <div className=" flex items-center text-xl gap-3">
-                                <FaMicrophone />
+                                <MicIcon />
                                 <span>Feedback</span>
                             </div>
                         </NavLink>
@@ -96,7 +105,7 @@ const Sidebar = () => {
                             isPending ? "pending" : isActive ? "relative text-red *:after:content-[''] *:after:absolute *:after:right-0 *:after:block *:after:w-1 *:after:h-7 *:after:bg-custom-red" : ""
                         } >
                             <div className=" flex items-center text-xl gap-3">
-                                <FaFile />
+                                <File />
                                 <span>Privacy Policy</span>
                             </div>
                         </NavLink>

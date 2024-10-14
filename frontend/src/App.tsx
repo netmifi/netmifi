@@ -19,17 +19,28 @@ import About from "./pages/About";
 import MyCourses from "./layouts/courses/MyCourses";
 import { Toaster } from "@/components/ui/sonner";
 import Instructor from "./layouts/instructors/Instructor";
+import Contact from "./pages/Contact";
+import Help from "./pages/Help";
+import Feedback from "./pages/Feedback";
+import SignUp from "./pages/auth/SignUp";
+import SignIn from "./pages/auth/SignIn";
+import OTPVerification from "./pages/auth/OTPVerification";
+import ForgotPassword from "./pages/auth/forgot-password/ForgotPassword";
+import ViaEmail from "./pages/auth/forgot-password/ViaEmail";
+import NewPassword from "./pages/auth/forgot-password/NewPassword";
+import Welcome from "./pages/auth/welcome/Welcome";
+import Interest from "./pages/auth/welcome/Interest";
 
 const App = () => {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <Router>
         <Routes>
           {/* ROOT ROUTES */}
           <Route path="/" element={<AppOutletLayout />}>
             <Route path="home" element={<Home />} />
 
-            <Route path="contact" element={<h1>Contact</h1>} />
+            <Route path="contact" element={<Contact />} />
 
             {/* COURSES ROUTE */}
             <Route path="courses" element={<Courses />}>
@@ -61,6 +72,12 @@ const App = () => {
             <Route path="/user/:id" element={<h1>User</h1>} />
             <Route path="/user/:id/courses" element={<h1>Recent Courses</h1>} />
 
+            {/* HELP ROUTE */}
+            <Route path="/help" element={<Help />} />
+
+            {/* FEEDBACK ROUTE */}
+            <Route path="/feedback" element={<Feedback />} />
+
             {/* 404 page ROUTES */}
             <Route path="*" element={<NotFound />} />
             <Route path="404" element={<NotFound />} />
@@ -68,8 +85,18 @@ const App = () => {
 
           {/* AUTH ROUTES */}
           <Route path="/auth" element={<AuthOutletLayout />}>
-            <Route path="signin" element={<h1>Auth signin</h1>} />
-            <Route path="signup" element={<h1>Auth signup</h1>} />
+            <Route path="sign-in" element={<SignIn />} />
+            <Route path="sign-up" element={<SignUp />} />
+            <Route path="otp-verification" element={<OTPVerification />} />
+            {/* <Route path="verification-type" element={<OTPVerification />} /> */}
+            <Route path="forgot-password" element={<ForgotPassword />}>
+              <Route path="via-email" element={<ViaEmail />} />
+              <Route path="new-password" element={<NewPassword />} />
+            </Route>
+
+            <Route path={"welcome"} element={<Welcome />}>
+              <Route path={"interest"} element={<Interest />} />
+            </Route>
           </Route>
         </Routes>
         <Toaster />

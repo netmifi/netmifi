@@ -8,6 +8,7 @@ export { default as DigitalMarketingSvg } from './digital-marketing.svg';
 export { default as EmailMarketingSvg } from './email-marketing.svg';
 export { default as EmailSubscriptionSvg } from './email-subscription.svg';
 export { default as GetStartedSvg } from './get-started.svg';
+export { default as GoogleIconSvg } from './google-icon.svg';
 export { default as HelpCenterSvg } from './help-center.svg';
 export { default as HomeSvg } from './home.svg';
 export { default as IllustrationsSvg } from './illustrations.svg';

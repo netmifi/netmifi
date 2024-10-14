@@ -1,6 +1,6 @@
 // THIS COMPONENT IS FOR REUSABLE SEARCH BOX ON THE NAVBAR
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { cn, searchFormSchema } from "@/lib/utils";
@@ -17,7 +17,6 @@ import {
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { z } from "zod";
-import { PopoverPortal } from "@radix-ui/react-popover";
 import { Search, X } from "lucide-react";
 import { ClassValue } from "class-variance-authority/types";
 

@@ -9,6 +9,10 @@
 }
 
 @font-face {
+  font-family: "Dm Sans";
+  src: url(./assets/fonts/DM_Sans/DMSans-Regular.ttf);
+}
+@font-face {
   font-family: "Montserrat";
   src: url(./assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
 }
@@ -20,8 +24,14 @@
 
 @layer base {
   * {
-    @apply border-border font-poppins;
+    @apply border-border font-dm-sans;
+    scrollbar-width: thin;
   }
+  
+  body {
+    @apply bg-background text-foreground;
+  }
+
   :root {
     --background: 0 0% 98.3%;
     --foreground: 222.2 84% 4.9%;
@@ -145,17 +155,6 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border font-poppins;
-    scrollbar-width: thin;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 @layer components {
   .max-container {
     /* max-width: 1440px; */
@@ -232,11 +231,11 @@
     @apply flex flex-col;
   }
   .form-item .form-field {
-    @apply relative bg-secondary rounded-lg border border-primary/20 overflow-hidden focus-within:overflow-visible;
+    @apply relative bg-primary-foreground rounded-lg border border-primary/20 overflow-hidden focus-within:overflow-visible;
   }
 
   .form-item .form-field label {
-    @apply px-3 bg-secondary flex items-center text-sm absolute inset-0 w-full h-full;
+    @apply px-3 bg-primary-foreground flex items-center text-sm absolute inset-0 w-full h-full;
     transition: all 0.2s ease-in-out;
   }
 
@@ -253,5 +252,13 @@
   }
   .form-item .unlabeled-form-field input {
     @apply bg-transparent focus-visible:outline-0;
+  }
+
+  .form-item .form-field.filled {
+    @apply overflow-visible;
+  }
+
+  .form-item .form-field.filled label {
+    @apply px-1 py-px text-xs -top-4 left-[1.5%] w-fit h-fit shadow-sm;
   }
 }

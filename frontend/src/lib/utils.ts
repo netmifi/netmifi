@@ -20,8 +20,8 @@ export const convertToReadableNumber = (number: number) => {
     return (number / 1000000).toFixed(1) + 'm';
   else if (number <= 999000000000)
     return (number / 1000000000).toFixed(1) + 'B';
-  else (number <= 999000000000000)
-  return (number / 1000000000000).toFixed(1) + 'T';
+  else
+    return (number / 1000000000000).toFixed(1) + 'T';
 }
 
 export const convertToReadableTime = (timeInSeconds: number) => {
@@ -49,9 +49,47 @@ export const getFirstLettersForProfile = (name: string) => {
 }
 
 // --- DEFINE SCHEMAS
-export const newsletterFormSchema = () =>
+
+export const authFormSchema = (type: 'sign-in' | 'sign-up') =>
+  z.object({
+    firstName:
+      type === "sign-up"
+        ? z.string().min(3, {
+          message: "First Name must be at least 3 characters.",
+        })
+        : z.string().optional(),
+    lastName:
+      type === "sign-up"
+        ? z.string().min(3, {
+          message: "Last Name must be at least 3 characters.",
+        })
+        : z.string().optional(),
+    // phone:
+    //   type === "sign-up"
+    //     ? z
+    //       .string()
+    //       .min(10, { message: "Must be a valid mobile number" })
+    //       .max(14, { message: "Must be a valid mobile number" })
+    //     : z.string().optional(),
+    email: z
+      .string()
+      .email({ message: "Must be a valiid email eg. demo@demo.com" }),
+    password: z.string().min(8, { message: "Password cannot be less than 8 characters" }),
+  });
+
+
+export const onlyEmailFormSchema = () =>
   z.object({
     email: z.string().email({ message: 'Must be a valid email eg. myname@example.com' })
+  });
+export const onlyPasswordFormSchema = () =>
+  z.object({
+    password: z.string().min(8, { message: "Password cannot be less than 8 characters" }),
+  });
+
+export const onlyOTPFormSchema = () =>
+  z.object({
+    otp: z.string().min(5)
   });
 
 export const searchFormSchema = () =>
@@ -81,3 +119,11 @@ export const createCollectionFormSchema = () =>
     courseId: z.string()
   });
 
+
+export const contactUsEmailFormSchema = () =>
+  z.object({
+    name: z.string().min(3, { message: 'Name cannot be less than 3 characters' }),
+    email: z.string().email({ message: 'Must be a valid email' }),
+    title: z.string().min(3, { message: 'Title cannot be less than 3 characters' }),
+    message: z.string().min(5, { message: 'Message cannot be less than 5 characters' }),
+  });

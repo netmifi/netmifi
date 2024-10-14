@@ -1,4 +1,5 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
+import { BookUserIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, TagIcon, UsersIcon, Wallet2 } from "lucide-react";
 import {
   AiFillInfoCircle,
   AiFillPhone,
@@ -13,7 +14,7 @@ const navLinks: NavLinks[] = [
   {
     href: "/home",
     label: "Home",
-    icon: FaHome,
+    icon: HomeIcon,
     onlyUser: false,
     onlyGuest: false,
     onlySmallScreen: false,
@@ -21,7 +22,7 @@ const navLinks: NavLinks[] = [
   {
     href: "/dashboard",
     label: "Dashboard",
-    icon: AiOutlineDashboard,
+    icon: LayoutDashboard,
     onlyUser: true,
     onlyGuest: false,
     onlySmallScreen: false,
@@ -29,7 +30,7 @@ const navLinks: NavLinks[] = [
   {
     href: "/courses",
     label: "Courses",
-    icon: FaBookOpenReader,
+    icon: BookUserIcon,
     onlyUser: false,
     onlyGuest: false,
     onlySmallScreen: false,
@@ -37,7 +38,7 @@ const navLinks: NavLinks[] = [
   {
     href: "/blogs",
     label: "Blogs",
-    icon: AiFillInfoCircle,
+    icon: InfoIcon,
     onlyUser: false,
     onlyGuest: false,
     onlySmallScreen: false,
@@ -45,7 +46,7 @@ const navLinks: NavLinks[] = [
   {
     href: "/pricing",
     label: "Pricing",
-    icon: FaMoneyBill,
+    icon: Wallet2,
     onlyUser: false,
     onlyGuest: false,
     onlySmallScreen: false,
@@ -61,7 +62,7 @@ const navLinks: NavLinks[] = [
   {
     href: "/about",
     label: "About",
-    icon: FaUsers,
+    icon: UsersIcon,
     onlyUser: false,
     onlyGuest: true,
     onlySmallScreen: false,
@@ -69,7 +70,7 @@ const navLinks: NavLinks[] = [
   {
     href: "/contact",
     label: "Contact",
-    icon: AiFillPhone,
+    icon: PhoneIcon,
     onlyUser: false,
     onlyGuest: true,
     onlySmallScreen: false,

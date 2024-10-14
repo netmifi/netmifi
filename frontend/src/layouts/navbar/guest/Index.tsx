@@ -47,7 +47,7 @@ const GuestNavbar = () => {
 
             <div className="flex gap-1">
                 <SearchBox type="guest" />
-                <Button className="bg-red"><NavLink to="auth/signin">Signin</NavLink></Button>
+                <Button className="bg-red"><NavLink to="/auth">Signin</NavLink></Button>
             </div>
 
             <Button onClick={() => setNavState(true)} className='md:hidden bg-transparent text-low-contrast text-lg rounded-full hover:bg-primary-foreground'>
