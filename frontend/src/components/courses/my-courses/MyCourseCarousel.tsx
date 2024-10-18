@@ -21,8 +21,12 @@ const MyCourseCarousel = ({ className, data }: MyCourseCarouselProps) => {
           Purchased Courses
         </h3>
 
-        <Button className="rounded-none *:flex *:items-center">
-          <NavLink to={"/courses/my-courses"}>
+        <Button
+          variant={"transparent"}
+          className="border border-red text-red hover:bg-red hover:text-popover rounded-2xl *:flex *:items-center"
+          asChild
+        >
+          <NavLink to={"/courses/my-courses"} className="flex gap-2">
             <span>My courses</span> <AiOutlineArrowRight />
           </NavLink>
         </Button>

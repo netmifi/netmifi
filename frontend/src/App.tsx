@@ -30,6 +30,9 @@ import ViaEmail from "./pages/auth/forgot-password/ViaEmail";
 import NewPassword from "./pages/auth/forgot-password/NewPassword";
 import Welcome from "./pages/auth/welcome/Welcome";
 import Interest from "./pages/auth/welcome/Interest";
+import Profile from "./pages/account/Profile";
+import Settings from "./pages/account/Settings";
+import SignInstructor from "./pages/auth/welcome/SignInstructor";
 
 const App = () => {
   return (
@@ -75,6 +78,10 @@ const App = () => {
             {/* HELP ROUTE */}
             <Route path="/help" element={<Help />} />
 
+
+            <Route path="/account/profile" element={<Profile />} />
+            <Route path="/account/settings" element={<Settings />} />
+
             {/* FEEDBACK ROUTE */}
             <Route path="/feedback" element={<Feedback />} />
 
@@ -95,6 +102,7 @@ const App = () => {
             </Route>
 
             <Route path={"welcome"} element={<Welcome />}>
+            <Route path="instructor-application" element={<SignInstructor />} />
               <Route path={"interest"} element={<Interest />} />
             </Route>
           </Route>

@@ -41,7 +41,7 @@ const SignUp = () => {
         },
       });
 
-      toast("Redirecting... A verification code has been sent to your email ", {
+      toast("A verification code has been sent to your email ", {
         duration: 4000,
         richColors: true,
         dismissible: true,

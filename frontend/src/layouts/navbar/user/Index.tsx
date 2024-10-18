@@ -3,7 +3,7 @@ import SearchBox from "@/components/navbar/SearchBox";
 import { Button } from "@/components/ui/button";
 import { useStoreActions, useStoreState } from "@/store/store";
 import { FaBars, FaEllipsis, FaTrash } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import NavbarPopover from "@/components/navbar/NavbarPopover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,6 +15,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
+import LogoutModal from "@/components/LogoutModal";
 
 const UserNavbar = () => {
   const { width } = useWindowSize();
@@ -70,15 +80,63 @@ const UserNavbar = () => {
           <NavbarPopover type="cart" counter={50} />
           <NavbarPopover type="message" counter={50} />
 
-          <NavLink to="/user/:username" className="flex items-center">
-            <Avatar>
-              <AvatarImage src={profile} />
-              <AvatarFallback>NM</AvatarFallback>
-            </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center">
+              <Avatar>
+                <AvatarImage src={profile} />
+                <AvatarFallback>NM</AvatarFallback>
+              </Avatar>
 
-            <p className="capitalize text-sm hidden md:block">thompson</p>
-          </NavLink>
-          <ModeToggle />
+              <p className="capitalize text-sm hidden md:block">thompson</p>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <div className="flex flex-col gap-1">
+                <NavLink
+                  to={"/account/profile"}
+                  className={({ isActive }) =>
+                    isActive ? "w-full *:border-red *:bg-destructive/40" : ""
+                  }
+                >
+                  <Button
+                    variant={"secondary"}
+                    className=" w-full flex gap-3 px-10 border border-secondary hover:border-red hover:bg-destructive/40"
+                  >
+                    <UserIcon /> Profile
+                  </Button>
+                </NavLink>
+
+                <NavLink
+                  to={"/account/settings"}
+                  className={({ isActive }) =>
+                    isActive ? "w-full *:border-red *:bg-destructive/40" : ""
+                  }
+                >
+                  <Button
+                    variant={"secondary"}
+                    className=" w-full flex gap-3 px-10 border border-secondary hover:border-red hover:bg-destructive/40"
+                  >
+                    <SettingsIcon />
+                    Settings
+                  </Button>
+                </NavLink>
+                <LogoutModal
+                  triggerChild={
+                    <Button
+                      variant={"secondary"}
+                      className="px-10 flex gap-3 border border-secondary hover:border-red hover:bg-destructive/40"
+                    >
+                      <LogOutIcon />
+                      Logout
+                    </Button>
+                  }
+                />
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* <ModeToggle /> */}
         </div>
       </div>
 

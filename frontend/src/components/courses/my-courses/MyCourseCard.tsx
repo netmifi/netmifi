@@ -12,12 +12,12 @@ import { cn } from "@/lib/utils";
 import {
   EllipsisVertical,
   ListPlusIcon,
-  PlayCircle,
   Share2Icon,
   Star,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import CreateListDialog from "./CreateListDialog";
+import { FaPlayCircle } from "react-icons/fa";
 
 const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
   const collections = [
@@ -46,7 +46,7 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
               className="h-[190px] w-full object-cover hover:scale-125 transition-transform"
               alt=""
             />
-            <PlayCircle className="size-20 absolute top-[30%] left-[40%] opacity-80 fill-secondary text-low-contrast" />
+            <FaPlayCircle className="size-10 absolute top-[30%] left-[40%] opacity-80 fill-popover " />
           </NavLink>
         </div>
 
@@ -130,7 +130,6 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
                         Create list
                       </Button>
                     }
-
                     courseId={course.id}
                   />
                   <Button

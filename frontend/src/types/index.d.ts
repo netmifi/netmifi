@@ -201,6 +201,17 @@ declare interface CustomFormFieldProps {
   readOnly?: boolean;
 }
 
+declare interface CustomFormSelectProps
+  extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+  defaultOption?: string;
+  options: string[];
+}
+
+declare interface CountryFormSelect extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+  form: UseFormReturn<z.infer<typeof form>>
+  countries: { name: string, dial_code: string, code: string, flag: string }[];
+}
+
 declare interface CommentTemplateProps {
   page: "blog" | "course";
   id: string;

@@ -23,8 +23,8 @@ const Welcome = () => {
         className="w-[7rem] mt-8"
         alt="logo"
       />
-      <Card className="w-full min-w-full md:min-w-[70%] md:w-[70%]">
-        <CardContent className="px-1">
+      <Card className="px-0 w-full min-w-full md:min-w-[70%] md:w-[70%]">
+        <CardContent className="px-[0.5px]">
           <CardHeader className="items-start">
             <Button
               variant={"secondary"}
@@ -66,7 +66,7 @@ const Welcome = () => {
                     </p>
                   </Link>
                   <Link
-                    to="/auth/become-instructor"
+                    to="/auth/welcome/instructor-application"
                     className="flex flex-col gap-5 shadow-md p-5 rounded-xl"
                   >
                     <div className="flex justify-between gap-5 items-center">

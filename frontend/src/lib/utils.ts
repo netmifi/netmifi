@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+import validator from "validator";
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -127,3 +128,11 @@ export const contactUsEmailFormSchema = () =>
     title: z.string().min(3, { message: 'Title cannot be less than 3 characters' }),
     message: z.string().min(5, { message: 'Message cannot be less than 5 characters' }),
   });
+
+export const instructorFormSchema = () =>
+  z.object({
+    fullName: z.string(),
+    email: z.string().email({ message: 'Must be a valid email' }),
+    phone: z.string().refine(validator.isMobilePhone),
+    // country: 
+  })
