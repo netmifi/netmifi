@@ -35,7 +35,7 @@ const CountryFormSelect = ({
   defaultOption = "",
   defaultValue = "",
   countries,
-  
+  setDialCode,
 }: CountryFormSelect) => {
   return (
     <FormField
@@ -46,46 +46,49 @@ const CountryFormSelect = ({
         <FormItem className={cn("form-item")}>
           <div
             className={cn({
-              "form-field": !isNotLabeled,
+              "relative bg-primary-foreground rounded-lg border border-primary/20 overflow-hidden focus-within:overflow-visible":
+                !isNotLabeled,
               "unlabeled-form-field": isNotLabeled,
               filled: !isNotLabeled && field.value,
             })}
           >
-            {!isNotLabeled && (
+            {/* {!isNotLabeled && (
               <FormLabel className="capitalize">
                 {label || splitCamelCaseToWords(name)}
               </FormLabel>
-            )}
+            )} */}
             <Popover>
-              <PopoverTrigger asChild>
+              <PopoverTrigger asChild> 
                 <FormControl>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    className={cn(
-                      "w-full justify-between",
-                      !field.value && "text-muted-foreground"
-                    )}
-                  >
-                    {field.value
-                      ? countries.find(({ name }) => name === field.value)?.name
-                      : "Select Country"}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
+                <Button
+                  variant="transparent"
+                  type="button"
+                  role="combobox"
+                  className={cn(
+                    "w-full justify-between",
+                    !field.value && "text-muted-foreground"
+                  )}
+                >
+                  {field.value
+                    ? countries.find(({ name }) => name === field.value)?.name
+                    : "Select Country"}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
                 </FormControl>
               </PopoverTrigger>
               <PopoverContent className="w-[200px] p-0">
                 <Command>
-                  <CommandInput placeholder="Search language..." />
+                  <CommandInput placeholder="Search country..." />
                   <CommandList>
                     <CommandEmpty>No country found.</CommandEmpty>
                     <CommandGroup>
-                      {countries.map(({ name, flag, code }) => (
+                      {countries.map(({ name, flag, code, dial_code }) => (
                         <CommandItem
                           value={name}
                           key={code}
                           onSelect={() => {
                             form.setValue("country", name);
+                            setDialCode!(dial_code);
                           }}
                         >
                           <Check

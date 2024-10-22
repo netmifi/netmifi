@@ -185,6 +185,7 @@ declare interface SelfPageLayoutProps {
 }
 
 declare interface CustomFormFieldProps {
+  form?: UseFormReturn<z.infer<typeof form>>
   control: Control<z.infer<typeof formSchema>>;
   name: FieldPath<z.infer<typeof formSchema>>;
   type?: 'textarea' | 'input',
@@ -192,6 +193,7 @@ declare interface CustomFormFieldProps {
   placeholder?: string;
   isPasswordVisible?: boolean;
   inputType?: React.HTMLInputTypeAttribute;
+  URLIcon?: JSX.Element;
   label?: string;
   isNotLabeled?: boolean;
   defaultValue?: string | number;
@@ -199,6 +201,9 @@ declare interface CustomFormFieldProps {
   disabled?: boolean;
   hidden?: boolean;
   readOnly?: boolean;
+  isOptional?: boolean;
+  dialCode?: string;
+  setDialCode?: React.Dispatch<React.SetStateAction<string>>
 }
 
 declare interface CustomFormSelectProps
@@ -207,8 +212,22 @@ declare interface CustomFormSelectProps
   options: string[];
 }
 
+
+declare interface CustomMultiSelectProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+  options: string[];
+  variant?: "default" | "secondary" | "destructive" | "inverted" | null | undefined;
+  maxCount?: number;
+  animation?: number;
+  modalPopover?: boolean;
+  defaultOptions?: string[];
+  className?: string;
+}
+declare interface CustomRadioGroupProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+  group: { label: string, value: string }[];
+  setDetectedValueChange?: React.Dispatch<React.SetStateAction<string>>;
+}
+
 declare interface CountryFormSelect extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
-  form: UseFormReturn<z.infer<typeof form>>
   countries: { name: string, dial_code: string, code: string, flag: string }[];
 }
 

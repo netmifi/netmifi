@@ -1,7 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-import validator from "validator";
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -129,10 +130,49 @@ export const contactUsEmailFormSchema = () =>
     message: z.string().min(5, { message: 'Message cannot be less than 5 characters' }),
   });
 
-export const instructorFormSchema = () =>
+export const instructorFormSchema = (dialCode: string) =>
   z.object({
-    fullName: z.string(),
-    email: z.string().email({ message: 'Must be a valid email' }),
-    phone: z.string().refine(validator.isMobilePhone),
-    // country: 
-  })
+    fullName: z.string({ message: "Please input your full name" }),
+    email: z.string({ required_error: "Please input your email" }).email({ message: 'Must be a valid email' }),
+    country: z.string({ required_error: "Please select a country" }),
+    phone: z.string().refine((phoneNumber) => {
+      const phoneNumberString = `${dialCode} ${phoneNumber}`;
+      const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
+      return parsedPhoneNumber?.isValid() ?? false; // Ensure the number is valid
+    }, {
+      message: 'Invalid phone number',
+    }),
+    residentialAddress: z.string().optional(),
+    facebookHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
+    instagramHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
+    tiktokHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
+    youtubeHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
+    websiteLink: z.string().url({ message: 'Must be a valid link' }).optional(),
+
+    niche: z.string({ required_error: "Must select an area of expertise" }),
+    whyInterest: z.string().optional(),
+    taughtBefore: z.enum(["yes", "no"], {
+      required_error: "You need to select one these.",
+    }),
+    mentorshipAvailability: z.string({
+      required_error: "Must select a one of either options",
+    }),
+    mentorshipAvailabilityDays: z
+      .array(z.string().min(1))
+      .min(1).optional(),
+    fromMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
+    toMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
+    about: z.string().optional(),
+  }).refine(data => {
+    // Ensure at least one of the social media fields or website link is filled
+    return data.facebookHandle || data.instagramHandle || data.tiktokHandle || data.websiteLink;
+  }, {
+    message: 'At least one social media handle or website link must be provided',
+    path: ['facebookHandle', 'instagramHandle', 'tiktokHandle', 'websiteLink'], // Specify which fields are affected by this rule
+  }).refine(data => {
+    return data.mentorshipAvailability === 'yes'
+  }, {
+    message: "Please select at least one day, and time",
+    path: ['mentorshipAvailabilityDays', 'fromMentorTime', 'toMentorTime']
+  }
+  );

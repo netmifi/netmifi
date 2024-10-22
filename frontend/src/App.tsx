@@ -33,6 +33,7 @@ import Interest from "./pages/auth/welcome/Interest";
 import Profile from "./pages/account/Profile";
 import Settings from "./pages/account/Settings";
 import SignInstructor from "./pages/auth/welcome/SignInstructor";
+import TestPage from "./pages/TestPage";
 
 const App = () => {
   return (
@@ -77,6 +78,8 @@ const App = () => {
 
             {/* HELP ROUTE */}
             <Route path="/help" element={<Help />} />
+            <Route path="/t&c" element={<TestPage />} />
+            <Route path="/test" element={<TestPage />} />
 
 
             <Route path="/account/profile" element={<Profile />} />

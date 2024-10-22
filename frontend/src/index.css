@@ -27,7 +27,7 @@
     @apply border-border font-dm-sans;
     scrollbar-width: thin;
   }
-  
+
   body {
     @apply bg-background text-foreground;
   }
@@ -243,8 +243,12 @@
     @apply px-1 py-px text-xs -top-4 left-[1.5%] w-fit h-fit shadow-sm;
   }
 
-  .form-item .form-field input {
-    @apply px-3 pb-2 pt-4 bg-transparent border-0 rounded-none focus-visible:outline-0;
+  .form-item .form-field .field input {
+    @apply px-3 pb-2 pt-4 bg-transparent border-0 rounded-none outline-none focus-visible:outline-none;
+    transition: all 0.2s ease-in-out;
+  }
+  .form-item .form-field button {
+    @apply px-3 pb-2 pt-3 bg-transparent border-0 rounded-none outline-none focus-visible:outline-none;
     transition: all 0.2s ease-in-out;
   }
   .form-item .unlabeled-form-field {
@@ -252,6 +256,9 @@
   }
   .form-item .unlabeled-form-field input {
     @apply bg-transparent focus-visible:outline-0;
+  }
+  .form-item .unlabeled-form-field .select-trigger {
+    @apply bg-transparent focus-visible:outline-0 py-6;
   }
 
   .form-item .form-field.filled {

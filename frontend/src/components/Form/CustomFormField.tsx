@@ -12,6 +12,8 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form";
 import { z } from "zod";
+import { LinkIcon } from "lucide-react";
+import { FaAsterisk } from "react-icons/fa6";
 const CustomFormField = ({
   control,
   name,
@@ -27,8 +29,12 @@ const CustomFormField = ({
   disabled = false,
   hidden = false,
   readOnly = false,
+  isOptional = false,
+  dialCode,
+  URLIcon,
 }: CustomFormFieldProps) => {
   const isContactField = name === "phone";
+  const isHyperlinkField = inputType === "url";
 
   const [inputValue, setInputValue] = useState(value || defaultValue || "");
 
@@ -59,61 +65,55 @@ const CustomFormField = ({
             })}
           >
             {!isNotLabeled && (
-              <FormLabel className="capitalize">
+              <FormLabel className="capitalize flex gap-1">
                 {label || splitCamelCaseToWords(name)}
+                {isOptional && <FaAsterisk className="text-destructive" />}
               </FormLabel>
             )}
-            <FormControl>
-              {type === "textarea" ? (
-                <Textarea
-                  placeholder={placeholder}
-                  className={cn("resize-none", {
-                    "min-h-1 border-e-0 border-s-0 border-t-0 border-b-2 focus-visible:ring-transparent focus-visible:border-b-base-foreground":
-                      textareaType === "comment",
-                  })}
-                  readOnly={readOnly}
-                  // value={inputValue}
-                  // onChange={(e) => handleInputValue(e, field)}
-                  hidden={hidden}
-                  {...field}
-                />
-              ) : isContactField ? (
-                <div className="contact-input">
-                  <div className=" inset-y-0 left-0 flex items-center">
-                    <span className="text-white bg-primary rounded-0 px-3 py-2 ">
-                      +234
-                    </span>
-                  </div>
-                  <Input
-                    type="tel"
+
+            <div className="flex h-full w-full rounded-lg overflow-x-hidden">
+              {isContactField && (
+                <div className="bg-primary text-secondary text-sm sm:text-base flex justify-center items-center px-2">
+                  {dialCode}
+                </div>
+              )}
+              {isHyperlinkField && (
+                <div className="bg-primary text-secondary text-sm sm:text-base flex justify-center items-center px-2 *:text-sm *:size-4">
+                  {URLIcon ?? <LinkIcon />}
+                </div>
+              )}
+              <FormControl>
+                {type === "textarea" ? (
+                  <Textarea
                     placeholder={placeholder}
+                    className={cn("resize-none", {
+                      "min-h-1 border-e-0 border-s-0 border-t-0 border-b-2 focus-visible:ring-transparent focus-visible:border-b-base-foreground placeholder:text-xs":
+                        textareaType === "comment",
+                    })}
+                    readOnly={readOnly}
+                    // value={inputValue}
+                    // onChange={(e) => handleInputValue(e, field)}
+                    hidden={hidden}
+                    {...field}
+                  />
+                ) : (
+                  <Input
+                    className="rounded-none ring-0 outline-none placeholder:text-xs"
+                    placeholder={placeholder}
+                    {...field}
+                    type={
+                      name === "password" && isPasswordVisible
+                        ? "text"
+                        : name === "password"
+                        ? "password"
+                        : inputType ?? "text"
+                    }
                     hidden={hidden}
                     readOnly={readOnly}
-                    {...field}
-
-                    // onChange={handleInputValue}
-                    // className="border-none focus-visible:ring-0 bg-secondary focus-visible:bg-transparent"
                   />
-                </div>
-              ) : (
-                <Input
-                  placeholder={placeholder}
-                  {...field}
-                  type={
-                    name === "password" && isPasswordVisible
-                      ? "text"
-                      : name === "password"
-                      ? "password"
-                      : "text"
-                  }
-                  hidden={hidden}
-                  readOnly={readOnly}
-                  // value={inputValue}
-                  // onChange={(e) => handleInputValue(e, field)}
-                  // {...field}
-                />
-              )}
-            </FormControl>
+                )}
+              </FormControl>
+            </div>
           </div>
           <FormMessage className="form-message" />
         </FormItem>

@@ -1,16 +1,33 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
 import { BookUserIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, TagIcon, UsersIcon, Wallet2 } from "lucide-react";
-import {
-  AiFillInfoCircle,
-  AiFillPhone,
-  AiOutlineDashboard,
-} from "react-icons/ai";
 import { FaChalkboardTeacher, FaHome, FaUsers } from "react-icons/fa";
-import { FaBookOpenReader, FaMoneyBill } from "react-icons/fa6";
 
+
+export const customButtonDefinitions = {
+  variants: {
+    default: "bg-red text-primary-foreground hover:brightness-95",
+    blue: "bg-blue text-primary-foreground hover:brightness-95",
+    primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+    destructive:
+      "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+    outline:
+      "border border-input bg-transparent text-primary hover:bg-accent hover:text-accent-foreground",
+    secondary: "bg-secondary text-secondary-foreground hover:brightness-90",
+    ghost: "hover:bg-accent hover:text-accent-foreground",
+    link: "text-primary underline-offset-4 hover:underline",
+    transparent: "bg-transparent text-primary-foreground-foreground",
+  },
+
+  sizes: {
+    default: "h-10 px-4 py-2",
+    sm: "h-9 rounded-md px-3",
+    lg: "h-11 rounded-md px-8",
+    icon: "h-10 w-10",
+    "no-pad": "p-0",
+  }
+};
 // NavLinks
-
-const navLinks: NavLinks[] = [
+export const navLinks: NavLinks[] = [
   {
     href: "/home",
     label: "Home",
@@ -76,8 +93,7 @@ const navLinks: NavLinks[] = [
     onlySmallScreen: false,
   },
 ];
-
-const courseSubjects = [
+export const courseSubjects = [
   { label: "affiliate marketing", thumbnail: AffiliateMarketingSvg },
   { label: "content creation", thumbnail: AffiliateMarketingSvg },
   { label: "copy writing", thumbnail: AffiliateMarketingSvg },
@@ -88,5 +104,3 @@ const courseSubjects = [
   { label: "technical writing", thumbnail: AffiliateMarketingSvg },
   { label: "UI/UX design", thumbnail: AffiliateMarketingSvg },
 ];
-
-export { navLinks, courseSubjects };
