@@ -1,0 +1,36 @@
+/backend
+├── /src
+│   ├── /config             # Configuration files (e.g., database connection)
+│   │   └── db.ts           # Database connection setup
+│   ├── /controllers        # Route controllers for business logic
+│   │   └── userController.ts
+│   │   └── courseController.ts
+│   ├── /middlewares        # Custom middleware functions
+│   │   └── authMiddleware.ts # Authentication and role-based access control
+│   ├── /models             # Mongoose models (data schemas)
+│   │   └── User.ts
+│   │   └── Course.ts
+│   ├── /routes             # Express route definitions
+│   │   └── userRoutes.ts
+│   │   └── courseRoutes.ts
+│   ├── /schemas            # Joi validation schemas
+│   │   └── userSchema.ts
+│   │   └── courseSchema.ts
+│   ├── /types              # TypeScript type definitions
+│   │   └── userTypes.ts    # Interfaces and types
+│   │   └── courseTypes.ts
+│   ├── /utils              # Utility functions (e.g., token generation, hashing)
+│   │   └── tokenUtil.ts
+│   │   └── hashUtil.ts
+│   ├── /services           # Business logic services
+│   │   └── userService.ts
+│   │   └── courseService.ts
+│   ├── /constants          # Constants (e.g., roles, error messages)
+│   │   └── roles.ts
+│   └── server.ts           # Main entry point of the server
+├── nodemon.json            # Nodemon config for automatic TypeScript compilation
+├── tsconfig.json           # TypeScript configuration
+├── .env                    # Environment variables
+├── .eslintrc.json          # ESLint configuration
+├── package.json            # Package dependencies and scripts
+└── README.md               # Documentation for the project
