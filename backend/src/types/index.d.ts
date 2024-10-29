@@ -8,7 +8,16 @@ export interface UserSchemaDocument {
     roles: string[];
     interests: string[];
     adSources: string[];
-    isUserVerified: boolean,
     isEmailVerified: boolean;
+    // refreshToken: string;
+    generatedCode: {
+        for: string;
+        code: number;
+    }
+}
+
+export interface SignInValuesType {
+    email: string;
+    password: string;
 }
 

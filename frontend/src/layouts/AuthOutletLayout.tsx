@@ -63,7 +63,7 @@ const AuthOutletLayout = () => {
                     </p>
                   </div>
 
-                  <div className="flex flex-col gap-5 *:text-lg *:px-20 *:py-6 max-md:w-full">
+                  <div className="flex  flex-wrap *:shadow-lg *:flex-1 gap-5 *:text-lg *:px-20 *:py-6 max-md:w-full">
                     <Button asChild variant={"secondary"}>
                       <Link to="sign-in">Login</Link>
                     </Button>

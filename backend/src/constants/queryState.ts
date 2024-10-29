@@ -1,17 +1,17 @@
 export const queryState = {
     success: {
-        success: true,
-        error: false,
-        blocked: false,
+        isSuccess: true,
+        isError: false,
+        isBlocked: false,
     },
     error: {
-        success: false,
-        error: false,
-        blocked: false,
+        isSuccess: false,
+        isError: true,
+        isBlocked: false,
     },
     blocked: {
-        success: false,
-        error: false,
-        blocked: true,
+        isSuccess: false,
+        isError: false,
+        isBlocked: true,
     },
 };

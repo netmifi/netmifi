@@ -4,7 +4,8 @@ import express from 'express';
 // import cors from 'cors';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
-import authRoutes from './routes/authRoutes';
+import authRoutes from './routes/authRoutes.ts';
+import { limiter } from './middlewares/limiter';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,12 +31,12 @@ if (stageEnv === 'development') {
 app.use(express.json())
 app.use(cookieParser());
 app.use(express.urlencoded({
-    extended: true
+    extended: false
 }));
 
 
 // app.use('/', );
-app.use('/auth', authRoutes);
+app.use('/auth', limiter, authRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {
