@@ -104,6 +104,7 @@ const SearchBox = ({ type = "guest" }: { type?: "guest" | "user" }) => {
               .filter((suggestion) => suggestion.includes(search))
               .map((suggestion) => (
                 <Button
+                  key={suggestion}
                   variant={"transparent"}
                   className="capitalize hover:bg-secondary rounded-none text-left min-w-full justify-start"
                   onClick={() => setSearch(suggestion)}

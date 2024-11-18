@@ -5,7 +5,10 @@ import jwt from 'jsonwebtoken';
 import 'dotenv/config'
 import { cookieOptions } from '@/constants/cookieOptions';
 
-export const verifyJwt = (req: Request, res: Response, next: NextFunction) => {
+
+
+
+export const verifyJwt = (req: newRequest, res: Response, next: NextFunction) => {
     const cookies = req.cookies;
     const token = cookies?.jwt;
 
@@ -35,7 +38,7 @@ export const verifyJwt = (req: Request, res: Response, next: NextFunction) => {
                     return;
                 }
                 const user = await User.findOne({ email: decoded?.user?.email });
-                console.log(decoded);
+                req.user = user;
 
                 // if (!user) {
                 //     console.log("not found")

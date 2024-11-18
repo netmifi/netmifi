@@ -17,7 +17,7 @@ const AppOutletLayout = () => {
       <Navbar />
       <div
         className={cn("max-container flex flex-col gap-28", {
-          "md:ml-20": isAuth,
+          "lg:ml-20": isAuth,
         })}
       >
         <Outlet />

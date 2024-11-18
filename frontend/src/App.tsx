@@ -34,12 +34,35 @@ import Profile from "./pages/account/Profile";
 import Settings from "./pages/account/Settings";
 import SignInstructor from "./pages/auth/welcome/SignInstructor";
 import TestPage from "./pages/TestPage";
+import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
+
+import InstructorDashboard from "./pages/instructor/Dashboard";
 
 const App = () => {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <Router>
         <Routes>
+          {/* AUTH ROUTES */}
+          <Route path="/auth" element={<AuthOutletLayout />}>
+            <Route path="sign-in" element={<SignIn />} />
+            <Route path="sign-up" element={<SignUp />} />
+            <Route path="otp-verification" element={<OTPVerification />} />
+            {/* <Route path="verification-type" element={<OTPVerification />} /> */}
+            <Route path="forgot-password" element={<ForgotPassword />}>
+              <Route path="via-email" element={<ViaEmail />} />
+              <Route path="new-password" element={<NewPassword />} />
+            </Route>
+
+            <Route path={"welcome"} element={<Welcome />}>
+              <Route
+                path="instructor-application"
+                element={<SignInstructor />}
+              />
+              <Route path={"interest"} element={<Interest />} />
+            </Route>
+          </Route>
+
           {/* ROOT ROUTES */}
           <Route path="/" element={<AppOutletLayout />}>
             <Route path="home" element={<Home />} />
@@ -81,7 +104,6 @@ const App = () => {
             <Route path="/t&c" element={<TestPage />} />
             <Route path="/test" element={<TestPage />} />
 
-
             <Route path="/account/profile" element={<Profile />} />
             <Route path="/account/settings" element={<Settings />} />
 
@@ -93,21 +115,12 @@ const App = () => {
             <Route path="404" element={<NotFound />} />
           </Route>
 
-          {/* AUTH ROUTES */}
-          <Route path="/auth" element={<AuthOutletLayout />}>
-            <Route path="sign-in" element={<SignIn />} />
-            <Route path="sign-up" element={<SignUp />} />
-            <Route path="otp-verification" element={<OTPVerification />} />
-            {/* <Route path="verification-type" element={<OTPVerification />} /> */}
-            <Route path="forgot-password" element={<ForgotPassword />}>
-              <Route path="via-email" element={<ViaEmail />} />
-              <Route path="new-password" element={<NewPassword />} />
-            </Route>
-
-            <Route path={"welcome"} element={<Welcome />}>
-            <Route path="instructor-application" element={<SignInstructor />} />
-              <Route path={"interest"} element={<Interest />} />
-            </Route>
+          {/* INSTRUCTOR DASHBOARD ROUTES */}
+          <Route
+            path="/dashboard"
+            element={<InstructorDashboardOutletLayout />}
+          >
+            <Route path="home" element={<InstructorDashboard />} />
           </Route>
         </Routes>
         <Toaster />

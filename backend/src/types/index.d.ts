@@ -21,3 +21,30 @@ export interface SignInValuesType {
     password: string;
 }
 
+export interface instructorApplicationType {
+    username: string;
+    phoneNumber: string;
+    country: {
+        name: string;
+        dialCode: string;
+        code: string;
+    },
+
+    residentialAddress: string;
+    facebook?: string;
+    instagram: string;
+    twitter: string;
+    tiktok: string;
+    youtube: string;
+    website: string;
+
+    niche: string;
+    whyInterest: string;
+    taughtOnlineBefore: 'yes' | 'no';
+    beenMentor: 'yes' | 'no';
+    about: string;
+}
+
+export interface verifiedRequest extends Request {
+    user: any
+}

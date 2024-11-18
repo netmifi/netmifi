@@ -1,4 +1,5 @@
 import CountryFormSelect from "@/components/Form/CountryFormSelect";
+import CustomContactField from "@/components/Form/CustomContactField";
 import CustomDatePicker from "@/components/Form/CustomDatePicker";
 import CustomFormField from "@/components/Form/CustomFormField";
 import CustomFormSelect from "@/components/Form/CustomFormSelect";
@@ -8,13 +9,12 @@ import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { instructorFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckedState } from "@radix-ui/react-checkbox";
 import { useEffect, useState } from "react";
-import { useCountries } from "react-countries";
+// import { useCountries } from "react-countries";
 import { useForm } from "react-hook-form";
 import {
   FaAsterisk,
@@ -29,14 +29,16 @@ import { z } from "zod";
 const SignInstructor = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
-  const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
-  const [dialCode, setDialCode] = useState("");
-  const formSchema = instructorFormSchema(dialCode);
+  // const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
+  const [country, setCountry] = useState<Country>({});
+  const [dialCode, setDialCode] = useState(country?.dialCode || "+");
+
+  const formSchema = instructorFormSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  const { countries } = useCountries();
+  // const { countries } = useCountries();
 
   const areasOfExpertise = [
     "article writing",
@@ -67,9 +69,15 @@ const SignInstructor = () => {
   ];
   // console.log(countries);
 
-  const handleSubmit = (data) => {};
+  const handleSubmit = (data) => {
+    alert();
+    console.log(data);
+  };
 
-  useEffect(() => console.log(dialCode), [dialCode]);
+  useEffect(() => {
+    form.setValue("country", country);
+    console.log(country);
+  }, [country, form]);
 
   return (
     <div className="mt-5 w-full flex flex-col gap-6">
@@ -91,7 +99,7 @@ const SignInstructor = () => {
       </p>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(handleSubmit)}
+          onSubmit={form.handleSubmit((data) => console.log(data))}
           className="w-full flex flex-wrap justify between gap-6 *:flex-grow *:min-w-[45%]"
         >
           <CustomFormField
@@ -100,29 +108,39 @@ const SignInstructor = () => {
             placeholder="Enter your full name"
             label="full name"
           />
+
           <CustomFormField
             name="email"
             control={form.control}
-            placeholder="Enter your full name"
+            placeholder="Enter your email address"
             label="email address"
           />
 
-          <CountryFormSelect
+          <CustomFormField
+            name="username"
+            control={form.control}
+            placeholder="Enter your unique username"
+            label="username"
+          />
+
+          {/* <CountryFormSelect
             form={form}
             control={form.control}
             countries={countries}
             name={"country"}
             label="country"
-            dialCode={dialCode}
-            setDialCode={setDialCode}
-          />
+            // dialCode={dialCode}
+            // setDialCode={setDialCode}
+          /> */}
 
-          <CustomFormField
+          <CustomContactField
+            form={form}
             name="phone"
             control={form.control}
             placeholder="Enter your phone number"
             label="phone number"
-            dialCode={dialCode}
+            setDialCode={setDialCode}
+            setCountry={setCountry}
           />
           <CustomFormField
             name="residentialAddress"
@@ -134,8 +152,8 @@ const SignInstructor = () => {
           <div className="flex flex-col gap-1 my-5">
             <h4 className="text-base sm:text-lg">
               Your social medial handles{" "}
-              <small className="text-destructive">
-                at least three is required
+              <small className="text-primary/50">
+                at least two is required
               </small>
             </h4>
             <div className="flex flex-wrap gap-5 *:flex-grow *:min-w-[40%]">
@@ -206,20 +224,20 @@ const SignInstructor = () => {
             />
             <CustomRadioGroup
               control={form.control}
-              name={"taughtBefore"}
+              name={"mentoredPreviously"}
               label="have you been a mentor previously?"
               group={radioGroupData}
             />
 
-            <CustomRadioGroup
+            {/* <CustomRadioGroup
               control={form.control}
               name={"mentorshipAvailability"}
               label="will you be available for mentorship?"
               group={radioGroupData}
               setDetectedValueChange={setIsAvailableForMentorship}
-            />
+            /> */}
           </div>
-
+          {/* 
           {isAvailableForMentorship === "yes" && (
             <div className="flex flex-col gap-px mt-5 *:flex-grow basis-full">
               <CustomMultiSelect
@@ -260,7 +278,7 @@ const SignInstructor = () => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
 
           <div className="w-full mt-3">
             <CustomFormField
@@ -276,28 +294,35 @@ const SignInstructor = () => {
           </div>
 
           <div className="flex flex-col gap-3 mt-4 sm:mt-8">
-          <div className="flex gap-3 items-center">
-            <Checkbox
-              id="accept"
-              checked={isAccepted}
-              onCheckedChange={(checked) => setIsAccepted(checked)}
-            />
-            <div className="flex gap-1 *:text-base">
-              <Label htmlFor="accept">Do you accept all our</Label>
-              <Link to="/t&c" className="text-base text-blue underline">
-                Terms and conditions?
-              </Link>
+            <div className="flex gap-3 items-center">
+              <Checkbox
+                id="accept"
+                checked={isAccepted}
+                onCheckedChange={(checked) => setIsAccepted(checked)}
+              />
+              <div className="inline-flex gap-1">
+                <Label htmlFor="accept" className="text-xs sm:text-sm">
+                  Do you accept all our
+                </Label>
+                <Link
+                  to="/t&c"
+                  className="text-xs sm:text-sm text-blue underline"
+                >
+                  Terms and conditions?
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <div className="flex w-full">
-            <Button
-              disabled={!isAccepted || isLoading}
-              className="sm:ml-auto basis-full sm:basis-[30%]"
-            >
-              {isLoading ? <Loader type="all" /> : "Continue"}
-            </Button>
-          </div>
+            <div className="flex w-full">
+              <Button
+                disabled={!isAccepted || isLoading}
+                className="sm:ml-auto basis-full sm:basis-[30%]"
+                // onClick={form.}
+                type="submit"
+              >
+                {isLoading ? <Loader type="all" /> : "Continue"}
+              </Button>
+            </div>
           </div>
         </form>
       </Form>

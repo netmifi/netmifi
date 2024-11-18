@@ -1,5 +1,5 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
-import { BookUserIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, TagIcon, UsersIcon, Wallet2 } from "lucide-react";
+import { ArrowLeftSquareIcon, BookOpenText, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, TagIcon, UsersIcon, Wallet2 } from "lucide-react";
 import { FaChalkboardTeacher, FaHome, FaUsers } from "react-icons/fa";
 
 
@@ -93,6 +93,41 @@ export const navLinks: NavLinks[] = [
     onlySmallScreen: false,
   },
 ];
+
+export const instructorDashboardLinks = [
+  {
+    href: "/dashboard/home",
+    label: "Home",
+    icon: HomeIcon,
+  },
+  {
+    href: "/dashboard/my-courses",
+    label: "My Courses",
+    icon: BookOpenText,
+  },
+  {
+    href: "/dashboard/my-earning",
+    label: "My Earnings",
+    icon: CreditCardIcon,
+  },
+  {
+    href: "/dashboard/quiz",
+    label: "Quiz Attempts",
+    icon: SheetIcon,
+  },
+  {
+    href: "/dashboard/settings",
+    label: "Settings",
+    icon: Settings,
+  },
+  {
+    href: "/",
+    label: "Back Home",
+    icon: ArrowLeftSquareIcon,
+  },
+
+];
+
 export const courseSubjects = [
   { label: "affiliate marketing", thumbnail: AffiliateMarketingSvg },
   { label: "content creation", thumbnail: AffiliateMarketingSvg },

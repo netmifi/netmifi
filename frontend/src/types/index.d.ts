@@ -153,6 +153,13 @@ declare interface InstructorCarouselProps {
   data: Instructor[];
 }
 
+declare interface Country {
+  name: string;
+  code: string;
+  flag: string;
+  dialCode: string;
+}
+
 declare interface PostAvatarProps {
   profileImage?: string;
   profileImageClassName?: ClassValue;
@@ -202,8 +209,6 @@ declare interface CustomFormFieldProps {
   hidden?: boolean;
   readOnly?: boolean;
   isOptional?: boolean;
-  dialCode?: string;
-  setDialCode?: React.Dispatch<React.SetStateAction<string>>
 }
 
 declare interface CustomFormSelectProps
@@ -228,7 +233,13 @@ declare interface CustomRadioGroupProps extends Omit<CustomFormFieldProps, "isPa
 }
 
 declare interface CountryFormSelect extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
-  countries: { name: string, dial_code: string, code: string, flag: string }[];
+  countries: Country[];
+}
+
+declare interface CustomContactFieldProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+  dialCode?: string;
+  setDialCode?: React.Dispatch<React.SetStateAction<string>>;
+  setCountry?: React.Dispatch<React.SetStateAction<Country | undefined>>;
 }
 
 declare interface CommentTemplateProps {
@@ -244,6 +255,8 @@ declare interface CommentTemplateProps {
     isVerified: boolean;
   };
 }
+
+
 declare interface CommentProps {
   page: "blog" | "course";
   postId: string;
@@ -412,4 +425,9 @@ declare interface ShareComponentProps {
   title?: string;
   text?: string;
   files?: File[]
+}
+
+declare interface NavBarProps {
+  isNavOpen?: boolean;
+  setIsNavOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }

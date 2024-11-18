@@ -1,7 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 
 
 
@@ -75,7 +76,7 @@ export const authFormSchema = (type: 'sign-in' | 'sign-up') =>
     //     : z.string().optional(),
     email: z
       .string()
-      .email({ message: "Must be a valiid email eg. demo@demo.com" }),
+      .email({ message: "Must be a valid email eg. demo@demo.com" }),
     password: z.string().min(8, { message: "Password cannot be less than 8 characters" }),
   });
 
@@ -130,18 +131,28 @@ export const contactUsEmailFormSchema = () =>
     message: z.string().min(5, { message: 'Message cannot be less than 5 characters' }),
   });
 
-export const instructorFormSchema = (dialCode: string) =>
+export const instructorFormSchema = () =>
   z.object({
-    fullName: z.string({ message: "Please input your full name" }),
+    fullName: z.string({ required_error: "Please input your full name" }),
+    username: z.string({ required_error: "Please input your full name" }),
     email: z.string({ required_error: "Please input your email" }).email({ message: 'Must be a valid email' }),
-    country: z.string({ required_error: "Please select a country" }),
-    phone: z.string().refine((phoneNumber) => {
-      const phoneNumberString = `${dialCode} ${phoneNumber}`;
-      const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
-      return parsedPhoneNumber?.isValid() ?? false; // Ensure the number is valid
-    }, {
-      message: 'Invalid phone number',
+    country: z.object({
+      name: z.string(),
+      code: z.string(),
+      flag: z.string(),
+      dialCode: z.string(),
     }),
+    phone: z.string({ message: 'Contact is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
+    // !val.match(REGEXP_ONLY_DIGITS) ,
+
+    // .refine((phoneNumber) => {
+    // const phoneNumberString = `${phoneNumber}`;
+    // const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
+
+    // console.log(phoneNumberString, parsedPhoneNumber, isValidNumber(phoneNumberString));
+    // return parsedPhoneNumber?.isValid() ?? false; // Ensure the number is valid
+    // },
+    // ),
     residentialAddress: z.string().optional(),
     facebookHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
     instagramHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
@@ -152,27 +163,35 @@ export const instructorFormSchema = (dialCode: string) =>
     niche: z.string({ required_error: "Must select an area of expertise" }),
     whyInterest: z.string().optional(),
     taughtBefore: z.enum(["yes", "no"], {
-      required_error: "You need to select one these.",
+      message: "Please select an option",
     }),
-    mentorshipAvailability: z.string({
-      required_error: "Must select a one of either options",
+    mentoredPreviously: z.enum(["yes", "no"], {
+      message: "Please select an option",
     }),
-    mentorshipAvailabilityDays: z
-      .array(z.string().min(1))
-      .min(1).optional(),
-    fromMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
-    toMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
-    about: z.string().optional(),
-  }).refine(data => {
-    // Ensure at least one of the social media fields or website link is filled
-    return data.facebookHandle || data.instagramHandle || data.tiktokHandle || data.websiteLink;
+    // mentorshipAvailability: z.string({
+    //   required_error: "Must select a one of either options",
+    // }),
+    // mentorshipAvailabilityDays: z
+    //   .array(z.string().min(1))
+    //   .min(1).optional(),
+    // fromMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
+    // toMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
+    // about: z.string().optional(),
+  }).refine((data) => {
+    const phoneNumberString = `${data.country.dialCode}${data.phone}`;
+    const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
+
+    console.log(phoneNumberString, parsedPhoneNumber?.number, isValidNumber(phoneNumberString), parsedPhoneNumber?.isValid());
+    return parsedPhoneNumber?.isValid() ?? false; // Ensure the number is valid
   }, {
-    message: 'At least one social media handle or website link must be provided',
-    path: ['facebookHandle', 'instagramHandle', 'tiktokHandle', 'websiteLink'], // Specify which fields are affected by this rule
-  }).refine(data => {
-    return data.mentorshipAvailability === 'yes'
-  }, {
-    message: "Please select at least one day, and time",
-    path: ['mentorshipAvailabilityDays', 'fromMentorTime', 'toMentorTime']
-  }
-  );
+    message: 'Not a valid phone number',
+    path: ['phone'],
+  }).transform((data) => {
+    const phoneNumberString = `${data.country.dialCode}${data.phone}`;
+    const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
+
+    return {
+      ...data,
+      phone: parsedPhoneNumber?.number, // This is the combined int format number sent to the server
+    };
+  });

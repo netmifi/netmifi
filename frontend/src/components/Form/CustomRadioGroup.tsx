@@ -30,8 +30,9 @@ const CustomRadioGroup = ({
           <FormControl>
             <RadioGroup
               onValueChange={(value) => {
-                field.onChange;
+                field.onChange(value);
                 setDetectedValueChange && setDetectedValueChange(value);
+                console.log(field.value);
               }}
               defaultValue={field.value}
               className="flex flex-col space-y-1"

@@ -40,6 +40,9 @@
     /*penn red*/
     --red-foreground: 0, 100%, 64%;
 
+    --low-red: 15, 100%, 93%;
+    --low-red-foreground: 15, 97%, 38%;
+
     --blue: 223, 100%, 28%;
     /* resolution blue */
     --blue-foreground: 223, 100%, 76%;
@@ -81,6 +84,22 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   body {
@@ -112,6 +131,9 @@
     --red: 0, 100%, 64%;
     /*penn red*/
     --red-foreground: 0, 100%, 31%;
+
+    --low-red: 15, 97%, 38%;
+    --low-red-foreground: 15, 100%, 93%;
 
     --blue: 223, 100%, 76%;
     /* resolution blue */
@@ -152,6 +174,14 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -267,5 +297,14 @@
 
   .form-item .form-field.filled label {
     @apply px-1 py-px text-xs -top-4 left-[1.5%] w-fit h-fit shadow-sm;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

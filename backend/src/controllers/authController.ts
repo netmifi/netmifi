@@ -1,8 +1,8 @@
 // import 'dotenv/config';
-import { signUpSchema, signInSchema } from "@/schemas/authSchema";
+import { signUpSchema, signInSchema, instructorApplicationSchema } from "@/schemas/authSchema";
 import { queryState } from "../constants/queryState";
 import User from "@/models/User";
-import { SignInValuesType, UserSchemaDocument } from "@/types";
+import { instructorApplicationType, SignInValuesType, UserSchemaDocument, verifiedRequest } from "@/types";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
@@ -191,6 +191,19 @@ export const handleLogout = async (req: Request, res: Response) => {
     }
 }
 
-export const handleInstructorApplication = async (req: Request, res: Response) => {
-    console.log('Hi')
+export const handleInstructorApplication = async (req: verifiedRequest, res: Response) => {
+    const bodyValues = req.body as instructorApplicationType;
+    try {
+        const values: instructorApplicationType = await instructorApplicationSchema.validateAsync({ ...bodyValues });
+        const user = await User.findById(req.user as any);
+
+
+    } catch (error: any) {
+        res.status(405).json({
+            message: error.details[0].message || error.message,
+            state: queryState.error,
+            data: undefined,
+        });
+        return
+    }
 }

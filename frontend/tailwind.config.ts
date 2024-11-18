@@ -42,6 +42,10 @@ const twConfig = {
           DEFAULT: "hsl(var(--red))",
           foreground: "hsl(var(--red-foreground))",
         },
+        'low-red': {
+          DEFAULT: "hsl(var(--low-red))",
+          foreground: "hsl(var(--low-red-foreground))",
+        },
         blue: {
           DEFAULT: "hsl(var(--blue))",
           foreground: "hsl(var(--blue-foreground))",

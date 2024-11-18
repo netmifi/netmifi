@@ -18,7 +18,7 @@ const CustomFormField = ({
   control,
   name,
   type = "input",
-  textareaType = "normal",
+    textareaType = "normal",
   isPasswordVisible,
   placeholder = "",
   inputType = "",
@@ -30,10 +30,8 @@ const CustomFormField = ({
   hidden = false,
   readOnly = false,
   isOptional = false,
-  dialCode,
   URLIcon,
 }: CustomFormFieldProps) => {
-  const isContactField = name === "phone";
   const isHyperlinkField = inputType === "url";
 
   const [inputValue, setInputValue] = useState(value || defaultValue || "");
@@ -72,13 +70,13 @@ const CustomFormField = ({
             )}
 
             <div className="flex h-full w-full rounded-lg overflow-x-hidden">
-              {isContactField && (
+              {/* {isContactField && (
                 <div className="bg-primary text-secondary text-sm sm:text-base flex justify-center items-center px-2">
                   {dialCode}
                 </div>
-              )}
+              )} */}
               {isHyperlinkField && (
-                <div className="bg-primary text-secondary text-sm sm:text-base flex justify-center items-center px-2 *:text-sm *:size-4">
+                <div className="text-sm sm:text-base flex justify-center items-center px-2 *:text-base *:size-5">
                   {URLIcon ?? <LinkIcon />}
                 </div>
               )}
