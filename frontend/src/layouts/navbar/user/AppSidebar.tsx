@@ -36,6 +36,7 @@ import {
 import React from "react";
 import { CustomLogo } from "@/components/CustomLogo";
 import SidebarProfile from "@/components/navbar/SidebarProfile";
+import { aboutHero } from "@/assets/images";
 
 export const NavSkeleton = () => {
   return (
@@ -63,7 +64,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarProfile username="victony darey" info="fullstack developer" />
+          <SidebarProfile username="victony darey" info="fullstack developer" profile={aboutHero} />
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>
