@@ -1,12 +1,44 @@
 import { cn } from "@/lib/utils";
 import { useStoreState } from "@/store/store";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import Navbar from "./navbar/Navbar";
 import Footer from "./Footer";
+import TopBar from "./navbar/user/Topbar";
+import AppSidebar from "./navbar/user/AppSidebar";
+import {
+  SidebarProvider,
+  useSidebar,
+} from "@/components/ui/sidebar";
+
+export const MainContent = ({ state }: { state: userType["type"] }) => {
+  const { open } = useSidebar();
+
+  return (
+    <div
+      className={`flex-grow w-full h-full overflow-y-auto transition-all duration-300 ease-in-out `}
+    >
+      <TopBar state={state} open={open} />
+      <main className="">
+        <div
+          className={cn("max-container flex flex-col gap-28 h-[90%]", {
+            // "lg:ml-20": isAuth,
+          })}
+        >
+          <Outlet />
+        </div>
+        <Footer />
+      </main>
+    </div>
+  );
+};
 
 const AppOutletLayout = () => {
-  const isAuth = useStoreState((state) => state.auth.isAuth);
+  // const {isAuth} = ;
   const { pathname } = useLocation();
+  const state = pathname.startsWith("/admin")
+    ? "admin"
+    : pathname.startsWith("/dashboard")
+    ? "instructor"
+    : "user";
 
   if (pathname === "/") {
     return <Navigate to="/home" />;
@@ -14,15 +46,13 @@ const AppOutletLayout = () => {
 
   return (
     <>
-      <Navbar />
-      <div
-        className={cn("max-container flex flex-col gap-28", {
-          "lg:ml-20": isAuth,
-        })}
-      >
-        <Outlet />
-        <Footer />
-      </div>
+      {/* <div className="w-screen flex"> */}
+      <SidebarProvider>
+        <div className="flex h-screen overflow-hidden bg-background w-full">
+          <AppSidebar state={state} />
+          <MainContent state={state} />
+        </div>
+      </SidebarProvider>
     </>
   );
 };

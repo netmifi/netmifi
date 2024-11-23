@@ -1,6 +1,6 @@
 import { logo, logoText, logoTextWhite } from "@/assets/logo";
 import { GetStartedSvg } from "@/assets/svg";
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from "@/app/theme-provider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 const AuthOutletLayout = () => {
   const { theme } = useTheme();
   const { pathname } = useLocation();
-  
+
   const exemptionRoute = [
     "forgot-password",
     "email-verification",

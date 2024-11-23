@@ -24,7 +24,7 @@ const PostAvatar = ({
 
         {isVerified && (
           <Verified
-            className="absolute -top-1 -right-0 text-primary-foreground fill-red z-30"
+            className="absolute -top-1 -right-0 text-primary-foreground fill-red z-10"
             size={20}
           />
         )}

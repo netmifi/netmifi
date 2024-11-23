@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from "@/app/theme-provider";
 import { logoText, logoTextWhite } from "@/assets/logo";
 import { Button } from "@/components/ui/button";
 import {

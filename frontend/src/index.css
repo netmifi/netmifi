@@ -33,7 +33,7 @@
   }
 
   :root {
-    --background: 0 0% 98.3%;
+    --background: 0 0% 97.3%;
     --foreground: 222.2 84% 4.9%;
 
     --red: 0, 100%, 31%;
@@ -103,7 +103,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply flex bg-background text-foreground;
   }
   h1 {
     @apply text-4xl;
@@ -116,6 +116,10 @@
   }
   h4 {
     @apply text-xl;
+  }
+
+  #root {
+    @apply w-full bg-red;
   }
 
   .dark {
@@ -174,8 +178,8 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0, 0%, 0%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
@@ -297,6 +301,15 @@
 
   .form-item .form-field.filled label {
     @apply px-1 py-px text-xs -top-4 left-[1.5%] w-fit h-fit shadow-sm;
+  }
+
+  .bg-dashboard-card {
+    background-image: url("./assets/svg/group-data-bg.svg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-repeat: no-repeat;
   }
 }
 

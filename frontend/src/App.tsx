@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/app/theme-provider";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -34,98 +34,109 @@ import Profile from "./pages/account/Profile";
 import Settings from "./pages/account/Settings";
 import SignInstructor from "./pages/auth/welcome/SignInstructor";
 import TestPage from "./pages/TestPage";
-import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
+// import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
 
 import InstructorDashboard from "./pages/instructor/Dashboard";
+import { AppProvider } from "./app/app-provider";
 
 const App = () => {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <Router>
-        <Routes>
-          {/* AUTH ROUTES */}
-          <Route path="/auth" element={<AuthOutletLayout />}>
-            <Route path="sign-in" element={<SignIn />} />
-            <Route path="sign-up" element={<SignUp />} />
-            <Route path="otp-verification" element={<OTPVerification />} />
-            {/* <Route path="verification-type" element={<OTPVerification />} /> */}
-            <Route path="forgot-password" element={<ForgotPassword />}>
-              <Route path="via-email" element={<ViaEmail />} />
-              <Route path="new-password" element={<NewPassword />} />
+    <AppProvider>
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <Router>
+          <Routes>
+            {/* AUTH ROUTES */}
+            <Route path="/auth" element={<AuthOutletLayout />}>
+              <Route path="sign-in" element={<SignIn />} />
+              <Route path="sign-up" element={<SignUp />} />
+              <Route path="otp-verification" element={<OTPVerification />} />
+              {/* <Route path="verification-type" element={<OTPVerification />} /> */}
+              <Route path="forgot-password" element={<ForgotPassword />}>
+                <Route path="via-email" element={<ViaEmail />} />
+                <Route path="new-password" element={<NewPassword />} />
+              </Route>
+
+              <Route path={"welcome"} element={<Welcome />}>
+                <Route
+                  path="instructor-application"
+                  element={<SignInstructor />}
+                />
+                <Route path={"interest"} element={<Interest />} />
+              </Route>
             </Route>
 
-            <Route path={"welcome"} element={<Welcome />}>
+            {/* ROOT ROUTES */}
+
+            <Route path="/" element={<AppOutletLayout />}>
+              <Route path="home" element={<Home />} />
+
+              <Route path="contact" element={<Contact />} />
+
+              {/* COURSES ROUTE */}
+              <Route path="courses" element={<Courses />}>
+                <Route path="top" element={<TopCourses page="self" />} />
+                <Route path="recent" element={<RecentCourses page="self" />} />
+                <Route path="course/:id" element={<CoursePreview />} />
+                <Route path="my-courses" element={<MyCourses />} />
+                <Route path="my-courses/:id" element={<LearnPlay />} />
+              </Route>
+
+              {/* COURSES ROUTE */}
+
+              <Route path="pricing" element={<h1>Pricing</h1>} />
+
+              {/* BLOGS ROUTE */}
+              <Route path="blogs" element={<Blogs />}>
+                <Route
+                  path="featured"
+                  element={<FeaturedBlogs page="self" />}
+                />
+                <Route path="popular" element={<PopularBlogs page="self" />} />
+                <Route path="recent" element={<RecentBlogs page="self" />} />
+                <Route path="blog/:id" element={<Blog />} />
+              </Route>
+
+              {/* INSTRUCTORS ROUTE */}
+              <Route path="instructors" element={<Instructors />}>
+                <Route path="instructor/:id" element={<Instructor />} />
+              </Route>
+
+              {/* USER ROUTES */}
+              <Route path="/user/:id" element={<h1>User</h1>} />
               <Route
-                path="instructor-application"
-                element={<SignInstructor />}
+                path="/user/:id/courses"
+                element={<h1>Recent Courses</h1>}
               />
-              <Route path={"interest"} element={<Interest />} />
-            </Route>
-          </Route>
 
-          {/* ROOT ROUTES */}
-          <Route path="/" element={<AppOutletLayout />}>
-            <Route path="home" element={<Home />} />
+              {/* HELP ROUTE */}
+              <Route path="/help" element={<Help />} />
+              <Route path="/t&c" element={<TestPage />} />
+              <Route path="/test" element={<TestPage />} />
 
-            <Route path="contact" element={<Contact />} />
+              <Route path="/account/profile" element={<Profile />} />
+              <Route path="/account/settings" element={<Settings />} />
 
-            {/* COURSES ROUTE */}
-            <Route path="courses" element={<Courses />}>
-              <Route path="top" element={<TopCourses page="self" />} />
-              <Route path="recent" element={<RecentCourses page="self" />} />
-              <Route path="course/:id" element={<CoursePreview />} />
-              <Route path="my-courses" element={<MyCourses />} />
-              <Route path="my-courses/:id" element={<LearnPlay />} />
+              {/* FEEDBACK ROUTE */}
+              <Route path="/feedback" element={<Feedback />} />
+
+              {/* 404 page ROUTES */}
+              <Route path="*" element={<NotFound />} />
+              <Route path="404" element={<NotFound />} />
             </Route>
 
-            {/* COURSES ROUTE */}
-
-            <Route path="pricing" element={<h1>Pricing</h1>} />
-
-            {/* BLOGS ROUTE */}
-            <Route path="blogs" element={<Blogs />}>
-              <Route path="featured" element={<FeaturedBlogs page="self" />} />
-              <Route path="popular" element={<PopularBlogs page="self" />} />
-              <Route path="recent" element={<RecentBlogs page="self" />} />
-              <Route path="blog/:id" element={<Blog />} />
+            {/* INSTRUCTOR DASHBOARD ROUTES */}
+            <Route
+              path="/dashboard"
+              element={<InstructorDashboard />}
+            >
+              <Route path="home" element={<InstructorDashboard />} />
+              <Route path="test/123/456" element={<InstructorDashboard />} />
             </Route>
-
-            {/* INSTRUCTORS ROUTE */}
-            <Route path="instructors" element={<Instructors />}>
-              <Route path="instructor/:id" element={<Instructor />} />
-            </Route>
-
-            {/* USER ROUTES */}
-            <Route path="/user/:id" element={<h1>User</h1>} />
-            <Route path="/user/:id/courses" element={<h1>Recent Courses</h1>} />
-
-            {/* HELP ROUTE */}
-            <Route path="/help" element={<Help />} />
-            <Route path="/t&c" element={<TestPage />} />
-            <Route path="/test" element={<TestPage />} />
-
-            <Route path="/account/profile" element={<Profile />} />
-            <Route path="/account/settings" element={<Settings />} />
-
-            {/* FEEDBACK ROUTE */}
-            <Route path="/feedback" element={<Feedback />} />
-
-            {/* 404 page ROUTES */}
-            <Route path="*" element={<NotFound />} />
-            <Route path="404" element={<NotFound />} />
-          </Route>
-
-          {/* INSTRUCTOR DASHBOARD ROUTES */}
-          <Route
-            path="/dashboard"
-            element={<InstructorDashboardOutletLayout />}
-          >
-            <Route path="home" element={<InstructorDashboard />} />
-          </Route>
-        </Routes>
-        <Toaster />
-      </Router>
-    </ThemeProvider>
+          </Routes>
+          <Toaster />
+        </Router>
+      </ThemeProvider>
+    </AppProvider>
   );
 };
 

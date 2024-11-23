@@ -1,3 +1,7 @@
+declare interface userType {
+  type: 'user' | 'instructor' | 'blogger' | 'admin';
+}
+
 declare interface Comments {
   count: number;
   comments?: {
@@ -430,4 +434,22 @@ declare interface ShareComponentProps {
 declare interface NavBarProps {
   isNavOpen?: boolean;
   setIsNavOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+declare interface DashboardCardProps {
+  count: number;
+  label?: string;
+  link?: string;
+  icon: JSX.Element;
+  isMoney: boolean;
+  date?: Date;
+}
+
+declare interface NavSearchProps {
+  containerClassName?: ClassValue;
+  formClassName?: ClassValue;
+  className?: ClassValue;
+  searchFloatButtonClassName?: ClassValue;
+  fullScreen?: "md" | "sm";
+  floating?: "none" | "float";
 }

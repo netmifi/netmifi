@@ -1,3 +1,4 @@
+import { useApp } from "@/app/app-provider";
 import { HomeSvg } from "@/assets/svg";
 import CourseCarousel from "@/components/courses/CourseCarousel";
 import MyCourseCarousel from "@/components/courses/my-courses/MyCourseCarousel";
@@ -14,15 +15,13 @@ import {
 import RecentCourses from "@/layouts/courses/RecentCourses";
 import TopCourses from "@/layouts/courses/TopCourses";
 import { cn, convertToReadableNumber } from "@/lib/utils";
-import { useStoreState } from "@/store/store";
 import { ArrowDownIcon } from "lucide-react";
 import { useRef, useState } from "react";
-import { NavLink, useAsyncValue } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 // import CountUp from "react-countup";
 
 const Home = () => {
-  const isAuth = useStoreState((state) => state.auth.isAuth);
-
+  const { isAuth } = useApp();
   const greetingPhrases = [
     "Ahoy There",
     "Hi There",
@@ -55,7 +54,7 @@ const Home = () => {
   ];
 
   return (
-    <main className="flex flex-col gap-16">
+    <div className="flex flex-col gap-16">
       {isAuth && (
         <section className="padding-x padding-y flex items-center gap-3">
           <PostAvatar
@@ -161,7 +160,7 @@ const Home = () => {
         )}
         <Newsletter />
       </section>
-    </main>
+    </div>
   );
 };
 

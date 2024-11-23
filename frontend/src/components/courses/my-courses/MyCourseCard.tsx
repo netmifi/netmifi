@@ -9,12 +9,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import {
-  EllipsisVertical,
-  ListPlusIcon,
-  Share2Icon,
-  Star,
-} from "lucide-react";
+import { EllipsisVertical, ListPlusIcon, Share2Icon, Star } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import CreateListDialog from "./CreateListDialog";
 import { FaPlayCircle } from "react-icons/fa";

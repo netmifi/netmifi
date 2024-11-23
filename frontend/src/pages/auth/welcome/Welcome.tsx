@@ -1,4 +1,4 @@
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from "@/app/theme-provider";
 import { Button } from "@/components/ui/button";
 import {
   Card,

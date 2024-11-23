@@ -4,8 +4,7 @@ import { AiFillWarning } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 
 const NotFound = () => {
-  // const isAuth = useStoreState((state) => state.auth.isAuth);
-
+  // const {isAuth} = useApp();
   return (
     <main
       className={

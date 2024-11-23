@@ -18,12 +18,11 @@ const NavbarPopover = ({
         <div className="relative">
           <Button className="bg-transparent text-low-contrast hover:bg-transparent px-1">
             {counter > 0 && (
-              <small className="absolute top-1 left-2 scale-75 bg-red font-montserrat rounded-full size-fit px-1 text-secondary font-bold z-30">
+              <small className="absolute -top-px right-0 scale-75 bg-red font-montserrat rounded-full size-fit px-1 text-secondary font-bold z-30">
                 {counter}
               </small>
             )}
-            <div className="text-lg">
-              {" "}
+            <div className="[&_svg]:size-6">
               {type === "message" ? (
                 <MessageSquare />
               ) : type === "notification" ? (

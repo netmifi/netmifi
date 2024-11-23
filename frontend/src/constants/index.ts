@@ -1,5 +1,5 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
-import { ArrowLeftSquareIcon, BookOpenText, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, TagIcon, UsersIcon, Wallet2 } from "lucide-react";
+import { ArrowLeftSquareIcon, BookOpenText, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, TagIcon, UsersIcon, UsersRoundIcon, Wallet2 } from "lucide-react";
 import { FaChalkboardTeacher, FaHome, FaUsers } from "react-icons/fa";
 
 
@@ -71,7 +71,7 @@ export const navLinks: NavLinks[] = [
   {
     href: "/instructors",
     label: "Instructors",
-    icon: FaChalkboardTeacher,
+    icon: UsersRoundIcon,
     onlyUser: false,
     onlyGuest: false,
     onlySmallScreen: false,

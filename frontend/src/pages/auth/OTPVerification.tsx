@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { logoText, logoTextWhite } from "@/assets/logo";
-import { useTheme } from "@/components/theme-provider";
+import { useTheme } from "@/app/theme-provider";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

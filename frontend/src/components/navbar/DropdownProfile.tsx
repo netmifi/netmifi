@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 
 const DropdownProfile = () => {
   return (
@@ -18,10 +18,10 @@ const DropdownProfile = () => {
       <DropdownMenuTrigger className="flex items-center outline-none">
         <Avatar>
           <AvatarImage src={profile} />
-          <AvatarFallback>NM</AvatarFallback>
+          <AvatarFallback>A</AvatarFallback>
         </Avatar>
 
-        <p className="capitalize text-sm hidden md:block">thompson</p>
+        {/* <p className="capitalize text-sm hidden md:block">thompson</p> */}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
