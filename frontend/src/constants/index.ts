@@ -1,7 +1,5 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
-import { ArrowLeftSquareIcon, BookOpenText, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, TagIcon, UsersIcon, UsersRoundIcon, Wallet2 } from "lucide-react";
-import { FaChalkboardTeacher, FaHome, FaUsers } from "react-icons/fa";
-
+import { ArrowLeftSquareIcon, BookOpenText, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, UsersIcon, UsersRoundIcon, Wallet2 } from "lucide-react";
 
 export const customButtonDefinitions = {
   variants: {
@@ -106,7 +104,7 @@ export const instructorDashboardLinks = [
     icon: BookOpenText,
   },
   {
-    href: "/dashboard/my-earning",
+    href: "/dashboard/my-earnings",
     label: "My Earnings",
     icon: CreditCardIcon,
   },

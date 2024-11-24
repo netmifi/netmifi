@@ -20,7 +20,6 @@ const TopBar = ({
   state: userType["type"];
   open: boolean;
 }) => {
-
   return (
     <div className="sticky top-0 z-30 w-full shadow-sm flex justify-between gap-3 py-3 px-4 items-center bg-sidebar">
       <section className="flex w-auto gap-2 sm:gap-2 items-center">
@@ -65,6 +64,7 @@ const TopBar = ({
             </Tooltip>
           </TooltipProvider>
         )}
+
         <NavbarPopover type="notification" counter={50} />
 
         {state === "user" && <NavbarPopover type="cart" counter={50} />}

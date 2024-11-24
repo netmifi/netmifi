@@ -1,5 +1,5 @@
 declare interface userType {
-  type: 'user' | 'instructor' | 'blogger' | 'admin';
+  type: 'guest' | 'user' | 'instructor' | 'blogger' | 'admin';
 }
 
 declare interface Comments {
@@ -144,6 +144,7 @@ declare interface CoursesJumbotronProps {
 declare interface CoursesCardProps extends Course {
   className?: string;
   course: Course;
+  page?: 'dashboard' | 'user';
 }
 
 declare interface CourseCarouselProps {
@@ -442,6 +443,7 @@ declare interface DashboardCardProps {
   link?: string;
   icon: JSX.Element;
   isMoney: boolean;
+  isWithdrawal?: boolean;
   date?: Date;
 }
 
@@ -451,5 +453,5 @@ declare interface NavSearchProps {
   className?: ClassValue;
   searchFloatButtonClassName?: ClassValue;
   fullScreen?: "md" | "sm";
-  floating?: "none" | "float";
+  floating?: "none" | "float" | "always";
 }

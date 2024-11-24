@@ -64,7 +64,11 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarProfile username="victony darey" info="fullstack developer" profile={aboutHero} />
+          <SidebarProfile
+            username="victony darey"
+            info="fullstack developer"
+            profile={aboutHero}
+          />
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>

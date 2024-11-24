@@ -64,7 +64,9 @@ const NavSearch = ({
       <Button
         variant="transparent"
         className={cn("[&_svg]:size-6", searchFloatButtonClassName)}
-        onClick={() => (floating === "float" ? _setOpen(true) : {})}
+        onClick={() =>
+          floating === "always" || floating === "float" ? _setOpen(true) : {}
+        }
       >
         <Search />
       </Button>
@@ -217,7 +219,12 @@ const NavSearch = ({
 
   return (
     <div className={cn("flex w-full", containerClassName)}>
-      {fullScreen ? (
+      {floating === "always" ? (
+        <>
+          {searchFloatButton()}
+          {searchForm(false, true)}
+        </>
+      ) : fullScreen ? (
         fullScreen === "md" && mdWidth ? (
           searchSheetDialog()
         ) : fullScreen === "sm" && smWidth ? (

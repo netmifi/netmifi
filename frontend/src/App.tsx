@@ -36,8 +36,10 @@ import SignInstructor from "./pages/auth/welcome/SignInstructor";
 import TestPage from "./pages/TestPage";
 // import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
 
-import InstructorDashboard from "./pages/instructor/Dashboard";
+import InstructorDashboard from "./pages/instructor_dashboard/Dashboard";
 import { AppProvider } from "./app/app-provider";
+import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
+import MyEarnings from "./pages/instructor_dashboard/MyEarnings";
 
 const App = () => {
   return (
@@ -118,19 +120,18 @@ const App = () => {
 
               {/* FEEDBACK ROUTE */}
               <Route path="/feedback" element={<Feedback />} />
+              {/* INSTRUCTOR DASHBOARD ROUTES */}
+              <Route
+                path="dashboard"
+                element={<InstructorDashboardOutletLayout />}
+              >
+                <Route path="home" element={<InstructorDashboard />} />
+                <Route path="my-earnings" element={<MyEarnings />} />
+              </Route>
 
               {/* 404 page ROUTES */}
               <Route path="*" element={<NotFound />} />
               <Route path="404" element={<NotFound />} />
-            </Route>
-
-            {/* INSTRUCTOR DASHBOARD ROUTES */}
-            <Route
-              path="/dashboard"
-              element={<InstructorDashboard />}
-            >
-              <Route path="home" element={<InstructorDashboard />} />
-              <Route path="test/123/456" element={<InstructorDashboard />} />
             </Route>
           </Routes>
           <Toaster />

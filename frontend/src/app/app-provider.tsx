@@ -24,7 +24,7 @@ export function AppProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState([]);
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
 
   const value = {
     user,

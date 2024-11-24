@@ -4,10 +4,9 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import TopBar from "./navbar/user/Topbar";
 import AppSidebar from "./navbar/user/AppSidebar";
-import {
-  SidebarProvider,
-  useSidebar,
-} from "@/components/ui/sidebar";
+import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
+import { useApp } from "@/app/app-provider";
+import GuestNavbar from "./navbar/guest/Index";
 
 export const MainContent = ({ state }: { state: userType["type"] }) => {
   const { open } = useSidebar();
@@ -16,7 +15,11 @@ export const MainContent = ({ state }: { state: userType["type"] }) => {
     <div
       className={`flex-grow w-full h-full overflow-y-auto transition-all duration-300 ease-in-out `}
     >
-      <TopBar state={state} open={open} />
+      {state === "guest" ? (
+        <GuestNavbar />
+      ) : (
+        <TopBar state={state} open={open} />
+      )}
       <main className="">
         <div
           className={cn("max-container flex flex-col gap-28 h-[90%]", {
@@ -32,9 +35,11 @@ export const MainContent = ({ state }: { state: userType["type"] }) => {
 };
 
 const AppOutletLayout = () => {
-  // const {isAuth} = ;
+  const { isAuth } = useApp();
   const { pathname } = useLocation();
-  const state = pathname.startsWith("/admin")
+  const state = !isAuth
+    ? "guest"
+    : pathname.startsWith("/admin")
     ? "admin"
     : pathname.startsWith("/dashboard")
     ? "instructor"
@@ -46,10 +51,9 @@ const AppOutletLayout = () => {
 
   return (
     <>
-      {/* <div className="w-screen flex"> */}
       <SidebarProvider>
         <div className="flex h-screen overflow-hidden bg-background w-full">
-          <AppSidebar state={state} />
+          {state !== "guest" && <AppSidebar state={state} />}{" "}
           <MainContent state={state} />
         </div>
       </SidebarProvider>

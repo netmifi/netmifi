@@ -6,7 +6,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 const BreadcrumbNav = () => {
@@ -16,7 +15,7 @@ const BreadcrumbNav = () => {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="text-base sm:text-lg">
         {withoutLast.map((path) => (
           <>
             <BreadcrumbItem>

@@ -1,9 +1,9 @@
-import DashboardCard from "@/components/DashboardCard";
+import AnalyticsCard from "@/components/instructor_dashboard/DashboardCard";
 import { Book, CoinsIcon, UsersRoundIcon } from "lucide-react";
 import { FaBookReader } from "react-icons/fa";
-import { tempPurchasedCourses as recentPublish } from "@/constants/temp";
+import { tempCourses as recentPublish } from "@/constants/temp";
 import CourseCard from "@/components/courses/CourseCard";
-import MyCourseCard from "@/components/courses/my-courses/MyCourseCard";
+
 const Dashboard = () => {
   const cardInformation = [
     {
@@ -40,11 +40,11 @@ const Dashboard = () => {
   return (
     <main className="w-full flex flex-col mt-5 gap-10 justify-center">
       <h1 className="sm:my-4 text-center text-xl md:text-2xl lg:text-3xl ">
-        What will You Publish Today
+        What Will You Publish Today
       </h1>
-      <section className="w-full md:mx-auto flex flex-wrap gap-5 *:flex-auto  *:min-w-[30%] *:max-w-full">
+      <section className="w-full md:mx-auto flex flex-wrap gap-5 *:flex-auto  *:min-w-[30%] *:max-w-full px-2 sm:px-4">
         {cardInformation.map((card) => (
-          <DashboardCard
+          <AnalyticsCard
             count={card.total}
             label={card.label}
             icon={<card.icon />}
@@ -55,13 +55,31 @@ const Dashboard = () => {
         ))}
       </section>
 
-      <section className="block mt-32 mx-auto">
+      <section className="block mt-32 mx-auto py-4 px-2 sm:px-4 bg-popover">
         <h3 className="mb-3 font-bold text-xl sm:text-2xl">
           Recently Published Courses
         </h3>
-        <div className="flex flex-wrap gap-5 mx-auto w-full items-start">
+        <div className="flex flex-wrap gap-5 w-full items-start ">
           {recentPublish.map((course) => (
-            <MyCourseCard course={course} type={"on-page"} />
+            <CourseCard
+              course={course}
+              page="dashboard"
+              id={course.id}
+              type={course.type}
+              price={course.price}
+              subject={course.subject}
+              thumbnail={course.thumbnail}
+              title={course.title}
+              videoURL={course.videoURL}
+              instructorName={course.instructorName}
+              instructorProfileImage={course.instructorProfileImage}
+              instructorProfileURL={course.instructorProfileURL}
+              rating={course.rating}
+              reviews={course.reviews}
+              isVerified={course.isVerified}
+              isFollowing={course.isFollowing}
+              date={course.date}
+            />
           ))}
         </div>
       </section>
