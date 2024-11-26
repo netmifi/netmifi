@@ -455,3 +455,16 @@ declare interface NavSearchProps {
   fullScreen?: "md" | "sm";
   floating?: "none" | "float" | "always";
 }
+
+declare interface CustomLegendProps extends LegendProps {
+  payload?: {
+    value: string;
+    color: string;
+  }[];
+}
+
+declare interface CustomTableTooltipProps {
+  hoverLabel: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  children: React.ReactNode;
+}

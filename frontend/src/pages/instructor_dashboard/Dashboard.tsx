@@ -1,4 +1,4 @@
-import AnalyticsCard from "@/components/instructor_dashboard/DashboardCard";
+import AnalyticsCard from "@/components/instructor_dashboard/AnalyticsCard";
 import { Book, CoinsIcon, UsersRoundIcon } from "lucide-react";
 import { FaBookReader } from "react-icons/fa";
 import { tempCourses as recentPublish } from "@/constants/temp";

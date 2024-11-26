@@ -1,5 +1,8 @@
-import AnalyticsCard from "@/components/instructor_dashboard/DashboardCard";
+import AnalyticsCard from "@/components/instructor_dashboard/AnalyticsCard";
 import PayoutSetupDialog from "@/components/instructor_dashboard/PayoutSetupDialog";
+import RevenuePerCourse from "@/components/instructor_dashboard/RevenuePerCourse";
+import StudentsChartDonut from "@/components/instructor_dashboard/StudentsChartDonut";
+// import StudentsChartDonut from "@/components/instructor_dashboard/StudentsChartDonut";
 import { CoinsIcon, Wallet2Icon } from "lucide-react";
 
 const MyEarnings = () => {
@@ -9,7 +12,7 @@ const MyEarnings = () => {
         <PayoutSetupDialog />
       </section>
 
-      <section className="flex gap-4 flex-wrap">
+      <section className="flex gap-4 flex-wrap mb-14">
         <div className="flex-grow">
           <AnalyticsCard
             count={75312}
@@ -32,7 +35,15 @@ const MyEarnings = () => {
         </div>
       </section>
 
-      <section className="flex gap-4 flex-wrap"></section>
+      <section className="flex gap-4 flex-wrap w-full">
+        <div className="flex-1">
+          <StudentsChartDonut />
+        </div>
+
+        <div className="flex-auto">
+          <RevenuePerCourse />
+        </div>
+      </section>
     </main>
   );
 };
