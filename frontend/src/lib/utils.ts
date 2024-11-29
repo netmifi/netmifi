@@ -103,6 +103,11 @@ export const onlyEmailFormSchema = () =>
   z.object({
     email: z.string().email({ message: 'Must be a valid email eg. myname@example.com' })
   });
+
+export const deleteConfirmationSchema = (text: string) =>
+  z.object({
+    sentence: z.string().min(1, { message: 'Field required' }).refine((value) => { return value === text }, { message: 'Input must match confirmation sentence' })
+  });
 export const onlyPasswordFormSchema = () =>
   z.object({
     password: z.string().min(8, { message: "Password cannot be less than 8 characters" }),

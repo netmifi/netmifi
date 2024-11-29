@@ -43,6 +43,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Form } from "./ui/form";
 
 // import DeleteIcon from "@/assets/images/delete.svg";
 // import EditIcon from "@/assets/images/edit.svg";
@@ -57,6 +58,7 @@ import {
 } from "@/components/ui/tooltip";
 import {
   cn,
+  deleteConfirmationSchema,
   handleClipBoardCopy,
   splitCamelCaseToWords,
   splitSnakeCaseToWords,
@@ -64,6 +66,7 @@ import {
 import {
   ArrowDown,
   ArrowUp,
+  BanIcon,
   CopyIcon,
   EditIcon,
   EyeIcon,
@@ -76,6 +79,20 @@ import useWindowSize from "@/hooks/useWindowSize";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { ClassValue } from "clsx";
 import { Input } from "./ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import CustomFormField from "./Form/CustomFormField";
+import Loader from "./Loader";
 // import usePrivateAxios from "@/hooks/usePrivateAxios";
 // import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
 // import axios from "@/api/axios";
@@ -126,6 +143,7 @@ interface DataTableProps<TableData extends HasId> {
     setIsFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
   }>;
   deleteURL: string;
+  clearAllURL?: string;
   isPending?: boolean;
   specialStyle: {
     column: string;
@@ -207,6 +225,7 @@ export default function CustomTable<TableData extends HasId>({
   ViewComponent,
   EditComponent,
   deleteURL,
+  clearAllURL,
   specialStyle = [],
 }: DataTableProps<TableData>) {
   const actionsColumn: ColumnDef<HasId> = {
@@ -416,10 +435,20 @@ export default function CustomTable<TableData extends HasId>({
   const showDelete =
     !table.getIsAllRowsSelected() && !table.getIsSomeRowsSelected();
 
+  const [isClearAllLoading, setIsClearAllLoading] = useState(false);
+  const clearAllFormSchema = deleteConfirmationSchema("i have consent");
+  const clearAllForm = useForm<z.infer<typeof clearAllFormSchema>>({
+    resolver: zodResolver(clearAllFormSchema),
+  });
+
+  const handleClearAll = () => {
+    console.log("submit");
+  };
+
   return (
     <div className="w-full">
-      <div className="w-full flex mb-4">
-        <div className="ml-auto flex items-center bg-secondary transition-all focus-within:bg-transparent basis-[40%] rounded-full border border-secondary px-2">
+      <div className="w-full flex justify-between mb-4 flex-wrap gap-2 max-sm:justify-end">
+        <div className="min-w-[60%] max-sm:flex-grow flex items-center bg-secondary transition-all focus-within:bg-transparent rounded-full border border-secondary px-2">
           <Input
             className="outline-none border-none bg-transparent"
             placeholder="Search here..."
@@ -437,6 +466,55 @@ export default function CustomTable<TableData extends HasId>({
             <X className="size-4" />
           </Label>
         </div>
+
+        {clearAllURL && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="flex gap-2 [&_svg]:size-5 rounded-full">
+                <BanIcon /> Clear All
+              </Button>
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Clear All Records</DialogTitle>
+                <DialogDescription className="text-red">
+                  All records on our cloud would be cleared, it is a
+                  non-reversible action
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Form {...clearAllForm}>
+                  <form
+                    onSubmit={clearAllForm.handleSubmit(handleClearAll)}
+                    className="w-full flex flex-col gap-6"
+                  >
+                    <div className="flex flex-col">
+                      <div className="flex flex-col mb-3">
+                        <span className="text-xs">Confirmation sentence</span>
+                        <p className="lowercase text-base font-bold font-poppins pointer-events-auto cursor-none">
+                          i have consent
+                        </p>
+                      </div>
+
+                      <CustomFormField
+                        name="sentence"
+                        control={clearAllForm.control}
+                        // label="Confirmation sentence"
+                        placeholder="Type in confirmation..."
+                        isNotLabeled
+                      />
+                    </div>
+
+                    <Button type="submit" disabled={isClearAllLoading}>
+                      {isClearAllLoading ? <Loader type="all" /> : "Consent"}
+                    </Button>
+                  </form>
+                </Form>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
       <div className="">
         {isFormOpen && EditComponent && (
@@ -621,8 +699,8 @@ export default function CustomTable<TableData extends HasId>({
       {!isFormOpen && !isViewOpen && (
         <div className="flex flex-col gap-2">
           <div className="w-full flex flex-wrap items-center border-2 rounded-xl border-muted bg-popover my-5 py-1 px-5">
-            <Pagination className="flex-1 w-full">
-              <PaginationContent>
+            <Pagination className="flex-1 w-full p-0">
+              <PaginationContent className="p-0">
                 <PaginationItem>
                   <Button
                     className="[&_span]:max-md:hidden"
@@ -633,34 +711,26 @@ export default function CustomTable<TableData extends HasId>({
                     <PaginationPrevious onClick={() => table.previousPage()} />
                   </Button>
                 </PaginationItem>
-                <ScrollArea className="">
-                  <PaginationItem className="w-full justify-center items-center">
-                    <div className="flex">
-                      {Array.from(
-                        { length: lastPage ?? table.getPageCount() },
-                        (_, i) => (
-                          <PaginationLink
-                            key={i}
-                            isActive={
-                              i === table.getState().pagination.pageIndex
-                            }
-                            onClick={() => table.setPageIndex(i)}
-                            className={cn(
-                              "cursor-pointer [aria-current='page']:bg-low-red:",
-                              {
-                                "bg-red border-low-red text-popover":
-                                  i === table.getState().pagination.pageIndex,
-                              }
-                            )}
-                          >
-                            {i + 1}
-                          </PaginationLink>
-                        )
-                      )}
-                    </div>
-                  </PaginationItem>
-                  <ScrollBar orientation="horizontal" />
-                </ScrollArea>
+                <PaginationItem className="justify-center items-center max-w-[80%] overflow-x-auto">
+                  {/* <div className="flex max-w-full overflow-x-auto"> */}
+                  {Array.from(
+                    { length: lastPage ?? table.getPageCount() },
+                    (_, i) => (
+                      <PaginationLink
+                        key={i}
+                        isActive={i === table.getState().pagination.pageIndex}
+                        onClick={() => table.setPageIndex(i)}
+                        className={cn("cursor-pointer rounded-xl", {
+                          "border-red":
+                            i === table.getState().pagination.pageIndex,
+                        })}
+                      >
+                        {i + 1}
+                      </PaginationLink>
+                    )
+                  )}
+                  {/* </div> */}
+                </PaginationItem>
                 <PaginationItem>
                   <Button
                     className="hover:bg-transparent"

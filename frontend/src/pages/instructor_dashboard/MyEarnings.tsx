@@ -114,6 +114,7 @@ const MyEarnings = () => {
               <CustomTable
                 data={[...earnings]}
                 deleteURL=""
+                clearAllURL="/"
                 isDialog={true}
                 isEdit={false}
                 ViewComponent={ViewTransaction}
