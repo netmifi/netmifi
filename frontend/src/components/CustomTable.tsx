@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Key, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -43,9 +44,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import DeleteIcon from "@/assets/images/delete.svg";
-import EditIcon from "@/assets/images/edit.svg";
-import EyeIcon from "@/assets/images/eye.svg";
+// import DeleteIcon from "@/assets/images/delete.svg";
+// import EditIcon from "@/assets/images/edit.svg";
+// import EyeIcon from "@/assets/images/eye.svg";
 import { Checkbox } from "./ui/checkbox";
 
 import {
@@ -60,11 +61,23 @@ import {
   splitCamelCaseToWords,
   splitSnakeCaseToWords,
 } from "@/lib/utils";
-import { CopyIcon, Loader2, X } from "lucide-react";
-import { useWindowWidth } from "@/hooks";
+import {
+  ArrowDown,
+  ArrowUp,
+  CopyIcon,
+  EditIcon,
+  EyeIcon,
+  Loader2,
+  TrashIcon,
+  X,
+} from "lucide-react";
 import { Label } from "./ui/label";
-import usePrivateAxios from "@/hooks/usePrivateAxios";
-import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import useWindowSize from "@/hooks/useWindowSize";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import { ClassValue } from "clsx";
+import { Input } from "./ui/input";
+// import usePrivateAxios from "@/hooks/usePrivateAxios";
+// import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
 // import axios from "@/api/axios";
 
 export function CustomTooltip({
@@ -94,10 +107,13 @@ export function CustomTooltip({
 interface DataTableProps<TableData extends HasId> {
   data: TableData[];
   keys: (keyof TableData)[];
-  lastpage?: number;
+  lastPage?: number;
   pageSize: number;
   promptLabel: string;
   isDialog: boolean;
+  isView?: boolean;
+  isEdit?: boolean;
+  isDelete?: boolean;
   setData: React.Dispatch<React.SetStateAction<TableData[]>>;
   ViewComponent?: React.ComponentType<{
     datum: TableData;
@@ -111,6 +127,10 @@ interface DataTableProps<TableData extends HasId> {
   }>;
   deleteURL: string;
   isPending?: boolean;
+  specialStyle: {
+    column: string;
+    className: ClassValue;
+  }[];
 }
 
 const generateColumns = <TableData extends HasId>(
@@ -119,9 +139,12 @@ const generateColumns = <TableData extends HasId>(
   const columns: ColumnDef<TableData>[] = keys.map((key) => ({
     id: String(key),
     accessorKey: key,
+    sortingFn: "alphanumeric",
     header: () => (
       <div className="text-mg capitalize font-medium">
-        {splitSnakeCaseToWords(String(key))}
+        {splitCamelCaseToWords(
+          String(key === "amount" ? String(key) + "(#)" : key)
+        )}
       </div>
     ),
     cell: ({ row }) =>
@@ -133,7 +156,7 @@ const generateColumns = <TableData extends HasId>(
             className="text-primary fill-light size-5"
           />
         </div>
-      ) : key === "created_at" ? (
+      ) : key === "createdAt" || key === "date" || key === "updatedAt" ? (
         <div>{new Date(row.getValue(key as string)).toLocaleDateString()}</div>
       ) : (
         <div>{row.getValue(key as string)}</div>
@@ -154,6 +177,7 @@ const selectColumn: ColumnDef<HasId> = {
       id="select all"
       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
       aria-label="Select all"
+      className="data-[state=checked]:bg-red rounded-full"
     />
   ),
   cell: ({ row }) => (
@@ -161,109 +185,112 @@ const selectColumn: ColumnDef<HasId> = {
       checked={row.getIsSelected()}
       onCheckedChange={(value) => row.toggleSelected(!!value)}
       aria-label="Select row"
+      className="rounded-full"
     />
   ),
   enableSorting: false,
   enableHiding: false,
 };
 
-// const viewableRoutes = [
-//   "/dashboard/contact",
-//   "/dashboard/contact/",
-//   "/dashboard/admin/",
-//   "/dashboard/admin",
-// ];
-
-// function startsWithViewableRoute(pathname: string) {
-//   return viewableRoutes.some((route) => pathname.startsWith(route));
-// }
-
-const actionsColumn: ColumnDef<HasId> = {
-  id: "actions",
-  header: () => <p className="text-center">Actions</p>,
-  enableHiding: false,
-  cell: ({ row, table }) => {
-    const meta = table.options.meta as {
-      handleView: (row: HasId) => void;
-      handleDelete: (row: HasId) => void;
-      handleEdit: (row: HasId) => void;
-    };
-
-    return (
-      <div className="flex gap-2 items-center justify-center">
-        <CustomTooltip
-          onClick={() => meta?.handleView(row.original)}
-          children={<img src={EyeIcon} alt="EyeIcon" />}
-          hoverLabel={"View"}
-        />
-
-        <CustomTooltip
-          onClick={() => meta?.handleEdit(row.original)}
-          children={<img src={EditIcon} alt="EditIcon" />}
-          hoverLabel={"Edit"}
-        />
-        <AlertDialog>
-          <AlertDialogTrigger>
-            {/* <img src={DeleteIcon} alt="DeleteIcon" /> */}
-            <CustomTooltip
-              //   onClick={() => meta?.handleDelete(row.original)}
-              children={<img src={DeleteIcon} alt="DeleteIcon" />}
-              hoverLabel={"Delete"}
-            />
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader className="flex">
-              <div className="flex justify-between">
-                <AlertDialogTitle>
-                  Are you sure you want to delete this?
-                </AlertDialogTitle>
-                <AlertDialogCancel className="border-0 p-0">
-                  <X />
-                </AlertDialogCancel>
-              </div>
-              <AlertDialogDescription>
-                This will be permanently delete
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-
-            <AlertDialogFooter>
-              <AlertDialogAction
-                onClick={() => meta?.handleDelete(row.original)}
-              >
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
-    );
-  },
-};
 export default function CustomTable<TableData extends HasId>({
   data: tableData,
   keys,
-  lastpage,
+  lastPage,
   pageSize,
   setData,
   isPending,
   isDialog,
+  isView = true,
+  isEdit = true,
+  isDelete = true,
   promptLabel,
   ViewComponent,
   EditComponent,
   deleteURL,
+  specialStyle = [],
 }: DataTableProps<TableData>) {
+  const actionsColumn: ColumnDef<HasId> = {
+    id: "actions",
+    header: () => <p className="text-center">Actions</p>,
+    enableHiding: false,
+    cell: ({ row, table }) => {
+      const meta = table.options.meta as {
+        handleView: (row: HasId) => void;
+        handleDelete: (row: HasId) => void;
+        handleEdit: (row: HasId) => void;
+      };
+
+      return (
+        <div className="flex gap-2 items-center justify-center">
+          {isView && (
+            <CustomTooltip
+              onClick={() => meta?.handleView(row.original)}
+              children={<EyeIcon className="size-4" />}
+              hoverLabel={"View"}
+            />
+          )}
+
+          {isEdit && (
+            <CustomTooltip
+              onClick={() => meta?.handleEdit(row.original)}
+              children={<EditIcon className="size-4" />}
+              hoverLabel={"Edit"}
+            />
+          )}
+          {isDelete && (
+            <AlertDialog>
+              <AlertDialogTrigger>
+                {/* <img src={DeleteIcon} alt="DeleteIcon" /> */}
+                <CustomTooltip
+                  //   onClick={() => meta?.handleDelete(row.original)}
+                  children={<TrashIcon className="size-4" />}
+                  hoverLabel={"Delete"}
+                />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader className="flex">
+                  <div className="flex justify-between">
+                    <AlertDialogTitle>
+                      Are you sure you want to delete this?
+                    </AlertDialogTitle>
+                    <AlertDialogCancel className="border-0 p-0">
+                      <X />
+                    </AlertDialogCancel>
+                  </div>
+                  <AlertDialogDescription>
+                    This will be permanently delete
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                  <AlertDialogAction
+                    onClick={() => meta?.handleDelete(row.original)}
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
+      );
+    },
+  };
+
   const dynamicColumns = generateColumns(keys);
+
   const columns: ColumnDef<HasId, unknown>[] = [
     selectColumn as ColumnDef<HasId, unknown>,
     ...(dynamicColumns as ColumnDef<HasId, unknown>[]),
     actionsColumn as unknown as ColumnDef<HasId, unknown>,
   ];
-  const privateAxios = usePrivateAxios();
-  const width = useWindowWidth();
-  const queryClient = useQueryClient();
-  const queryKey: QueryKey = ["contacts"];
+  // const privateAxios = usePrivateAxios();
+  const { width } = useWindowSize();
+  // const queryClient = useQueryClient();
+  // const queryKey: QueryKey = ["contacts"];
   // const [tableData, setTableData] = useState(data);
 
+  const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -276,54 +303,56 @@ export default function CustomTable<TableData extends HasId>({
   const deleteRow = async (row: TableData) => {
     console.log("row", row);
     console.log(deleteURL);
-    const response = await privateAxios.post(
-      deleteURL,
-      { id: row?.id },
-      {
-        headers: {
-          team: "administrator",
-        },
-      }
-    );
-    return response.data;
+    // const response = await privateAxios.post(
+    //   deleteURL,
+    //   { id: row?.id },
+    //   {
+    //     headers: {
+    //       team: "administrator",
+    //     },
+    //   }
+    // );
+    // return response.data;
   };
 
-  const useDeleteRow = useMutation({
-    mutationFn: (row) => deleteRow(row),
-    onMutate: async (variables: TableData) => {
-      await queryClient.cancelQueries({ queryKey });
+  // const useDeleteRow = useMutation({
+  //   mutationFn: (row) => deleteRow(row),
+  //   onMutate: async (variables: TableData) => {
+  //     await queryClient.cancelQueries({ queryKey });
 
-      const previousState = queryClient.getQueryData(queryKey);
-      previousState?.data?.filter((row: TableData) => row.id !== variables.id);
+  //     const previousState = queryClient.getQueryData(queryKey);
+  //     previousState?.data?.filter((row: TableData) => row.id !== variables.id);
 
-      const updatedData =
-        previousState?.data?.filter(
-          (row: TableData) => row.id !== variables.id
-        ) || [];
-      queryClient.setQueryData(queryKey, { data: updatedData });
+  //     const updatedData =
+  //       previousState?.data?.filter(
+  //         (row: TableData) => row.id !== variables.id
+  //       ) || [];
+  //     queryClient.setQueryData(queryKey, { data: updatedData });
 
-      return { previousState };
-    },
-    onSuccess: (_, variables) => {
-      toast.success(
-        (variables.length as number) > 1
-          ? `${variables.length} rows deleted successfully`
-          : `${variables?.[promptLabel]} has been deleted`
-      );
-    },
-    onError: (error, _, context) => {
-      queryClient.setQueryData(queryKey, context?.previousState);
-      toast.error("Something Went Wrong!!!");
-      console.error(error);
-    },
-  });
+  //     return { previousState };
+  //   },
+  //   onSuccess: (_, variables) => {
+  //     toast.success(
+  //       (variables.length as number) > 1
+  //         ? `${variables.length} rows deleted successfully`
+  //         : `${variables?.[promptLabel]} has been deleted`
+  //     );
+  //   },
+  //   onError: (error, _, context) => {
+  //     queryClient.setQueryData(queryKey, context?.previousState);
+  //     toast.error("Something Went Wrong!!!");
+  //     console.error(error);
+  //   },
+  // });
   const handleDelete = (row?: TableData) => {
     const selectedRows: TableData[] =
       table.getSelectedRowModel().rows.length > 0
-        ? table.getSelectedRowModel().rows.map((r) => r.original)
+        ? table
+            .getSelectedRowModel()
+            .rows.map((r: { original: any }) => r.original)
         : [row!];
 
-    selectedRows.forEach((row) => useDeleteRow.mutate(row));
+    // selectedRows.forEach((row) => useDeleteRow.mutate(row));
   };
 
   const handleEdit = (row?: TableData) => {
@@ -353,6 +382,7 @@ export default function CustomTable<TableData extends HasId>({
   const table = useReactTable({
     data: tableData,
     columns,
+    enableSorting: true,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -361,11 +391,15 @@ export default function CustomTable<TableData extends HasId>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: "includesString",
+
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      globalFilter,
     },
     initialState: {
       pagination: {
@@ -384,6 +418,26 @@ export default function CustomTable<TableData extends HasId>({
 
   return (
     <div className="w-full">
+      <div className="w-full flex mb-4">
+        <div className="ml-auto flex items-center bg-secondary transition-all focus-within:bg-transparent basis-[40%] rounded-full border border-secondary px-2">
+          <Input
+            className="outline-none border-none bg-transparent"
+            placeholder="Search here..."
+            id="search"
+            value={globalFilter ?? ""}
+            onInput={(e) => setGlobalFilter(e.currentTarget.value)}
+          />
+          <Label
+            htmlFor="search"
+            className={cn("px-3 cursor-pointer", {
+              "opacity-0": !globalFilter,
+            })}
+            onClick={() => setGlobalFilter("")}
+          >
+            <X className="size-4" />
+          </Label>
+        </div>
+      </div>
       <div className="">
         {isFormOpen && EditComponent && (
           <>
@@ -422,22 +476,48 @@ export default function CustomTable<TableData extends HasId>({
 
         {!isFormOpen && !isViewOpen && (
           <>
-            {width && width > 729 ? (
-              <TableComponent className="bg-white rounded-xl">
-                <TableHeader>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <TableHead key={header.id}>
-                          {header.isPlaceholder ||
-                            flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                        </TableHead>
-                      ))}
-                    </TableRow>
-                  ))}
+            {/* {width && width > 729 ? ( */}
+            <ScrollArea>
+              <TableComponent className="bg-popover rounded-xl min-w-[90em]">
+                <TableHeader className="">
+                  {table
+                    .getHeaderGroups()
+                    .map(
+                      (headerGroup: {
+                        id: Key | null | undefined;
+                        headers: never[];
+                      }) => (
+                        <TableRow key={headerGroup.id}>
+                          {headerGroup.headers.map(
+                            (header: {
+                              id: Key | null | undefined;
+                              isPlaceholder: never;
+                              column: { columnDef: { header: never } };
+                              getContext: () => unknown;
+                            }) => (
+                              <TableHead key={header.id}>
+                                <div
+                                  className="flex items-center gap-px"
+                                  onClick={header.column.getToggleSortingHandler()}
+                                >
+                                  {header.isPlaceholder ||
+                                    flexRender(
+                                      header.column.columnDef.header,
+                                      header.getContext()
+                                    )}
+                                  {{
+                                    //display a relevant icon for sorting order:
+                                    asc: <ArrowUp size={14} />,
+                                    desc: <ArrowDown size={14} />,
+                                  }[header.column.getIsSorted() as string] ??
+                                    null}
+                                </div>
+                              </TableHead>
+                            )
+                          )}
+                        </TableRow>
+                      )
+                    )}
                 </TableHeader>
                 <TableBody>
                   {isPending ? (
@@ -452,21 +532,69 @@ export default function CustomTable<TableData extends HasId>({
                       </TableCell>
                     </TableRow>
                   ) : table.getRowModel().rows.length ? (
-                    table.getRowModel().rows.map((row) => (
-                      <TableRow
-                        key={row.id}
-                        data-state={row.getIsSelected() && "selected"}
-                      >
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    ))
+                    table
+                      .getRowModel()
+                      .rows.map(
+                        (row: {
+                          id: Key | null | undefined;
+                          getIsSelected: () => any;
+                          getVisibleCells: () => any[];
+                        }) => (
+                          <TableRow
+                            key={row.id}
+                            data-state={row.getIsSelected() && "selected"}
+                          >
+                            {row
+                              .getVisibleCells()
+                              .map(
+                                (cell: {
+                                  row: any;
+                                  id: Key | null | undefined;
+                                  column: { columnDef: { cell: any } };
+                                  getContext: () => any;
+                                }) => (
+                                  <TableCell
+                                    key={cell.id}
+                                    className={
+                                      (specialStyle.length > 0
+                                        ? specialStyle.map(
+                                            ({ column, className }) =>
+                                              cell?.id?.split("_")[1] === column
+                                                ? className
+                                                : ""
+                                          )
+                                        : "") as string
+                                    }
+                                  >
+                                    <div
+                                      className={cn({
+                                        "w-full text-center p-2 rounded-md":
+                                          cell?.id?.split("_")[1] === "status",
+                                        "bg-green-500 text-popover":
+                                          cell.row.original.status ===
+                                            "success" &&
+                                          cell?.id?.split("_")[1] === "status",
+                                        "bg-low-red text-primary":
+                                          cell.row.original.status ===
+                                            "error" &&
+                                          cell?.id?.split("_")[1] === "status",
+                                        "bg-yellow-500":
+                                          cell.row.original.status ===
+                                            "pending" &&
+                                          cell?.id?.split("_")[1] === "status",
+                                      })}
+                                    >
+                                      {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext()
+                                      )}
+                                    </div>
+                                  </TableCell>
+                                )
+                              )}
+                          </TableRow>
+                        )
+                      )
                   ) : (
                     <TableRow>
                       <TableCell
@@ -479,93 +607,128 @@ export default function CustomTable<TableData extends HasId>({
                   )}
                 </TableBody>
               </TableComponent>
-            ) : (
-              <div className="flex flex-col gap-5">
-                <span className="bg-white p-4 rounded-xl sticky top-0"></span>
-              </div>
-            )}
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+            {/* // ) : (
+              // <div className="flex flex-col gap-5">
+              //   <span className="bg-white p-4 rounded-xl sticky top-0"></span>
+              // </div>
+            // )} */}
           </>
         )}
       </div>
 
       {!isFormOpen && !isViewOpen && (
-        <div className="flex flex-wrap items-center border-2 rounded-xl border-muted bg-white my-5 py-1 px-5">
-          <span className="text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
-          </span>
-          <Pagination className="flex-1">
-            <PaginationContent>
-              <PaginationItem>
-                <Button
-                  className="hover:bg-transparent"
-                  variant="ghost"
-                  disabled={!table.getCanPreviousPage()}
-                >
-                  <PaginationPrevious onClick={() => table.previousPage()} />
-                </Button>
-              </PaginationItem>
-              <PaginationItem>
-                {Array.from(
-                  { length: lastpage ?? table.getPageCount() },
-                  (_, i) => (
-                    <PaginationLink
-                      className="cursor-pointer"
-                      key={i}
-                      isActive={i === table.getState().pagination.pageIndex}
-                      onClick={() => table.setPageIndex(i)}
-                    >
-                      {i + 1}
-                    </PaginationLink>
-                  )
-                )}
-              </PaginationItem>
-              <PaginationItem>
-                <Button
-                  className="hover:bg-transparent"
-                  variant="ghost"
-                  disabled={!table.getCanNextPage()}
-                >
-                  <PaginationNext onClick={() => table.nextPage()} />
-                </Button>
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                disabled={showDelete}
-                variant="ghost"
-                className="hover:bg-transparent"
-              >
-                <p>Delete Selected</p>&nbsp;
-                <img src={DeleteIcon} alt="DeleteIcon" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Are you sure you want to delete{" "}
-                  {table.getSelectedRowModel().rows.length}{" "}
-                  {splitCamelCaseToWords(promptLabel).toLowerCase()}(s)?
-                </AlertDialogTitle>
-                {table.getSelectedRowModel().rows.map((row, index) => (
-                  <AlertDialogDescription
-                    key={index}
-                    className="text-primary text-sm"
+        <div className="flex flex-col gap-2">
+          <div className="w-full flex flex-wrap items-center border-2 rounded-xl border-muted bg-popover my-5 py-1 px-5">
+            <Pagination className="flex-1 w-full">
+              <PaginationContent>
+                <PaginationItem>
+                  <Button
+                    className="[&_span]:max-md:hidden"
+                    size={"no-pad"}
+                    variant="ghost"
+                    disabled={!table.getCanPreviousPage()}
                   >
-                    {`${row.getValue(promptLabel as string)}`}
-                  </AlertDialogDescription>
-                ))}
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDelete()} type="button">
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+                    <PaginationPrevious onClick={() => table.previousPage()} />
+                  </Button>
+                </PaginationItem>
+                <ScrollArea className="">
+                  <PaginationItem className="w-full justify-center items-center">
+                    <div className="flex">
+                      {Array.from(
+                        { length: lastPage ?? table.getPageCount() },
+                        (_, i) => (
+                          <PaginationLink
+                            key={i}
+                            isActive={
+                              i === table.getState().pagination.pageIndex
+                            }
+                            onClick={() => table.setPageIndex(i)}
+                            className={cn(
+                              "cursor-pointer [aria-current='page']:bg-low-red:",
+                              {
+                                "bg-red border-low-red text-popover":
+                                  i === table.getState().pagination.pageIndex,
+                              }
+                            )}
+                          >
+                            {i + 1}
+                          </PaginationLink>
+                        )
+                      )}
+                    </div>
+                  </PaginationItem>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+                <PaginationItem>
+                  <Button
+                    className="hover:bg-transparent"
+                    variant="ghost"
+                    size={"no-pad"}
+                    disabled={!table.getCanNextPage()}
+                  >
+                    <PaginationNext
+                      className="[&_span]:max-md:hidden"
+                      onClick={() => table.nextPage()}
+                    />
+                  </Button>
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">
+              {table.getFilteredSelectedRowModel().rows.length} of{" "}
+              {table.getFilteredRowModel().rows.length} row(s) selected
+            </span>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  disabled={showDelete}
+                  variant="ghost"
+                  className="hover:bg-transparent"
+                >
+                  <p>Delete Selected</p>&nbsp;
+                  <TrashIcon />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure you want to delete{" "}
+                    {table.getSelectedRowModel().rows.length}{" "}
+                    {splitCamelCaseToWords(promptLabel).toLowerCase()}(s)?
+                  </AlertDialogTitle>
+                  {table
+                    .getSelectedRowModel()
+                    .rows.map(
+                      (
+                        row: { getValue: (arg0: string) => any },
+                        index: Key | null | undefined
+                      ) => (
+                        <AlertDialogDescription
+                          key={index}
+                          className="text-primary text-sm"
+                        >
+                          {`${row.getValue(promptLabel as string)}`}
+                        </AlertDialogDescription>
+                      )
+                    )}
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => handleDelete()}
+                    type="button"
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
       )}
     </div>

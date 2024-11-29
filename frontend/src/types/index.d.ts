@@ -468,3 +468,14 @@ declare interface CustomTableTooltipProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
 }
+
+declare interface HasId {
+  [key: string | number]: string | number;
+  id: string;
+}
+
+declare interface DataDisplayToggleProps {
+  className?: ClassValue,
+  display: 'grid' | 'list',
+  setDisplay: React.Dispatch<React.SetStateAction<"list" | "grid">>
+}

@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { toast } from "sonner";
 
 
 
@@ -13,6 +14,23 @@ export function cn(...inputs: ClassValue[]) {
 export const splitCamelCaseToWords = (input: string) => {
   return input.replace(/([A-Z])/g, " $1").trim();
 };
+
+export const splitSnakeCaseToWords = (input: string): string => {
+  // Replace underscores with spaces, then capitalize each word
+  return input.replace(/_/g, " "); // Replace underscores with spaces
+};
+export const handleClipBoardCopy = (text: string) => {
+  navigator.clipboard.writeText(text);
+  toast.success("Copied to clipboard");
+};
+
+export function formatNumber(n: number): string {
+  return Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(n);
+}
+
 
 export const convertToReadableNumber = (number: number) => {
   if (number < 999)

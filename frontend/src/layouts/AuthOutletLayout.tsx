@@ -36,7 +36,7 @@ const AuthOutletLayout = () => {
 
   return (
     <>
-      <main className="flex min-h-screen">
+      <main className="flex min-h-screen bg-background">
         {!checkExemptionRoute() ? (
           <>
             <div className="flex-grow padding-x padding-y">

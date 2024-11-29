@@ -116,9 +116,9 @@ const RevenuePerCourse = () => {
 
   return (
     <Card className="relative w-full p-4 rounded-xl h-full px-0">
-      <CardHeader className="flex flex-wrap max-md:flex-col">
-        <CardTitle className="flex gap-2 items-center bg-red">
-          <span className="grid place-items-center bg-popover shadow-md rounded-2xl size-12 text-red">
+      <CardHeader className="w-full flex flex-row  justify-between flex-wrap max-md:flex-col">
+        <CardTitle className="flex gap-2 items-center">
+          <span className="grid place-items-center bg-low-red shadow-md rounded-2xl size-12 text-red">
             <CircleDollarSignIcon />
           </span>
           <h3 className="text-base md:text-lg">Revenue Analysis</h3>

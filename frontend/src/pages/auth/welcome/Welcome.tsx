@@ -28,7 +28,7 @@ const Welcome = () => {
           <CardHeader className="items-start">
             <Button
               variant={"secondary"}
-              className="border border-red bg-destructive/10 py-6"
+              className="border border-red bg-low-red py-6 "
               onClick={() => navigate(-1)}
             >
               <ArrowLeftIcon size={20} /> Back
@@ -44,7 +44,7 @@ const Welcome = () => {
                   </h2>
                   <p className="text-sm sm:text-base">
                     Get started on <b>Netmifi</b>. Tell us what you want to use
-                    our platform for and we would tailour it to suit you.
+                    our platform for and we would tailor it to suit you.
                   </p>
                 </div>
 

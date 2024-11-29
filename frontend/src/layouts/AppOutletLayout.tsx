@@ -12,20 +12,14 @@ export const MainContent = ({ state }: { state: userType["type"] }) => {
   const { open } = useSidebar();
 
   return (
-    <div
-      className={`flex-grow w-full h-full overflow-y-auto transition-all duration-300 ease-in-out `}
-    >
+    <div className="flex-grow w-full h-full overflow-y-auto transition-all duration-300 ease-in-out">
       {state === "guest" ? (
         <GuestNavbar />
       ) : (
         <TopBar state={state} open={open} />
       )}
-      <main className="">
-        <div
-          className={cn("max-container flex flex-col gap-28 h-[90%]", {
-            // "lg:ml-20": isAuth,
-          })}
-        >
+      <main className="max-container">
+        <div className="flex flex-col gap-28 h-[90%] mb-32">
           <Outlet />
         </div>
         <Footer />
