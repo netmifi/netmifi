@@ -20,24 +20,16 @@ const SignUp = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  const handleSubmit = ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
-    console.log(email, password);
+  const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    console.log(data);
     setIsLoading(true);
-    console.log(email);
-
     setTimeout(() => {
       setIsLoading(false);
 
       navigate("/auth/otp-verification", {
         state: {
           type: "verify",
-          email: email,
+          email: data.email,
         },
       });
 
@@ -86,6 +78,7 @@ const SignUp = () => {
                 <CustomFormField control={form.control} name="firstName" />
                 <CustomFormField control={form.control} name="lastName" />
               </div>
+              <CustomFormField control={form.control} name="username" />
               <CustomFormField control={form.control} name="email" />
               <div className="flex flex-col">
                 <Button

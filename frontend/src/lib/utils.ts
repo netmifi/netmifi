@@ -85,6 +85,12 @@ export const authFormSchema = (type: 'sign-in' | 'sign-up') =>
           message: "Last Name must be at least 3 characters.",
         })
         : z.string().optional(),
+    username:
+      type === "sign-up"
+        ? z.string().min(3, {
+          message: "User name must be at least 3 characters.",
+        })
+        : z.string().optional(),
     // phone:
     //   type === "sign-up"
     //     ? z
