@@ -10,7 +10,7 @@ const Dashboard = () => {
       icon: CoinsIcon,
       label: "total earnings",
       total: 75312,
-      link: "/dashboard/earnings",
+      link: "/dashboard/my-earnings",
     },
     {
       icon: Book,

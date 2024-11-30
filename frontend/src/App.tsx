@@ -40,6 +40,9 @@ import InstructorDashboard from "./pages/instructor_dashboard/Dashboard";
 import { AppProvider } from "./app/app-provider";
 import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
 import MyEarnings from "./pages/instructor_dashboard/MyEarnings";
+import Students from "./pages/instructor_dashboard/Students";
+import CertifiedStudents from "./pages/instructor_dashboard/CertifiedStudents";
+import Followers from "./pages/instructor_dashboard/Followers";
 
 const App = () => {
   return (
@@ -126,6 +129,13 @@ const App = () => {
                 element={<InstructorDashboardOutletLayout />}
               >
                 <Route path="home" element={<InstructorDashboard />} />
+                <Route path="students" element={<Students />} />
+                <Route
+                  path="certified-students"
+                  element={<CertifiedStudents />}
+                />
+                <Route path="followers" element={<Followers />} />
+                <Route path="courses" element={<Courses />} />
                 <Route path="my-earnings" element={<MyEarnings />} />
               </Route>
 

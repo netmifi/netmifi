@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 import {
   AlertDialogCancel,
   AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
-import { X } from "lucide-react";
-
-const ViewTransaction = ({
+const ViewStudent = ({
   datum,
   setIsViewOpen,
 }: {
@@ -20,48 +18,34 @@ const ViewTransaction = ({
       <AlertDialogHeader className="flex">
         <div className="flex justify-between">
           <AlertDialogTitle className="text-xl p-0">
-            View Transaction
+            View Student
           </AlertDialogTitle>
           <AlertDialogCancel
-            className="border-0 p-0"
+            className="border-0 p-0 outline-none ring-0"
             onClick={() => (setIsViewOpen ? setIsViewOpen(false) : "")}
           >
             <X />
           </AlertDialogCancel>
         </div>
       </AlertDialogHeader>
+
       <div className="flex flex-col gap-2">
         <fieldset>
-          <label className="text-xs sm:text-sm">Bought by</label>
+          <label className="text-xs sm:text-sm">Student Name</label>
           <p className="font-bold text-base sm:text-lg capitalize">
-            {datum?.boughtBy}
+            {datum?.name}
           </p>
         </fieldset>
         <fieldset>
-          <label className="text-xs sm:text-sm">Course</label>
+          <label className="text-xs sm:text-sm">Email</label>
+          <p className="font-bold text-base sm:text-lg capitalize">
+            {datum?.email}
+          </p>
+        </fieldset>
+        <fieldset>
+          <label className="text-xs sm:text-sm">Course Purchase</label>
           <p className="font-bold text-base sm:text-lg capitalize">
             {datum?.course}
-          </p>
-        </fieldset>
-        <fieldset>
-          <label className="text-xs sm:text-sm">Transaction ID</label>
-          <p className="font-bold text-base sm:text-lg capitalize">
-            {datum?.transactionId}
-          </p>
-        </fieldset>
-        <fieldset>
-          <label className="text-xs sm:text-sm">Status</label>
-          <p
-            className={cn(
-              "font-bold text-base sm:text-lg capitalize rounded-full py-1 px-5 size-fit",
-              {
-                "bg-green-500 text-white": datum?.status === "success",
-                "bg-yellow-500": datum?.status === "pending",
-                "bg-destructive text-popover": datum?.status === "error",
-              }
-            )}
-          >
-            {datum?.status}
           </p>
         </fieldset>
         <fieldset>
@@ -70,6 +54,14 @@ const ViewTransaction = ({
             #{datum?.amount.toLocaleString()}
           </p>
         </fieldset>
+        {datum?.certifiedOn && (
+          <fieldset>
+            <label className="text-xs sm:text-sm">Amount Piaid</label>
+            <p className="font-bold text-base sm:text-lg capitalize">
+              {datum?.certifiedOn.toDateString()}
+            </p>
+          </fieldset>
+        )}
         <fieldset>
           <label className="text-xs sm:text-sm">Date</label>
           <p className="font-bold text-base sm:text-lg capitalize">
@@ -81,4 +73,4 @@ const ViewTransaction = ({
   );
 };
 
-export default ViewTransaction;
+export default ViewStudent;

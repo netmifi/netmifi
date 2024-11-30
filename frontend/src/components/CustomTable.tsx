@@ -539,7 +539,7 @@ export default function CustomTable<TableData extends HasId>({
           <>
             {isDialog ? (
               <AlertDialog open>
-                <AlertDialogContent className="w-3/4 max-h-[98vh] overflow-y-auto">
+                <AlertDialogContent className="w-3/4 max-sm:w-full max-h-[98vh] overflow-y-auto">
                   <ViewComponent
                     datum={viewData!}
                     setIsViewOpen={setIsViewOpen}
@@ -729,7 +729,7 @@ export default function CustomTable<TableData extends HasId>({
                       </PaginationLink>
                     )
                   )}
-                  {/* </div> */}
+                  {/* </div>++ */}
                 </PaginationItem>
                 <PaginationItem>
                   <Button
@@ -753,51 +753,54 @@ export default function CustomTable<TableData extends HasId>({
               {table.getFilteredSelectedRowModel().rows.length} of{" "}
               {table.getFilteredRowModel().rows.length} row(s) selected
             </span>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  disabled={showDelete}
-                  variant="ghost"
-                  className="hover:bg-transparent"
-                >
-                  <p>Delete Selected</p>&nbsp;
-                  <TrashIcon />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    Are you sure you want to delete{" "}
-                    {table.getSelectedRowModel().rows.length}{" "}
-                    {splitCamelCaseToWords(promptLabel).toLowerCase()}(s)?
-                  </AlertDialogTitle>
-                  {table
-                    .getSelectedRowModel()
-                    .rows.map(
-                      (
-                        row: { getValue: (arg0: string) => any },
-                        index: Key | null | undefined
-                      ) => (
-                        <AlertDialogDescription
-                          key={index}
-                          className="text-primary text-sm"
-                        >
-                          {`${row.getValue(promptLabel as string)}`}
-                        </AlertDialogDescription>
-                      )
-                    )}
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => handleDelete()}
-                    type="button"
+
+            {isDelete && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    disabled={showDelete}
+                    variant="ghost"
+                    className="hover:bg-transparent"
                   >
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                    <p>Delete Selected</p>&nbsp;
+                    <TrashIcon />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you sure you want to delete{" "}
+                      {table.getSelectedRowModel().rows.length}{" "}
+                      {splitCamelCaseToWords(promptLabel).toLowerCase()}(s)?
+                    </AlertDialogTitle>
+                    {table
+                      .getSelectedRowModel()
+                      .rows.map(
+                        (
+                          row: { getValue: (arg0: string) => any },
+                          index: Key | null | undefined
+                        ) => (
+                          <AlertDialogDescription
+                            key={index}
+                            className="text-primary text-sm"
+                          >
+                            {`${row.getValue(promptLabel as string)}`}
+                          </AlertDialogDescription>
+                        )
+                      )}
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => handleDelete()}
+                      type="button"
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
           </div>
         </div>
       )}

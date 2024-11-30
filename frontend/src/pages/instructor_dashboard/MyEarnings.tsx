@@ -21,7 +21,7 @@ import ViewTransaction from "@/components/instructor_dashboard/ViewTransaction";
 const earnings = [
   {
     id: "178191-18991019-10909904",
-    courseName: "product design for pros",
+    course: "product design for pros",
     transactionId: "#910x24btx",
     boughtBy: "andres santos",
     date: new Date(),
@@ -30,7 +30,7 @@ const earnings = [
   },
   {
     id: "14920-18991019-10909904",
-    courseName: "content production: camera angles",
+    course: "content production: camera angles",
     transactionId: "2930gd-3829",
     boughtBy: "carmila gordon",
     date: new Date(),
@@ -39,7 +39,7 @@ const earnings = [
   },
   {
     id: "90145-203290e43-1078324",
-    courseName: "content production: studio setting",
+    course: "content production: studio setting",
     transactionId: "156kb2",
     boughtBy: "andres santos",
     date: new Date(),
@@ -48,7 +48,7 @@ const earnings = [
   },
   {
     id: "59034-438903-10909904",
-    courseName: "product design for pros",
+    course: "product design for pros",
     transactionId: "10208de9",
     boughtBy: "chinedu stephen",
     date: new Date(),
@@ -119,7 +119,7 @@ const MyEarnings = () => {
                 isEdit={false}
                 ViewComponent={ViewTransaction}
                 keys={[
-                  "courseName",
+                  "course",
                   "transactionId",
                   "boughtBy",
                   "amount",
@@ -128,12 +128,12 @@ const MyEarnings = () => {
                 ]}
                 pageSize={20}
                 lastPage={8}
-                promptLabel={"courseName"}
+                promptLabel={"course"}
                 setData={function (
                   value: SetStateAction<
                     {
                       id: string;
-                      courseName: string;
+                      course: string;
                       transactionId: string;
                       boughtBy: string;
                       date: string;
@@ -146,7 +146,7 @@ const MyEarnings = () => {
                 }}
                 specialStyle={[
                   {
-                    column: "courseName",
+                    column: "course",
                     className: "capitalize",
                   },
                   {
