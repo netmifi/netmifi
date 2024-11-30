@@ -129,13 +129,13 @@ const App = () => {
                 element={<InstructorDashboardOutletLayout />}
               >
                 <Route path="home" element={<InstructorDashboard />} />
-                <Route path="students" element={<Students />} />
+                <Route path="home/students" element={<Students />} />
                 <Route
-                  path="certified-students"
+                  path="home/certified-students"
                   element={<CertifiedStudents />}
                 />
-                <Route path="followers" element={<Followers />} />
-                <Route path="courses" element={<Courses />} />
+                <Route path="home/followers" element={<Followers />} />
+                <Route path="home/courses" element={<Courses />} />
                 <Route path="my-earnings" element={<MyEarnings />} />
               </Route>
 

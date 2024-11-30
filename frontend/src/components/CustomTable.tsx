@@ -174,7 +174,10 @@ const generateColumns = <TableData extends HasId>(
             className="text-primary fill-light size-5"
           />
         </div>
-      ) : key === "createdAt" || key === "date" || key === "updatedAt" ? (
+      ) : key === "createdAt" ||
+        key === "date" ||
+        key === "updatedAt" ||
+        key === "certifiedOn" ? (
         <div>{new Date(row.getValue(key as string)).toLocaleDateString()}</div>
       ) : (
         <div>{row.getValue(key as string)}</div>

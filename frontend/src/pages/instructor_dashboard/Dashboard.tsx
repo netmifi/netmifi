@@ -16,25 +16,25 @@ const Dashboard = () => {
       icon: Book,
       label: "total courses",
       total: 200,
-      link: "/dashboard/courses",
+      link: "/dashboard/home/courses",
     },
     {
       icon: FaBookReader,
       label: "total students",
       total: 3000,
-      link: "/dashboard/students",
+      link: "/dashboard/home/students",
     },
     {
       icon: UsersRoundIcon,
       label: "net followers",
       total: 290000,
-      link: "/dashboard/earnings",
+      link: "/dashboard/home/followers",
     },
     {
       icon: UsersRoundIcon,
       label: "certified students",
       total: 3140,
-      link: "/dashboard/earnings",
+      link: "/dashboard/home/certified-students",
     },
   ];
   return (

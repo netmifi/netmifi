@@ -38,7 +38,7 @@ const ViewStudent = ({
         </fieldset>
         <fieldset>
           <label className="text-xs sm:text-sm">Email</label>
-          <p className="font-bold text-base sm:text-lg capitalize">
+          <p className="font-bold text-base sm:text-lg lowercase">
             {datum?.email}
           </p>
         </fieldset>
@@ -56,7 +56,7 @@ const ViewStudent = ({
         </fieldset>
         {datum?.certifiedOn && (
           <fieldset>
-            <label className="text-xs sm:text-sm">Amount Piaid</label>
+            <label className="text-xs sm:text-sm">Certified On</label>
             <p className="font-bold text-base sm:text-lg capitalize">
               {datum?.certifiedOn.toDateString()}
             </p>
