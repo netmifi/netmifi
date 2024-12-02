@@ -43,6 +43,8 @@ import MyEarnings from "./pages/instructor_dashboard/MyEarnings";
 import Students from "./pages/instructor_dashboard/Students";
 import CertifiedStudents from "./pages/instructor_dashboard/CertifiedStudents";
 import Followers from "./pages/instructor_dashboard/Followers";
+import DashboardCourses from "./pages/instructor_dashboard/Courses";
+import CreateCourse from "./pages/instructor_dashboard/CreateCourse";
 
 const App = () => {
   return (
@@ -135,8 +137,9 @@ const App = () => {
                   element={<CertifiedStudents />}
                 />
                 <Route path="home/followers" element={<Followers />} />
-                <Route path="home/courses" element={<Courses />} />
+                <Route path="home/courses" element={<DashboardCourses />} />
                 <Route path="my-earnings" element={<MyEarnings />} />
+                <Route path="create" element={<CreateCourse />} />
               </Route>
 
               {/* 404 page ROUTES */}

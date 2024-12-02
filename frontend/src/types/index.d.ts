@@ -247,6 +247,11 @@ declare interface CustomContactFieldProps extends Omit<CustomFormFieldProps, "is
   setCountry?: React.Dispatch<React.SetStateAction<Country | undefined>>;
 }
 
+declare interface CustomRichTextEditorProps extends Omit<CustomFormFieldProps, "isPasswordVisible">{
+  config: object;
+  
+}
+
 declare interface CommentTemplateProps {
   page: "blog" | "course";
   id: string;

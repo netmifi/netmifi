@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
-import { REGEXP_ONLY_DIGITS } from "input-otp";
+// import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
 
@@ -224,3 +224,11 @@ export const instructorFormSchema = () =>
       phone: parsedPhoneNumber?.number, // This is the combined int format number sent to the server
     };
   });
+
+export const createCourseFormSchema = () => 
+  z.object({
+    title: z.string({ required_error: "Please input your course title" }),
+    description: z.string().optional(),
+    
+
+  })

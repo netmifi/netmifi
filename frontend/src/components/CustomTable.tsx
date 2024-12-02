@@ -161,7 +161,12 @@ const generateColumns = <TableData extends HasId>(
     header: () => (
       <div className="text-mg capitalize font-medium">
         {splitCamelCaseToWords(
-          String(key === "amount" ? String(key) + "(#)" : key)
+          String(
+            key.toString().toLocaleLowerCase().includes("price") ||
+              key.toString().toLocaleLowerCase().includes("amount")
+              ? String(key) + "(#)"
+              : key
+          )
         )}
       </div>
     ),
@@ -449,7 +454,7 @@ export default function CustomTable<TableData extends HasId>({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full px-2">
       <div className="w-full flex justify-between mb-4 flex-wrap gap-2 max-sm:justify-end">
         <div className="min-w-[60%] max-sm:flex-grow flex items-center bg-secondary transition-all focus-within:bg-transparent rounded-full border border-secondary px-2">
           <Input
@@ -700,8 +705,8 @@ export default function CustomTable<TableData extends HasId>({
       </div>
 
       {!isFormOpen && !isViewOpen && (
-        <div className="flex flex-col gap-2">
-          <div className="w-full flex flex-wrap items-center border-2 rounded-xl border-muted bg-popover my-5 py-1 px-5">
+        <div className="flex flex-col gap-2 bg-popover mt-2">
+          <div className="w-full flex flex-wrap items-center border-2 rounded-xl border-muted my-5 py-1 px-5">
             <Pagination className="flex-1 w-full p-0">
               <PaginationContent className="p-0">
                 <PaginationItem>
@@ -714,6 +719,7 @@ export default function CustomTable<TableData extends HasId>({
                     <PaginationPrevious onClick={() => table.previousPage()} />
                   </Button>
                 </PaginationItem>
+               {/* FIXME: fix pagination wrapping issues */}
                 <PaginationItem className="justify-center items-center max-w-[80%] overflow-x-auto">
                   {/* <div className="flex max-w-full overflow-x-auto"> */}
                   {Array.from(
@@ -751,7 +757,7 @@ export default function CustomTable<TableData extends HasId>({
             </Pagination>
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex justify-between pl-3">
             <span className="text-sm text-muted-foreground">
               {table.getFilteredSelectedRowModel().rows.length} of{" "}
               {table.getFilteredRowModel().rows.length} row(s) selected

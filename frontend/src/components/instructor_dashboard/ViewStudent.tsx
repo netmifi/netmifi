@@ -2,7 +2,6 @@
 import { X } from "lucide-react";
 import {
   AlertDialogCancel,
-  AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
