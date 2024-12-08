@@ -20,6 +20,8 @@ import {
 import { FaAsterisk } from "react-icons/fa6";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form";
+import { z } from "zod";
 
 const CustomListForm = ({
   form,
@@ -37,21 +39,33 @@ const CustomListForm = ({
   const [list, setList] = useState<string[]>(defaultList || []);
   const [value, setValue] = useState("");
 
-  const handleInputChange = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  interface FieldProps
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    extends ControllerRenderProps<FieldValues, FieldPath<z.infer<any>>> {}
+
+  const handleInputChange = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    field: FieldProps
+  ) => {
     const newValue = event.currentTarget.value;
     const refinedValue = newValue.slice(0, newValue.length - 1).trim();
-    console.log(refinedValue);
+    // console.log(refinedValue);
 
     if (event.key === "," && newValue.length > 1) {
       setValue("");
-      setList([...list, refinedValue]);
-      form.setValue(name, list);
+      const newList = [...list, refinedValue];
+      field.value = newList;
+
+      console.log(field.value);
+      setList(newList);
     }
   };
 
-  const clearAll = () => {
+  const clearAll = (field: FieldProps) => {
+    console.log(form.value);
+
     setList([]);
-    form.setValue(name, []);
+    field.value = [];
   };
 
   const removeOption = (option: string) => {
@@ -91,8 +105,8 @@ const CustomListForm = ({
                   hidden={hidden}
                   readOnly={readOnly}
                   value={value}
-                  onInput={(event) => setValue(event.currentTarget.value)}
-                  onKeyUp={handleInputChange}
+                  onChange={(event) => setValue(event.currentTarget.value)}
+                  onKeyUp={(e) => handleInputChange(e, field)}
                 />
               </FormControl>
             </div>
@@ -135,7 +149,7 @@ const CustomListForm = ({
                     size={"no-pad"}
                     onClick={(event) => {
                       event.stopPropagation();
-                      clearAll();
+                      clearAll(field);
                     }}
                   >
                     Clear all

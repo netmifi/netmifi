@@ -247,26 +247,9 @@ export const createCourseFormSchema = () =>
       .refine((file) => file?.type === "image/jpg" || file?.type === "image/png" || file?.type === "image/jpeg", {
         message: "Only jpg,png files are allowed to be sent.",
       })
-      .refine((file) => file?.size <= 3 * 1024 * 1024, {
+      .refine((file) => file && file?.size <= 3 * 1024 * 1024, {
         message: "The image file must not exceed a maximum of 3MB.",
       }),
-    // z
-    //   .instanceof(FileList, {
-    //     message: "Select a valid file",
-    //   })
-    //   .refine((fileList) => fileList.length > 0, {
-    //     message: "Please select an image file.",
-    //   })
-    //   .transform((fileList) => fileList.item(0))
-    //   .refine((file) => file?.type === "image/jpg" || file?.type === "image/png" || file?.type === "image/jpeg", {
-    //     message: "Only JPG, PNG and JPEG files are allowed.",
-    //   }).refine((file) => file && file?.size <= 3 * 1024 * 1024, {
-    //     message: 'File size has exceeded 3mb'
-    //   }),
-    // z.any()
-    //   .refine((file: File) => file, "File is required")
-    //   .refine((file) => file.size <= 2 * 1024 * 1024, "Max size is 2MB.")
-    //   .refine((file) => checkFileType(file, ['jpg', 'png', 'jpeg']), "Only .jpg, .png, .jpeg formats are supported."),
     introVideo:
       z
         .instanceof(FileList, { message: 'Please select a valid file' })
@@ -280,20 +263,8 @@ export const createCourseFormSchema = () =>
         .refine((file) => file && file?.size <= 15 * 1024 * 1024, {
           message: "The video file must not exceed a maximum of 15MB.",
         }),
-    // z
-    //   .instanceof(FileList, {
-    //   message: "Select a valid file",
-    // })
-    //   .refine((fileList) => fileList.length > 0, {
-    //     message: "Please select a video file.",
-    //   })
-    //   .transform((fileList) => fileList.item(0))
-    //   .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
-    //     message: "Only mp4 and mpeg files are allowed.",
-    //   }).refine((file) => file && file?.size <= 15 * 1024 * 1024, {
-    //     message: 'File size has exceeded 15mb'
-    //   }),
-    requirements: z.string().array().min(1, { message: 'Field required' }),
+    
+    requirements:  z.array(z.string()).min(1, { message: 'Field required' }),
     video: z
       .instanceof(FileList, {
         message: "Select a valid file",
