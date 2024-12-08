@@ -7,6 +7,7 @@ import AppSidebar from "./navbar/user/AppSidebar";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { useApp } from "@/app/app-provider";
 import GuestNavbar from "./navbar/guest/Index";
+import FirstVisitAlert from "@/components/FirstVisitAlert";
 
 export const MainContent = ({ state }: { state: userType["type"] }) => {
   const { open } = useSidebar();
@@ -45,7 +46,8 @@ const AppOutletLayout = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background w-full">
-      {state !== "guest" && <AppSidebar state={state} />}{" "}
+      <FirstVisitAlert />
+      {state !== "guest" && <AppSidebar state={state} />}
       <MainContent state={state} />
     </div>
   );
