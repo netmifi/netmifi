@@ -15,22 +15,7 @@ import {
   XIcon,
   WandSparkles,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
+
 import { cva } from "class-variance-authority";
 import { MultiSelect } from "../MultiSelect";
 
@@ -54,24 +39,21 @@ const multiSelectVariants = cva(
   }
 );
 
-const CustomMultiSelect = (
-  {
-    form,
-    control,
-    name,
-    placeholder,
-    defaultOptions = [],
-    hidden = false,
-    isNotLabeled = false,
-    options,
-    animation = 0,
-    maxCount = 3,
-    className = "",
-    modalPopover = false,
-    variant = "default",
-  }: CustomMultiSelectProps,
-  ref
-) => {
+const CustomMultiSelect = ({
+  form,
+  control,
+  name,
+  placeholder,
+  defaultOptions = [],
+  hidden = false,
+  isNotLabeled = false,
+  options,
+  animation = 0,
+  maxCount = 3,
+  className = "",
+  modalPopover = false,
+  variant = "inverted",
+}: CustomMultiSelectProps) => {
   return (
     <FormField
       control={control}
@@ -94,7 +76,7 @@ const CustomMultiSelect = (
                 onValueChange={field.onChange}
                 defaultValue={field.value}
                 placeholder={placeholder}
-                variant="inverted"
+                variant={variant}
                 animation={animation}
                 maxCount={maxCount}
               />

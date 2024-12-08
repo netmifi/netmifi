@@ -30,25 +30,15 @@ const CustomRichTextEditor = ({
       defaultValue={defaultValue}
       render={({ field }) => (
         <FormItem className={cn({ "form-item": !hidden })} hidden={hidden}>
-          <div
-            className={cn({
-              "form-field": !isNotLabeled,
-              "unlabeled-form-field": isNotLabeled,
-              filled: !isNotLabeled && field.value,
-            })}
-            // className="flex w-full gap-1 flex-col bg-secondary ring-2 ring-secondary rounded-lg p-2 focus-within:ring-destructive focus-within:bg-primary-foreground"
-          >
-
-
-            <FormControl>
-              <FroalaEditor
-                tag="textarea"
-                config={config}
-                model={model}
-                onModelChange={handleModelChange}
-              />
-            </FormControl>
-          </div>
+          <FormControl>
+            <FroalaEditor
+              tag="textarea"
+              config={config}
+              model={field.value}
+              onModelChange={field.onChange}
+              // {...field}
+            />
+          </FormControl>
           <FormMessage className="form-message" />
         </FormItem>
       )}

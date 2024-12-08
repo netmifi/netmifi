@@ -213,6 +213,7 @@ declare interface CustomFormFieldProps {
   disabled?: boolean;
   hidden?: boolean;
   readOnly?: boolean;
+  isCurrency?: boolean;
   isOptional?: boolean;
 }
 
@@ -234,6 +235,7 @@ declare interface CustomMultiSelectProps extends Omit<CustomFormFieldProps, "isP
 }
 declare interface CustomRadioGroupProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   group: { label: string, value: string }[];
+  defaultChecked?: string | number;
   setDetectedValueChange?: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -247,10 +249,21 @@ declare interface CustomContactFieldProps extends Omit<CustomFormFieldProps, "is
   setCountry?: React.Dispatch<React.SetStateAction<Country | undefined>>;
 }
 
-declare interface CustomRichTextEditorProps extends Omit<CustomFormFieldProps, "isPasswordVisible">{
+declare interface CustomRichTextEditorProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   config: object;
-  
 }
+
+declare interface CustomFileFieldProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+  fileRef: UseFormRegisterReturn<z.infer<typeof form>>;
+  fileType?: string;
+  className?: ClassValue;
+}
+declare interface CustomListFormProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+  defaultList?: string[];
+  // maxCount?: number;
+}
+
+
 
 declare interface CommentTemplateProps {
   page: "blog" | "course";

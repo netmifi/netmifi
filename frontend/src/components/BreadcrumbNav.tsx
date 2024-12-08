@@ -15,10 +15,10 @@ const BreadcrumbNav = () => {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList className="text-base sm:text-lg">
-        {withoutLast.map((path) => (
+      <BreadcrumbList key={Math.random()} className="text-base sm:text-lg">
+        {withoutLast.map((path, index) => (
           <>
-            <BreadcrumbItem>
+            <BreadcrumbItem key={index}>
               <BreadcrumbLink
                 href={`/${
                   paths.indexOf(path) !== 0

@@ -44,14 +44,10 @@ const AppOutletLayout = () => {
   }
 
   return (
-    <>
-      <SidebarProvider>
-        <div className="flex h-screen overflow-hidden bg-background w-full">
-          {state !== "guest" && <AppSidebar state={state} />}{" "}
-          <MainContent state={state} />
-        </div>
-      </SidebarProvider>
-    </>
+    <div className="flex h-screen overflow-hidden bg-background w-full">
+      {state !== "guest" && <AppSidebar state={state} />}{" "}
+      <MainContent state={state} />
+    </div>
   );
 };
 

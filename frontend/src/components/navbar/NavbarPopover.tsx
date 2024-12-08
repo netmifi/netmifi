@@ -1,26 +1,45 @@
+import { useApp } from "@/app/app-provider";
+import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { ScrollArea } from "../ui/scroll-area";
-import { BellRing, MessageSquare, ShoppingCart } from "lucide-react";
+import {
+  ArrowUpRightFromCircleIcon,
+  BadgeIcon,
+  BellRing,
+  EllipsisVerticalIcon,
+  MessageSquare,
+  ShoppingCart,
+  TrashIcon,
+} from "lucide-react";
 
 const NavbarPopover = ({
-  children = "",
   type,
-  counter,
 }: {
-  children?: JSX.Element | string;
   type: "message" | "notification" | "cart";
-  counter: number;
 }) => {
+  const { cartItems, setCartItems } = useApp();
+  const notifications = [];
+
+  const counter =
+    type === "cart"
+      ? cartItems.length
+      : type === "notification"
+      ? notifications.length
+      : 0;
+
+  const handleRemoveCartItem = (course: Course) => {
+    const newCart = cartItems.filter((item) => course.id === item.id);
+    setCartItems(newCart);
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <div className="relative">
           <Button className="bg-transparent text-low-contrast hover:bg-transparent px-1">
             {counter > 0 && (
-              <small className="absolute -top-px right-0 scale-75 bg-red font-montserrat rounded-full size-fit px-1 text-secondary font-bold z-30">
-                {counter}
-              </small>
+              <BadgeIcon className="absolute -top-0 right-0 scale-75 text-red fill-red" />
             )}
             <div className="[&_svg]:size-6">
               {type === "message" ? (
@@ -34,9 +53,59 @@ const NavbarPopover = ({
           </Button>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="text-center max-h-[300px] max-w-full">
-        <ScrollArea className="h-full">
-          {children || <p>No {type} item found</p>}
+      <PopoverContent className="text-center max-w-full p-0">
+        <ScrollArea className="">
+          {/* CART CHILDREN */}
+          {type === "cart" &&
+            ((cartItems.length > 0 && (
+              <div className="flex flex-col max-h-[70dvh]">
+                <div className="flex flex-col">
+                  {cartItems.map((item, index) => (
+                    <div key={index} className="flex">
+                      <Button
+                        variant={"ghost"}
+                        className="flex-grow hover:bg-secondary text-xs text-left justify-start rounded-none"
+                      >
+                        {item.title.length > 40
+                          ? item.title.slice(0, 40) + "..."
+                          : item.title}
+                      </Button>
+
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant={"ghost"} className="bg px-1">
+                            <EllipsisVerticalIcon />
+                          </Button>
+                        </PopoverTrigger>
+
+                        <PopoverContent className="p-0 flex *:flex-grow w-fit *:rounded-none overflow-hidden">
+                          <Button
+                            variant="primary"
+                            className="hover:bg-primary/80 hover:text-popover"
+                          >
+                            <ArrowUpRightFromCircleIcon />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={() => handleRemoveCartItem(item)}
+                            className="hover:bg-primary/80 hover:text-popover"
+                          >
+                            <TrashIcon />
+                          </Button>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  ))}
+                </div>
+                <div className="sticky bottom-0 w-full bg-secondary shadow-sm p-4">
+                  <Button className="w-full ">
+                    Check All <ArrowUpRightFromCircleIcon />
+                  </Button>
+                </div>
+              </div>
+            )) || <></>)}
+
+          {counter < 1 && <p>No {type} item found</p>}
         </ScrollArea>
       </PopoverContent>
     </Popover>

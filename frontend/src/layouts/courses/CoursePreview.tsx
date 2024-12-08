@@ -35,8 +35,12 @@ import { tempCourses } from "@/constants/temp";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import ShareComponent from "@/components/ShareComponent";
+import { useApp } from "@/app/app-provider";
 
 const CoursePreview = () => {
+  // TODO: Fetch Course and set state for course
+  const { handleAddToCart } = useApp();
+
   return (
     <main>
       <section className="min-h-fit bg-high-contrast padding-x padding-y flex gap-5 justify-between text-secondary max-md:flex-col max-md:items-center">
@@ -104,7 +108,7 @@ const CoursePreview = () => {
                 title="Course Title"
                 text="Course description"
               />
-              <Button variant={"primary"}>
+              <Button variant={"primary"} onClick={() => handleAddToCart({})}>
                 <FaCartPlus /> Add to cart
               </Button>
               <Button>

@@ -5,7 +5,6 @@ import { CustomLogo } from "@/components/CustomLogo";
 import {
   Tooltip,
   TooltipTrigger,
-  TooltipProvider,
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -52,22 +51,20 @@ const TopBar = ({
 
       <section className="flex gap-2 sm:gap-4 items-center">
         {state === "instructor" && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Link to="/dashboard/create">
-                  <PlusCircleIcon className="fill-red text-secondary size-5 sm:size-7" />
-                </Link>
-              </TooltipTrigger>
+          <Tooltip>
+            <TooltipTrigger>
+              <Link to="/dashboard/create">
+                <PlusCircleIcon className="fill-red text-secondary size-5 sm:size-7" />
+              </Link>
+            </TooltipTrigger>
 
-              <TooltipContent>Create new course</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+            <TooltipContent>Create new course</TooltipContent>
+          </Tooltip>
         )}
 
-        <NavbarPopover type="notification" counter={50} />
+        <NavbarPopover type="notification" />
 
-        {state === "user" && <NavbarPopover type="cart" counter={50} />}
+        {state === "user" && <NavbarPopover type="cart" />}
 
         <div className="max-sm:hidden">
           <DropdownProfile />

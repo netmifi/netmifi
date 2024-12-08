@@ -14,6 +14,7 @@ const CustomRadioGroup = ({
   label = "",
   group,
   isNotLabeled = false,
+  defaultChecked,
   setDetectedValueChange,
 }: CustomRadioGroupProps) => {
   return (
@@ -42,8 +43,8 @@ const CustomRadioGroup = ({
                   key={label}
                   className="flex items-center space-x-3 space-y-0"
                 >
-                  <FormControl>
-                    <RadioGroupItem value={value} />
+                  <FormControl defaultChecked={value === defaultChecked}>
+                    <RadioGroupItem defaultValue={value} value={value} />
                   </FormControl>
                   <FormLabel className="font-normal capitalize">
                     {label}

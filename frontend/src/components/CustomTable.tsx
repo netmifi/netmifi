@@ -103,7 +103,6 @@ export function CustomTooltip({
   hoverLabel,
 }: CustomTableTooltipProps) {
   return (
-    <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <span
@@ -118,7 +117,6 @@ export function CustomTooltip({
           <p>{hoverLabel}</p>
         </TooltipContent>
       </Tooltip>
-    </TooltipProvider>
   );
 }
 interface DataTableProps<TableData extends HasId> {

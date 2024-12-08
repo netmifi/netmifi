@@ -49,23 +49,21 @@ export function PlayerTooltip({
   disabled = false,
 }: PlayerTooltipProps) {
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant={"transparent"}
-            className="opacity-80 p-0 hover:opacity-90"
-            onClick={onClick}
-            disabled={disabled}
-          >
-            {children}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent className="bg-black text-white border-primary">
-          <p>{hoverLabel}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant={"transparent"}
+          className="opacity-80 p-0 hover:opacity-90"
+          onClick={onClick}
+          disabled={disabled}
+        >
+          {children}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent className="bg-black text-white border-primary">
+        <p>{hoverLabel}</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
 

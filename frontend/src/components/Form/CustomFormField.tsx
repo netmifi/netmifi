@@ -9,16 +9,14 @@ import { Input } from "@/components/ui/input";
 
 import { cn, splitCamelCaseToWords } from "@/lib/utils";
 import { Textarea } from "../ui/textarea";
-import { useState } from "react";
-import { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form";
-import { z } from "zod";
 import { LinkIcon } from "lucide-react";
-import { FaAsterisk } from "react-icons/fa6";
+import { FaAsterisk, FaNairaSign } from "react-icons/fa6";
 const CustomFormField = ({
+  form,
   control,
   name,
   type = "input",
-    textareaType = "normal",
+  textareaType = "normal",
   isPasswordVisible,
   placeholder = "",
   inputType = "",
@@ -30,22 +28,21 @@ const CustomFormField = ({
   hidden = false,
   readOnly = false,
   isOptional = false,
+  isCurrency = false,
   URLIcon,
 }: CustomFormFieldProps) => {
   const isHyperlinkField = inputType === "url";
 
-  const [inputValue, setInputValue] = useState(value || defaultValue || "");
-
-  const handleInputValue = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: ControllerRenderProps<FieldValues, FieldPath<z.infer<any>>>
-  ) => {
-    const value = e.currentTarget.value;
-    console.log(field.value);
-
-    field.onChange(e);
-    setInputValue(value);
-  };
+  // const handleInputChange = (
+  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const value = parseInt(event.currentTarget.value);
+  //   if (isCurrency && isNaN(value)) {
+  //     form.setValue(name, value.toLocaleString());
+  //     // parseInt(value)
+  //   }
+  //   console.log();
+  // };
 
   return (
     <FormField
@@ -75,6 +72,13 @@ const CustomFormField = ({
                   {dialCode}
                 </div>
               )} */}
+
+              {isCurrency && (
+                <div className="text-sm sm:text-base flex justify-center items-center px-2 *:text-base *:size-5">
+                  <FaNairaSign />
+                </div>
+              )}
+
               {isHyperlinkField && (
                 <div className="text-sm sm:text-base flex justify-center items-center px-2 *:text-base *:size-5">
                   {URLIcon ?? <LinkIcon />}
@@ -99,6 +103,7 @@ const CustomFormField = ({
                     className="rounded-none ring-0 outline-none placeholder:text-xs"
                     placeholder={placeholder}
                     {...field}
+                    // onChange={handleInputChange}
                     type={
                       name === "password" && isPasswordVisible
                         ? "text"

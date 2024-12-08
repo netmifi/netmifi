@@ -86,7 +86,6 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
         <div className="flex flex-col justify-evenly hover-item-container">
           <div className="flex gap-3">
             {footerTooltips.map((item) => (
-              <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger className="flex items-center gap-1">
                     <span>
@@ -100,7 +99,6 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
                     {item.label}
                   </TooltipContent>
                 </Tooltip>
-              </TooltipProvider>
             ))}
           </div>
 

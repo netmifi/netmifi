@@ -9,19 +9,22 @@ import {
 import { Button } from "../ui/button";
 import { FaNairaSign } from "react-icons/fa6";
 import PostAvatar from "../PostAvatar";
-import { PlusCircle, Star, Unlock } from "lucide-react";
+import { PlusCircle, Star } from "lucide-react";
 import Rating from "react-rating";
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useApp } from "@/app/app-provider";
+import { toast } from "sonner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 const CourseCard = ({
   className = "",
   course,
   page = "user",
 }: CoursesCardProps) => {
-  const handleAddToCart = () => {
-    alert("Please add add to cart feature");
-  };
+  const { cartItems, setCartItems, handleAddToCart} = useApp();
+
+
 
   return (
     <Card
@@ -95,18 +98,21 @@ const CourseCard = ({
             />
           </div>
 
-          {page !== "dashboard" &&
-            (course.type === "paid" ? (
-              <Button
-                variant={"transparent"}
-                className="p-0"
-                onClick={handleAddToCart}
-              >
-                <PlusCircle className="fill-red text-primary-foreground drop-shadow-md" />
-              </Button>
-            ) : (
-              <Unlock className="text-red" />
-            ))}
+          {page !== "dashboard" && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant={"transparent"}
+                  onClick={()=> handleAddToCart(course)}
+                  className="p-0 [&_svg]:size-6"
+                >
+                  <PlusCircle className="fill-red text-primary-foreground drop-shadow-md" />
+                </Button>
+              </TooltipTrigger>
+
+              <TooltipContent>Add to cart</TooltipContent>
+            </Tooltip>
+          )}
         </CardFooter>
       </CardContent>
     </Card>
