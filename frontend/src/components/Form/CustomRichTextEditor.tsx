@@ -15,7 +15,6 @@ const CustomRichTextEditor = ({
   name,
   defaultValue,
   hidden = false,
-  isNotLabeled = false,
   className = "",
   config,
 }: CustomRichTextEditorProps) => {
@@ -36,7 +35,7 @@ const CustomRichTextEditor = ({
               config={config}
               model={field.value}
               onModelChange={field.onChange}
-              // {...field}
+              {...field}
             />
           </FormControl>
           <FormMessage className="form-message" />

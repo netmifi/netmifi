@@ -16,6 +16,7 @@ import Loader from "@/components/Loader";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
+import { CheckedState } from "@radix-ui/react-checkbox";
 
 const CreateCourse = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +88,7 @@ const CreateCourse = () => {
                   name="requirements"
                   control={form.control}
                   form={form}
-                  placeholder="input none if no requirements"
+                  placeholder="Input none if no requirements"
                 />
 
                 <CustomFileField

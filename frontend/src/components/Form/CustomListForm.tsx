@@ -54,8 +54,8 @@ const CustomListForm = ({
     if (event.key === "," && newValue.length > 1) {
       setValue("");
       const newList = [...list, refinedValue];
-      field.value = newList;
-
+      // field.value = newList;
+      // form.setValue(name, newList);
       console.log(field.value);
       setList(newList);
     }
@@ -105,7 +105,10 @@ const CustomListForm = ({
                   hidden={hidden}
                   readOnly={readOnly}
                   value={value}
-                  onChange={(event) => setValue(event.currentTarget.value)}
+                  onChange={(event) => {
+                    setValue(event.currentTarget.value);
+                    field.onChange(list)
+                  }}
                   onKeyUp={(e) => handleInputChange(e, field)}
                 />
               </FormControl>

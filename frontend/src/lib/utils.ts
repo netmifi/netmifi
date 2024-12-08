@@ -237,7 +237,7 @@ export const instructorFormSchema = () =>
 export const createCourseFormSchema = () =>
   z.object({
     title: z.string().min(5, { message: "Course title is cannot be less than 5 characters" }),
-    description: z.string(),
+    description: z.string().min(20, { message: 'Description cannot be less that 20 characters long' }),
     thumbnail: z
       .instanceof(FileList, { message: 'Please select a valid file' })
       .refine((fileList) => fileList.length > 0, {
@@ -263,8 +263,8 @@ export const createCourseFormSchema = () =>
         .refine((file) => file && file?.size <= 15 * 1024 * 1024, {
           message: "The video file must not exceed a maximum of 15MB.",
         }),
-    
-    requirements:  z.array(z.string()).min(1, { message: 'Field required' }),
+
+    requirements: z.array(z.string()).min(1, { message: 'Field required' }),
     video: z
       .instanceof(FileList, {
         message: "Select a valid file",
