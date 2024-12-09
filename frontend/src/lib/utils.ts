@@ -234,58 +234,67 @@ export const instructorFormSchema = () =>
     };
   });
 
-export const createCourseFormSchema = () =>
-  z.object({
-    title: z.string().min(5, { message: "Course title is cannot be less than 5 characters" }),
-    description: z.string().min(20, { message: 'Description cannot be less that 20 characters long' }),
-    thumbnail: z
-      .instanceof(FileList, { message: 'Please select a valid file' })
-      .refine((fileList) => fileList.length > 0, {
-        message: "Please select a (.jpg, .png, or jpeg) file.",
-      })
-      .transform((fileList) => fileList.item(0))
-      .refine((file) => file?.type === "image/jpg" || file?.type === "image/png" || file?.type === "image/jpeg", {
-        message: "Only jpg,png files are allowed to be sent.",
-      })
-      .refine((file) => file && file?.size <= 3 * 1024 * 1024, {
-        message: "The image file must not exceed a maximum of 3MB.",
-      }),
-    introVideo:
-      z
-        .instanceof(FileList, { message: 'Please select a valid file' })
-        .refine((fileList) => fileList.length > 0, {
-          message: "Please select an (.mp4) file.",
-        })
-        .transform((fileList) => fileList.item(0))
-        .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
-          message: "Only mp4 and mpeg files are allowed to be sent.",
-        })
-        .refine((file) => file && file?.size <= 15 * 1024 * 1024, {
-          message: "The video file must not exceed a maximum of 15MB.",
-        }),
-
-    requirements: z.array(z.string()).min(1, { message: 'Field required' }),
-    video: z
-      .instanceof(FileList, {
-        message: "Select a valid file",
-      })
-      .refine((fileList) => fileList.length > 0, {
-        message: "Please select a video file.",
-      })
-      .transform((fileList) => fileList.item(0))
-      .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
-        message: "Only mp4 and mpeg files are allowed.",
-      }).refine((file) => file && file?.size <= 50 * 1024 * 1024, {
-        message: 'File size has exceeded 50mb'
-      }),
-    price: z.string({ message: 'Contact is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
-
-    mentorshipAvailability: z.string({
-      required_error: "Must select a one of either options",
+// Base schema
+const baseCourseSchema = z.object({
+  title: z.string().min(5, { message: "Course title cannot be less than 5 characters" }),
+  description: z.string().min(20, { message: 'Description cannot be less than 20 characters long' }),
+  thumbnail: z
+    .instanceof(FileList, { message: 'Please select a valid file' })
+    .refine((fileList) => fileList.length > 0, {
+      message: "Please select a (.jpg, .png, or jpeg) file.",
+    })
+    .transform((fileList) => fileList.item(0))
+    .refine((file) => file?.type === "image/jpg" || file?.type === "image/png" || file?.type === "image/jpeg", {
+      message: "Only jpg, png files are allowed to be sent.",
+    })
+    .refine((file) => file && file?.size <= 3 * 1024 * 1024, {
+      message: "The image file must not exceed a maximum of 3MB.",
     }),
-    mentorshipAvailabilityDays: z
-      .array(z.string().min(1))
-      .min(1).optional(),
-    fromMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
-    toMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
-  });
+  introVideo: z
+    .instanceof(FileList, { message: 'Please select a valid file' })
+    .refine((fileList) => fileList.length > 0, {
+      message: "Please select an (.mp4) file.",
+    })
+    .transform((fileList) => fileList.item(0))
+    .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
+      message: "Only mp4 and mpeg files are allowed to be sent.",
+    })
+    .refine((file) => file && file?.size <= 15 * 1024 * 1024, {
+      message: "The video file must not exceed a maximum of 15MB.",
+    }),
+  requirements: z.array(z.string()).min(1, { message: 'Field required' }),
+  video: z
+    .instanceof(FileList, {
+      message: "Select a valid file",
+    })
+    .refine((fileList) => fileList.length > 0, {
+      message: "Please select a video file.",
+    })
+    .transform((fileList) => fileList.item(0))
+    .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
+      message: "Only mp4 and mpeg files are allowed.",
+    })
+    .refine((file) => file && file?.size <= 50 * 1024 * 1024, {
+      message: 'File size has exceeded 50mb'
+    }),
+  price: z.string({ message: 'Price is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
+  mentorshipAvailability: z.string({
+    required_error: "Must select one of either options",
+  }),
+  mentorshipAvailabilityDays: z
+    .array(z.string().min(1))
+    .min(1)
+    .optional(),
+  fromMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
+  toMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
+});
+
+// Create schema (same as base schema)
+export const createCourseSchema = baseCourseSchema;
+
+// Update schema (all fields optional)
+export const updateCourseSchema = baseCourseSchema.partial();
+
+// Type inference
+// export type CreateCourseInput = z.infer<typeof createCourseSchema>;
+// export type UpdateCourseInput = z.infer<typeof updateCourseSchema>;

@@ -1,4 +1,4 @@
-import { createCourseFormSchema } from "@/lib/utils";
+import { createCourseSchema } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +23,7 @@ const CreateCourse = () => {
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
   const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
 
-  const formSchema = createCourseFormSchema();
+  const formSchema = createCourseSchema;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -124,7 +124,7 @@ const CreateCourse = () => {
                   name={"mentorshipAvailability"}
                   label="will you be available for mentorship?"
                   group={radioGroupData}
-                  defaultValue={"no"}
+                  defaultChecked={"no"}
                   setDetectedValueChange={setIsAvailableForMentorship}
                 />
                 {isAvailableForMentorship === "yes" && (

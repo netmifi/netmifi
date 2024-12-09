@@ -1,6 +1,5 @@
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -11,11 +10,7 @@ import { cn, splitCamelCaseToWords } from "@/lib/utils";
 import { useState } from "react";
 import { Badge } from "../ui/badge";
 import {
-  CheckIcon,
   XCircle,
-  ChevronDown,
-  XIcon,
-  WandSparkles,
 } from "lucide-react";
 import { FaAsterisk } from "react-icons/fa6";
 import { Input } from "../ui/input";

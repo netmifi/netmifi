@@ -33,18 +33,17 @@ const CustomRadioGroup = ({
               onValueChange={(value) => {
                 field.onChange(value);
                 setDetectedValueChange && setDetectedValueChange(value);
-                console.log(field.value);
               }}
-              defaultValue={field.value}
+              value={field.value || defaultChecked}
               className="flex flex-col space-y-1"
             >
               {group.map(({ label, value }) => (
                 <FormItem
-                  key={label}
+                  key={value}
                   className="flex items-center space-x-3 space-y-0"
                 >
-                  <FormControl defaultChecked={value === defaultChecked}>
-                    <RadioGroupItem defaultValue={value} value={value} />
+                  <FormControl>
+                    <RadioGroupItem value={value} />
                   </FormControl>
                   <FormLabel className="font-normal capitalize">
                     {label}
