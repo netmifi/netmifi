@@ -1,11 +1,13 @@
-import cookieParser from 'cookie-parser';
-import 'dotenv/config';
-import express from 'express';
-// import cors from 'cors';
-import helmet from 'helmet';
-import mongoose from 'mongoose';
-import authRoutes from './routes/authRoutes.ts';
-import { limiter } from './middlewares/limiter';
+require('dotenv').config();
+
+const cookieParser = require('cookie-parser');
+
+const express = require('express');
+// const cors = require('cors');
+const helmet = require('helmet');
+const mongoose = require('mongoose');
+const authRoutes = require('./routes/authRoutes.ts');
+const { limiter } = require('./middlewares/limiter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +29,7 @@ if (stageEnv === 'development') {
 } else {
     app.use(helmet()); // Use default settings in production
 }
+
 
 app.use(express.json())
 app.use(cookieParser());

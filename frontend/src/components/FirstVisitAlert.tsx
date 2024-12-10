@@ -21,7 +21,7 @@ export default function FirstVisitAlert() {
   if (!showAlert) return null;
 
   return (
-    <Alert className="fixed top-4 right-4 w-96 z-50">
+    <Alert className="fixed z-50 top-5 right-0 sm:w-96">
       <AlertTitle className="text-lg font-semibold flex gap-2 items-center">
         Welcome to <CustomLogo className="w-24" />
       </AlertTitle>

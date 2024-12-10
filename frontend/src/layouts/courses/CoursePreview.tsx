@@ -125,7 +125,7 @@ const CoursePreview = () => {
 
       <section className="padding-x padding-y flex flex-col">
         <div className="flex flex-col gap-5 mx-auto sm:max-w-[80%]">
-          <VideoPlayer thumbnail={AboutUsSvg} videoUrl={testVid} />
+          <VideoPlayer thumbnail={AboutUsSvg} currentCourseVideo={testVid} videoUrl={testVid} />
 
           <div className="flex flex-col items-start gap-5 border-b pb-8">
             <h3 className="text-high-contrast font-bold font-montserrat text-2xl">

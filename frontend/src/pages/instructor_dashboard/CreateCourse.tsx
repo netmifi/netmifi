@@ -26,6 +26,9 @@ const CreateCourse = () => {
   const formSchema = createCourseSchema;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      mentorshipAvailability: "no",
+    },
   });
   const thumbnailRef = form.register("thumbnail");
   const introVideoRef = form.register("introVideo");
@@ -48,7 +51,7 @@ const CreateCourse = () => {
   ];
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    console.log(data, form.formState);
   };
 
   return (
@@ -195,7 +198,7 @@ const CreateCourse = () => {
                 <Button
                   disabled={!isAccepted || isLoading}
                   className="sm:ml-auto basis-full sm:basis-[30%]"
-                  // onClick={form.}
+                  onClick={() => console.log(form.formState.errors)}
                   type="submit"
                 >
                   {isLoading ? <Loader type="all" /> : "Upload Course"}

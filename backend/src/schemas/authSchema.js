@@ -1,4 +1,4 @@
-import Joi from 'joi';
+const Joi = require('joi');
 
 // Define Joi validation schema for the user
 export const signUpSchema = Joi.object({

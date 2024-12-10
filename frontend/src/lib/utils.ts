@@ -5,6 +5,7 @@ import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 // import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
+const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -285,12 +286,29 @@ const baseCourseSchema = z.object({
     .array(z.string().min(1))
     .min(1)
     .optional(),
-  fromMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
-  toMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
+  from: z.string()
+    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
+    .optional(),
+  to: z.string()
+    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
+    .optional(),
 });
 
 // Create schema (same as base schema)
-export const createCourseSchema = baseCourseSchema;
+export const createCourseSchema = baseCourseSchema.refine((data) => {
+  if (data.mentorshipAvailability === "yes") {
+    return (
+      data.mentorshipAvailabilityDays &&
+      data.mentorshipAvailabilityDays.length > 0 &&
+      data.from &&
+      data.to
+    );
+  }
+  return false;
+}, {
+  message: "Mentorship availability days, from, and to are required when mentorship is available",
+  path: ["mentorshipAvailabilityDays", "from", "to"],
+});
 
 // Update schema (all fields optional)
 export const updateCourseSchema = baseCourseSchema.partial();

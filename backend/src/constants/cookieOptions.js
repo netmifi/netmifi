@@ -1,4 +1,4 @@
-import 'dotenv/config';
+require('dotenv').config();
 
 const stage = process.env.NODE_ENV;
 const isDevelopmentStage = stage === 'development';

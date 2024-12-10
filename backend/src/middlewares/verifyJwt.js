@@ -1,18 +1,16 @@
-import { queryState } from '@/constants/queryState';
-import User from '@/models/User';
-import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import 'dotenv/config'
-import { cookieOptions } from '@/constants/cookieOptions';
+const { queryState } = require('@/constants/queryState');
+const User = require('@/models/User');
+const jwt = require('jsonwebtoken');
+const { cookieOptions } = require('@/constants/cookieOptions');
 
 
 
 
-export const verifyJwt = (req: newRequest, res: Response, next: NextFunction) => {
+export const verifyJwt = (req, res, next) => {
     const cookies = req.cookies;
     const token = cookies?.jwt;
 
-    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET as string;
+    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
     // try {
     if (!token) {
         res.status(401).json({
@@ -26,7 +24,7 @@ export const verifyJwt = (req: newRequest, res: Response, next: NextFunction) =>
     jwt.verify(
         token,
         accessTokenSecret,
-        async (err, decoded:any) => {
+        async (err, decoded) => {
             try {
                 if (err) {
                     console.log(err);
@@ -57,7 +55,7 @@ export const verifyJwt = (req: newRequest, res: Response, next: NextFunction) =>
                     });
                 }
                 next();
-            } catch (error: any) {
+            } catch (error) {
                 console.log(err);
                 res.status(401).json({
                     message: error.message,

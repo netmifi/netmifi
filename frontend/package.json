@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc -b || true && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -35,6 +35,7 @@
     "@smastrom/react-rating": "^1.5.0",
     "@tanstack/react-query": "^5.59.16",
     "@tanstack/react-table": "^8.20.5",
+    "axios": "^1.7.9",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",

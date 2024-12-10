@@ -1,6 +1,6 @@
-import { handleSignIn, handleSignUp, handleLogout, handleInstructorApplication } from "@/controllers/authController";
-import { verifyJwt } from "@/middlewares/verifyJwt";
-import express from "express";
+const { handleSignIn, handleSignUp, handleLogout, handleInstructorApplication } = require('@/controllers/authController');
+const { verifyJwt } = require('@/middlewares/verifyJwt');
+const express = require('express');
 
 const router = express.Router();
 

@@ -1,24 +1,20 @@
-// import 'dotenv/config';
-import { signUpSchema, signInSchema, instructorApplicationSchema } from "@/schemas/authSchema";
-import { queryState } from "../constants/queryState";
-import User from "@/models/User";
-import { instructorApplicationType, SignInValuesType, UserSchemaDocument, verifiedRequest } from "@/types";
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { Request, Response } from 'express';
-import { cookieOptions } from '@/constants/cookieOptions';
+// require('dotenv').config();
+const { signUpSchema, signInSchema, instructorApplicationSchema } = require('@/schemas/authSchema');
+const { queryState } = require('../constants/queryState');
+const User = require('@/models/User');
+const { instructorApplicationType, SignInValuesType, UserSchemaDocument, verifiedRequest } = require('@/types');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { Request, Response } = require('express');
+const { cookieOptions } = require('@/constants/cookieOptions');
 
 const SALT_ROUNDS = 12;
 
-// interface signInUserObjType extends <typeof User>{
-
-// }
-
 const MAX_AGE = 60 * 60 * 1000 * 24 * 5; // this is in milliseconds for 5 days
-export const handleSignUp = async (req: Request, res: Response) => {
-    const bodyValues = req.body as UserSchemaDocument;
+export const handleSignUp = async (req, res) => {
+    const bodyValues = req.body;
     try {
-        const values: UserSchemaDocument = await signUpSchema.validateAsync({ ...bodyValues });
+        const values = await signUpSchema.validateAsync({ ...bodyValues });
         const hashedPassword = await bcrypt.hash(bodyValues.password, SALT_ROUNDS);
 
         const existingEmail = await User.findOne({ email: bodyValues.email });
@@ -52,7 +48,7 @@ export const handleSignUp = async (req: Request, res: Response) => {
             state: queryState.success,
             data: user,
         });
-    } catch (error: any) {
+    } catch (error) {
         res.status(400).json({
             message: error.details[0].message || error.message,
             state: queryState.error,
@@ -62,13 +58,13 @@ export const handleSignUp = async (req: Request, res: Response) => {
 }
 
 
-export const handleSignIn = async (req: Request, res: Response) => {
-    const bodyValues = req.body as SignInValuesType;
-    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET as string;
-    // const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET as string;
+export const handleSignIn = async (req, res) => {
+    const bodyValues = req.body;
+    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
 
     try {
-        const values: SignInValuesType = await signInSchema.validateAsync({ ...bodyValues });
+        const values = await signInSchema.validateAsync({ ...bodyValues });
         const user = await User.findOne({ email: bodyValues.email });
 
         if (!user) {
@@ -129,7 +125,7 @@ export const handleSignIn = async (req: Request, res: Response) => {
             data: user,
             accessToken
         });
-    } catch (error: any) {
+    } catch (error) {
         res.status(405).json({
             message: error.details[0].message || error.message,
             state: queryState.error,
@@ -139,7 +135,7 @@ export const handleSignIn = async (req: Request, res: Response) => {
     }
 }
 
-export const handleLogout = async (req: Request, res: Response) => {
+export const handleLogout = async (req, res) => {
     const cookies = req.cookies;
 
     const clearAllCookies = () => {
@@ -181,7 +177,7 @@ export const handleLogout = async (req: Request, res: Response) => {
             data: null,
         });
         clearAllCookies();
-    } catch (error: any) {
+    } catch (error) {
         res.status(405).json({
             message: error.details[0].message || error.message,
             state: queryState.error,
@@ -191,14 +187,14 @@ export const handleLogout = async (req: Request, res: Response) => {
     }
 }
 
-export const handleInstructorApplication = async (req: verifiedRequest, res: Response) => {
-    const bodyValues = req.body as instructorApplicationType;
+export const handleInstructorApplication = async (req, res) => {
+    const bodyValues = req.body;
     try {
-        const values: instructorApplicationType = await instructorApplicationSchema.validateAsync({ ...bodyValues });
-        const user = await User.findById(req.user as any);
+        const values = await instructorApplicationSchema.validateAsync({ ...bodyValues });
+        const user = await User.findById(req.user);
 
 
-    } catch (error: any) {
+    } catch (error) {
         res.status(405).json({
             message: error.details[0].message || error.message,
             state: queryState.error,

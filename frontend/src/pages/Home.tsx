@@ -14,7 +14,7 @@ import {
 } from "@/constants/temp";
 import RecentCourses from "@/layouts/courses/RecentCourses";
 import TopCourses from "@/layouts/courses/TopCourses";
-import { cn, convertToReadableNumber } from "@/lib/utils";
+import { convertToReadableNumber } from "@/lib/utils";
 import { ArrowDownIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
