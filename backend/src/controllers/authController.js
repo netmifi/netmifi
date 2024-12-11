@@ -1,17 +1,15 @@
 // require('dotenv').config();
-const { signUpSchema, signInSchema, instructorApplicationSchema } = require('@/schemas/authSchema');
+const { signUpSchema, signInSchema, instructorApplicationSchema } = require('../schemas/authSchema');
 const { queryState } = require('../constants/queryState');
-const User = require('@/models/User');
-const { instructorApplicationType, SignInValuesType, UserSchemaDocument, verifiedRequest } = require('@/types');
+const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Request, Response } = require('express');
-const { cookieOptions } = require('@/constants/cookieOptions');
+const { cookieOptions } = require('../constants/cookieOptions');
 
 const SALT_ROUNDS = 12;
 
 const MAX_AGE = 60 * 60 * 1000 * 24 * 5; // this is in milliseconds for 5 days
-export const handleSignUp = async (req, res) => {
+const handleSignUp = async (req, res) => {
     const bodyValues = req.body;
     try {
         const values = await signUpSchema.validateAsync({ ...bodyValues });
@@ -58,7 +56,7 @@ export const handleSignUp = async (req, res) => {
 }
 
 
-export const handleSignIn = async (req, res) => {
+const handleSignIn = async (req, res) => {
     const bodyValues = req.body;
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
@@ -135,7 +133,7 @@ export const handleSignIn = async (req, res) => {
     }
 }
 
-export const handleLogout = async (req, res) => {
+const handleLogout = async (req, res) => {
     const cookies = req.cookies;
 
     const clearAllCookies = () => {
@@ -187,7 +185,7 @@ export const handleLogout = async (req, res) => {
     }
 }
 
-export const handleInstructorApplication = async (req, res) => {
+const handleInstructorApplication = async (req, res) => {
     const bodyValues = req.body;
     try {
         const values = await instructorApplicationSchema.validateAsync({ ...bodyValues });
@@ -202,4 +200,11 @@ export const handleInstructorApplication = async (req, res) => {
         });
         return
     }
+}
+
+module.exports = {
+    handleSignUp,
+    handleSignIn,
+    handleLogout,
+    handleInstructorApplication,
 }

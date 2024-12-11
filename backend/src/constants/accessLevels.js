@@ -1,4 +1,4 @@
-export const accessLevels = [
+module.exports = [
   "user",
   "blogger",
   "editor",

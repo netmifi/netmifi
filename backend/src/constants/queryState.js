@@ -1,4 +1,4 @@
-export const queryState = {
+module.exports.queryState = {
     success: {
         isSuccess: true,
         isError: false,

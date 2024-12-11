@@ -1,7 +1,8 @@
 const Joi = require('joi');
 
+
 // Define Joi validation schema for the user
-export const signUpSchema = Joi.object({
+module.exports.signUpSchema = Joi.object({
     firstName: Joi.string().alphanum().min(3).max(30).trim().required(),
     lastName: Joi.string().alphanum().min(3).max(30).trim().required(),
     email: Joi.string().email().required(),
@@ -9,18 +10,18 @@ export const signUpSchema = Joi.object({
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
 });
 
-export const welcomeFormSchema = Joi.object({
+module.exports.welcomeFormSchema = Joi.object({
     interests: Joi.array().items(Joi.string()).default([]),
     adSources: Joi.array().items(Joi.string()).default([]),
 });
 
-export const signInSchema = Joi.object({
+module.exports.signInSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(5)
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
 });
 
-export const instructorApplicationSchema = Joi.object({
+module.exports.instructorApplicationSchema = Joi.object({
     username: Joi.string().alphanum().min(3).max(30).trim().required(),
     phoneNumber: Joi.string().required().pattern(/^\+?[1-9]\d{1,14}$/), // Basic pattern for international phone numbers
     countryDetails: Joi.object({

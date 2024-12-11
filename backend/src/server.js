@@ -1,3 +1,4 @@
+require('module-alias/register');
 require('dotenv').config();
 
 const cookieParser = require('cookie-parser');
@@ -6,8 +7,8 @@ const express = require('express');
 // const cors = require('cors');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/authRoutes.ts');
-const { limiter } = require('./middlewares/limiter');
+const authRoutes = require('./routes/authRoutes');
+const limiter = require('./middlewares/limiter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -40,6 +41,8 @@ app.use(express.urlencoded({
 
 // app.use('/', );
 app.use('/auth', limiter, authRoutes);
+
+
 
 mongoose.connect(dbURI)
     .then(() => {

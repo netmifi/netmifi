@@ -1,12 +1,10 @@
-const { queryState } = require('@/constants/queryState');
-const User = require('@/models/User');
+const { queryState } = require('../constants/queryState');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const { cookieOptions } = require('@/constants/cookieOptions');
+const { cookieOptions } = require('../constants/cookieOptions');
 
 
-
-
-export const verifyJwt = (req, res, next) => {
+const verifyJwt = (req, res, next) => {
     const cookies = req.cookies;
     const token = cookies?.jwt;
 
@@ -67,3 +65,5 @@ export const verifyJwt = (req, res, next) => {
         }
     );
 }
+
+module.exports = verifyJwt;
