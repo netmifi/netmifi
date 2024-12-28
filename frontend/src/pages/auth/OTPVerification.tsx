@@ -6,7 +6,7 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { ArrowLeftIcon } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   InputOTP,
   InputOTPGroup,
@@ -15,19 +15,38 @@ import {
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { logoText, logoTextWhite } from "@/assets/logo";
 import { useTheme } from "@/app/theme-provider";
-import { useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { onlyOTPFormSchema } from "@/lib/utils";
+import { cn, onlyOTPFormSchema } from "@/lib/utils";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import Loader from "@/components/Loader";
+import { useApp } from "@/app/app-provider";
+import { useFindCode } from "@/api/hooks/useFindCode";
+import { toast } from "sonner";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { useVerifyCode } from "@/api/hooks/useVerifyCode";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useResendCode } from "@/api/hooks/useResendCode";
 
 const OTPVerification = () => {
+  const resendCodeTime = 14398.35; // this reps the time diff divided by 100
+
+  const { user, setUser } = useApp();
+  // const [verificationDetails, setVerificationDetails] = useState<{
+  //   state: string;
+  //   expiresIn: Date;
+  // } | null>(null);
+  const findCodeMutation = useFindCode();
+  const resendCodeMutation = useResendCode();
+  const verifyCodeMutation = useVerifyCode();
+
   const MAXLENGTH = 5;
   const navigate = useNavigate();
   const { theme } = useTheme();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [isResendLoading, setIsResendLoading] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
   const formSchema = onlyOTPFormSchema();
@@ -46,19 +65,107 @@ const OTPVerification = () => {
     else setIsFilled(false);
   };
 
-  const handleSubmit = ({ otp }: { otp: string }) => {
-    console.log(otp);
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+  const handleResendCode = async () => {
+    try {
+      const { data } = await resendCodeMutation.mutateAsync({
+        state: verifyType || "verify",
+        email: user.email || email,
+      });
+
+      // console.log(data);
+      setUser(data);
+      toast.success("Code resent successfully", {
+        duration: 4000,
+        richColors: true,
+        dismissible: true,
+        important: true,
+      });
+    } catch (error) {
+      toast.error(mutationErrorHandler(findCodeMutation, error));
+    }
+  };
+
+  const handleSubmit = async ({ otp }: { otp: string }) => {
+    try {
+      const { data } = await verifyCodeMutation.mutateAsync({
+        id: user.id,
+        code: parseInt(otp),
+        state: verifyType || "verify",
+      });
+
+      setUser(data);
+      toast.success("Verification Code matched", {
+        duration: 4000,
+        richColors: true,
+        dismissible: true,
+        important: true,
+      });
 
       if (verifyType === "forgot") {
         navigate("/auth/forgot-password/new-password");
       } else {
         navigate("/auth/welcome");
       }
-    }, 2000);
+    } catch (error) {
+      toast.error(mutationErrorHandler(findCodeMutation, error));
+    }
   };
+
+  const [, setTargetTime] = useState<Date>(new Date());
+  const [timeLeft, setTimeLeft] = useState<string>("00:00");
+  const [timeDifference, setTimeDifference] = useState<number>(0);
+  // console.log(user._id)
+  useEffect(() => {
+    // Set the target time to 20 minutes from now
+    // const newTargetTime = new Date(verificationDetails?.expiresIn as Date);
+    const newTargetTime = new Date(
+      (user.generatedCode.expiresIn as Date) || Date()
+    );
+    setTargetTime(newTargetTime);
+
+    // Update the countdown every second
+    const timer = setInterval(() => {
+      const now = new Date();
+      const difference = newTargetTime.getTime() - now.getTime();
+      setTimeDifference(difference / 100);
+
+      if (difference <= 0) {
+        clearInterval(timer);
+        setTimeLeft("Code expired");
+      } else {
+        const minutes = Math.floor(difference / 60000);
+        const seconds = Math.floor((difference % 60000) / 1000);
+        setTimeLeft(
+          `${minutes.toString().padStart(2, "0")}:${seconds
+            .toString()
+            .padStart(2, "0")}`
+        );
+      }
+    }, 1000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(timer);
+  }, [user]);
+
+  // useEffect(() => {
+  //   async function handleVerificationDetails() {
+  //     try {
+  //       const { data } = await findCodeMutation.mutateAsync({
+  //         id: user.id,
+  //       });
+  //       setVerificationDetails(data);
+  //       // console.log();
+  //     } catch (error) {
+  //       toast.error(mutationErrorHandler(findCodeMutation, error));
+  //     }
+  //   }
+
+  //   handleVerificationDetails();
+  // }, []);
+
+  if (!user) {
+    return <Navigate to={"/auth/"} />;
+  }
 
   return (
     <div className="bg-destructive/20 w-screen flex flex-col items-center">
@@ -120,24 +227,41 @@ const OTPVerification = () => {
                     </FormItem>
                   )}
                 />
+                <div className="w-full flex justify-between items-center">
+                  <div className="flex gap-1 w-full text-sm items-center">
+                    Didn't receive any code?{" "}
+                    <Button
+                      variant="transparent"
+                      size="no-pad"
+                      className={cn("text-red", {
+                        hidden: timeDifference > resendCodeTime,
+                      })}
+                      type="button"
+                      disabled={resendCodeMutation.pending}
+                      onClick={handleResendCode}
+                    >
+                      {resendCodeMutation.pending ? (
+                        <Loader type="loader" />
+                      ) : (
+                        "Resend"
+                      )}
+                    </Button>
+                  </div>
 
-                <div className="flex gap-1 w-full text-sm">
-                  Didn't receive any code?{" "}
-                  <Button
-                    variant="transparent"
-                    size="no-pad"
-                    className="text-red"
-                    type="button"
-                  >
-                    Resend
-                  </Button>
+                  <p className="text-red text-sm">
+                    <Suspense fallback={<Skeleton />}>{timeLeft}</Suspense>
+                  </p>
                 </div>
 
                 <Button
-                  disabled={!isFilled || isLoading}
+                  disabled={!isFilled || verifyCodeMutation.isPending}
                   className="w-full mt-3"
                 >
-                  {isLoading ? <Loader type="all" /> : "Continue"}
+                  {verifyCodeMutation.isPending ? (
+                    <Loader type="all" />
+                  ) : (
+                    "Continue"
+                  )}
                 </Button>
               </form>
             </Form>

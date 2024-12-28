@@ -1,3 +1,6 @@
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { useMailGenCode } from "@/api/hooks/useMailGenCode";
+import { useApp } from "@/app/app-provider";
 import CustomFormField from "@/components/Form/CustomFormField";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
@@ -7,30 +10,51 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const ViaEmail = () => {
-  const formSchema = onlyEmailFormSchema();
-  const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useApp();
+  const mailCodeMutation = useMailGenCode();
 
+  const formSchema = onlyEmailFormSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const navigate = useNavigate();
 
-  const handleSubmit = (email: string) => {
-    setIsLoading(true);
-    console.log(email);
-    setTimeout(() => {
-      setIsLoading(false);
+  const handleSubmit = async (email: string) => {
+    try {
+      const { data } = await mailCodeMutation.mutateAsync({ email });
+      console.log(data);
+      toast.success("Code sent to email", {
+        duration: 4000,
+        richColors: true,
+        dismissible: true,
+        important: true,
+      });
+      setUser(data);
       navigate("/auth/otp-verification", {
         state: {
           type: "forgot",
-          email: email
+          email: email,
         },
       });
-    }, 2000);
+    } catch (error) {
+      toast.error(mutationErrorHandler(mailCodeMutation, error));
+    }
+
+    // console.log(email);
+    //   setTimeout(() => {
+    //     setIsLoading(false);
+    //     navigate("/auth/otp-verification", {
+    //       state: {
+    //         type: "forgot",
+    //         email: email,
+    //       },
+    //     });
+    //   }, 2000);
   };
 
   return (
@@ -46,9 +70,7 @@ const ViaEmail = () => {
       </div>
 
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(({ email }) => handleSubmit(email))}
-        >
+        <form onSubmit={form.handleSubmit(({ email }) => handleSubmit(email))}>
           <CustomFormField
             control={form.control}
             name={"email"}
@@ -56,7 +78,10 @@ const ViaEmail = () => {
             label="Email address"
             placeholder="Input email address here"
           />
-            <Button disabled={isLoading} className="w-full mt-8"> {isLoading ? <Loader type="all" /> : "Continue"}</Button>
+          <Button disabled={mailCodeMutation.isPending} className="w-full mt-8">
+            {" "}
+            {mailCodeMutation.isPending ? <Loader type="all" /> : "Continue"}
+          </Button>
         </form>
       </Form>
     </>

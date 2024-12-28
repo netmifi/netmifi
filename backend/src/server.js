@@ -4,16 +4,21 @@ require('dotenv').config();
 const cookieParser = require('cookie-parser');
 
 const express = require('express');
-// const cors = require('cors');
+const cors = require('cors');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/authRoutes');
 const limiter = require('./middlewares/limiter');
+const corsOptions = require('./config/corsOptions');
+const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const dbURI = process.env.DATABASE_URI || '';
 const stageEnv = process.env.NODE_ENV;
+
+app.use(cors(corsOptions));
 
 if (stageEnv === 'development') {
     app.use(
@@ -38,14 +43,14 @@ app.use(express.urlencoded({
     extended: false
 }));
 
+app.get('/', (req, res) => res.send("hello"))
 
-// app.use('/', );
 app.use('/auth', limiter, authRoutes);
-
-
+app.use('/user', limiter, userRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {
+        autoDeleteExpiredCodes()
         app.listen(PORT, () => console.log(`App running on http://localhost:${PORT}`))
     })
     .catch((reason) => console.log(`Database connection error ${reason}`));

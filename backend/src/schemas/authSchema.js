@@ -5,31 +5,34 @@ const Joi = require('joi');
 module.exports.signUpSchema = Joi.object({
     firstName: Joi.string().alphanum().min(3).max(30).trim().required(),
     lastName: Joi.string().alphanum().min(3).max(30).trim().required(),
+    username: Joi.string().alphanum().min(3).max(30).trim().required(),
     email: Joi.string().email().required(),
-    password: Joi.string().min(5)
-        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+    password: Joi.string().min(8)
+        .required(),
+    // pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
 });
 
+
+module.exports.signInSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(5).required()
+    // .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
+});
 module.exports.welcomeFormSchema = Joi.object({
     interests: Joi.array().items(Joi.string()).default([]),
     adSources: Joi.array().items(Joi.string()).default([]),
 });
 
-module.exports.signInSchema = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().min(5)
-        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
-});
-
 module.exports.instructorApplicationSchema = Joi.object({
-    username: Joi.string().alphanum().min(3).max(30).trim().required(),
-    phoneNumber: Joi.string().required().pattern(/^\+?[1-9]\d{1,14}$/), // Basic pattern for international phone numbers
-    countryDetails: Joi.object({
+    fullName: Joi.string().min(3).max(100).trim().required(),
+    phone: Joi.string().required().pattern(/^\+?[1-9]\d{1,14}$/), // Basic pattern for international phone numbers
+    country: Joi.object({
         name: Joi.string(),
         dialCode: Joi.string().pattern(/^\+\d+$/), // Ensures dial code starts with '+'
         code: Joi.string(),
+        flag: Joi.string(),
     }),
-    residentialAddress: Joi.string().alphanum().min(3).max(30).trim().required(),
+    residentialAddress: Joi.string().min(3).max(30).trim().required(),
     facebook: Joi.string().uri().optional().allow(''),
     instagram: Joi.string().uri().optional().allow(''),
     twitter: Joi.string().uri().optional().allow(''),
@@ -37,10 +40,10 @@ module.exports.instructorApplicationSchema = Joi.object({
     youtube: Joi.string().uri().optional().allow(''),
     website: Joi.string().uri().optional(),
 
-    niche: Joi.string().uri(),
+    niche: Joi.string().required(),
     whyInterest: Joi.string().optional(),
-    taughtOnlineBefore: Joi.string().valid('yes', 'no').required(),
-    beenMentor: Joi.string().valid('yes', 'no').required(),
+    taughtBefore: Joi.string().valid('yes', 'no').required(),
+    mentoredPreviously: Joi.string().valid('yes', 'no').required(),
     about: Joi.string(),
 }).custom((obj, helpers) => {
     // Count how many of the social handles are not empty

@@ -6,7 +6,7 @@
   "@": "./src"
 },
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon src/server",
     "build": "tsc",
     "start": "node src/server.js",
     "lint": "eslint 'src/**/*.{js}'"

@@ -7,39 +7,42 @@ import { authFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
+import { useLogin } from "@/api/hooks/useLogin";
+import { useApp } from "@/app/app-provider";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 
 const SignIn = () => {
+  const { setUser } = useApp();
+  const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const loginMutation = useLogin();
 
   const formSchema = authFormSchema("sign-in");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  const handleSubmit = ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
-    console.log(email, password);
-    setIsLoading(true);
-    console.log(email);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      toast("You have been logged ", {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const { data } = await loginMutation.mutateAsync({
+        ...values,
+      });
+      toast.success("Account login successful", {
         duration: 4000,
         richColors: true,
         dismissible: true,
         important: true,
-        description: "Welcome, we love to see you again.",
       });
-    }, 500);
+
+      setUser(data);
+      console.log(data);
+      navigate("/");
+    } catch (error) {
+      toast.error(mutationErrorHandler(loginMutation, error));
+    }
   };
   return (
     <div className="flex flex-col gap-10">
@@ -96,9 +99,8 @@ const SignIn = () => {
                 Forgotten password?
               </Link>
 
-              <Button disabled={isLoading} size={"lg"}>
-                {" "}
-                {isLoading ? <Loader type="all" /> : "Sign In"}
+              <Button disabled={loginMutation.isPending} size={"lg"}>
+                {loginMutation.isPending ? <Loader type="all" /> : "Sign In"}
               </Button>
             </form>
           </Form>

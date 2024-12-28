@@ -125,7 +125,7 @@
   }
 
   #root {
-    @apply w-full bg-red;
+    @apply w-full;
   }
 
   .dark {

@@ -36,10 +36,10 @@ const AuthOutletLayout = () => {
 
   return (
     <>
-      <main className="flex min-h-screen bg-background">
+      <main className="flex min-h-screen bg-background w-full">
         {!checkExemptionRoute() ? (
           <>
-            <div className="flex-grow padding-x padding-y">
+            <div className="flex-auto padding-x padding-y">
               {checkPathRootPath() ? (
                 <section className="w-full flex flex-col gap-7 justify-center items-center h-full">
                   <div className="max-lg:w-full">
@@ -84,7 +84,7 @@ const AuthOutletLayout = () => {
               )}
             </div>
 
-            <aside className="bg-destructive/20 max-xl:hidden basis-[40%] padding-x flex flex-col min-h-screen">
+            <aside className="bg-low-red max-xl:hidden basis-[40%] padding-x flex flex-col min-h-screen flex-grow">
               <div className="flex flex-col mt-auto">
                 <img
                   src={checkPathRootPath() ? logo : GetStartedSvg}

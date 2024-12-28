@@ -1,4 +1,5 @@
 import { useTheme } from "@/app/theme-provider";
+import { useApp } from "@/app/app-provider";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,6 +16,7 @@ const Welcome = () => {
   const rootCourses = ["/auth/welcome/", "/auth/welcome"];
   const { pathname } = useLocation();
   const { theme } = useTheme();
+  const { user } = useApp();
 
   return (
     <div className="flex flex-col gap-6 justify-center items-center w-full">
@@ -40,7 +42,7 @@ const Welcome = () => {
               <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-2">
                   <h2 className="font-bold text-lg sm:text-xl">
-                    Hi, Onyekachi
+                    Hi, {user.firstName}
                   </h2>
                   <p className="text-sm sm:text-base">
                     Get started on <b>Netmifi</b>. Tell us what you want to use

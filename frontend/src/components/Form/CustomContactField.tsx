@@ -45,8 +45,9 @@ const CustomContactField = ({
   isNotLabeled = false,
   setCountry,
 }: CustomContactFieldProps) => {
+  // FIXME: Add default country as nigeria and organize combobox
   const { countries } = useCountries();
-  const [newDialCode, setNewDialCode] = useState(dialCode || "+");
+  const [newDialCode, setNewDialCode] = useState(dialCode || '+234');
   const [open, setOpen] = useState(false);
 
   return (

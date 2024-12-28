@@ -12,6 +12,11 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
+    username: {
+        type: String,
+        required: true,
+        trim: true
+    },
     email: {
         type: String,
         required: true,
@@ -22,6 +27,12 @@ const userSchema = new Schema({
         minlength: 5,
         required: true,
         trim: true
+    },
+    country: {
+        name: String, dialCode: String, code: String, flag: String
+    },
+    phone: {
+        type: String,
     },
     theme: {
         type: String,
@@ -43,20 +54,44 @@ const userSchema = new Schema({
         default: [],
         required: true,
     },
+    residentialAddress: {
+        type: String,
+        trim: true,
+    },
     isEmailVerified: {
         type: Boolean,
         default: false,
     },
-    // refreshToken: {
-    //     type: String,
-    //     default: '',
-    // },
+    handles: {
+        facebook: {
+            type: String,
+            default: ''
+        },
+        instagram: {
+            type: String,
+            default: ''
+        },
+        tiktok: {
+            type: String,
+            default: ''
+        },
+        youtube: {
+            type: String,
+            default: ''
+        },
+        web: {
+            type: String,
+            default: ''
+        }
+    },
     generatedCode: {
         type: {
-            for: String,
+            state: String,
             code: Number,
+            expiresIn: Date,
         },
     }
 }, { timestamps: true });
-
+// This is a TTL index on the generatedCode.expiresIn field
+userSchema.index({ 'generatedCode.expiresIn': 1 }, { expireAfterSeconds: 0 });
 module.exports = mongoose.model('User', userSchema);

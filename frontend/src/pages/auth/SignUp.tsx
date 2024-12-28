@@ -1,3 +1,6 @@
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { useRegister } from "@/api/hooks/useRegister";
+import { useApp } from "@/app/app-provider";
 import { GoogleIconSvg } from "@/assets/svg";
 import CustomFormField from "@/components/Form/CustomFormField";
 import Loader from "@/components/Loader";
@@ -12,24 +15,28 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const SignUp = () => {
+  const { user, setUser } = useApp();
+  const registerMutation = useRegister();
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const formSchema = authFormSchema("sign-up");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const { data } = await registerMutation.mutateAsync({
+        ...values,
+      });
 
       navigate("/auth/otp-verification", {
         state: {
           type: "verify",
-          email: data.email,
+          email: values.email,
         },
       });
 
@@ -38,9 +45,14 @@ const SignUp = () => {
         richColors: true,
         dismissible: true,
         important: true,
-        description: "Welcome, thank you for being part of us.",
       });
-    }, 500);
+      console.log(data);
+
+      setUser(data);
+      console.log(data);
+    } catch (error) {
+      toast.error(mutationErrorHandler(registerMutation, error));
+    }
   };
 
   return (
@@ -97,8 +109,8 @@ const SignUp = () => {
                 />
               </div>
 
-              <Button disabled={isLoading} size={"lg"}>
-                {isLoading ? <Loader type="all" /> : "Sign Up"}
+              <Button disabled={registerMutation.isPending} size={"lg"}>
+                {registerMutation.isPending ? <Loader type="all" /> : "Sign Up"}
               </Button>
             </form>
           </Form>

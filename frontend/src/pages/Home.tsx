@@ -21,7 +21,7 @@ import { NavLink } from "react-router-dom";
 // import CountUp from "react-countup";
 
 const Home = () => {
-  const { isAuth } = useApp();
+  const { isAuth, user } = useApp();
   const greetingPhrases = [
     "Ahoy There",
     "Hi There",
@@ -38,6 +38,8 @@ const Home = () => {
     exploreSectionRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
   const [isCountEnded, setIsCountEnded] = useState(false);
+
+  //  TODO: MAKE A SWING COUNTER
   const netmifiNumbers = [
     {
       count: 152020,
@@ -59,7 +61,7 @@ const Home = () => {
         <section className="padding-x padding-y flex items-center gap-3">
           <PostAvatar
             isVerified={false}
-            profileName="Metane Ekeh"
+            profileName={`${user.firstName} ${user.lastName}`}
             profileURL=""
             profileImage=""
             profileImageClassName="size-20 text-2xl"
@@ -68,7 +70,9 @@ const Home = () => {
 
           <div className="flex flex-col gap-px justify-center">
             <h2 className="text-2xl sm:text-3xl font-bold">{greeting},</h2>
-            <p>FirstName, LastName</p>
+            <p>
+              {user.firstName}, {user.lastName}
+            </p>
           </div>
         </section>
       )}
