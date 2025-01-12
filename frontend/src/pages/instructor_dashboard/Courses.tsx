@@ -1,6 +1,7 @@
 import { aboutHero } from "@/assets/images";
 import { testVid, testVid1, testVid2 } from "@/assets/videos";
 import CustomTable from "@/components/CustomTable";
+import EditCourse from "@/components/instructor_dashboard/EditCourse";
 import ViewCourse from "@/components/instructor_dashboard/ViewCourse";
 import ViewStudent from "@/components/instructor_dashboard/ViewStudent";
 import React from "react";
@@ -111,6 +112,7 @@ const Courses = () => {
         promptLabel={"title"}
         isDialog={true}
         ViewComponent={ViewCourse}
+        EditComponent={EditCourse}
         setData={function (value: React.SetStateAction<HasId[]>): void {
           throw new Error("Function not implemented.");
         }}

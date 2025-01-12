@@ -1,28 +1,34 @@
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { useIntrestAdSource } from "@/api/hooks/useInterestAdSource";
+import { useApp } from "@/app/app-provider";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { categories } from "@/constants";
 import { cn } from "@/lib/utils";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Interest = () => {
-  const interests = [
-    "article writing",
-    "content creation",
-    "copywriting",
-    "graphics design",
-    "digital marketing",
-    "digital photography",
-    "email marketing",
-    "video editing",
-    "technical writing",
-    "content marketing strategy",
-    "sound editing",
-    "UI/UX design",
-    "videography",
-    "voiceover work",
-  ];
+  // const interests = [
+  //   "article writing",
+  //   "content creation",
+  //   "copywriting",
+  //   "graphics design",
+  //   "digital marketing",
+  //   "digital photography",
+  //   "email marketing",
+  //   "video editing",
+  //   "technical writing",
+  //   "content marketing strategy",
+  //   "sound editing",
+  //   "UI/UX design",
+  //   "videography",
+  //   "voiceover work",
+  // ];
 
   const mediaSources = [
     "facebook",
@@ -35,11 +41,14 @@ const Interest = () => {
     "others",
   ];
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useApp();
+  const interestAdMutation = useIntrestAdSource();
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [selectedMediaSources, setSelectedMediaSources] = useState<string[]>(
     []
   );
+
+  const navigate = useNavigate();
 
   const handleSelectInterest = (interest: string) => {
     const newArray = selectedInterests.includes(interest)
@@ -57,6 +66,25 @@ const Interest = () => {
     setSelectedMediaSources(newArray);
   };
 
+  const handleSubmit = async () => {
+    try {
+      const { data } = await interestAdMutation.mutateAsync({
+        interests: selectedInterests,
+        adSource: selectedMediaSources,
+      });
+      setUser(data);
+      navigate("/");
+      toast.success("Thank you for choosing netmifi", {
+        duration: 4000,
+        richColors: true,
+        dismissible: true,
+        important: true,
+      });
+    } catch (error) {
+      toast.error(mutationErrorHandler(interestAdMutation, error));
+    }
+  };
+
   return (
     <div className="flex flex-col gap-16">
       <div className="flex flex-col gap-8">
@@ -70,7 +98,7 @@ const Interest = () => {
         </div>
 
         <div className="flex flex-wrap gap-2 sm:gap-4">
-          {interests.map((interest) => (
+          {categories.map((interest) => (
             <Button
               key={interest}
               variant="secondary"
@@ -116,12 +144,12 @@ const Interest = () => {
         disabled={
           selectedInterests.length < 1 ||
           selectedMediaSources.length < 1 ||
-          isLoading
+          interestAdMutation.isPending
         }
-
         className="sm:ml-auto sm:py-6 sm:px-16 text-sm sm:text-base"
+        onClick={handleSubmit}
       >
-        {isLoading ? <Loader type="all" /> : "Continue"}
+        {interestAdMutation.isPending ? <Loader type="all" /> : "Continue"}
       </Button>
     </div>
   );

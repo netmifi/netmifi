@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 import { createContext, useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import { toast } from "sonner";
 
 interface AppProviderProps {
-  user: never[];
-  setUser: (user: never) => void;
+  user: any;
+  setUser: (user: any) => void;
   isAuth: boolean;
   setIsAuth: (state: boolean) => void;
   cartItems: Course[] | any[];
@@ -14,7 +15,7 @@ interface AppProviderProps {
 }
 
 const initialState = {
-  user: [],
+  user: null,
   setUser: () => {},
   isAuth: false,
   setIsAuth: () => {},
@@ -31,9 +32,11 @@ export function AppProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(
+    JSON.parse((Cookies.get("user") as string) ?? JSON.stringify("")) || null
+  );
   const [cartItems, setCartItems] = useState<any[]>([]);
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
   const handleAddToCart = (course: Course) => {
     if (cartItems.find((item) => item.id === course.id))
@@ -42,6 +45,34 @@ export function AppProvider({
     setCartItems([...cartItems, course]);
     toast.success(`${course.title} has been added to your cart`);
   };
+
+  useEffect(() => {
+    return () => {
+      if (Cookies.get("user") && Cookies.get("jwt")) {
+        const cookieUser = Cookies.get("user");
+
+        if (cookieUser) {
+          localStorage.setItem("user", cookieUser);
+          setUser(JSON.parse(cookieUser));
+        }
+      } else if (!Cookies.get("jwt")) {
+        Cookies.remove("user");
+        localStorage.removeItem("user");
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (user) {
+        setIsAuth(true);
+        localStorage.setItem("user", JSON.stringify(user));
+      } else {
+        setIsAuth(false);
+        // localStorage.removeItem("user");
+      }
+    };
+  }, [user]);
 
   const value = {
     user,
@@ -52,6 +83,8 @@ export function AppProvider({
     setCartItems,
     handleAddToCart,
   };
+
+  // TODO: Convert cart items to json stringified objects
 
   // useEffect(() => {
   //   const handleCartItems = () => {

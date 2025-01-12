@@ -5,6 +5,7 @@ import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 // import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
+const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -172,68 +173,50 @@ export const contactUsEmailFormSchema = () =>
 export const instructorFormSchema = () =>
   z.object({
     fullName: z.string({ required_error: "Please input your full name" }),
-    username: z.string({ required_error: "Please input your full name" }),
-    email: z.string({ required_error: "Please input your email" }).email({ message: 'Must be a valid email' }),
     country: z.object({
-      name: z.string(),
+      name: z.string().optional(),
       code: z.string(),
-      flag: z.string(),
+      flag: z.string().optional(),
       dialCode: z.string(),
     }),
     phone: z.string({ message: 'Contact is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
-    // !val.match(REGEXP_ONLY_DIGITS) ,
-
-    // .refine((phoneNumber) => {
-    // const phoneNumberString = `${phoneNumber}`;
-    // const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
-
-    // console.log(phoneNumberString, parsedPhoneNumber, isValidNumber(phoneNumberString));
-    // return parsedPhoneNumber?.isValid() ?? false; // Ensure the number is valid
-    // },
-    // ),
     residentialAddress: z.string().optional(),
-    facebookHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
-    instagramHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
-    tiktokHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
-    youtubeHandle: z.string().url({ message: 'Must be a valid link' }).optional(),
-    websiteLink: z.string().url({ message: 'Must be a valid link' }).optional(),
-
+    facebook: z.string().url({ message: 'Must be a valid link' }).optional(),
+    instagram: z.string().url({ message: 'Must be a valid link' }).optional(),
+    tiktok: z.string().url({ message: 'Must be a valid link' }).optional(),
+    youtube: z.string().url({ message: 'Must be a valid link' }).optional(),
+    website: z.string().url({ message: 'Must be a valid link' }).optional(),
     niche: z.string({ required_error: "Must select an area of expertise" }),
     whyInterest: z.string().optional(),
     taughtBefore: z.enum(["yes", "no"], {
-      message: "Please select an option",
+      required_error: "Please select an option",
     }),
     mentoredPreviously: z.enum(["yes", "no"], {
-      message: "Please select an option",
+      required_error: "Please select an option",
     }),
-    // mentorshipAvailability: z.string({
-    //   required_error: "Must select a one of either options",
-    // }),
-    // mentorshipAvailabilityDays: z
-    //   .array(z.string().min(1))
-    //   .min(1).optional(),
-    // fromMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
-    // toMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
-    // about: z.string().optional(),
-  }).refine((data) => {
-    const phoneNumberString = `${data.country.dialCode}${data.phone}`;
-    const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
-
-    console.log(phoneNumberString, parsedPhoneNumber?.number, isValidNumber(phoneNumberString), parsedPhoneNumber?.isValid());
-    return parsedPhoneNumber?.isValid() ?? false; // Ensure the number is valid
-  }, {
-    message: 'Not a valid phone number',
-    path: ['phone'],
-  }).transform((data) => {
-    const phoneNumberString = `${data.country.dialCode}${data.phone}`;
-    const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
-
-    return {
-      ...data,
-      phone: parsedPhoneNumber?.number, // This is the combined int format number sent to the server
-    };
-  });
-
+  })
+    .refine((data) => {
+      return data.country.code !== '' && data.country.dialCode !== '';
+    }, {
+      message: 'Please select your country dial code',
+      path: ['phone'],
+    })
+    .refine((data) => {
+      const phoneNumberString = `${data.country.dialCode}${data.phone}`;
+      const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
+      return parsedPhoneNumber?.isValid() ?? false;
+    }, {
+      message: 'Not a valid phone number',
+      path: ['phone'],
+    })
+    .transform((data) => {
+      const phoneNumberString = `${data.country.dialCode}${data.phone}`;
+      const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
+      return {
+        ...data,
+        phone: parsedPhoneNumber?.number,
+      };
+    });
 // Base schema
 const baseCourseSchema = z.object({
   title: z.string().min(5, { message: "Course title cannot be less than 5 characters" }),
@@ -285,12 +268,29 @@ const baseCourseSchema = z.object({
     .array(z.string().min(1))
     .min(1)
     .optional(),
-  fromMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
-  toMentorTime: z.string().time({ message: "Select a valid time" }).optional(),
+  from: z.string()
+    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
+    .optional(),
+  to: z.string()
+    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
+    .optional(),
 });
 
 // Create schema (same as base schema)
-export const createCourseSchema = baseCourseSchema;
+export const createCourseSchema = baseCourseSchema.refine((data) => {
+  if (data.mentorshipAvailability === "yes") {
+    return (
+      data.mentorshipAvailabilityDays &&
+      data.mentorshipAvailabilityDays.length > 0 &&
+      data.from &&
+      data.to
+    );
+  }
+  return false;
+}, {
+  message: "Mentorship availability days, from, and to are required when mentorship is available",
+  path: ["mentorshipAvailabilityDays", "from", "to"],
+});
 
 // Update schema (all fields optional)
 export const updateCourseSchema = baseCourseSchema.partial();

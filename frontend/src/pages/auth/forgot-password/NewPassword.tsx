@@ -9,30 +9,56 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import Loader from "@/components/Loader";
+import { useChangePassword } from "@/api/hooks/useChangePassword";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { useApp } from "@/app/app-provider";
 
 const NewPassword = () => {
+  const { user, setUser, setIsAuth } = useApp();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const changePasswordMutation = useChangePassword();
   const formSchema = onlyPasswordFormSchema();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  const handleSubmit = ({ password }: { password: string }) => {
-    console.log(password);
-    setIsLoading(true);
-    toast("New password has been set. Redirecting... ", {
-      duration: 4000,
-      richColors: true,
-      dismissible: true,
-      important: true,
-      description: "Welcome, we love to see you again.",
-    });
-    setTimeout(() => {
-      setIsLoading(false);
+  const handleSubmit = async ({ password }: { password: string }) => {
+    try {
+      const { data } = await changePasswordMutation.mutateAsync({
+        email: user.email,
+        password,
+      });
+
+      setUser(data);
+      setIsAuth(true);
+      toast.success("Account update successfully", {
+        duration: 4000,
+        richColors: true,
+        dismissible: true,
+        important: true,
+      });
+
+      console.log(data);
       navigate("/");
-    }, 2000);
+    } catch (error) {
+      toast.error(mutationErrorHandler(changePasswordMutation, error));
+    }
+    // console.log(password);
+    // setIsLoading(true);
+    // toast("New password has been set. Redirecting... ", {
+    //   duration: 4000,
+    //   richColors: true,
+    //   dismissible: true,
+    //   important: true,
+    //   description: "Welcome, we love to see you again.",
+    // });
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //   navigate("/");
+    // }, 2000);
   };
   return (
     <div className="flex flex-col gap-5">
@@ -45,14 +71,33 @@ const NewPassword = () => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <CustomFormField
-            control={form.control}
-            name="password"
-            label="Password"
-            placeholder="Enter new password"
-          />
+          <div className="flex flex-col">
+            <Button
+              type="button"
+              variant={"transparent"}
+              className="p-0 ml-auto h-fit"
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+            >
+              {isPasswordVisible ? "Hide" : "Show"}
+            </Button>
 
-          <Button className="w-full mt-5">                  {isLoading ? <Loader type="all" /> : "Confirm"}
+            <CustomFormField
+              control={form.control}
+              name="password"
+              isPasswordVisible={isPasswordVisible}
+            />
+          </div>
+
+          <Button
+            className="w-full mt-5"
+            disabled={changePasswordMutation.isPending}
+          >
+            {" "}
+            {changePasswordMutation.isPending ? (
+              <Loader type="all" />
+            ) : (
+              "Confirm"
+            )}
           </Button>
         </form>
       </Form>

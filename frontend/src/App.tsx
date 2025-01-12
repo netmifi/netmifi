@@ -142,6 +142,9 @@ const App = () => {
                 <Route path="create" element={<CreateCourse />} />
               </Route>
 
+              {/* ABOUT ROUTE */}
+              <Route path="about" element={<About />} />
+
               {/* 404 page ROUTES */}
               <Route path="*" element={<NotFound />} />
               <Route path="404" element={<NotFound />} />

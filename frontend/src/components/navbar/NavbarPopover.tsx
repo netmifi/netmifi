@@ -12,6 +12,7 @@ import {
   ShoppingCart,
   TrashIcon,
 } from "lucide-react";
+import { FaNairaSign } from "react-icons/fa6";
 
 const NavbarPopover = ({
   type,
@@ -53,7 +54,7 @@ const NavbarPopover = ({
           </Button>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="text-center max-w-full p-0">
+      <PopoverContent className="text-center max-w-full p-0 max-sm:w-screen sm:min-w-96">
         <ScrollArea className="">
           {/* CART CHILDREN */}
           {type === "cart" &&
@@ -64,11 +65,15 @@ const NavbarPopover = ({
                     <div key={index} className="flex">
                       <Button
                         variant={"ghost"}
-                        className="flex-grow hover:bg-secondary text-xs text-left justify-start rounded-none"
+                        className="flex-grow hover:bg-secondary text-xs text-left justify-between rounded-none max-w-[90%] overflow-hidden flex-shrink-0"
                       >
-                        {item.title.length > 40
-                          ? item.title.slice(0, 40) + "..."
+                        {item.title.length > 25
+                          ? item.title.slice(0, 25) + "..."
                           : item.title}
+
+                        <span className="text-red text-xs flex gap-px [&_svg]:size-3 items-center">
+                          <FaNairaSign /> {item.price}
+                        </span>
                       </Button>
 
                       <Popover>

@@ -142,8 +142,8 @@ export const MultiSelect = React.forwardRef<
         modal={modalPopover}
       >
         <PopoverTrigger asChild>
-          {/* make absolute buttons to prevent click events trigger  */}
           <Button
+          asChild
             type={"button"}
             role="button"
             ref={ref}
