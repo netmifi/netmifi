@@ -148,24 +148,24 @@ const About = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="">
-            <h3 className="text-destructive">Students Enrolled</h3>
-            <h2 className="text-muted font-bold">50,000+</h2>
+            <h4 className="text-destructive">Students Enrolled</h4>
+            <h3 className="text-muted font-bold">50,000+</h3>
           </div>
           <div className="">
-            <h3 className="text-destructive">Certified</h3>
-            <h2 className="text-muted font-bold">20,000+</h2>
+            <h4 className="text-destructive">Certified</h4>
+            <h3 className="text-muted font-bold">20,000+</h3>
           </div>
           <div className="">
-            <h3 className="text-destructive">Skillful Courses</h3>
-            <h2 className="text-muted font-bold">1,000</h2>
+            <h4 className="text-destructive">Skillful Courses</h4>
+            <h3 className="text-muted font-bold">1,000</h3>
           </div>
           <div className="">
-            <h3 className="text-destructive">Expert Instructors</h3>
-            <h2 className="text-muted font-bold">700</h2>
+            <h4 className="text-destructive">Expert Instructors</h4>
+            <h3 className="text-muted font-bold">700</h3>
           </div>
           <div className="">
-            <h3 className="text-destructive">Skilled Mentors</h3>
-            <h2 className="text-muted font-bold">500</h2>
+            <h4 className="text-destructive">Skilled Mentors</h4>
+            <h3 className="text-muted font-bold">500</h3>
           </div>
         </div>
       </section>
@@ -177,10 +177,10 @@ const About = () => {
         </h2>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem className="" value="item-1">
-            <AccordionTrigger className="capitalize">
+            <AccordionTrigger className="capitalize text-xl">
               Does netmifi supports community building?
             </AccordionTrigger>
-            <AccordionContent className="text-xl">
+            <AccordionContent className="text-lg">
               <span className="font-bold">Community building: </span>Netmifi is
               not just education and services, It's about community. We are
               building a global network of creators who can connect collaborate,
@@ -189,37 +189,37 @@ const About = () => {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger className="capitalize">
+            <AccordionTrigger className="capitalize text-xl">
               Does netmifi offer content production services?
             </AccordionTrigger>
-            <AccordionContent className="text-xl">
+            <AccordionContent className="text-lg">
               Yes. It comes with default styles that matches the other
               components&apos; aesthetic.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger className="capitalize">
+            <AccordionTrigger className="capitalize text-xl">
               Which kind of services does netmifi offer?
             </AccordionTrigger>
-            <AccordionContent className="text-xl">
+            <AccordionContent className="text-lg">
               Yes. It's animated by default, but you can disable it if you
               prefer.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
-            <AccordionTrigger className="capitalize">
+            <AccordionTrigger className="capitalize text-xl">
               How can i enroll in a course on netmifi?
             </AccordionTrigger>
-            <AccordionContent className="text-xl">
+            <AccordionContent className="text-lg">
               Yes. It's animated by default, but you can disable it if you
               prefer.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-5">
-            <AccordionTrigger className="capitalize">
+            <AccordionTrigger className="capitalize text-xl">
               List of courses and ebooks to buy on netmifi?
             </AccordionTrigger>
-            <AccordionContent className="text-xl">
+            <AccordionContent className="text-lg">
               Yes. It's animated by default, but you can disable it if you
               prefer.
             </AccordionContent>
