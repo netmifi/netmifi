@@ -98,6 +98,8 @@ export function AppProvider({
 
   // TODO: Convert cart items to json stringified objects
 
+  // TODO: Convert cart items to json stringified objects
+
   // useEffect(() => {
   //   const handleCartItems = () => {
   //     const localCart = localStorage.getItem("cart") || [];

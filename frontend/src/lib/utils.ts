@@ -6,6 +6,7 @@ import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 import { toast } from "sonner";
 
 const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -175,7 +176,9 @@ export const instructorFormSchema = () =>
     fullName: z.string({ required_error: "Please input your full name" }),
     country: z.object({
       name: z.string().optional(),
+      name: z.string().optional(),
       code: z.string(),
+      flag: z.string().optional(),
       flag: z.string().optional(),
       dialCode: z.string(),
     }),
@@ -268,6 +271,12 @@ const baseCourseSchema = z.object({
   mentorshipAvailabilityDays: z
     .array(z.string().min(1))
     .min(1)
+    .optional(),
+  from: z.string()
+    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
+    .optional(),
+  to: z.string()
+    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
     .optional(),
   from: z.string()
     .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
