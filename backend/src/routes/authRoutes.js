@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/test-mail', async (req, res) => {
     // sendEmail('okenwavictor003@gmail.com', 'Hi we are just testing a mail', "This is just the body");
-    sendEmail('okenwavictor003@gmail.com', 'Test Subject', 'Hello from Nodemailer!')
+    sendEmail('okenwavictor003@gmail.com', 'registration_successful')
         .then(() => {
             res.status('200').json({
                 message: 'Mail sent',
