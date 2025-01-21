@@ -20,6 +20,7 @@ import { CheckedState } from "@radix-ui/react-checkbox";
 
 const CreateCourse = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [courseSections, setCourseSection] = useState([]);
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
   const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
 

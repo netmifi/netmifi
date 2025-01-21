@@ -54,7 +54,7 @@ const LogoutModal = ({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="text-center items-center justify-center">
-          <DialogTitle className="p-5 bg-destructive/20 text-red rounded-full mb-3">
+          <DialogTitle className="p-5 bg-low-red text-red rounded-full mb-3">
             <LogOutIcon className="size-16" />
           </DialogTitle>
           <DialogTitle className="text-xl sm:text-2xl">Logout</DialogTitle>

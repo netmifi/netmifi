@@ -81,7 +81,7 @@ const OTPVerification = () => {
         important: true,
       });
     } catch (error) {
-      toast.error(mutationErrorHandler(findCodeMutation, error));
+      mutationErrorHandler(findCodeMutation, error);
     }
   };
 
@@ -107,7 +107,7 @@ const OTPVerification = () => {
         navigate("/auth/welcome");
       }
     } catch (error) {
-      toast.error(mutationErrorHandler(findCodeMutation, error));
+      mutationErrorHandler(findCodeMutation, error);
     }
   };
 

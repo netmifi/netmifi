@@ -1,8 +1,8 @@
 module.exports = [
   "user",
   "blogger",
-  "editor",
+  "instructor",
   "admin",
+  "super admin",
   "overseer",
-  "super admin"
 ];

@@ -24,35 +24,104 @@ module.exports.welcomeFormSchema = Joi.object({
 });
 
 module.exports.instructorApplicationSchema = Joi.object({
-    fullName: Joi.string().min(3).max(100).trim().required(),
-    phone: Joi.string().required().pattern(/^\+?[1-9]\d{1,14}$/), // Basic pattern for international phone numbers
+    fullName: Joi.string().min(3).max(100).trim().required()
+        .messages({
+            'string.min': 'Full name must be at least 3 characters long',
+            'string.max': 'Full name cannot exceed 100 characters',
+            'any.required': 'Full name is required'
+        }),
+    phone: Joi.string().required().pattern(/^\+?[1-9]\d{1,14}$/)
+        .messages({
+            'string.pattern.base': 'Phone number must be a valid international format',
+            'any.required': 'Phone number is required'
+        }),
     country: Joi.object({
-        name: Joi.string(),
-        dialCode: Joi.string().pattern(/^\+\d+$/), // Ensures dial code starts with '+'
-        code: Joi.string(),
-        flag: Joi.string(),
+        name: Joi.string().required(),
+        dialCode: Joi.string().pattern(/^\+\d+$/).required(),
+        code: Joi.string().required(),
+        flag: Joi.string().required(),
+    }).required().messages({
+        'any.required': 'Country information is required'
     }),
-    residentialAddress: Joi.string().min(3).max(30).trim().required(),
-    facebook: Joi.string().uri().optional().allow(''),
-    instagram: Joi.string().uri().optional().allow(''),
-    twitter: Joi.string().uri().optional().allow(''),
-    tiktok: Joi.string().uri().optional().allow(''),
-    youtube: Joi.string().uri().optional().allow(''),
-    website: Joi.string().uri().optional(),
-
-    niche: Joi.string().required(),
+    residentialAddress: Joi.string().min(3).max(200).trim().required()
+        .messages({
+            'string.min': 'Residential address must be at least 3 characters long',
+            'string.max': 'Residential address cannot exceed 200 characters',
+            'any.required': 'Residential address is required'
+        }),
+    facebook: Joi.string()
+        .uri({ scheme: ['http', 'https'] })
+        .allow('')
+        .pattern(/^(?:(?:http|https):\/\/)?(?:www\.)?facebook\.com(?:\/.*)*$/)
+        .messages({
+            'string.uri': 'Facebook URL must be a valid URL',
+            'string.pattern.base': 'Please enter a valid Facebook URL (e.g., www.facebook.com or https://facebook.com/username)'
+        }),
+    instagram: Joi.string()
+        .uri({ scheme: ['http', 'https'] })
+        .allow('')
+        .pattern(/^(?:(?:http|https):\/\/)?(?:www\.)?instagram\.com(?:\/.*)*$/)
+        .messages({
+            'string.uri': 'Instagram URL must be a valid URL',
+            'string.pattern.base': 'Please enter a valid Instagram URL (e.g., www.instagram.com/username)'
+        }),
+    twitter: Joi.string()
+        .uri({ scheme: ['http', 'https'] })
+        .allow('')
+        .pattern(/^(?:(?:http|https):\/\/)?(?:www\.)?(?:twitter\.com|x\.com)(?:\/.*)*$/)
+        .messages({
+            'string.uri': 'Twitter/X URL must be a valid URL',
+            'string.pattern.base': 'Please enter a valid Twitter/X URL (e.g., www.twitter.com/username or www.x.com/username)'
+        }),
+    tiktok: Joi.string()
+        .uri({ scheme: ['http', 'https'] })
+        .allow('')
+        .pattern(/^(?:(?:http|https):\/\/)?(?:www\.)?tiktok\.com(?:\/.*)*$/)
+        .messages({
+            'string.uri': 'TikTok URL must be a valid URL',
+            'string.pattern.base': 'Please enter a valid TikTok URL (e.g., www.tiktok.com/@username)'
+        }),
+    youtube: Joi.string()
+        .uri({ scheme: ['http', 'https'] })
+        .allow('')
+        .pattern(/^(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)(?:\/.*)*$/)
+        .messages({
+            'string.uri': 'YouTube URL must be a valid URL',
+            'string.pattern.base': 'Please enter a valid YouTube URL (e.g., www.youtube.com/channel/... or www.youtube.com/c/...)'
+        }),
+    website: Joi.string()
+        .uri({ scheme: ['http', 'https'] })
+        .allow('')
+        .messages({
+            'string.uri': 'Please enter a valid website URL (e.g., www.example.com)'
+        }),
+    niche: Joi.string().required()
+        .messages({
+            'any.required': 'Niche is required'
+        }),
     whyInterest: Joi.string().optional(),
-    taughtBefore: Joi.string().valid('yes', 'no').required(),
-    mentoredPreviously: Joi.string().valid('yes', 'no').required(),
-    about: Joi.string(),
+    taughtBefore: Joi.string().valid('yes', 'no').required()
+        .messages({
+            'any.only': 'Taught before must be either "yes" or "no"',
+            'any.required': 'Taught before information is required'
+        }),
+    mentoredPreviously: Joi.string().valid('yes', 'no').required()
+        .messages({
+            'any.only': 'Mentored previously must be either "yes" or "no"',
+            'any.required': 'Mentored previously information is required'
+        }),
+    about: Joi.string().optional(),
 }).custom((obj, helpers) => {
-    // Count how many of the social handles are not empty
     const socialMediaHandles = ['facebook', 'twitter', 'instagram', 'tiktok', 'youtube'];
     const filledHandles = socialMediaHandles.filter(handle => obj[handle]);
 
     if (filledHandles.length < 2) {
-        return helpers.error('any.custom', { message: 'At least 2 social media handles must be filled.' });
+        return helpers.error('custom.socialMedia', {
+            message: 'At least 2 social media handles must be filled.'
+        });
     }
 
-    return obj; // Valid object
-}, 'Social Media Handles Check');
+    return obj;
+}, 'Social Media Handles Check').messages({
+    'custom.socialMedia': 'At least 2 social media handles must be filled.'
+});

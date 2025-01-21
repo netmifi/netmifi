@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
+import { useCheckUserAuth } from "../api/hooks/useCheckUserAuth";
 
 interface AppProviderProps {
   user: any;
@@ -73,6 +74,17 @@ export function AppProvider({
       }
     };
   }, [user]);
+
+  const { data: checkAuthData, error: checkAuthError } = useCheckUserAuth();
+
+  // console.log(checkAuthData, checkAuthError);
+
+  // if (checkAuthData && !checkAuthError) {
+  //   setIsAuth(true);
+  //   setUser(checkAuthData);
+  // }
+
+
 
   const value = {
     user,

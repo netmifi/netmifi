@@ -51,7 +51,7 @@ const SignUp = () => {
       setUser(data);
       console.log(data);
     } catch (error) {
-      toast.error(mutationErrorHandler(registerMutation, error));
+      mutationErrorHandler(registerMutation, error);
     }
   };
 

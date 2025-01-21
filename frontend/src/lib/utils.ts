@@ -181,11 +181,11 @@ export const instructorFormSchema = () =>
     }),
     phone: z.string({ message: 'Contact is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
     residentialAddress: z.string().optional(),
-    facebook: z.string().url({ message: 'Must be a valid link' }).optional(),
-    instagram: z.string().url({ message: 'Must be a valid link' }).optional(),
-    tiktok: z.string().url({ message: 'Must be a valid link' }).optional(),
-    youtube: z.string().url({ message: 'Must be a valid link' }).optional(),
-    website: z.string().url({ message: 'Must be a valid link' }).optional(),
+    facebook: z.string().optional().nullable(),
+    instagram: z.string().optional().nullable(),
+    tiktok: z.string().optional(),
+    youtube: z.string().optional(),
+    website: z.string().optional(),
     niche: z.string({ required_error: "Must select an area of expertise" }),
     whyInterest: z.string().optional(),
     taughtBefore: z.enum(["yes", "no"], {
@@ -194,6 +194,7 @@ export const instructorFormSchema = () =>
     mentoredPreviously: z.enum(["yes", "no"], {
       required_error: "Please select an option",
     }),
+    about: z.string().optional()
   })
     .refine((data) => {
       return data.country.code !== '' && data.country.dialCode !== '';

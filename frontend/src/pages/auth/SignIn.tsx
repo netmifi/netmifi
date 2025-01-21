@@ -15,7 +15,7 @@ import { useApp } from "@/app/app-provider";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 
 const SignIn = () => {
-  const { setUser } = useApp();
+  const { setUser, setIsAuth } = useApp();
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const loginMutation = useLogin();
@@ -38,10 +38,11 @@ const SignIn = () => {
       });
 
       setUser(data);
+      setIsAuth(true);
       console.log(data);
       navigate("/");
     } catch (error) {
-      toast.error(mutationErrorHandler(loginMutation, error));
+      mutationErrorHandler(loginMutation, error);
     }
   };
   return (

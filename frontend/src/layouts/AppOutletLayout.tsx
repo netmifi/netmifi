@@ -8,10 +8,15 @@ import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { useApp } from "@/app/app-provider";
 import GuestNavbar from "./navbar/guest/Index";
 import FirstVisitAlert from "@/components/FirstVisitAlert";
+import { useEffect } from "react";
+import useWindowSize from "@/hooks/useWindowSize";
 
 export const MainContent = ({ state }: { state: userType["type"] }) => {
-  const { open } = useSidebar();
-
+  const { open, setOpen, isMobile } = useSidebar();
+  const { width } = useWindowSize();
+  useEffect(() => {
+     isMobile ? setOpen(false) : false ;
+  }, [isMobile, setOpen]);
   return (
     <div className="flex-grow w-full h-full overflow-y-auto transition-all duration-300 ease-in-out">
       {state === "guest" ? (
@@ -38,11 +43,14 @@ const AppOutletLayout = () => {
     ? "admin"
     : pathname.startsWith("/dashboard")
     ? "instructor"
-    : "user";
+        : "user";
+  
+
 
   if (pathname === "/") {
     return <Navigate to="/home" />;
   }
+
 
   return (
     <div className="flex h-screen overflow-hidden bg-background w-full">

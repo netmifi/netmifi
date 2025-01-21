@@ -41,8 +41,30 @@ const userSchema = new Schema({
         default: 'system',
     },
     roles: {
-        type: [String],
-        default: ['user'] // Default role set to 'user'
+        user: {
+            type: Boolean,
+            default: true,
+        },
+        blogger: {
+            type: Boolean,
+            default: false,
+        },
+        instructor: {
+            type: Boolean,
+            default: false,
+        },
+        admin: {
+            type: Boolean,
+            default: false,
+        },
+        superAdmin: {
+            type: Boolean,
+            default: false,
+        },
+        overseer: {
+            type: Boolean,
+            default: false,
+        },
     },
     interests: {
         type: [String],
@@ -92,6 +114,8 @@ const userSchema = new Schema({
         },
     }
 }, { timestamps: true });
+
+
 // This is a TTL index on the generatedCode.expiresIn field
 userSchema.index({ 'generatedCode.expiresIn': 1 }, { expireAfterSeconds: 0 });
 module.exports = mongoose.model('User', userSchema);

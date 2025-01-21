@@ -7,7 +7,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { categories } from "@/constants";
 import { cn } from "@/lib/utils";
-import { CheckedState } from "@radix-ui/react-checkbox";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -81,7 +80,7 @@ const Interest = () => {
         important: true,
       });
     } catch (error) {
-      toast.error(mutationErrorHandler(interestAdMutation, error));
+      mutationErrorHandler(interestAdMutation, error);
     }
   };
 

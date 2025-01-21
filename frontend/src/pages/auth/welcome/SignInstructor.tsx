@@ -27,13 +27,14 @@ import {
   FaTiktok,
   FaYoutube,
 } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
 const SignInstructor = () => {
   const { setUser } = useApp();
-  const { countries } = useCountries();
+  const { state } = useLocation();
+  // const { countries } = useCountries();
   const instructorRegisterMutation = useInstructorRegister();
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
   // const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
@@ -43,8 +44,8 @@ const SignInstructor = () => {
     code: "NG",
     flag: "🇳🇬",
   });
-  const [, setDialCode] = useState(country?.dialCode || "+");
-  console.log(countries);
+  const [, setDialCode] = useState(country?.dialCode || "+234");
+
   const formSchema = instructorFormSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,10 +65,9 @@ const SignInstructor = () => {
       value: "no",
     },
   ];
-  // console.log(countries);
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    // console.log(values);
     try {
       // if (form.formState.errors.country) {
       //   return;
@@ -75,7 +75,7 @@ const SignInstructor = () => {
       const { data } = await instructorRegisterMutation.mutateAsync({
         ...values,
       });
-      toast.success("Account login successful", {
+      toast.success("Request received", {
         duration: 4000,
         richColors: true,
         dismissible: true,
@@ -84,9 +84,11 @@ const SignInstructor = () => {
 
       setUser(data.user);
       console.log(data);
-      navigate("/auth/welcome/interest");
+      navigate(
+        state && state.returnUrl ? state.returnUrl : "/auth/welcome/interest"
+      );
     } catch (error) {
-      toast.error(mutationErrorHandler(instructorRegisterMutation, error));
+      mutationErrorHandler(instructorRegisterMutation, error);
     }
   };
 

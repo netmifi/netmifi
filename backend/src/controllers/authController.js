@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const { cookieOptions } = require('../constants/cookieOptions');
 const { generateOtp, parseSafeUserData } = require('../utils');
 const Instructor = require('../models/Instructor');
+const { sendEmail } = require('../config/emailService');
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const SALT_ROUNDS = 12;
@@ -104,7 +105,7 @@ const handleVerifyCode = async (req, res) => {
         foundUser.generatedCode = null;
 
 
-        const result = await foundUser.save();;
+        const result = await foundUser.save();
         const safeUserData = parseSafeUserData(result);
 
         if (state === 'verify') {
@@ -119,6 +120,9 @@ const handleVerifyCode = async (req, res) => {
                 ...cookieOptions,
                 maxAge: MAX_AGE * 1000,
             });
+
+            await sendEmail(foundUser.email, 'email_verified');
+            await sendEmail(foundUser.email, 'registration_successful');
         }
 
 
@@ -126,7 +130,6 @@ const handleVerifyCode = async (req, res) => {
             ...cookieOptions,
             maxAge: MAX_AGE * 1000
         });
-
         res.status(202).json({
             message: 'code matched',
             state: queryState.success,
@@ -158,36 +161,55 @@ const handleResendCode = async (req, res) => {
         }
 
         const generatedCode = generateOtp(state);
-        user.generatedCode = generatedCode;
-        const result = await user.save();
+        await sendEmail(email, 'verification_code', generatedCode.code).then(async () => {
+            user.generatedCode = generatedCode;
+            const result = await user.save();
 
-        const safeUserData = parseSafeUserData(result, true)
+            const safeUserData = parseSafeUserData(result, true)
 
-        // TODO: Resend email here
-        res.status(202).json({
-            message: 'code has been resent',
-            state: queryState.success,
-            data: safeUserData,
+            res.status(202).json({
+                message: 'code has been resent',
+                state: queryState.success,
+                data: safeUserData,
+            });
+        }).catch(() => {
+            res.status(400).json({
+                message: "Email not sent, please check your network and try again.",
+                state: queryState.error,
+                data: undefined,
+            });
+            return;
         });
-
     } catch (error) {
         res.status(405).json({
             message: error.message,
             state: queryState.error,
             data: undefined,
         });
-        return
+        return;
     }
 }
 
 const handleSignUp = async (req, res) => {
+    const bodyValues = req.body;
+    console.log()
     try {
-        const bodyValues = req.body;
-        const values = await signUpSchema.validateAsync({ ...bodyValues });
+        const { error, value } = signUpSchema.validate(bodyValues, { abortEarly: false });
         const hashedPassword = await bcrypt.hash(bodyValues.password, SALT_ROUNDS);
+
+        console.log("gotten");
 
         const existingEmail = await User.findOne({ email: bodyValues.email });
         const existingUsername = await User.findOne({ username: bodyValues.username });
+        if (error) {
+            // console.log(error);
+            res.status(403).json({
+                message: 'errors found',
+                state: queryState.error,
+                data: undefined,
+                errors: error
+            }); return;
+        }
 
         if (existingEmail) {
             res.status(409).json({
@@ -207,34 +229,53 @@ const handleSignUp = async (req, res) => {
         }
 
         const generatedCode = generateOtp('verify');
-        const user = await User.create({ ...values, password: hashedPassword, generatedCode });
+        sendEmail(bodyValues.email, 'verification_code', generatedCode.code)
+        
+        //     .then(async () => {
+        //     console.log("emailed");
+        //     const user = await User.create({ ...value, password: hashedPassword, generatedCode });
 
-        if (!user) {
-            res.status(500).json({
-                message: 'signup failed due to server error, try again later',
-                state: queryState.error,
-                data: undefined
-            }); return;
-        }
+        //     if (!user) {
+        //         res.status(500).json({
+        //             message: 'signup failed due to server error, try again later',
+        //             state: queryState.error,
+        //             data: undefined
+        //         }); return;
+        //     }
+        //     console.log("user found");
 
-        res.cookie('user', JSON.stringify({ id: user.id, email: user.email }), {
-            maxAge: MAX_AGE,
-            ...cookieOptions,
-        });
 
-        const safeUserData = parseSafeUserData(user, true);
+        //     res.cookie('user', JSON.stringify({ id: user.id, email: user.email }), {
+        //         maxAge: MAX_AGE,
+        //         ...cookieOptions,
+        //     });
 
-        res.status(201).json({
-            message: 'user creation successful',
-            state: queryState.success,
-            data: safeUserData,
-        });
+        //     const safeUserData = parseSafeUserData(user, true);
+        //     res.status(201).json({
+        //         message: 'user creation successful',
+        //         state: queryState.success,
+        //         data: safeUserData,
+        //     });
+        //     console.log("req successful");
+        // }).catch(() => {
+        //     console.log("failed mail");
+        //     res.status(400).json({
+        //         message: "Email not sent, please check your network and try again.",
+        //         state: queryState.error,
+        //         data: undefined,
+        //     });
+        //     return;
+        // });
+        console.log("not gotten");
+
     } catch (error) {
+        console.log("func error");
         res.status(400).json({
             message: error.message,
             state: queryState.error,
             data: undefined,
         });
+        return;
     }
 }
 
@@ -292,8 +333,18 @@ const handleSignIn = async (req, res) => {
     const bodyValues = req.body;
 
     try {
-        const values = await signInSchema.validateAsync({ ...bodyValues });
+        const { error, value } = signInSchema.validate(bodyValues, { abortEarly: false });
         const user = await User.findOne({ email: bodyValues.email });
+
+        if (error) {
+            console.log(error);
+            res.status(403).json({
+                message: 'errors found',
+                state: queryState.error,
+                data: undefined,
+                errors: error
+            }); return;
+        }
 
         if (!user) {
             res.status(404).json({
@@ -304,7 +355,7 @@ const handleSignIn = async (req, res) => {
             return;
         }
 
-        const math = await bcrypt.compare(values.password, user?.password || '');
+        const math = await bcrypt.compare(value.password, user.password);
         if (!math) {
             res.status(400).json({
                 message: 'incorrect password',
@@ -339,7 +390,7 @@ const handleSignIn = async (req, res) => {
         });
     } catch (error) {
         res.status(405).json({
-            message: error.details[0].message || error.message,
+            message: error.message,
             state: queryState.error,
             data: undefined,
         });
@@ -417,23 +468,31 @@ const handleMailGenCode = async (req, res) => {
         }
 
         const generatedCode = generateOtp('forgot');
-        foundUser.generatedCode = generatedCode;
-        const user = await foundUser.save();
-        if (!user) {
-            res.status(405).json({
-                message: 'code generation error',
+        await sendEmail(email, 'verification_code', generatedCode.code).then(async () => {
+            foundUser.generatedCode = generatedCode;
+            const user = await foundUser.save();
+            if (!user) {
+                res.status(405).json({
+                    message: 'code generation error',
+                    state: queryState.error,
+                    data: undefined,
+                });
+                return;
+            }
+
+            const safeUserData = parseSafeUserData(user, true);
+            res.status(200).json({
+                message: 'verification code sent to your email',
+                state: queryState.success,
+                data: safeUserData,
+            });
+        }).catch(() => {
+            res.status(400).json({
+                message: "Email not sent, please check your network and try again.",
                 state: queryState.error,
                 data: undefined,
             });
             return;
-        }
-
-        // TODO: send gen code to user
-        const safeUserData = parseSafeUserData(user, true);
-        res.status(200).json({
-            message: 'verification code sent to your email',
-            state: queryState.success,
-            data: safeUserData,
         });
     } catch (error) {
         res.status(405).json({
@@ -499,8 +558,21 @@ const handleChangePassword = async (req, res) => {
 const handleInstructorRegister = async (req, res) => {
     const bodyValues = req.body;
     try {
-        const values = await instructorApplicationSchema.validateAsync({ ...bodyValues });
+        const { error, value } = instructorApplicationSchema.validate(bodyValues, { abortEarly: false });
+        console.log(value)
         const foundUser = await User.findById(req.user.id);
+        const foundInstructor = await Instructor.findOne({ userId: foundUser._id });
+        const exitingPhoneNumber = await User.findOne({ phone: value.phone })
+
+        if (error) {
+            console.log(error);
+            res.status(403).json({
+                message: 'validation error',
+                state: queryState.error,
+                data: undefined,
+                errors: error
+            }); return;
+        }
 
         if (!foundUser) {
             res.status(404).json({
@@ -509,26 +581,52 @@ const handleInstructorRegister = async (req, res) => {
                 data: undefined
             }); return;
         }
+        if (foundInstructor) {
+            res.status(409).json({
+                message: 'account already found to be an instructor',
+                state: queryState.error,
+                data: undefined
+            }); return;
+        }
+        if (exitingPhoneNumber) {
+            res.status(409).json({
+                message: 'phone number already exists',
+                state: queryState.error,
+                data: undefined
+            }); return;
+        }
+
+        const checkNameInclusion = value.fullName.toLowerCase().includes(foundUser.firstName.toLowerCase()) && value.fullName.toLowerCase().includes(foundUser.lastName.toLowerCase());
+
+        if (!checkNameInclusion) {
+            res.status(409).json({
+                message: 'Full name specified does not have already registered first and last name',
+                state: queryState.error,
+                data: value
+            }); return;
+        }
 
         const handles = {
-            facebook: values.facebook || '',
-            instagram: values.instagram || '',
-            tiktok: values.tiktok || '',
-            youtube: values.youtube || '',
-            website: values.website || '',
+            facebook: value.facebook || '',
+            instagram: value.instagram || '',
+            tiktok: value.tiktok || '',
+            youtube: value.youtube || '',
+            website: value.website || '',
         }
         foundUser.handles = handles;
-        foundUser.residentialAddress = values.residentialAddress;
-        foundUser.country = values.country || '';
-        foundUser.phone = values.phone || '';
+        foundUser.residentialAddress = value.residentialAddress;
+        foundUser.country = value.country || '';
+        foundUser.phone = value.phone || '';
+        foundUser.roles = { ...foundUser.roles, instructor: true };
 
         const instructor = await Instructor.create({
             userId: foundUser._id,
-            fullName: values.fullName,
-            niche: values.niche,
-            whyInterest: values.whyInterest,
-            taughtBefore: values.taughtBefore,
-            mentoredPreviously: values.mentoredPreviously,
+            fullName: value.fullName,
+            niche: value.niche,
+            whyInterest: value.whyInterest,
+            taughtBefore: value.taughtBefore,
+            mentoredPreviously: value.mentoredPreviously,
+            status: 'accepted',
         });
 
         const user = await foundUser.save();
@@ -542,6 +640,7 @@ const handleInstructorRegister = async (req, res) => {
                 instructor
             },
         });
+        await sendEmail(foundUser.email, 'instructor_accepted');
     } catch (error) {
         res.status(405).json({
             message: error.message,
