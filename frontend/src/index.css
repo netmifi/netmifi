@@ -32,6 +32,10 @@
     @apply bg-background text-foreground;
   }
 
+  /* body {
+    @apply flex bg-background text-foreground;
+  } */
+
   :root {
     --background: 0 0% 97.3%;
     --foreground: 222.2 84% 4.9%;
@@ -108,9 +112,6 @@
     --chart-5: 27 87% 67%;
   }
 
-  body {
-    @apply flex bg-background text-foreground;
-  }
   h1 {
     @apply text-4xl;
   }
@@ -323,13 +324,39 @@
     background-clip: border-box;
     background-repeat: no-repeat;
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
+  .text-editor {
+    @apply border border-gray-300 rounded-lg overflow-hidden;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  .menubar {
+    @apply flex flex-wrap gap-1 p-2 bg-gray-100 border-b border-gray-300;
+  }
+
+  .menubar button {
+    @apply px-2 py-1 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
+  .menubar button.is-active {
+    @apply bg-blue-500 text-white;
+  }
+
+  .menubar input[type="color"] {
+    @apply w-8 h-8 p-0 border border-gray-300 rounded cursor-pointer;
+  }
+
+  .ProseMirror {
+    @apply p-4 min-h-[200px] focus:outline-none;
+  }
+
+  @media (max-width: 640px) {
+    .menubar {
+      @apply flex-col items-start;
+    }
+
+    .menubar button,
+    .menubar input[type="color"] {
+      @apply w-full;
+    }
   }
 }

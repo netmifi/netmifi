@@ -2,7 +2,7 @@ import { createCourseSchema } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
+import { Form, FormField, FormItem } from "@/components/ui/form";
 import CustomFormField from "@/components/Form/CustomFormField";
 import CustomRichTextEditor from "@/components/Form/CustomRichTextEditor";
 import { Button } from "@/components/ui/button";
@@ -17,10 +17,22 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import CourseVideoSection from "@/components/instructor_dashboard/CourseVideoSection";
+import { PlusSquareIcon } from "lucide-react";
+import { logo } from "@/assets/logo";
 
 const CreateCourse = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [courseSections, setCourseSection] = useState([]);
+  const [sectionsCount, setSectionsCount] = useState(1);
+  const [fields, setFields] = useState<
+    Record<string, { title: string; video: File | null; description: string }>
+  >({
+    field1: {
+      title: "",
+      video: null,
+      description: "",
+    },
+  });
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
   const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
 
@@ -29,11 +41,11 @@ const CreateCourse = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       mentorshipAvailability: "no",
+      dynamicFields: {},
     },
   });
   const thumbnailRef = form.register("thumbnail");
   const introVideoRef = form.register("introVideo");
-  const courseVideoRef = form.register("video");
 
   const config = {
     placeholderText: "Course Description",
@@ -51,25 +63,54 @@ const CreateCourse = () => {
     },
   ];
 
+  const addField = () => {
+    setSectionsCount(sectionsCount + 1);
+    const newKey = `field${Object.keys(fields).length + 1}`;
+    setFields((prev) => ({
+      ...prev,
+      [newKey]: { title: "", video: null, description: "" },
+    }));
+  };
+
+  const removeField = (key: string) => {
+    const updatedFields = { ...fields };
+    delete updatedFields[key];
+    setFields(updatedFields);
+    setSectionsCount(sectionsCount - 1);
+  };
+
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     console.log(data, form.formState);
   };
 
   return (
-    <main className="px-2 sm:px-4 bg-popover rounded-lg shadow-sm">
-      <header className="w-full py-3 text-md sm:text-lg">
+    <div className="w-full px-2 sm:px-4 bg-popover rounded-lg shadow-sm">
+      <header className="w-full py-3 text-base sm:text-md flex justify-between gap-2 items-center">
         Create New Course
+        <div className="relative">
+          <img src={logo} className="w-[30px]" alt="logo" />
+        </div>
       </header>
-
-      <section className="bg-secondary py-3 px-1">
+      {/* FIXME: FIND THE SOURCE OF THE DOUBLE SCROLL BAR */}
+      <div className="max-w-full py-3 px-1">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)}>
-            <section className="flex flex-wrap gap-3">
+          <form
+            className="overflow-y-hidden"
+            onSubmit={form.handleSubmit(handleSubmit)}
+          >
+            <section className="flex flex-wrap gap-3 mb-[10em] ">
               <div className="flex flex-col gap-10 flex-grow">
                 <CustomFormField
                   control={form.control}
                   name="title"
                   placeholder="Input course title"
+                />
+                <CustomFormField
+                  form={form}
+                  control={form.control}
+                  name="price"
+                  placeholder="input price here"
+                  isCurrency={true}
                 />
 
                 <CustomRichTextEditor
@@ -105,24 +146,7 @@ const CreateCourse = () => {
                 />
               </div>
 
-              <div className="mt-14 flex flex-col gap-7 flex-grow min-w-[20em]">
-                <CustomFileField
-                  name="video"
-                  control={form.control}
-                  label="Course Video"
-                  placeholder="Select a (.mp4) file (Max: 50mb)"
-                  fileRef={courseVideoRef}
-                  fileType=".mp4, .mpeg"
-                />
-
-                <CustomFormField
-                  form={form}
-                  control={form.control}
-                  name="price"
-                  placeholder="input price here"
-                  isCurrency={true}
-                />
-
+              <div className="flex flex-col gap-7 flex-grow">
                 <CustomRadioGroup
                   control={form.control}
                   name={"mentorshipAvailability"}
@@ -172,10 +196,45 @@ const CreateCourse = () => {
                     </div>
                   </div>
                 )}
+
+                <div className="flex flex-col gap-5">
+                  <h2 className="text-base sm:text-lg text-red border-t-2 pt-2">
+                    Course section
+                  </h2>
+
+                  <FormField
+                    control={form.control}
+                    name="dynamicFields"
+                    render={({ field }) => (
+                      <>
+                        {Object.keys(fields).map((key, index) => (
+                          <FormItem key={field.name + key}>
+                            <CourseVideoSection
+                              key={key}
+                              index={index}
+                              id={key}
+                              isMoreThanOne={sectionsCount > 1}
+                              form={form}
+                              removeField={removeField}
+                            />
+                          </FormItem>
+                        ))}
+                      </>
+                    )}
+                  />
+                </div>
+                <Button
+                  type="button"
+                  className="shadow-md rounded-full w-fit [&_svg]:size-16 text-secondary"
+                  onClick={addField}
+                >
+                  <PlusSquareIcon />{" "}
+                  <span className="max-sm:hidden">Add Section</span>{" "}
+                </Button>
               </div>
             </section>
 
-            <div className="flex flex-col gap-3 mt-4 sm:mt-8">
+            <div className="flex flex-col gap-3 mt-10 sm:mt-10">
               <div className="flex gap-3 items-center">
                 <Checkbox
                   id="accept"
@@ -208,8 +267,8 @@ const CreateCourse = () => {
             </div>
           </form>
         </Form>
-      </section>
-    </main>
+      </div>
+    </div>
   );
 };
 

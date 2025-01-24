@@ -98,7 +98,6 @@ const Interest = () => {
 
         <div className="flex flex-wrap gap-2 sm:gap-4">
           {categories.map((interest) => (
-          {categories.map((interest) => (
             <Button
               key={interest}
               variant="secondary"

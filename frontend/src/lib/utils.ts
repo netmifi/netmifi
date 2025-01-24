@@ -6,8 +6,6 @@ import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
 import { toast } from "sonner";
 
 const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -176,9 +174,7 @@ export const instructorFormSchema = () =>
     fullName: z.string({ required_error: "Please input your full name" }),
     country: z.object({
       name: z.string().optional(),
-      name: z.string().optional(),
       code: z.string(),
-      flag: z.string().optional(),
       flag: z.string().optional(),
       dialCode: z.string(),
     }),
@@ -250,20 +246,20 @@ const baseCourseSchema = z.object({
       message: "The video file must not exceed a maximum of 15MB.",
     }),
   requirements: z.array(z.string()).min(1, { message: 'Field required' }),
-  video: z
-    .instanceof(FileList, {
-      message: "Select a valid file",
-    })
-    .refine((fileList) => fileList.length > 0, {
-      message: "Please select a video file.",
-    })
-    .transform((fileList) => fileList.item(0))
-    .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
-      message: "Only mp4 and mpeg files are allowed.",
-    })
-    .refine((file) => file && file?.size <= 50 * 1024 * 1024, {
-      message: 'File size has exceeded 50mb'
-    }),
+  // video: z
+  //   .instanceof(FileList, {
+  //     message: "Select a valid file",
+  //   })
+  //   .refine((fileList) => fileList.length > 0, {
+  //     message: "Please select a video file.",
+  //   })
+  //   .transform((fileList) => fileList.item(0))
+  //   .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
+  //     message: "Only mp4 and mpeg files are allowed.",
+  //   })
+  //   .refine((file) => file && file?.size <= 50 * 1024 * 1024, {
+  //     message: 'File size has exceeded 50mb'
+  //   }),
   price: z.string({ message: 'Price is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
   mentorshipAvailability: z.string({
     required_error: "Must select one of either options",
@@ -278,12 +274,27 @@ const baseCourseSchema = z.object({
   to: z.string()
     .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
     .optional(),
-  from: z.string()
-    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
-    .optional(),
-  to: z.string()
-    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
-    .optional(),
+
+  dynamicFields: z.record(
+    z.object({
+      title: z.string().min(5, { message: "Course title cannot be less than 5 characters" }),
+      video: z
+        .instanceof(FileList, {
+          message: "Select a valid file",
+        })
+        .refine((fileList) => fileList.length > 0, {
+          message: "Please select a video file.",
+        })
+        .transform((fileList) => fileList.item(0))
+        .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
+          message: "Only mp4 and mpeg files are allowed.",
+        })
+        .refine((file) => file && file?.size <= 50 * 1024 * 1024, {
+          message: 'File size has exceeded 50mb'
+        }),
+      description: z.string().min(10, { message: 'Description cannot be less than 10 characters long' }).optional(),
+    })
+  ),
 });
 
 // Create schema (same as base schema)

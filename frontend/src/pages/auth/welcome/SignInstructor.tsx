@@ -1,9 +1,6 @@
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { useInstructorRegister } from "@/api/hooks/useInstructorRegister";
 import { useApp } from "@/app/app-provider";
-import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { useInstructorRegister } from "@/api/hooks/useInstructorRegister";
-import { useApp } from "@/app/app-provider";
 import CountryFormSelect from "@/components/Form/CountryFormSelect";
 import CustomContactField from "@/components/Form/CustomContactField";
 import CustomDatePicker from "@/components/Form/CustomDatePicker";
@@ -16,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
-import { categories } from "@/constants";
 import { categories } from "@/constants";
 import { instructorFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,12 +54,7 @@ const SignInstructor = () => {
     },
   });
   const navigate = useNavigate();
-    defaultValues: {
-      country: { name: "Nigeria", dialCode: "+234", code: "NG", flag: "🇳🇬" },
-    },
-  });
-  const navigate = useNavigate();
-
+  
   const radioGroupData = [
     {
       label: "yes",

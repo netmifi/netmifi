@@ -1,19 +1,16 @@
-import { cn } from "@/lib/utils";
-import { useStoreState } from "@/store/store";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import TopBar from "./navbar/user/Topbar";
 import AppSidebar from "./navbar/user/AppSidebar";
-import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
-import { useApp } from "@/app/app-provider";
+import { useSidebar } from "@/components/ui/sidebar";
 import GuestNavbar from "./navbar/guest/Index";
 import FirstVisitAlert from "@/components/FirstVisitAlert";
 import { useEffect } from "react";
-import useWindowSize from "@/hooks/useWindowSize";
+import { useApp } from "@/app/app-provider";
 
 export const MainContent = ({ state }: { state: userType["type"] }) => {
   const { open, setOpen, isMobile } = useSidebar();
-  const { width } = useWindowSize();
+
   useEffect(() => {
      isMobile ? setOpen(false) : false ;
   }, [isMobile, setOpen]);

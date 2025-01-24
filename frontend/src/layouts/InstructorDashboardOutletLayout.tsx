@@ -14,8 +14,8 @@ import {
   AlertDialogHeader,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-import { Key } from "lucide-react";
-import { AlertDescription } from "@/components/ui/alert";
+import { Home, Key } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const InstructorDashboardOutletLayout = () => {
   const navigate = useNavigate();
@@ -35,7 +35,19 @@ const InstructorDashboardOutletLayout = () => {
     return (
       // <Alert AlertDialog open>
       <AlertDialog open>
-        <AlertDialogContent className="flex flex-col items-center">
+        <AlertDialogContent>
+          <Button
+            asChild
+              variant={"secondary"}
+              className="border border-red bg-destructive/10 py-6 w-fit"
+              // onClick={() => navigate(-2)}
+          >
+            <Link to="/home">
+              <Home size={20} /> Home
+            </Link>
+          </Button>
+          <div className="flex flex-col items-center">
+            
           <AlertDialogHeader className="p-5 bg-low-red text-red rounded-full mb-3">
             <Key className="size-16" />
           </AlertDialogHeader>
@@ -46,6 +58,7 @@ const InstructorDashboardOutletLayout = () => {
           <AlertDialogAction>
             <Link to='/auth/welcome/instructor-application' state={{returnUrl: pathname}}>Become an instructor</Link>
           </AlertDialogAction>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
       // </Alert>

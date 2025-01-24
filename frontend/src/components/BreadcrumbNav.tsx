@@ -15,7 +15,7 @@ const BreadcrumbNav = () => {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList key={Math.random()} className="text-base sm:text-lg">
+      <BreadcrumbList key={Math.random()} className="text-sm sm:text-base">
         {withoutLast.map((path, index) => (
           <>
             <BreadcrumbItem key={index}>
@@ -35,7 +35,7 @@ const BreadcrumbNav = () => {
         ))}
 
         <BreadcrumbItem>
-          <BreadcrumbPage className="capitalize">{paths.pop()}</BreadcrumbPage>
+          <BreadcrumbPage className="capitalize text-red">{paths.pop()}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

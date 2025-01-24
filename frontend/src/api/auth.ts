@@ -1,6 +1,6 @@
 import axios from "./axios";
 
-const timeout = 60 * 60 * 1;
+const timeout = 60 * 60 * 10;
 
 export const login = async (credentials: { email: string; password: string }) => {
     const response = await axios.post("/auth/sign-in", credentials, {

@@ -192,15 +192,12 @@ const handleResendCode = async (req, res) => {
 
 const handleSignUp = async (req, res) => {
     const bodyValues = req.body;
-    console.log()
     try {
         const { error, value } = signUpSchema.validate(bodyValues, { abortEarly: false });
         const hashedPassword = await bcrypt.hash(bodyValues.password, SALT_ROUNDS);
-
-        console.log("gotten");
-
         const existingEmail = await User.findOne({ email: bodyValues.email });
         const existingUsername = await User.findOne({ username: bodyValues.username });
+
         if (error) {
             // console.log(error);
             res.status(403).json({
@@ -230,44 +227,41 @@ const handleSignUp = async (req, res) => {
 
         const generatedCode = generateOtp('verify');
         sendEmail(bodyValues.email, 'verification_code', generatedCode.code)
-        
-        //     .then(async () => {
-        //     console.log("emailed");
-        //     const user = await User.create({ ...value, password: hashedPassword, generatedCode });
+            .then(async () => {
+                console.log("emailed");
+                const user = await User.create({ ...value, password: hashedPassword, generatedCode });
 
-        //     if (!user) {
-        //         res.status(500).json({
-        //             message: 'signup failed due to server error, try again later',
-        //             state: queryState.error,
-        //             data: undefined
-        //         }); return;
-        //     }
-        //     console.log("user found");
+                if (!user) {
+                    res.status(500).json({
+                        message: 'signup failed due to server error, try again later',
+                        state: queryState.error,
+                        data: undefined
+                    }); return;
+                }
+                console.log("user found");
 
 
-        //     res.cookie('user', JSON.stringify({ id: user.id, email: user.email }), {
-        //         maxAge: MAX_AGE,
-        //         ...cookieOptions,
-        //     });
+                res.cookie('user', JSON.stringify({ id: user.id, email: user.email }), {
+                    maxAge: MAX_AGE,
+                    ...cookieOptions,
+                });
 
-        //     const safeUserData = parseSafeUserData(user, true);
-        //     res.status(201).json({
-        //         message: 'user creation successful',
-        //         state: queryState.success,
-        //         data: safeUserData,
-        //     });
-        //     console.log("req successful");
-        // }).catch(() => {
-        //     console.log("failed mail");
-        //     res.status(400).json({
-        //         message: "Email not sent, please check your network and try again.",
-        //         state: queryState.error,
-        //         data: undefined,
-        //     });
-        //     return;
-        // });
-        console.log("not gotten");
-
+                const safeUserData = parseSafeUserData(user, true);
+                res.status(201).json({
+                    message: 'user creation successful',
+                    state: queryState.success,
+                    data: safeUserData,
+                });
+                console.log("req successful");
+            }).catch(() => {
+                console.log("failed mail");
+                res.status(400).json({
+                    message: "Email not sent, please check your network and try again.",
+                    state: queryState.error,
+                    data: undefined,
+                });
+                return;
+            });
     } catch (error) {
         console.log("func error");
         res.status(400).json({
@@ -540,6 +534,7 @@ const handleChangePassword = async (req, res) => {
             maxAge: MAX_AGE * 1000
         });
 
+        await sendEmail(email, 'password_changed');
         res.status(202).json({
             message: 'password update successful',
             state: queryState.success,

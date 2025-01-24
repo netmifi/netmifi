@@ -1,3 +1,5 @@
+const Joi = require('joi');
+
 module.exports.uploadCourse = Joi.object({
     title: Joi.string().min(3).max(30).trim().required(),
     lastName: Joi.string().alphanum().min(3).max(30).trim().required(),

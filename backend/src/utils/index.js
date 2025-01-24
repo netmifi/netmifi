@@ -2,7 +2,7 @@ const { randomInt } = require('crypto');
 
 const generateOtp = (state) => {
     const now = new Date();
-    const minutesToAdd = 25; // 25 minutes
+    const minutesToAdd = 10; // 10 minutes
 
     // The current time + the 25 minutes
     const newTime = new Date(now.getTime() + minutesToAdd * 60000);

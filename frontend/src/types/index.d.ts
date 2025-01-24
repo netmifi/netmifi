@@ -213,6 +213,13 @@ declare interface SelfPageLayoutProps {
   type: "blog" | "course";
 }
 
+declare interface CourseVideoSectionProps {
+  form?: UseFormReturn<z.infer<typeof form>>;
+  isMoreThanOne: boolean;
+  readonly index: number;
+  readonly id: string;
+  removeField: (key: string) => void
+}
 declare interface CustomFormFieldProps {
   form?: UseFormReturn<z.infer<typeof form>>;
   control: Control<z.infer<typeof formSchema>>;
@@ -244,12 +251,12 @@ declare interface CustomMultiSelectProps
   extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   options: string[];
   variant?:
-    | "default"
-    | "secondary"
-    | "destructive"
-    | "inverted"
-    | null
-    | undefined;
+  | "default"
+  | "secondary"
+  | "destructive"
+  | "inverted"
+  | null
+  | undefined;
   maxCount?: number;
   animation?: number;
   modalPopover?: boolean;
