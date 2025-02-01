@@ -8,17 +8,19 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const instructorRoutes = require('./routes/instructorRoutes');
 const limiter = require('./middlewares/limiter');
 const corsOptions = require('./config/corsOptions');
 const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
 const path = require('path');
+const verifyJwt = require('./middlewares/verifyJwt');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const dbURI = process.env.DATABASE_URI || '';
 const stageEnv = process.env.NODE_ENV;
 
-app.use(require('./middlewares/credentials'))
 app.use(cors(corsOptions));
+app.use(require('./middlewares/credentials'))
 
 if (stageEnv === 'development') {
     app.use(
@@ -36,22 +38,23 @@ if (stageEnv === 'development') {
     app.use(helmet()); // Use default settings in production
 }
 
-
 app.use(express.json())
-app.use(cookieParser());
 app.use(express.urlencoded({
     extended: false
 }));
+app.use(cookieParser());
 
 // app.use('/uploads/*', express.static(path.join(__dirname, 'uploads')));
 
-app.get('/', (req, res) => {
-    console.log(req.cookies);
-    res.send("hello");
-})
+// app.get('/', (req, res) => {
+//     console.log(req.cookies);
+//     res.send("hello");
+// })
 
-app.use('/auth', limiter, authRoutes);
-app.use('/user', limiter, userRoutes);
+app.use(limiter);
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+app.use('/instructor', verifyJwt, instructorRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {

@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const { cookieOptions } = require('../constants/cookieOptions');
 const { generateOtp, parseSafeUserData } = require('../utils');
 const Instructor = require('../models/Instructor');
-const { sendEmail } = require('../config/emailService');
+const { sendEmail } = require('../services/emailService');
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const SALT_ROUNDS = 12;

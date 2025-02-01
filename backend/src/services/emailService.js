@@ -11,10 +11,11 @@ const transporter = nodemailer.createTransport({
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
     },
+    tls: {
+        ciphers: 'SSLv3', // Optional: Try this if you have issues
+        rejectUnauthorized: false // Use with caution in production, only for testing
+      }
 });
-
-
-
 
 // For the template type use the exempt the template but use the template name in snake case e.g verificationCodeTemplate as verification_code
 function emailBody(title, templateType, code) {

@@ -2,7 +2,6 @@ const emailSubjects = {
     verification_code: "Verification Code",
     email_verified: "Email Verification",
     registration_successful: "Welcome To Netmifi",
-    registration_successful: "Welcome To Netmifi",
     instructor_accepted: "Welcome To Netmifi Legion",
 }
 

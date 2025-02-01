@@ -18,6 +18,7 @@ const SignIn = () => {
   const { setUser, setIsAuth } = useApp();
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const loginMutation = useLogin();
 
   const formSchema = authFormSchema("sign-in");
@@ -123,5 +124,4 @@ const SignIn = () => {
     </div>
   );
 };
-
 export default SignIn;

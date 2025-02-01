@@ -13,6 +13,16 @@ interface AppProviderProps {
   cartItems: Course[] | any[];
   setCartItems: (state: Course[] | any[]) => void;
   handleAddToCart: (course: Course) => void;
+  courseUploadProgress: {
+    progress: number;
+    elapsedTime: number;
+    rate: number;
+  };
+  setCourseUploadProgress: (state: {
+    progress: number,
+    elapsedTime: number,
+    rate: number,
+  }) => void;
 }
 
 const initialState = {
@@ -23,6 +33,12 @@ const initialState = {
   cartItems: [],
   setCartItems: () => {},
   handleAddToCart: () => {},
+  courseUploadProgress: {
+    progress: 0,
+    elapsedTime: 0,
+    rate: 0,
+  },
+  setCourseUploadProgress: () => {},
 };
 
 const AppProviderContext = createContext<AppProviderProps>(initialState);
@@ -38,6 +54,11 @@ export function AppProvider({
   );
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [isAuth, setIsAuth] = useState(false);
+  const [courseUploadProgress, setCourseUploadProgress] = useState({
+    progress: 0,
+    elapsedTime: 0,
+    rate: 0,
+  });
 
   const handleAddToCart = (course: Course) => {
     if (cartItems.find((item) => item.id === course.id))
@@ -75,7 +96,7 @@ export function AppProvider({
     };
   }, [user]);
 
-  const { data: checkAuthData, error: checkAuthError } = useCheckUserAuth();
+  // const { data: checkAuthData, error: checkAuthError } = useCheckUserAuth();
 
   // console.log(checkAuthData, checkAuthError);
 
@@ -83,8 +104,6 @@ export function AppProvider({
   //   setIsAuth(true);
   //   setUser(checkAuthData);
   // }
-
-
 
   const value = {
     user,
@@ -94,20 +113,9 @@ export function AppProvider({
     cartItems,
     setCartItems,
     handleAddToCart,
+    courseUploadProgress,
+    setCourseUploadProgress,
   };
-
-  // TODO: Convert cart items to json stringified objects
-
-  // TODO: Convert cart items to json stringified objects
-
-  // useEffect(() => {
-  //   const handleCartItems = () => {
-  //     const localCart = localStorage.getItem("cart") || [];
-  //     localStorage.setItem("cart", cartItems);
-  //   };
-
-  //   return handleCartItems;
-  // }, []);
 
   return (
     <AppProviderContext.Provider {...props} value={value}>

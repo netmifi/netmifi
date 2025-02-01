@@ -1,7 +1,7 @@
 const { handleFindVerificationCode, handleVerifyCode, handleResendCode, handleSignUp, handleInterestsAndAdSource, handleSignIn, handleLogout, handleMailGenCode, handleChangePassword, handleInstructorRegister } = require('@/controllers/authController');
 const express = require('express');
 const verifyJwt = require('../middlewares/verifyJwt');
-const { sendEmail } = require('../config/emailService');
+const { sendEmail } = require('../services/emailService');
 
 const router = express.Router();
 

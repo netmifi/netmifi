@@ -41,30 +41,15 @@ const userSchema = new Schema({
         default: 'system',
     },
     roles: {
-        user: {
-            type: Boolean,
-            default: true,
+        User: {
+            type: Number,
+            default: 2001
         },
-        blogger: {
-            type: Boolean,
-            default: false,
-        },
-        instructor: {
-            type: Boolean,
-            default: false,
-        },
-        admin: {
-            type: Boolean,
-            default: false,
-        },
-        superAdmin: {
-            type: Boolean,
-            default: false,
-        },
-        overseer: {
-            type: Boolean,
-            default: false,
-        },
+        Blogger: Number,
+        Instructor: Number,
+        Admin: Number,
+        SuperAdmin: Number,
+        Overseer: Number,
     },
     interests: {
         type: [String],

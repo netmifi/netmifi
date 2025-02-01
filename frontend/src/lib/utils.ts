@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-import { isValidNumber, parsePhoneNumberFromString } from 'libphonenumber-js';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 // import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
@@ -31,7 +31,10 @@ export function formatNumber(n: number): string {
   }).format(n);
 }
 
+export const useSetCourseUploadProgress = () => {
 
+}
+``
 export const convertToReadableNumber = (number: number) => {
   if (number < 999)
     return number;
@@ -70,13 +73,13 @@ export const getFirstLettersForProfile = (name: string) => {
 }
 
 
-function checkFileType(file: File, types: string[]) {
-  if (file?.name) {
-    const fileType = file.name.split(".").pop();
-    if (types.includes(fileType)) return true;
-  }
-  return false;
-}
+// function checkFileType(file: File, types: string[]) {
+//   if (file?.name) {
+//     const fileType = file.name.split(".").pop();
+//     if (types.includes(fileType)) return true;
+//   }
+//   return false;
+// }
 
 // --- DEFINE SCHEMAS
 
@@ -245,34 +248,20 @@ const baseCourseSchema = z.object({
     .refine((file) => file && file?.size <= 15 * 1024 * 1024, {
       message: "The video file must not exceed a maximum of 15MB.",
     }),
-  requirements: z.array(z.string()).min(1, { message: 'Field required' }),
-  // video: z
-  //   .instanceof(FileList, {
-  //     message: "Select a valid file",
-  //   })
-  //   .refine((fileList) => fileList.length > 0, {
-  //     message: "Please select a video file.",
-  //   })
-  //   .transform((fileList) => fileList.item(0))
-  //   .refine((file) => file?.type === "video/mp4" || file?.type === "video/mpeg", {
-  //     message: "Only mp4 and mpeg files are allowed.",
-  //   })
-  //   .refine((file) => file && file?.size <= 50 * 1024 * 1024, {
-  //     message: 'File size has exceeded 50mb'
-  //   }),
+  requirements: z.array(z.string()).min(0, { message: 'Field required' }),
   price: z.string({ message: 'Price is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
-  mentorshipAvailability: z.string({
-    required_error: "Must select one of either options",
+  mentorshipAvailability: z.enum(["yes", "no"], {
+    required_error: "Please select an option",
   }),
   mentorshipAvailabilityDays: z
-    .array(z.string().min(1))
+    .array(z.string(), { message: "Select an option" })
     .min(1)
     .optional(),
   from: z.string()
-    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
+    // .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
     .optional(),
   to: z.string()
-    .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
+    // .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
     .optional(),
 
   dynamicFields: z.record(
@@ -299,6 +288,10 @@ const baseCourseSchema = z.object({
 
 // Create schema (same as base schema)
 export const createCourseSchema = baseCourseSchema.refine((data) => {
+  console.log(data.mentorshipAvailabilityDays,
+    data.mentorshipAvailabilityDays.length || 'none',
+    data.from,
+    data.to)
   if (data.mentorshipAvailability === "yes") {
     return (
       data.mentorshipAvailabilityDays &&
@@ -307,10 +300,11 @@ export const createCourseSchema = baseCourseSchema.refine((data) => {
       data.to
     );
   }
+  if (data.mentorshipAvailability === "no") return console.log('Not');
   return false;
 }, {
   message: "Mentorship availability days, from, and to are required when mentorship is available",
-  path: ["mentorshipAvailabilityDays", "from", "to"],
+  path: [["mentorshipAvailabilityDays"], ["from"]],
 });
 
 // Update schema (all fields optional)

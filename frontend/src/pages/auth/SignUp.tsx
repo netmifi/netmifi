@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const SignUp = () => {
-  const { user, setUser } = useApp();
+  const { setUser } = useApp();
   const registerMutation = useRegister();
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);

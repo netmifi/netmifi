@@ -1,4 +1,4 @@
-import { createCourseSchema } from "@/lib/utils";
+import { convertToReadableTime, createCourseSchema } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,9 +20,23 @@ import { CheckedState } from "@radix-ui/react-checkbox";
 import CourseVideoSection from "@/components/instructor_dashboard/CourseVideoSection";
 import { PlusSquareIcon } from "lucide-react";
 import { logo } from "@/assets/logo";
+import { useCreateCourse } from "@/api/hooks/useCreateCourse";
+import { toast } from "sonner";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { Progress } from "@/components/ui/progress";
+import { useApp } from "@/app/app-provider";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { AlertDescription } from "@/components/ui/alert";
 
 const CreateCourse = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { courseUploadProgress } = useApp();
+  const createCourseMutation = useCreateCourse();
   const [sectionsCount, setSectionsCount] = useState(1);
   const [fields, setFields] = useState<
     Record<string, { title: string; video: File | null; description: string }>
@@ -79,16 +93,92 @@ const CreateCourse = () => {
     setSectionsCount(sectionsCount - 1);
   };
 
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data, form.formState);
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("description", values.description);
+      formData.append("price", values.price);
+      formData.append("mentorshipAvailability", values.mentorshipAvailability);
+      formData.append(
+        "mentorshipAvailabilityDays",
+        JSON.stringify(values.mentorshipAvailabilityDays)
+      );
+      formData.append("from", values.from);
+      formData.append("to", values.to);
+
+      formData.append("thumbnail", values.thumbnail);
+      formData.append("introVideo", values.introVideo);
+
+      // Append dynamic fields (e.g., videos in `dynamicFields`)
+      Object.keys(values.dynamicFields).forEach((fieldKey) => {
+        const field = values.dynamicFields[fieldKey];
+        formData.append(`dynamicFields[${fieldKey}][title]`, field.title);
+        formData.append(
+          `dynamicFields[${fieldKey}][description]`,
+          field.description
+        );
+        if (field.video) {
+          formData.append(`dynamicFields[${fieldKey}][video]`, field.video);
+        }
+      });
+
+      // console.log(formData.entries());
+
+      // Use the mutation function to send FormData
+      const { data } = await createCourseMutation.mutateAsync(formData);
+      toast.success("Upload successful", {
+        duration: 4000,
+        richColors: true,
+        dismissible: true,
+        important: true,
+      });
+
+      console.log(createCourseMutation)
+
+      // console.log("formdata:" + formData);
+      // TODO: Find the best route to navigate
+      // navigate("/");
+    } catch (error) {
+      mutationErrorHandler(createCourseMutation, error);
+    }
   };
 
   return (
     <div className="w-full px-2 sm:px-4 bg-popover rounded-lg shadow-sm">
+      <AlertDialog open={createCourseMutation.isPending || false}>
+        <AlertDialogContent>
+          <AlertDialogHeader className="items-center">
+            <Loader type="loader" size={55} className="w-fit *:text-red" />
+            <span className="absolute top-[15%] text-sm bold text-center font-montserrat">{ courseUploadProgress.progress}%</span>
+            <AlertDialogTitle>Uploading your course...</AlertDialogTitle>
+            <AlertDescription>Please do not close or refresh this page</AlertDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="">
+            <div className="w-full flex flex-col">
+              {/* <span className="text-sm absolute text-red z-10 left-[47.8%] right-0 -top-[57.8%] bottom-0">
+                50%
+              </span> */}
+
+              <div className="w-full">
+                <Progress className="h-1" value={courseUploadProgress.progress} />
+              </div>
+
+              <div className="mt-1 w-full flex justify-between items-center text-sm">
+                <span>{courseUploadProgress.rate}Kb/s</span>
+                <span className="text-red">
+                
+                  {convertToReadableTime(courseUploadProgress.elapsedTime)}
+                </span>
+              </div>
+            </div>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <header className="w-full py-3 text-base sm:text-md flex justify-between gap-2 items-center">
         Create New Course
         <div className="relative">
-          <img src={logo} className="w-[30px]" alt="logo" />
+          <img src={logo} className="w-[30px] grayscale" alt="logo" />
         </div>
       </header>
       {/* FIXME: FIND THE SOURCE OF THE DOUBLE SCROLL BAR */}
@@ -97,21 +187,24 @@ const CreateCourse = () => {
           <form
             className="overflow-y-hidden"
             onSubmit={form.handleSubmit(handleSubmit)}
+            // encType="multipart/form-data"
           >
             <section className="flex flex-wrap gap-3 mb-[10em] ">
               <div className="flex flex-col gap-10 flex-grow">
-                <CustomFormField
-                  control={form.control}
-                  name="title"
-                  placeholder="Input course title"
-                />
-                <CustomFormField
-                  form={form}
-                  control={form.control}
-                  name="price"
-                  placeholder="input price here"
-                  isCurrency={true}
-                />
+                <div className="flex gap-5 *:flex-grow">
+                  <CustomFormField
+                    control={form.control}
+                    name="title"
+                    placeholder="Input course title"
+                  />
+                  <CustomFormField
+                    form={form}
+                    control={form.control}
+                    name="price"
+                    placeholder="input price here"
+                    isCurrency={true}
+                  />
+                </div>
 
                 <CustomRichTextEditor
                   control={form.control}
@@ -225,7 +318,7 @@ const CreateCourse = () => {
                 </div>
                 <Button
                   type="button"
-                  className="shadow-md rounded-full w-fit [&_svg]:size-16 text-secondary"
+                  className="shadow-md rounded-full w-fit [&_svg]:size-16 text-popover"
                   onClick={addField}
                 >
                   <PlusSquareIcon />{" "}
@@ -256,12 +349,16 @@ const CreateCourse = () => {
 
               <div className="flex w-full">
                 <Button
-                  disabled={!isAccepted || isLoading}
+                  disabled={!isAccepted || createCourseMutation.isPending}
                   className="sm:ml-auto basis-full sm:basis-[30%]"
                   onClick={() => console.log(form.formState.errors)}
                   type="submit"
                 >
-                  {isLoading ? <Loader type="all" /> : "Upload Course"}
+                  {createCourseMutation.isPending ? (
+                    <Loader type="all" />
+                  ) : (
+                    "Upload Course"
+                  )}
                 </Button>
               </div>
             </div>
