@@ -17,7 +17,7 @@ const MyCourseCarousel = ({ className, data }: MyCourseCarouselProps) => {
   return (
     <div className={cn("flex flex-col gap-5", className)}>
       <div className="flex flex-wrap justify-between w-full">
-        <h3 className="text-2xl font-montserrat font-bold capitalize">
+        <h3 className="text-lg sm:text-xl font-bold capitalize">
           Purchased Courses
         </h3>
 

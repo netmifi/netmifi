@@ -29,7 +29,6 @@ const handleFindUser = async (req, res) => {
             data: undefined,
         });
     }
-
 }
 
 const handleCheckUserAuth = async (req, res) => {
@@ -46,7 +45,7 @@ const handleCheckUserAuth = async (req, res) => {
         }
 
         const safeUserData = parseSafeUserData(foundUser);
-
+        res.cookie('user', safeUserData)
         res.status(200).json({
             message: 'user found',
             state: queryState.success,

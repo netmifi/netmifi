@@ -2,6 +2,7 @@ const { uploadCourse } = require('@/controllers/instructorController');
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const verifyRoles = require('../middlewares/verifyRole');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -41,8 +42,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 const router = express.Router();
 
+
+router.get("/test", verifyRoles("Instructor"), (req, res) => res.json({ "message": 'hello' }))
+
 // Correctly configure multer to handle the "thumbnail" field
-router.post("/create", (req, res, next) => {
+router.post("/create",  verifyRoles("Instructor"), (req, res, next) => {
     req.dynamicFieldCounter = 1; // Reset counter for every request
     next();
 },

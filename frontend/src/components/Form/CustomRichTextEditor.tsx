@@ -8,6 +8,7 @@ import {
 import { cn, splitCamelCaseToWords } from "@/lib/utils";
 import { useState } from "react";
 import FroalaEditor from "react-froala-wysiwyg";
+import TiptapEditor from "../TiptapEditor";
 
 const CustomRichTextEditor = ({
   form,
@@ -30,13 +31,15 @@ const CustomRichTextEditor = ({
       render={({ field }) => (
         <FormItem className={cn({ "form-item": !hidden })} hidden={hidden}>
           <FormControl>
-            <FroalaEditor
+            {/* <FroalaEditor
               tag="textarea"
               config={config}
               model={field.value}
               onModelChange={field.onChange}
               {...field}
-            />
+            /> */}
+
+            <TiptapEditor initialContent={field.value} onChange={field.onChange} />
           </FormControl>
           <FormMessage className="form-message" />
         </FormItem>

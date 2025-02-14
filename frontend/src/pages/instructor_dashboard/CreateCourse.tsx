@@ -156,10 +156,6 @@ const CreateCourse = () => {
           </AlertDialogHeader>
           <AlertDialogFooter className="">
             <div className="w-full flex flex-col">
-              {/* <span className="text-sm absolute text-red z-10 left-[47.8%] right-0 -top-[57.8%] bottom-0">
-                50%
-              </span> */}
-
               <div className="w-full">
                 <Progress className="h-1" value={courseUploadProgress.progress} />
               </div>
@@ -175,13 +171,13 @@ const CreateCourse = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      {/* FIXME: FIND THE SOURCE OF THE DOUBLE SCROLL BAR */}
       <header className="w-full py-3 text-base sm:text-md flex justify-between gap-2 items-center">
         Create New Course
         <div className="relative">
           <img src={logo} className="w-[30px] grayscale" alt="logo" />
         </div>
       </header>
-      {/* FIXME: FIND THE SOURCE OF THE DOUBLE SCROLL BAR */}
       <div className="max-w-full py-3 px-1">
         <Form {...form}>
           <form

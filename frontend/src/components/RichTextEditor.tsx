@@ -1,6 +1,3 @@
-"use client"
-
-import React from "react"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Underline from "@tiptap/extension-underline"
@@ -10,6 +7,7 @@ import Highlight from "@tiptap/extension-highlight"
 import Superscript from "@tiptap/extension-superscript"
 import Subscript from "@tiptap/extension-subscript"
 import TextAlign from "@tiptap/extension-text-align"
+import { BoldIcon, ItalicIcon } from "lucide-react"
 
 const MenuBar = ({ editor }: { editor: any }) => {
   if (!editor) {
@@ -22,13 +20,13 @@ const MenuBar = ({ editor }: { editor: any }) => {
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive("bold") ? "is-active" : ""}
       >
-        bold
+        <BoldIcon />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={editor.isActive("italic") ? "is-active" : ""}
       >
-        italic
+        <ItalicIcon />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -142,6 +140,7 @@ const RichTextEditor = () => {
       }),
     ],
     content: "<p>Hello World! 🌎️</p>",
+    // placeholder: "This  is it"
   })
 
   return (

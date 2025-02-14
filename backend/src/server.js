@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const instructorRoutes = require('./routes/instructorRoutes');
+const newsletterRoutes = require('./routes/newsletterRoutes');
 const limiter = require('./middlewares/limiter');
 const corsOptions = require('./config/corsOptions');
 const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
@@ -55,6 +56,7 @@ app.use(limiter);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/instructor', verifyJwt, instructorRoutes);
+app.use('/newsletter', verifyJwt, newsletterRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {

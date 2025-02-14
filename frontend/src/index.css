@@ -32,10 +32,6 @@
     @apply bg-background text-foreground;
   }
 
-  /* body {
-    @apply flex bg-background text-foreground;
-  } */
-
   :root {
     --background: 0 0% 97.3%;
     --foreground: 222.2 84% 4.9%;
@@ -133,7 +129,7 @@
     --base: 0 0% 100%;
     --base-foreground: 0, 0%, 0%;
 
-    --background: 222.2 84% 4.9%;
+    --background: 222.2 84% 5.2%;
     --foreground: 210 40% 98%;
 
     --background: 222.2 84% 4.9%;
@@ -346,7 +342,19 @@
   }
 
   .ProseMirror {
-    @apply p-4 min-h-[200px] focus:outline-none;
+    @apply bg-red p-4 min-h-[200px] focus:outline-none;
+  }
+
+  .ProseMirror ul, .ProseMirror ol {
+    padding-left: 1.5em;
+  }
+  
+  .ProseMirror ul {
+    list-style-type: disc;
+  }
+  
+  .ProseMirror ol {
+    list-style-type: decimal;
   }
 
   @media (max-width: 640px) {

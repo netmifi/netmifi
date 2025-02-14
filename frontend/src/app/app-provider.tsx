@@ -53,12 +53,15 @@ export function AppProvider({
     JSON.parse((Cookies.get("user") as string) ?? JSON.stringify("")) || null
   );
   const [cartItems, setCartItems] = useState<any[]>([]);
+  // user !== null ? Object.keys(user).length > 0 : 
   const [isAuth, setIsAuth] = useState(false);
   const [courseUploadProgress, setCourseUploadProgress] = useState({
     progress: 0,
     elapsedTime: 0,
     rate: 0,
   });
+
+  // const checkUser = useCheckUserAuth();
 
   const handleAddToCart = (course: Course) => {
     if (cartItems.find((item) => item.id === course.id))
@@ -83,18 +86,47 @@ export function AppProvider({
       }
     };
   }, []);
+  useEffect(() => {
+    return () => {
+      console.log(Cookies.get())
+      if (Cookies.get("user") && Cookies.get("jwt")) {
+        // const cookieUser = Cookies.get("user");
+
+    }
+    };
+  }, []);
 
   useEffect(() => {
     return () => {
       if (user) {
+        console.log(Object.keys(user).length > 0);
         setIsAuth(true);
         localStorage.setItem("user", JSON.stringify(user));
+        // console.log(user);
       } else {
-        setIsAuth(false);
+        // setIsAuth(false);
+        console.log('no user');
         // localStorage.removeItem("user");
       }
     };
   }, [user]);
+
+  // useEffect(() => {
+  //   const checkCookieAndUpdate = () => {
+  //     const userCookie = Cookies.get('user');
+  //     if (userCookie) {
+  //       checkUser.mutate();
+  //     }
+  //   };
+
+  //   checkCookieAndUpdate();
+  //   const intervalId = setInterval(() => {
+  //     console.log('update')
+  //     checkCookieAndUpdate();
+  //   }, 2 * 60 * 1000);
+
+  //   return () => clearInterval(intervalId);
+  // }, [checkUser]);
 
   // const { data: checkAuthData, error: checkAuthError } = useCheckUserAuth();
 

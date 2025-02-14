@@ -1,6 +1,6 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
-const { verificationCodeTemplate, emailVerifiedTemplate, instructorAcceptedTemplate, emailSubjects, registrationSuccessfulTemplate, passwordChangedTemplate } = require('../constants/emailTemplates');
+const { verificationCodeTemplate, emailVerifiedTemplate, instructorAcceptedTemplate, emailSubjects, registrationSuccessfulTemplate, passwordChangedTemplate, newsletterActivatedTemplate } = require('../constants/emailTemplates');
 
 // Create a transporter using environment variables
 const transporter = nodemailer.createTransport({
@@ -53,6 +53,7 @@ function emailBody(title, templateType, code) {
                                 : templateType === 'email_verified' ? emailVerifiedTemplate()
                                     : templateType === 'instructor_accepted' ? instructorAcceptedTemplate()
                                     : templateType === 'password_changed' ? passwordChangedTemplate()
+                                    : templateType === ' newsletter_activated' ? newsletterActivatedTemplate()
                                         : registrationSuccessfulTemplate()}
                                 </table>
                             </td>

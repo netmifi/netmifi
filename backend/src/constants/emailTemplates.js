@@ -85,11 +85,26 @@ function instructorAcceptedTemplate() {
         </tr>`;
 }
 
+function newsletterActivatedTemplate() {
+    return `
+        <tr>
+            <td>
+                <h1 style="font-size: 24px; margin: 0 0 20px 0; color: hsl(0, 100%, 31%);">
+                    Hello,</h1>
+                <p style="margin: 0 0 12px 0; line-height: 24px;">Your have subscribed to our newsletter. You will receive firsthand information and updates on our platform.</p>
+
+                <p style="margin: 0 0 12px 0; line-height: 24px;"></p>
+                <p style="margin: 0; line-height: 24px;">Thanks for choosing our Netmifi!</p>
+            </td>
+        </tr>`;
+}
+
 module.exports = {
     emailSubjects,
     verificationCodeTemplate,
     emailVerifiedTemplate,
     registrationSuccessfulTemplate,
     passwordChangedTemplate,
-    instructorAcceptedTemplate
+    instructorAcceptedTemplate,
+    newsletterActivatedTemplate
 }

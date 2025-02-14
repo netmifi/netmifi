@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Home, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ROLES_LIST } from "@/constants";
 
 const InstructorDashboardOutletLayout = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const InstructorDashboardOutletLayout = () => {
     return <Navigate to="/dashboard/home" />;
   }
 
-  if (user.roles.instructor === false) {
+  if (!user.roles.Instructor || ROLES_LIST.Instructor !== user.roles.Instructor) {
     return (
       // <Alert AlertDialog open>
       <AlertDialog open>

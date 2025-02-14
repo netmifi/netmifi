@@ -56,7 +56,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-10">
       {isAuth && (
         <section className="padding-x padding-y flex items-center gap-3">
           <PostAvatar
@@ -78,7 +78,7 @@ const Home = () => {
       )}
 
       <Jumbotron
-        className="bg-secondary"
+        className="bg-popover"
         image={HomeSvg}
         title="Unlock the creator in you"
         titleClassName="sm:text-5xl"
@@ -91,34 +91,6 @@ const Home = () => {
             >
               Explore <ArrowDownIcon />
             </Button>
-
-            <div className="flex gap-3">
-              {netmifiNumbers.map((item) => (
-                <div key={item.label} className="flex flex-col items-center">
-                  <h4 className="w-full  text-center font-bold text-xl pb-px border-b-2 border-b-gray-500">
-                    {/* <CountUp
-                      enableScrollSpy
-                      duration={5}
-                      scrollSpyDelay={2}
-                      end={item.count}
-                      start={0}
-                      startOnMount
-                      scrollSpyOnce
-                      onEnd={() => {
-                        setIsCountEnded(true);
-                        console.log("ended");
-                      }}
-                      className={cn({ hidden: isCountEnded })}
-                    /> */}
-
-                    {isCountEnded && (
-                      <>{convertToReadableNumber(item.count) + "+"}</>
-                    )}
-                  </h4>
-                  <p className="font-montserrat">{item.label}</p>
-                </div>
-              ))}
-            </div>
           </div>
         }
       />

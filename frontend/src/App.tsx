@@ -45,12 +45,14 @@ import CertifiedStudents from "./pages/instructor_dashboard/CertifiedStudents";
 import Followers from "./pages/instructor_dashboard/Followers";
 import DashboardCourses from "./pages/instructor_dashboard/Courses";
 import CreateCourse from "./pages/instructor_dashboard/CreateCourse";
+import ResetScroll from "./components/ResetScroll";
 
 const App = () => {
   return (
     <AppProvider>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <Router>
+      <ResetScroll />
           <Routes>
             {/* AUTH ROUTES */}
             <Route path="/auth" element={<AuthOutletLayout />}>

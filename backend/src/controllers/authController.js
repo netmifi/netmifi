@@ -8,10 +8,12 @@ const { cookieOptions } = require('../constants/cookieOptions');
 const { generateOtp, parseSafeUserData } = require('../utils');
 const Instructor = require('../models/Instructor');
 const { sendEmail } = require('../services/emailService');
+const ACCESS_LEVELS = require('../constants/accessLevels');
+const { authCookieService } = require('../services/cookieService');
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const SALT_ROUNDS = 12;
-const MAX_AGE = 60 * 60 * 1000 * 24 * 5; // this is in milliseconds for 5 days
+const MAX_AGE = 60 * 60 * 5; // this is in milliseconds for 5 days
 
 const handleFindVerificationCode = async (req, res) => {
     try {
@@ -109,27 +111,11 @@ const handleVerifyCode = async (req, res) => {
         const safeUserData = parseSafeUserData(result);
 
         if (state === 'verify') {
-            const accessToken = jwt.sign({
-                user: safeUserData,
-            },
-                accessTokenSecret, {
-                expiresIn: MAX_AGE,
-            });
-
-            res.cookie('jwt', accessToken, {
-                ...cookieOptions,
-                maxAge: MAX_AGE * 1000,
-            });
-
             await sendEmail(foundUser.email, 'email_verified');
             await sendEmail(foundUser.email, 'registration_successful');
         }
 
-
-        res.cookie('user', JSON.stringify(safeUserData), {
-            ...cookieOptions,
-            maxAge: MAX_AGE * 1000
-        });
+        authCookieService(res, result);
         res.status(202).json({
             message: 'code matched',
             state: queryState.success,
@@ -199,7 +185,6 @@ const handleSignUp = async (req, res) => {
         const existingUsername = await User.findOne({ username: bodyValues.username });
 
         if (error) {
-            // console.log(error);
             res.status(403).json({
                 message: 'errors found',
                 state: queryState.error,
@@ -241,12 +226,8 @@ const handleSignUp = async (req, res) => {
                 console.log("user found");
 
 
-                res.cookie('user', JSON.stringify({ id: user.id, email: user.email }), {
-                    maxAge: MAX_AGE,
-                    ...cookieOptions,
-                });
-
-                const safeUserData = parseSafeUserData(user, true);
+                const safeUserData = parseSafeUserData(user);
+                authCookieService(res, user);
                 res.status(201).json({
                     message: 'user creation successful',
                     state: queryState.success,
@@ -358,24 +339,10 @@ const handleSignIn = async (req, res) => {
             });
             return;
         }
+        authCookieService(res, user);
 
-        const accessToken = jwt.sign({
-            user: user,
-        },
-            accessTokenSecret, {
-            expiresIn: MAX_AGE,
-        });
-
-        res.cookie('jwt', accessToken, {
-            ...cookieOptions,
-            maxAge: MAX_AGE * 1000,
-        });
         const safeUserData = parseSafeUserData(user);
 
-        res.cookie('user', JSON.stringify(safeUserData), {
-            ...cookieOptions,
-            maxAge: MAX_AGE * 1000
-        });
         res.status(202).json({
             message: 'login successful',
             state: queryState.success,
@@ -554,7 +521,6 @@ const handleInstructorRegister = async (req, res) => {
     const bodyValues = req.body;
     try {
         const { error, value } = instructorApplicationSchema.validate(bodyValues, { abortEarly: false });
-        console.log(value)
         const foundUser = await User.findById(req.user.id);
         const foundInstructor = await Instructor.findOne({ userId: foundUser._id });
         const exitingPhoneNumber = await User.findOne({ phone: value.phone })
@@ -612,7 +578,7 @@ const handleInstructorRegister = async (req, res) => {
         foundUser.residentialAddress = value.residentialAddress;
         foundUser.country = value.country || '';
         foundUser.phone = value.phone || '';
-        foundUser.roles = { ...foundUser.roles, instructor: true };
+        foundUser.roles = { ...foundUser.roles, Instructor: ACCESS_LEVELS.Instructor };
 
         const instructor = await Instructor.create({
             userId: foundUser._id,
@@ -626,6 +592,9 @@ const handleInstructorRegister = async (req, res) => {
 
         const user = await foundUser.save();
         const safeUserData = parseSafeUserData(user);
+
+        authCookieService(res, user);
+
 
         res.status(202).json({
             message: 'req received',

@@ -1,12 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { checkUserAuth } from "../user";
+import { useApp } from "@/app/app-provider";
 
 export const useCheckUserAuth = () => {
-    return useQuery({
-        queryKey: ["currentUser"],
-        queryFn: checkUserAuth,
-        gcTime: 1000 * 60 * 60 * 2,
-        refetchInterval: 1000 * 60 * 2,
-        retry: 5,
+    const { setUser, setIsAuth } = useApp();
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: checkUserAuth,
+        onSuccess: (data) => {
+            queryClient.setQueryData(["currentUser"], data);
+            setUser(data);
+            setIsAuth(true)
+        },
+        onError: (error) => {
+            console.error("Update Error:", error);
+        },
     });
 };

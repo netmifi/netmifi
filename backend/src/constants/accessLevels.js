@@ -1,4 +1,4 @@
-const ROLES_LIST = {
+const ACCESS_LEVELS = {
   "User": 2001,
   "Blogger": 1984,
   "Instructor": 1766,

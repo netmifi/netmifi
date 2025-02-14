@@ -103,13 +103,6 @@ export const authFormSchema = (type: 'sign-in' | 'sign-up') =>
           message: "User name must be at least 3 characters.",
         })
         : z.string().optional(),
-    // phone:
-    //   type === "sign-up"
-    //     ? z
-    //       .string()
-    //       .min(10, { message: "Must be a valid mobile number" })
-    //       .max(14, { message: "Must be a valid mobile number" })
-    //     : z.string().optional(),
     email: z
       .string()
       .email({ message: "Must be a valid email eg. demo@demo.com" }),
@@ -220,6 +213,7 @@ export const instructorFormSchema = () =>
         phone: parsedPhoneNumber?.number,
       };
     });
+
 // Base schema
 const baseCourseSchema = z.object({
   title: z.string().min(5, { message: "Course title cannot be less than 5 characters" }),
@@ -248,14 +242,14 @@ const baseCourseSchema = z.object({
     .refine((file) => file && file?.size <= 15 * 1024 * 1024, {
       message: "The video file must not exceed a maximum of 15MB.",
     }),
-  requirements: z.array(z.string()).min(0, { message: 'Field required' }),
+  requirements: z.array(z.string()).min(1, { message: 'At least one is required' }),
   price: z.string({ message: 'Price is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
   mentorshipAvailability: z.enum(["yes", "no"], {
     required_error: "Please select an option",
   }),
   mentorshipAvailabilityDays: z
-    .array(z.string(), { message: "Select an option" })
-    .min(1)
+    .array(z.string())
+    // .min(1)
     .optional(),
   from: z.string()
     // .regex(timeRegex, { message: "Select a valid time (HH:mm)" })
@@ -288,10 +282,6 @@ const baseCourseSchema = z.object({
 
 // Create schema (same as base schema)
 export const createCourseSchema = baseCourseSchema.refine((data) => {
-  console.log(data.mentorshipAvailabilityDays,
-    data.mentorshipAvailabilityDays.length || 'none',
-    data.from,
-    data.to)
   if (data.mentorshipAvailability === "yes") {
     return (
       data.mentorshipAvailabilityDays &&
@@ -300,16 +290,12 @@ export const createCourseSchema = baseCourseSchema.refine((data) => {
       data.to
     );
   }
-  if (data.mentorshipAvailability === "no") return console.log('Not');
-  return false;
+  // When mentorship is not available, we don't require these fields.
+  return true;
 }, {
-  message: "Mentorship availability days, from, and to are required when mentorship is available",
-  path: [["mentorshipAvailabilityDays"], ["from"]],
+  message: "Fields are required",
+  path: [["from", "to"]],
 });
 
 // Update schema (all fields optional)
 export const updateCourseSchema = baseCourseSchema.partial();
-
-// Type inference
-// export type CreateCourseInput = z.infer<typeof createCourseSchema>;
-// export type UpdateCourseInput = z.infer<typeof updateCourseSchema>;
