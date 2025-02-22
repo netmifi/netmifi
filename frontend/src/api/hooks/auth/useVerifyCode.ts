@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { verifyCode } from "../auth";
+import { verifyCode } from "../../auth";
 
 export const useVerifyCode = () => {
     const queryClient = useQueryClient();

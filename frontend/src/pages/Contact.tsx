@@ -3,7 +3,6 @@ import Jumbotron from "@/components/Jumbotron";
 import MessageEmailForm from "@/components/MessageEmailForm";
 
 const Contact = () => {
-
   return (
     <main className="flex flex-col gap-16">
       <Jumbotron
@@ -16,7 +15,7 @@ const Contact = () => {
       />
 
       <section className="padding-x">
-   <MessageEmailForm />
+        <MessageEmailForm />
       </section>
     </main>
   );

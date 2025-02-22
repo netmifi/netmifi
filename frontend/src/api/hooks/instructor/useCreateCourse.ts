@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCourse } from "../instructor";
+import { createCourse } from "../../instructor";
 import { useApp } from "@/app/app-provider";
 
 export const useCreateCourse = () => {
@@ -12,10 +12,10 @@ export const useCreateCourse = () => {
     }
 
     return useMutation({
-        mutationFn: (credentials)=> createCourse(credentials, onUploadProgress),
+        mutationFn: (credentials) => createCourse(credentials, onUploadProgress),
         // cacheTime: 1000 * 60 * 60, // Cache data for 1 hour
         onSuccess: (data) => {
-            setCourseUploadProgress({progress: 0, })
+            setCourseUploadProgress({ progress: 0, })
             queryClient.setQueryData(["newCourse"], data);
         },
 

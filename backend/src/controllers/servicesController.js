@@ -3,7 +3,7 @@ const Newsletter = require('../models/Newsletter');
 // const User = require('../models/Newsletter');
 const { sendEmail } = require('../services/emailService');
 
-const signEmail = async (req, res) => {
+const newsletter = async (req, res) => {
     const { email } = req.body;
     try {
         const user = req.user;
@@ -39,4 +39,4 @@ const signEmail = async (req, res) => {
     }
 }
 
-module.exports = { signEmail }
+module.exports = { newsletter }

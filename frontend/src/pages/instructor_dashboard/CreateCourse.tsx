@@ -20,7 +20,7 @@ import { CheckedState } from "@radix-ui/react-checkbox";
 import CourseVideoSection from "@/components/instructor_dashboard/CourseVideoSection";
 import { PlusSquareIcon } from "lucide-react";
 import { logo } from "@/assets/logo";
-import { useCreateCourse } from "@/api/hooks/useCreateCourse";
+import { useCreateCourse } from "@/api/hooks/instructor/useCreateCourse";
 import { toast } from "sonner";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { Progress } from "@/components/ui/progress";
@@ -104,11 +104,11 @@ const CreateCourse = () => {
         "mentorshipAvailabilityDays",
         JSON.stringify(values.mentorshipAvailabilityDays)
       );
-      formData.append("from", values.from);
-      formData.append("to", values.to);
+      formData.append("from", values.from || "");
+      formData.append("to", values.to || "");
 
-      formData.append("thumbnail", values.thumbnail);
-      formData.append("introVideo", values.introVideo);
+      formData.append("thumbnail", values.thumbnail || "");
+      formData.append("introVideo", values.introVideo || "");
 
       // Append dynamic fields (e.g., videos in `dynamicFields`)
       Object.keys(values.dynamicFields).forEach((fieldKey) => {
@@ -116,7 +116,7 @@ const CreateCourse = () => {
         formData.append(`dynamicFields[${fieldKey}][title]`, field.title);
         formData.append(
           `dynamicFields[${fieldKey}][description]`,
-          field.description
+          field.description || ""
         );
         if (field.video) {
           formData.append(`dynamicFields[${fieldKey}][video]`, field.video);
@@ -126,7 +126,7 @@ const CreateCourse = () => {
       // console.log(formData.entries());
 
       // Use the mutation function to send FormData
-      const { data } = await createCourseMutation.mutateAsync(formData);
+      await createCourseMutation.mutateAsync(formData);
       toast.success("Upload successful", {
         duration: 4000,
         richColors: true,
@@ -134,7 +134,7 @@ const CreateCourse = () => {
         important: true,
       });
 
-      console.log(createCourseMutation)
+      console.log(createCourseMutation);
 
       // console.log("formdata:" + formData);
       // TODO: Find the best route to navigate
@@ -150,20 +150,26 @@ const CreateCourse = () => {
         <AlertDialogContent>
           <AlertDialogHeader className="items-center">
             <Loader type="loader" size={55} className="w-fit *:text-red" />
-            <span className="absolute top-[15%] text-sm bold text-center font-montserrat">{ courseUploadProgress.progress}%</span>
+            <span className="absolute top-[15%] text-sm bold text-center font-montserrat">
+              {courseUploadProgress.progress}%
+            </span>
             <AlertDialogTitle>Uploading your course...</AlertDialogTitle>
-            <AlertDescription>Please do not close or refresh this page</AlertDescription>
+            <AlertDescription>
+              Please do not close or refresh this page
+            </AlertDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="">
             <div className="w-full flex flex-col">
               <div className="w-full">
-                <Progress className="h-1" value={courseUploadProgress.progress} />
+                <Progress
+                  className="h-1"
+                  value={courseUploadProgress.progress}
+                />
               </div>
 
               <div className="mt-1 w-full flex justify-between items-center text-sm">
                 <span>{courseUploadProgress.rate}Kb/s</span>
                 <span className="text-red">
-                
                   {convertToReadableTime(courseUploadProgress.elapsedTime)}
                 </span>
               </div>

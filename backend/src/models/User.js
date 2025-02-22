@@ -17,6 +17,12 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
+    profile: {
+        type: String,
+    },
+    cover: {
+        type: String,
+    },
     email: {
         type: String,
         required: true,
@@ -36,8 +42,6 @@ const userSchema = new Schema({
     },
     theme: {
         type: String,
-        minlength: 5,
-        trim: true,
         default: 'system',
     },
     roles: {
@@ -86,10 +90,14 @@ const userSchema = new Schema({
             type: String,
             default: ''
         },
-        web: {
+        website: {
             type: String,
             default: ''
         }
+    },
+    about: {
+        type: String,
+        default: "",
     },
     generatedCode: {
         type: {

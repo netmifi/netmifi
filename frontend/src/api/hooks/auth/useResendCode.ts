@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { resendCode } from "../auth";
+import { resendCode } from "../../auth";
 
 export const useResendCode = () => {
     const queryClient = useQueryClient();

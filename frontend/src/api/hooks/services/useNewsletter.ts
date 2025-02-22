@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { newsletterSignup } from "../newsletter";
+import { newsletterSignup } from "../../services";
 
 export const useNewsletterSignup = () => {
     return useMutation({

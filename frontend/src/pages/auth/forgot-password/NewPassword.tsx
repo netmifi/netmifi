@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import Loader from "@/components/Loader";
-import { useChangePassword } from "@/api/hooks/useChangePassword";
+import { useChangePassword } from "@/api/hooks/auth/useChangePassword";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { useApp } from "@/app/app-provider";
 

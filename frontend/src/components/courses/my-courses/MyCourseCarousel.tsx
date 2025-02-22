@@ -23,7 +23,7 @@ const MyCourseCarousel = ({ className, data }: MyCourseCarouselProps) => {
 
         <Button
           variant={"transparent"}
-          className="border border-red text-red hover:bg-red hover:text-popover rounded-2xl *:flex *:items-center"
+          className="max-sm:text-xs border border-red text-red hover:bg-red hover:text-popover rounded-2xl *:flex *:items-center"
           asChild
         >
           <NavLink to={"/courses/my-courses"} className="flex gap-2">

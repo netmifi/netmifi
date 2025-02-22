@@ -23,12 +23,12 @@ import { cn, onlyOTPFormSchema } from "@/lib/utils";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import Loader from "@/components/Loader";
 import { useApp } from "@/app/app-provider";
-import { useFindCode } from "@/api/hooks/useFindCode";
+import { useFindCode } from "@/api/hooks/auth/useFindCode";
 import { toast } from "sonner";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { useVerifyCode } from "@/api/hooks/useVerifyCode";
+import { useVerifyCode } from "@/api/hooks/auth/useVerifyCode";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useResendCode } from "@/api/hooks/useResendCode";
+import { useResendCode } from "@/api/hooks/auth/useResendCode";
 
 const OTPVerification = () => {
   const resendCodeTime = 14398.35; // this reps the time diff divided by 100

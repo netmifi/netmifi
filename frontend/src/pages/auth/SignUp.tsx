@@ -1,5 +1,5 @@
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { useRegister } from "@/api/hooks/useRegister";
+import { useRegister } from "@/api/hooks/auth/useRegister";
 import { useApp } from "@/app/app-provider";
 import { GoogleIconSvg } from "@/assets/svg";
 import CustomFormField from "@/components/Form/CustomFormField";

@@ -7,15 +7,16 @@ import { authFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { toast } from "sonner";
-import { useLogin } from "@/api/hooks/useLogin";
+import { useLogin } from "@/api/hooks/auth/useLogin";
 import { useApp } from "@/app/app-provider";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 
 const SignIn = () => {
   const { setUser, setIsAuth } = useApp();
+  const { state } = useLocation();
   const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -41,7 +42,7 @@ const SignIn = () => {
       setUser(data);
       setIsAuth(true);
       console.log(data);
-      navigate("/");
+      navigate(state && state.returnUrl ? state.returnUrl : "/");
     } catch (error) {
       mutationErrorHandler(loginMutation, error);
     }

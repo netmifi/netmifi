@@ -37,7 +37,6 @@ import TestPage from "./pages/TestPage";
 // import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
 
 import InstructorDashboard from "./pages/instructor_dashboard/Dashboard";
-import { AppProvider } from "./app/app-provider";
 import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
 import MyEarnings from "./pages/instructor_dashboard/MyEarnings";
 import Students from "./pages/instructor_dashboard/Students";
@@ -46,87 +45,85 @@ import Followers from "./pages/instructor_dashboard/Followers";
 import DashboardCourses from "./pages/instructor_dashboard/Courses";
 import CreateCourse from "./pages/instructor_dashboard/CreateCourse";
 import ResetScroll from "./components/ResetScroll";
+import RequireAuth from "./components/RequireAuth";
+import AppLoading from "./components/AppLoading";
+import {PageProgressStart} from "./layouts/RouterProgress";
+import LayoutWithProgress from "./layouts/LayoutWithProgress";
 
 const App = () => {
   return (
-    <AppProvider>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <Router>
-      <ResetScroll />
-          <Routes>
-            {/* AUTH ROUTES */}
-            <Route path="/auth" element={<AuthOutletLayout />}>
-              <Route path="sign-in" element={<SignIn />} />
-              <Route path="sign-up" element={<SignUp />} />
-              <Route path="otp-verification" element={<OTPVerification />} />
-              {/* <Route path="verification-type" element={<OTPVerification />} /> */}
-              <Route path="forgot-password" element={<ForgotPassword />}>
-                <Route path="via-email" element={<ViaEmail />} />
-                <Route path="new-password" element={<NewPassword />} />
-              </Route>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <Router>
+        <ResetScroll />
+        <AppLoading />
+        <PageProgressStart />
+        <Routes>
+        <Route element={<LayoutWithProgress />}>
+          {/* AUTH ROUTES */}
+          <Route path="/auth" element={<AuthOutletLayout />}>
+            <Route path="sign-in" element={<SignIn />} />
+            <Route path="sign-up" element={<SignUp />} />
+            <Route path="otp-verification" element={<OTPVerification />} />
 
-              <Route path={"welcome"} element={<Welcome />}>
-                <Route
-                  path="instructor-application"
-                  element={<SignInstructor />}
-                />
-                <Route path={"interest"} element={<Interest />} />
-              </Route>
+            <Route path="forgot-password" element={<ForgotPassword />}>
+              <Route path="via-email" element={<ViaEmail />} />
+              <Route path="new-password" element={<NewPassword />} />
             </Route>
 
-            {/* ROOT ROUTES */}
-
-            <Route path="/" element={<AppOutletLayout />}>
-              <Route path="home" element={<Home />} />
-
-              <Route path="contact" element={<Contact />} />
-
-              {/* COURSES ROUTE */}
-              <Route path="courses" element={<Courses />}>
-                <Route path="top" element={<TopCourses page="self" />} />
-                <Route path="recent" element={<RecentCourses page="self" />} />
-                <Route path="course/:id" element={<CoursePreview />} />
-                <Route path="my-courses" element={<MyCourses />} />
-                <Route path="my-courses/:id" element={<LearnPlay />} />
-              </Route>
-
-              {/* COURSES ROUTE */}
-
-              <Route path="pricing" element={<h1>Pricing</h1>} />
-
-              {/* BLOGS ROUTE */}
-              <Route path="blogs" element={<Blogs />}>
-                <Route
-                  path="featured"
-                  element={<FeaturedBlogs page="self" />}
-                />
-                <Route path="popular" element={<PopularBlogs page="self" />} />
-                <Route path="recent" element={<RecentBlogs page="self" />} />
-                <Route path="blog/:id" element={<Blog />} />
-              </Route>
-
-              {/* INSTRUCTORS ROUTE */}
-              <Route path="instructors" element={<Instructors />}>
-                <Route path="instructor/:id" element={<Instructor />} />
-              </Route>
-
-              {/* USER ROUTES */}
-              <Route path="/user/:id" element={<h1>User</h1>} />
+            <Route path={"welcome"} element={<Welcome />}>
               <Route
-                path="/user/:id/courses"
-                element={<h1>Recent Courses</h1>}
+                path="instructor-application"
+                element={<SignInstructor />}
               />
+              <Route path={"interest"} element={<Interest />} />
+            </Route>
+          </Route>
 
-              {/* HELP ROUTE */}
-              <Route path="/help" element={<Help />} />
-              <Route path="/t&c" element={<TestPage />} />
-              <Route path="/test" element={<TestPage />} />
+          {/* ROOT ROUTES */}
 
+          <Route path="/" element={<AppOutletLayout />}>
+            <Route path="home" element={<Home />} />
+            <Route path="contact" element={<Contact />} />
+            {/* COURSES ROUTE */}
+            <Route path="courses" element={<Courses />}>
+              <Route path="top" element={<TopCourses page="self" />} />
+              <Route path="recent" element={<RecentCourses page="self" />} />
+              <Route path="course/:id" element={<CoursePreview />} />
+              <Route path="my-courses" element={<MyCourses />} />
+              <Route path="my-courses/:id" element={<LearnPlay />} />
+            </Route>
+
+            {/* COURSES ROUTE */}
+            <Route path="pricing" element={<h1>Pricing</h1>} />
+
+            {/* BLOGS ROUTE */}
+            <Route path="blogs" element={<Blogs />}>
+              <Route path="featured" element={<FeaturedBlogs page="self" />} />
+              <Route path="popular" element={<PopularBlogs page="self" />} />
+              <Route path="recent" element={<RecentBlogs page="self" />} />
+              <Route path="blog/:id" element={<Blog />} />
+            </Route>
+
+            {/* INSTRUCTORS ROUTE */}
+            <Route path="instructors" element={<Instructors />}>
+              <Route path="instructor/:id" element={<Instructor />} />
+            </Route>
+
+            {/* USER ROUTES */}
+            <Route path="/user/:id" element={<h1>User</h1>} />
+            <Route path="/user/:id/courses" element={<h1>Recent Courses</h1>} />
+
+            <Route path="/help" element={<Help />} />
+            <Route path="/t&c" element={<TestPage />} />
+            <Route path="/test" element={<TestPage />} />
+            <Route path="/feedback" element={<Feedback />} />
+            <Route path="about" element={<About />} />
+
+            {/* Protected Routes */}
+            <Route element={<RequireAuth />}>
               <Route path="/account/profile" element={<Profile />} />
               <Route path="/account/settings" element={<Settings />} />
 
-              {/* FEEDBACK ROUTE */}
-              <Route path="/feedback" element={<Feedback />} />
               {/* INSTRUCTOR DASHBOARD ROUTES */}
               <Route
                 path="dashboard"
@@ -143,19 +140,17 @@ const App = () => {
                 <Route path="my-earnings" element={<MyEarnings />} />
                 <Route path="create" element={<CreateCourse />} />
               </Route>
-
-              {/* ABOUT ROUTE */}
-              <Route path="about" element={<About />} />
-
-              {/* 404 page ROUTES */}
-              <Route path="*" element={<NotFound />} />
-              <Route path="404" element={<NotFound />} />
             </Route>
-          </Routes>
-          <Toaster />
-        </Router>
-      </ThemeProvider>
-    </AppProvider>
+
+            {/* 404 page ROUTES */}
+            <Route path="*" element={<NotFound />} />
+            <Route path="404" element={<NotFound />} />
+          </Route>
+        </Route>
+        </Routes>
+        <Toaster />
+      </Router>
+    </ThemeProvider>
   );
 };
 

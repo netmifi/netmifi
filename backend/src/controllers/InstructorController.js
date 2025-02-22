@@ -1,13 +1,8 @@
-const { signUpSchema, signInSchema, instructorApplicationSchema } = require('../schemas/authSchema');
 const { queryState } = require('../constants/queryState');
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const { cookieOptions } = require('../constants/cookieOptions');
 const path = require('path');
 const fs = require('fs/promises');
-
-// const { generateOtp, parseSafeUserData } = require('../utils');
-const { courseSchema } = require('../schemas/instructorSchema');
+const multer = require('multer');
+const { parseSafeUserData } = require('../utils');
 const Course = require('../models/Course');
 const MAX_AGE = 60 * 60 * 1000 * 24 * 5; // this is in milliseconds for 5 days
 
@@ -21,7 +16,59 @@ const removeUnwanted = async (filesObject) => {
     });
 }
 
-const uploadCourse = async (req, res) => {
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const destinationPath =
+            file.fieldname === 'thumbnail'
+                ? path.join(__dirname, '..', 'uploads', 'thumbnail')
+                : path.join(__dirname, '..', 'uploads', 'courses');
+        cb(null, destinationPath);
+    },
+
+    filename: (req, file, cb) => {
+        // Initialize counter for dynamic fields if not set yet
+        if (!req.dynamicFieldCounter) {
+            req.dynamicFieldCounter = 1; // Initialize the counter for the current request
+        }
+
+        let filename;
+
+        if (file.fieldname === 'thumbnail') {
+            // Naming for thumbnail
+            filename = `${req.user.username}-${Date.now()}${path.extname(file.originalname)}`;
+        } else if (file.fieldname === 'introVideo') {
+            // Naming for intro video
+            filename = `${req.user.username}-intro-${Date.now()}${path.extname(file.originalname)}`;
+        } else if (file.fieldname.startsWith('dynamicFields[') && file.fieldname.endsWith('][video]')) {
+            // Naming for dynamic fields
+            filename = `${req.dynamicFieldCounter++}-${req.user.username}-section-${Date.now()}${path.extname(file.originalname)}`;
+        } else {
+            // Default fallback
+            filename = `${req.user.username}-${Date.now()}${path.extname(file.originalname)}`;
+        }
+
+        cb(null, filename);
+    },
+});
+
+const upload = multer({ storage });
+
+const uploadCourse = [(req, res, next) => {
+    req.dynamicFieldCounter = 1; // Reset counter for every request
+    next();
+},
+upload.any(), (req, res, next) => {
+    const validFiles = {};
+    req.files.forEach((file) => {
+        // Check if the field name starts with "dynamicFields[" and ends with "][video]"
+        if (file.fieldname.startsWith("dynamicFields[") && file.fieldname.endsWith("][video]")) {
+            validFiles[file.fieldname] = file;
+        } else {
+            console.warn(`Unexpected field: ${file.fieldname}`);
+        }
+    });
+    next();
+}, async (req, res) => {
     let uploadedFiles = {};
     try {
         const bodyValues = req.body;
@@ -39,16 +86,13 @@ const uploadCourse = async (req, res) => {
             for (const fieldKey in bodyValues.dynamicFields) {
                 const field = bodyValues.dynamicFields[fieldKey];
                 const sectionKey = `section${sectionCounter}`;
-
                 sections[sectionKey] = {
                     title: field.title,
                     description: field.description || '',
                     video: uploadedFiles[`dynamicFields[${fieldKey}][video]`] || null,
                 };
-
                 sectionCounter++;
             }
-
             // Remove dynamicFields from bodyValues
             delete bodyValues.dynamicFields;
         }
@@ -94,7 +138,7 @@ const uploadCourse = async (req, res) => {
         removeUnwanted(uploadedFiles)
         return;
     }
-};
+}]
 
 module.exports = {
     uploadCourse

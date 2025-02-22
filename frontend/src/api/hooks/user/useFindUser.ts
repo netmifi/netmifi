@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { findCode } from "../auth";
+import { findUser } from "../../user";
 
-export const useFindCode = () => {
+export const useFindUser = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: findCode,
+        mutationFn: findUser,
         onSuccess: (data) => {
-            queryClient.setQueryData(["generatedCode"], data);
+            queryClient.setQueryData(["currentUser"], data.data);
         },
         onError: (error) => {
-            console.error("Seek Error:", error);
+            console.error("User find error:", error);
         },
     });
 };

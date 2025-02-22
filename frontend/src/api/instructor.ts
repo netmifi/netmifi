@@ -8,8 +8,6 @@ export const createCourse = async (credentials: unknown, onUploadProgress: ({ pr
         timeout,
         headers: {
             "Content-Type": "multipart/form-data",
-            // "Content-Type": "application/json",
-            // toJSON: true
         },
         onUploadProgress: (event) => {
             const uploadedBytes = event.loaded;

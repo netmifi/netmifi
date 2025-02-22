@@ -150,6 +150,27 @@ export const reviewFormSchema = () =>
     rating: z.number()
   });
 
+export const passwordChangeSchema = () =>
+  z.object({
+    currentPassword: z.string().min(8, { message: "Field cannot be less than 8 characters" }),
+    newPassword: z.string().min(8, { message: "Password cannot be less than 8 characters" }),
+    confirmPassword: z.string().min(8, { message: "Password cannot be less than 8 characters" }),
+
+  }).refine((data) => {
+
+    return data.newPassword === data.confirmPassword;
+  }, {
+    message: 'Confirm password does not match the new password',
+    path: ['confirmPassword'],
+  })
+
+export const themeFormSchema = () =>
+  z.object({
+    theme: z.enum(["system", "light", "dark"], {
+      required_error: "Please select an option",
+    }),
+  });
+
 export const createCollectionFormSchema = () =>
   z.object({
     collection: z.string().min(3, { message: "Collection name must have at least 3 characters" }),
@@ -299,3 +320,69 @@ export const createCourseSchema = baseCourseSchema.refine((data) => {
 
 // Update schema (all fields optional)
 export const updateCourseSchema = baseCourseSchema.partial();
+
+export const updateProfileSchema = () => z.object({
+  profile: z
+    .instanceof(FileList, { message: 'Please select a valid file' })
+    .refine((fileList) => fileList.length > 0 || fileList.length === 0, { // Allow empty FileList
+      message: "Please select a (.jpg, .png, or jpeg) file.",
+    })
+    .transform((fileList) => fileList.length > 0 ? fileList.item(0) : null) // Handle empty FileList
+    .refine((file) => !file || file?.type === "image/jpg" || file?.type === "image/png" || file?.type === "image/jpeg", { // Make refine optional
+      message: "Only jpg, png files are allowed to be sent.",
+    })
+    .refine((file) => !file || (file && file?.size <= 3 * 1024 * 1024), { // Make refine optional
+      message: "The image file must not exceed a maximum of 3MB.",
+    })
+    .nullable(), // Allow null for no file
+  cover: z
+    .instanceof(FileList, { message: 'Please select a valid file' })
+    .refine((fileList) => fileList.length > 0 || fileList.length === 0, { // Allow empty FileList
+      message: "Please select a (.jpg, .png, or jpeg) file.",
+    })
+    .transform((fileList) => fileList.length > 0 ? fileList.item(0) : null) // Handle empty FileList
+    .refine((file) => !file || file?.type === "image/jpg" || file?.type === "image/png" || file?.type === "image/jpeg", { // Make refine optional
+      message: "Only jpg, png files are allowed to be sent.",
+    })
+    .refine((file) => !file || (file && file?.size <= 3 * 1024 * 1024), { // Make refine optional
+      message: "The image file must not exceed a maximum of 3MB.",
+    })
+    .nullable(), // Allow null for no file
+
+  country: z.object({
+    name: z.string().optional(),
+    code: z.string().optional(), // Make code optional as well
+    flag: z.string().optional(),
+    dialCode: z.string().optional(), // Make dialCode optional
+  }).optional(), // Make the entire country object optional
+
+  // FIXME: Fix the number validation for phone
+  phone: z.string().optional().refine(value => !value || value.match(/^\d+$/), { message: "Only numbers are allowed" }), // Make phone optional
+  residentialAddress: z.string().optional(),
+  facebook: z.string().optional().nullable(),
+  instagram: z.string().optional().nullable(),
+  tiktok: z.string().optional().nullable(), // Allow null for tiktok as well
+  youtube: z.string().optional().nullable(), // Allow null for youtube as well
+  website: z.string().optional().nullable(), // Allow null for website as well
+  about: z.string().optional().refine(value => !value || value.length >= 20, { // Conditional min validation
+    message: 'Description cannot be less than 20 characters long'
+  }), // Make about optional
+}).partial().refine((data) => {
+  if (!data.phone) {
+    return true;
+  }
+  const phoneNumberString = `${data.country?.dialCode}${data.phone}`;
+  const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
+  return parsedPhoneNumber?.isValid() ?? false;
+}, {
+  message: 'Not a valid phone number',
+  path: ['phone'],
+})
+  .transform((data) => {
+    const phoneNumberString = `${data.country?.dialCode}${data.phone}`;
+    const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
+    return {
+      ...data,
+      phone: parsedPhoneNumber?.number,
+    };
+  });

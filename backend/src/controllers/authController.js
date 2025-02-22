@@ -523,7 +523,7 @@ const handleInstructorRegister = async (req, res) => {
         const { error, value } = instructorApplicationSchema.validate(bodyValues, { abortEarly: false });
         const foundUser = await User.findById(req.user.id);
         const foundInstructor = await Instructor.findOne({ userId: foundUser._id });
-        const exitingPhoneNumber = await User.findOne({ phone: value.phone })
+        const existingPhoneNumber = await User.findOne({ phone: value.phone })
 
         if (error) {
             console.log(error);
@@ -549,7 +549,7 @@ const handleInstructorRegister = async (req, res) => {
                 data: undefined
             }); return;
         }
-        if (exitingPhoneNumber) {
+        if (existingPhoneNumber) {
             res.status(409).json({
                 message: 'phone number already exists',
                 state: queryState.error,
@@ -574,11 +574,13 @@ const handleInstructorRegister = async (req, res) => {
             youtube: value.youtube || '',
             website: value.website || '',
         }
+        
         foundUser.handles = handles;
         foundUser.residentialAddress = value.residentialAddress;
         foundUser.country = value.country || '';
         foundUser.phone = value.phone || '';
         foundUser.roles = { ...foundUser.roles, Instructor: ACCESS_LEVELS.Instructor };
+        about && foundUser.about;
 
         const instructor = await Instructor.create({
             userId: foundUser._id,
@@ -594,8 +596,6 @@ const handleInstructorRegister = async (req, res) => {
         const safeUserData = parseSafeUserData(user);
 
         authCookieService(res, user);
-
-
         res.status(202).json({
             message: 'req received',
             state: queryState.success,

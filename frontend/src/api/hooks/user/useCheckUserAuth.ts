@@ -1,21 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { registerInstructor } from "../auth";
+import { checkUserAuth } from "../../user";
 import { useApp } from "@/app/app-provider";
 
-export const useInstructorRegister = () => {
-        const { setUser, setIsAuth } = useApp();
-
+export const useCheckUserAuth = () => {
+    const { setUser, setIsAuth } = useApp();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: registerInstructor,
+        mutationFn: checkUserAuth,
         onSuccess: (data) => {
-            setUser(data.user);
-            setIsAuth(true);
             queryClient.setQueryData(["currentUser"], data);
+            setUser(data.data);
+            setIsAuth(true)
         },
         onError: (error) => {
-            console.error("Application error:", error);
+            console.error("Update Error:", error);
         },
     });
 };

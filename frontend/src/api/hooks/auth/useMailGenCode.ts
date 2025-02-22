@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { changePassword } from "../auth";
+import { mailCode } from "../../auth";
 
-export const useChangePassword = () => {
+export const useMailGenCode = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: changePassword,
+        mutationFn: mailCode,
         onSuccess: (data) => {
-            queryClient.setQueryData(["currentUser"], data);
+            queryClient.setQueryData(["mailCode"], data);
         },
         onError: (error) => {
-            console.error("Update Error:", error);
+            console.error("Mail Error:", error);
         },
     });
 };

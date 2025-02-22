@@ -1,17 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { checkUserAuth } from "../user";
-import { useApp } from "@/app/app-provider";
+import { changePassword } from "../../auth";
 
-export const useCheckUserAuth = () => {
-    const { setUser, setIsAuth } = useApp();
+export const useChangePassword = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: checkUserAuth,
+        mutationFn: changePassword,
         onSuccess: (data) => {
             queryClient.setQueryData(["currentUser"], data);
-            setUser(data);
-            setIsAuth(true)
         },
         onError: (error) => {
             console.error("Update Error:", error);

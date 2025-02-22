@@ -1,5 +1,5 @@
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { useInstructorRegister } from "@/api/hooks/useInstructorRegister";
+import { useInstructorRegister } from "@/api/hooks/auth/useInstructorRegister";
 import { useApp } from "@/app/app-provider";
 import CountryFormSelect from "@/components/Form/CountryFormSelect";
 import CustomContactField from "@/components/Form/CustomContactField";
@@ -54,7 +54,7 @@ const SignInstructor = () => {
     },
   });
   const navigate = useNavigate();
-  
+
   const radioGroupData = [
     {
       label: "yes",

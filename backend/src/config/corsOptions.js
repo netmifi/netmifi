@@ -4,6 +4,7 @@ const corsOption = {
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
         } else {
+            console.error("Blocked by cors");
             callback(new Error('Not allowed by cors'));
         }
     },

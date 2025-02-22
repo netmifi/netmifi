@@ -88,7 +88,7 @@ const CustomFormField = ({
                 {type === "textarea" ? (
                   <Textarea
                     placeholder={placeholder}
-                    className={cn("resize-none", {
+                    className={cn("", {
                       "min-h-1 border-e-0 border-s-0 border-t-0 border-b-2 focus-visible:ring-transparent focus-visible:border-b-base-foreground placeholder:text-xs":
                         textareaType === "comment",
                     })}
@@ -105,7 +105,9 @@ const CustomFormField = ({
                     {...field}
                     // onChange={handleInputChange}
                     type={
-                      name === "password" && isPasswordVisible
+                      (name === "password" ||
+                        String(name).includes("assword")) &&
+                      isPasswordVisible
                         ? "text"
                         : name === "password"
                         ? "password"
