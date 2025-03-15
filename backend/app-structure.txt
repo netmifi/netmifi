@@ -1,12 +1,15 @@
 /backend
 ├── /src
-│   ├── /config             # Configuration files (e.g., database connection)
-│   │   └── db.js           # Database connection setup
-│   ├── /controllers        # Route controllers for business logic
+│   ├── /config             # Configuration files (e.g., corsOptions)
+│   │   └── corsOptions.js           # Database connection setup
+│   ├── /constants          # Constants (e.g., roles, error messages, templates)
+│   │   └── accessLevels.js
+│   ├── /controllers        # Route controllers for handling business logic
 │   │   └── userController.js
 │   │   └── courseController.js
-│   ├── /middlewares        # Custom middleware functions
-│   │   └── authMiddleware.js # Authentication and role-based access control
+│   ├── /middlewares        # Custom middleware functions for intercepting and validating requests from controllers
+│   │   └── credentials.js 
+│   │   └── verifyRoles.js 
 │   ├── /models             # Mongoose models (data schemas)
 │   │   └── User.js
 │   │   └── Course.js
@@ -20,16 +23,10 @@
 │   │   └── userTypes.js    # Interfaces and types
 │   │   └── courseTypes.js
 │   ├── /utils              # Utility functions (e.g., token generation, hashing)
-│   │   └── tokenUtil.js
-│   │   └── hashUtil.js
+│   │   └── index.js
 │   ├── /services           # Business logic services
-│   │   └── userService.js
 │   │   └── courseService.js
-│   ├── /constants          # Constants (e.g., roles, error messages)
-│   │   └── roles.js
 │   └── server.js           # Main entry point of the server
-├── nodemon.json            # Nodemon config for automatic TypeScript compilation
-├── jsconfig.json           # TypeScript configuration
 ├── .env                    # Environment variables
 ├── .eslintrc.json          # ESLint configuration
 ├── package.json            # Package dependencies and scripts

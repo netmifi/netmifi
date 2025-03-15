@@ -239,6 +239,7 @@ export const instructorFormSchema = () =>
 const baseCourseSchema = z.object({
   title: z.string().min(5, { message: "Course title cannot be less than 5 characters" }),
   description: z.string().min(20, { message: 'Description cannot be less than 20 characters long' }),
+  category: z.string({ required_error: "Must select an area of expertise" }),
   thumbnail: z
     .instanceof(FileList, { message: 'Please select a valid file' })
     .refine((fileList) => fileList.length > 0, {

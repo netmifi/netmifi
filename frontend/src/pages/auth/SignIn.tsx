@@ -1,5 +1,5 @@
 import { GoogleIconSvg } from "@/assets/svg";
-import CustomFormField from "@/components/Form/CustomFormField";
+import CustomFormField from "@/components/form/CustomFormField";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { useLogin } from "@/api/hooks/auth/useLogin";
 import { useApp } from "@/app/app-provider";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import GoogleAuth from "@/components/auth/GoogleAuth";
 
 const SignIn = () => {
   const { setUser, setIsAuth } = useApp();
@@ -57,12 +58,7 @@ const SignIn = () => {
       </div>
 
       <div className="flex flex-col gap-4  sm:mx-auto">
-        <Button variant={"secondary"} className="px-20 py-6">
-          <Link to={""} className="flex gap-3 tex-lg">
-            <img src={GoogleIconSvg} alt="google" />
-            Sign in with google
-          </Link>
-        </Button>
+        <GoogleAuth />
 
         <div className="flex items-center my-8">
           <hr className="flex-grow border-t border-gray-300"></hr>

@@ -1,8 +1,9 @@
 node_modules
 .vscode
+.VSCodeCounter
 courses
 cover
 profile
 thumbnail
-env
-convert-imports
+.env
+convert-imports.js

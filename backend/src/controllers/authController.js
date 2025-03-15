@@ -359,6 +359,17 @@ const handleSignIn = async (req, res) => {
     }
 }
 
+const handleGoogleAuth = async (req, res) => {
+    try{
+} catch (error) {
+    res.status(405).json({
+        message: error.message,
+        state: queryState.error,
+        data: undefined,
+    });
+    return
+}
+}
 const handleLogout = async (req, res) => {
     const cookies = req.cookies;
 
@@ -622,6 +633,7 @@ module.exports = {
     handleSignUp,
     handleInterestsAndAdSource,
     handleSignIn,
+    handleGoogleAuth,
     handleLogout,
     handleMailGenCode,
     handleChangePassword,

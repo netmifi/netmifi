@@ -7,7 +7,7 @@ import { z } from "zod";
 import { Form } from "./ui/form";
 import { Button } from "./ui/button";
 import Loader from "./Loader";
-import CustomFormField from "./Form/CustomFormField";
+import CustomFormField from "./form/CustomFormField";
 import { toast } from "sonner";
 import { useNewsletterSignup } from "@/api/hooks/services/useNewsletter";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";

@@ -1,4 +1,4 @@
-const { handleFindVerificationCode, handleVerifyCode, handleResendCode, handleSignUp, handleInterestsAndAdSource, handleSignIn, handleLogout, handleMailGenCode, handleChangePassword, handleInstructorRegister } = require('@/controllers/authController');
+const { handleFindVerificationCode, handleVerifyCode, handleResendCode, handleSignUp, handleGoogleAuth, handleInterestsAndAdSource, handleSignIn, handleLogout, handleMailGenCode, handleChangePassword, handleInstructorRegister } = require('@/controllers/authController');
 const express = require('express');
 const verifyJwt = require('../middlewares/verifyJwt');
 const { sendEmail } = require('../services/emailService');
@@ -26,6 +26,7 @@ router.get('/test-mail', async (req, res) => {
 router.post('/find-code', handleFindVerificationCode);
 router.post('/sign-up', handleSignUp);
 router.post('/sign-in', handleSignIn);
+router.post('/google', handleGoogleAuth);
 router.post('/verify-code', handleVerifyCode);
 router.post('/resend-code', handleResendCode);
 router.put('/interests-adsource', verifyJwt, handleInterestsAndAdSource);

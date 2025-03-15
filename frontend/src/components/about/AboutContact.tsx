@@ -1,4 +1,4 @@
-import CustomFormField from "@/components/Form/CustomFormField";
+import CustomFormField from "@/components/form/CustomFormField";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";

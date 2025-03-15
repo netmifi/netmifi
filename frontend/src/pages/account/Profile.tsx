@@ -1,7 +1,7 @@
 import { useApp } from "@/app/app-provider";
 import { aboutHero } from "@/assets/images";
 import CourseCarousel from "@/components/courses/CourseCarousel";
-import MyCourseCarousel from "@/components/courses/my-courses/MyCourseCarousel";
+import MyCourseCarousel from "@/components/courses/my_courses/MyCourseCarousel";
 import PostAvatar from "@/components/PostAvatar";
 import { Button } from "@/components/ui/button";
 import {

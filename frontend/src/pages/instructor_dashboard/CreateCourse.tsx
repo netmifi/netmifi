@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem } from "@/components/ui/form";
-import CustomFormField from "@/components/Form/CustomFormField";
-import CustomRichTextEditor from "@/components/Form/CustomRichTextEditor";
+import CustomFormField from "@/components/form/CustomFormField";
+import CustomRichTextEditor from "@/components/form/CustomRichTextEditor";
 import { Button } from "@/components/ui/button";
-import CustomFileField from "@/components/Form/CustomFileField";
-import CustomListForm from "@/components/Form/CustomListForm";
-import CustomRadioGroup from "@/components/Form/CustomRadioGroup";
-import CustomMultiSelect from "@/components/Form/CustomMultiSelect";
+import CustomFileField from "@/components/form/CustomFileField";
+import CustomListForm from "@/components/form/CustomListForm";
+import CustomRadioGroup from "@/components/form/CustomRadioGroup";
+import CustomMultiSelect from "@/components/form/CustomMultiSelect";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import Loader from "@/components/Loader";
@@ -33,6 +33,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { AlertDescription } from "@/components/ui/alert";
+import CustomFormSelect from "@/components/form/CustomFormSelect";
+import { categories } from "@/constants";
 
 const CreateCourse = () => {
   const { courseUploadProgress } = useApp();
@@ -207,6 +209,12 @@ const CreateCourse = () => {
                     isCurrency={true}
                   />
                 </div>
+
+                <CustomFormSelect
+                  control={form.control}
+                  name="category"
+                  options={categories}
+                />
 
                 <CustomRichTextEditor
                   control={form.control}

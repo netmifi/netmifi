@@ -1,4 +1,4 @@
-import CustomFormField from "@/components/Form/CustomFormField";
+import CustomFormField from "@/components/form/CustomFormField";
 import { Form } from "@/components/ui/form";
 import { onlyPasswordFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";

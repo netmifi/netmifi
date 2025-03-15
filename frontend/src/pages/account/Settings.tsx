@@ -1,6 +1,6 @@
-import CustomContactField from "@/components/Form/CustomContactField";
-import CustomFileField from "@/components/Form/CustomFileField";
-import CustomFormField from "@/components/Form/CustomFormField";
+import CustomContactField from "@/components/form/CustomContactField";
+import CustomFileField from "@/components/form/CustomFileField";
+import CustomFormField from "@/components/form/CustomFormField";
 import { Form } from "@/components/ui/form";
 import {
   Accordion,
@@ -23,14 +23,13 @@ import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { Link, useNavigate } from "react-router-dom";
 import Loader from "@/components/Loader";
 import { useApp } from "@/app/app-provider";
-import {  parsePhoneNumber } from "libphonenumber-js";
+import { parsePhoneNumber } from "libphonenumber-js";
 import { useUpdatePassword } from "@/api/hooks/user/useNewPassword";
 import { themeFormSchema } from "../../lib/utils";
 import { useChangeTheme } from "@/api/hooks/user/useChangeTheme";
-import CustomRadioGroup from "@/components/Form/CustomRadioGroup";
+import CustomRadioGroup from "@/components/form/CustomRadioGroup";
 
 const ProfileSection = () => {
-
   const { user } = useApp();
   const mutation = useProfileUpdate();
   const [country, setCountry] = useState<Country>(
@@ -48,7 +47,7 @@ const ProfileSection = () => {
     defaultValues: {
       profile: null,
       cover: null,
-      country: user.country, 
+      country: user.country,
       phone: parsePhoneNumber(user.phone).nationalNumber,
       residentialAddress: user.residentialAddress,
       ...user.handles,
@@ -258,7 +257,7 @@ const PasswordChangeSection = () => {
           className="flex flex-col gap-5"
         >
           {fields.map((field) => (
-            <div className="flex flex-col">
+            <div key={field.name} className="flex flex-col">
               <Button
                 type="button"
                 variant={"transparent"}

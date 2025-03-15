@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "./ui/form";
-import CustomFormField from "./Form/CustomFormField";
+import CustomFormField from "./form/CustomFormField";
 import Rating from "react-rating";
 
 const WriteReviewDialog = ({ child, postId }: RateDialogProps) => {

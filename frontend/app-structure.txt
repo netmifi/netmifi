@@ -1,36 +1,56 @@
 root
 |
 |
-|
-________________________________ assets(folder)
+|________________________________ api(folder)
                                                |
-                                               |_______________________     images(folder)                                    
-                                               |_______________________     fonts(folder)                                    
-                                               |_______________________     icons(folder)                             
-                                               |_______________________     svg(folder)                             
+                                               |_______________________     handlers(folder)  # is for handling response from server such as error, restricted response                        
+                                               |_______________________     hooks(folder) this stores TANSTACK QUERY hooks for each api route e.g UseLogin.ts which should be put into a similar folder                            
+                                               |_______________________     
+                                                                            |_______________________ auth (folder) # for all authentication related hooks, thr folder name should be the same as the name of the vollection of axios functions in the base
+
+                                               |_______________________  auth.ts  #The root directory of the api folder should have a file  that is a collection of axios functions                       
+|
+|________________________________ app(folder) # this folder houses out context provider
+                                               |
+                                               |_______________________ app-provider.tsx                                  
+                                               |_______________________ theme-provider.tsx                                  
+                                                                
+|________________________________ assets(folder)
+                                               |
+                                               |_______________________     images(folder) # all non svg or illustrations ** to be deprecated very soon                                
+                                               |_______________________     fonts(folder) # google fonts                               
+                                               |_______________________     icons(folder) # custom icons                            
+                                               |_______________________     svg(folder)   # svgs and illustrations                          
 |
 |
 |
 ________________________________ components(folder)
                                                |
                                                |_______________________    ui(folder "shadcn ui")                                   
-                                               |_______________________    Page(folder [eg. home(folder)])                                                            
+                                               |_______________________    Page(folder [eg. home(folder)])     # please obey naming convention, reference frontend README file more more info.                                                      
 |
 |
 |
-________________________________ constants(folder)
+________________________________ constants(folder)  #these are non-changing or predefined variables
                                                |
                                                |_______________________     index.ts                                      
+                                               |_______________________     temp.tsx #this houses temporary demo data ** to be deprecated on release                                     
+|
+|
+|
+________________________________ hooks(folder) # this stores hooks not to be used with TANSTACK QUERY or in form
+                                               |
+                                               |_______________________  useAppLoader  #please obey the camel case naming convention                                   
 |
 |
 |
 ________________________________ layouts(folder)
                                                |
-                                               |_______________________     eg. HomeLayout.tsx || Sidebar.tsx                                      
+                                               |_______________________                                        
 |
 |
 |
-________________________________ lib(folder)
+________________________________ lib(folder) #app library for quick functions and schemas
                                                |
                                                |_______________________     utils.ts                                     
 |
@@ -52,6 +72,6 @@ ________________________________ store(folder)
 |
 |
 |
-________________________________ types(folder)
+________________________________ types(folder)  #types definitions ***please do not import into this file
                                                |
                                                |_______________________    index.d.ts                          

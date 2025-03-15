@@ -46,13 +46,13 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 app.use('/uploads/profile/*', express.static(path.join(__dirname, 'uploads', 'profile')));
+app.use(limiter);
 
 // app.get('/', (req, res) => {
 //     console.log(req.cookies);
 //     res.send("hello");
 // })
 
-app.use(limiter);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/instructor', verifyJwt, instructorRoutes);

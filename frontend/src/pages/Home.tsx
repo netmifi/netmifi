@@ -1,7 +1,7 @@
 import { useApp } from "@/app/app-provider";
 import { HomeSvg } from "@/assets/svg";
 import CourseCarousel from "@/components/courses/CourseCarousel";
-import MyCourseCarousel from "@/components/courses/my-courses/MyCourseCarousel";
+import MyCourseCarousel from "@/components/courses/my_courses/MyCourseCarousel";
 import InstructorCard from "@/components/instructors/InstructorCard";
 import Jumbotron from "@/components/Jumbotron";
 import Newsletter from "@/components/Newsletter";
