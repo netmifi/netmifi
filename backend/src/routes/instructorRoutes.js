@@ -8,5 +8,5 @@ const router = express.Router();
 
 router.get("/test", verifyRoles("Instructor"), (req, res) => res.json({ "message": 'hello' }))
 
-router.post("/create", verifyRoles("Instructor"), uploadCourse);
+router.post("/create", verifyRoles("Instructor"), uploadCourse); // new course upload  route
 module.exports = router;

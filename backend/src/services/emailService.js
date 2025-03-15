@@ -1,3 +1,4 @@
+// email service file, this handles the email sending loginc
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 const { verificationCodeTemplate, emailVerifiedTemplate, instructorAcceptedTemplate, emailSubjects, registrationSuccessfulTemplate, passwordChangedTemplate, newsletterActivatedTemplate } = require('../constants/emailTemplates');
@@ -12,7 +13,7 @@ const transporter = nodemailer.createTransport({
         pass: process.env.SMTP_PASS,
     },
     tls: {
-        ciphers: 'SSLv3', // Optional: Try this if you have issues
+        ciphers: 'SSLv3', 
         rejectUnauthorized: false // Use with caution in production, only for testing
       }
 });

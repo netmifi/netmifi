@@ -1,3 +1,6 @@
+// This file checks if user is signed in by checking the jwt cookie
+//  then is updates req.user so any handler with this function has access to user's data
+
 const { queryState } = require('../constants/queryState');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
@@ -34,10 +37,11 @@ const verifyJwt = (req, res, next) => {
                     return;
                 }
                 const user = await User.findOne({ email: decoded?.user?.email });
-                req.user = user;
-                req.roles = user.roles;
+                req.user = user; // user to be part of our requests
+                req.roles = user.roles; // user roles for access level
 
                 if (!cookies.user) {
+                    //  if jwt cookie but no user cookie add it
                     res.cookie('user', JSON.stringify(user), {
                         ...cookieOptions,
                         maxAge: 60 * 60 * 1000 * 24 * 5

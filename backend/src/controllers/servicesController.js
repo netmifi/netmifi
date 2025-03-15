@@ -1,9 +1,11 @@
+// this file handles service business logic like newsletters
+
 const { queryState } = require('../constants/queryState');
 const Newsletter = require('../models/Newsletter');
-// const User = require('../models/Newsletter');
 const { sendEmail } = require('../services/emailService');
 
 const newsletter = async (req, res) => {
+    // this function is for newsletter request
     const { email } = req.body;
     try {
         const user = req.user;

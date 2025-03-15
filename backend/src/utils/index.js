@@ -1,3 +1,4 @@
+// this is for reusable quick functions
 const { randomInt } = require('crypto');
 
 const generateOtp = (state) => {
@@ -35,7 +36,6 @@ const parseSafeUserData = (user) => {
         interests: user.interests,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
-
     }
 
     // const result = withGeneratedCode ? { ...details, generatedCode: { state: user.generatedCode.state, expiresIn: user.generatedCode.expiresIn } } : details

@@ -1,3 +1,12 @@
+//  this is a generalized email html templates for different information
+// TO CREATE A TEMPLATE PLEASE MAKE SURE TO FOLLOW THESE STEPS BELOW
+// _1. the subject of the email which should be the camel case version of the function name neglecting the template 
+    // ____ e.g. Subject:'verification_code'  function verificationCodeTemplate
+// _2. please use the table sequence tags i.e <tr>, <td>, if confusing please copy a template below
+    // Any further reference Go to the services/emailService.js
+
+
+// subject of the email, which is the heading for different templates 
 const emailSubjects = {
     verification_code: "Verification Code",
     email_verified: "Email Verification",
@@ -5,6 +14,7 @@ const emailSubjects = {
     instructor_accepted: "Welcome To Netmifi Legion",
 }
 
+//  verification code template must take a code parameter for display 
 function verificationCodeTemplate(code) {
     return `
         <tr>

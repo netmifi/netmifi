@@ -14,6 +14,8 @@ Navigate to the backend folder, install dependencies, and start the server:
     cd backend
     npm install 
     npm run dev
+3. **Thunder Client**
+   Install the THUNDER CLIENT vscode extension for quick route testing. Just like post man but for local development.
 
 ## Architecture 
 

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 
-// Define Joi validation schema for the user
+// Define Joi validation schema for the user sign up/register
 module.exports.signUpSchema = Joi.object({
     firstName: Joi.string().alphanum().min(3).max(30).trim().required(),
     lastName: Joi.string().alphanum().min(3).max(30).trim().required(),
@@ -12,17 +12,20 @@ module.exports.signUpSchema = Joi.object({
     // pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
 });
 
-
+// schema for login 
 module.exports.signInSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(5).required()
     // .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
 });
+
+// schema for intrest and advert sources
 module.exports.welcomeFormSchema = Joi.object({
     interests: Joi.array().items(Joi.string()).default([]),
     adSources: Joi.array().items(Joi.string()).default([]),
 });
 
+// instructor application validation schema
 module.exports.instructorApplicationSchema = Joi.object({
     fullName: Joi.string().min(3).max(100).trim().required()
         .messages({

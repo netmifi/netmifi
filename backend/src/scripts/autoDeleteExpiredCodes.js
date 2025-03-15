@@ -1,5 +1,7 @@
+
 const User = require('../models/User');
 
+// this function is supposed to delete all generated code for each user's document if the expires in is more than the current time
 async function deleteExpiredCodes() {
     try {
         const result = await User.updateMany(
@@ -19,9 +21,6 @@ async function setupPeriodicDeletion(intervalSeconds = 5) {
     setInterval(deleteExpiredCodes, intervalSeconds * 1000);
     console.log(`Periodic deletion set up successfully. Running every ${intervalSeconds} seconds.`);
 }
-
-
-
 
 module.exports = setupPeriodicDeletion;
 

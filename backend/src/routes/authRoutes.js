@@ -23,16 +23,16 @@ router.get('/test-mail', async (req, res) => {
         });
 });
 
-router.post('/find-code', handleFindVerificationCode);
-router.post('/sign-up', handleSignUp);
-router.post('/sign-in', handleSignIn);
-router.post('/google', handleGoogleAuth);
-router.post('/verify-code', handleVerifyCode);
-router.post('/resend-code', handleResendCode);
-router.put('/interests-adsource', verifyJwt, handleInterestsAndAdSource);
-router.delete('/logout', handleLogout);
-router.post('/mail-code', handleMailGenCode);
-router.put('/change-password', handleChangePassword);
-router.post('/register-instructor', verifyJwt, handleInstructorRegister);
+router.post('/find-code', handleFindVerificationCode); // getting code details (i.e. expires in, state)
+router.post('/sign-up', handleSignUp); // sign up route
+router.post('/sign-in', handleSignIn); // sign in/login route
+router.post('/google', handleGoogleAuth); // google signin route
+router.post('/verify-code', handleVerifyCode);// verify code route
+router.post('/resend-code', handleResendCode); // resend code route
+router.put('/interests-adsource', verifyJwt, handleInterestsAndAdSource); // update users with interests and advert sources from welcome page
+router.delete('/logout', handleLogout); // logout
+router.post('/mail-code', handleMailGenCode); // generate code for forgotten password
+router.put('/change-password', handleChangePassword); // change password from forgotten password
+router.post('/register-instructor', verifyJwt, handleInstructorRegister); // sign up instructor
 
 module.exports = router;  

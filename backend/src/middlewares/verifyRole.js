@@ -1,3 +1,6 @@
+// This file is for checking if user role reaches the required role
+//  ___ this function should only be used after using verifyJwt middleware
+
 const ACCESS_LEVELS = require("../constants/accessLevels");
 const { queryState } = require("../constants/queryState");
 

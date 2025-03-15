@@ -60,7 +60,7 @@ app.use('/services', verifyJwt, servicesRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {
-        autoDeleteExpiredCodes()
+        autoDeleteExpiredCodes();
         app.listen(PORT, () => console.log(`App running on http://localhost:${PORT}`))
     })
     .catch((reason) => console.log(`Database connection error ${reason}`));

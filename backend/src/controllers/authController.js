@@ -1,4 +1,6 @@
-// require('dotenv').config();
+//  THIS FILE IS STRICTLY AUTHENTIFICATION LOGIC
+// this file handles all auth business logic especially those that tamper with the user collection in our database
+
 const { signUpSchema, signInSchema, instructorApplicationSchema } = require('../schemas/authSchema');
 const { queryState } = require('../constants/queryState');
 const User = require('../models/User');
@@ -12,10 +14,11 @@ const ACCESS_LEVELS = require('../constants/accessLevels');
 const { authCookieService } = require('../services/cookieService');
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
-const SALT_ROUNDS = 12;
-const MAX_AGE = 60 * 60 * 5; // this is in milliseconds for 5 days
+const SALT_ROUNDS = 12; // PLEASE DO NOT ALTER
 
 const handleFindVerificationCode = async (req, res) => {
+    // finds verification code and sends what the code is for and the expiration time left upon request from client
+    // NOTE: THIS FUNCTION IS ONLY SHOULD NOT AND NEVER RETURN THE CODE BUT ITS OPTIONS
     try {
         const { id } = req.body;
         const user = await User.findById(id);
@@ -59,6 +62,11 @@ const handleFindVerificationCode = async (req, res) => {
 }
 
 const handleVerifyCode = async (req, res) => {
+    // THIS FUNCTION VERIFIES CODE
+    // # checks if the user that wants to verify exists
+    // # checks if the code exists in the users document that is user.generated code ** refrence User schema for more info **
+    // # checks if code state (i.e. what the code was generated for) is a match
+    // # checks if sent code matches database save code
     try {
         const { id, state, code } = req.body;
 
@@ -133,6 +141,8 @@ const handleVerifyCode = async (req, res) => {
 }
 
 const handleResendCode = async (req, res) => {
+    // this just generates a new code and sends it to the user's email
+    //  then updates the users generated codce to the new one
     try {
         const { state, email } = req.body;
         const user = await User.findOne({ email });
@@ -177,14 +187,17 @@ const handleResendCode = async (req, res) => {
 }
 
 const handleSignUp = async (req, res) => {
+    // this just handles the signup/register logic
     const bodyValues = req.body;
     try {
-        const { error, value } = signUpSchema.validate(bodyValues, { abortEarly: false });
+        const { error, value } = signUpSchema.validate(bodyValues, { abortEarly: false }); // using joi to check if values from client all obey what we want in our schema such as types, length, empty or null, etc ** REF  schema/authSchema for more info**
         const hashedPassword = await bcrypt.hash(bodyValues.password, SALT_ROUNDS);
+
         const existingEmail = await User.findOne({ email: bodyValues.email });
         const existingUsername = await User.findOne({ username: bodyValues.username });
 
         if (error) {
+            // if there was a validation violation of the clients values to the joi standard schema
             res.status(403).json({
                 message: 'errors found',
                 state: queryState.error,
@@ -194,6 +207,7 @@ const handleSignUp = async (req, res) => {
         }
 
         if (existingEmail) {
+            // email must be unoque
             res.status(409).json({
                 message: 'Email already exists',
                 state: queryState.blocked,
@@ -202,6 +216,7 @@ const handleSignUp = async (req, res) => {
             return;
         }
         if (existingUsername) {
+            // username must be unique
             res.status(409).json({
                 message: 'Username already exists',
                 state: queryState.blocked,
@@ -210,8 +225,8 @@ const handleSignUp = async (req, res) => {
             return;
         }
 
-        const generatedCode = generateOtp('verify');
-        sendEmail(bodyValues.email, 'verification_code', generatedCode.code)
+        const generatedCode = generateOtp('verify'); // generate code for user with state verify (which indicates user wants to verify email)
+        sendEmail(bodyValues.email, 'verification_code', generatedCode.code) // send email (send to email, template we want to use, then code tosnd)
             .then(async () => {
                 console.log("emailed");
                 const user = await User.create({ ...value, password: hashedPassword, generatedCode });
@@ -226,8 +241,8 @@ const handleSignUp = async (req, res) => {
                 console.log("user found");
 
 
-                const safeUserData = parseSafeUserData(user);
-                authCookieService(res, user);
+                const safeUserData = parseSafeUserData(user); // send back a safe user data to client ** REF utils/index.js**
+                authCookieService(res, user); // ** REF services/cookieService **
                 res.status(201).json({
                     message: 'user creation successful',
                     state: queryState.success,
@@ -255,9 +270,15 @@ const handleSignUp = async (req, res) => {
 }
 
 const handleInterestsAndAdSource = async (req, res) => {
+    // This function takes the request from the welcome page, its for taking the courses of interests of users and their referral point
+    //  # checks if user exists
+    //  # picks the client's courses of interests and advert sources
+    //  # updates user
+
     try {
         const { interests, adSource } = req.body;
-        // console.log(req.user, interests, adSource)
+
+        // please ** REF middleware/verifyJWT to see req.user** 
         const foundUser = await User.findById(req.user.id);
         if (!foundUser) {
             res.status(404).json({
@@ -274,24 +295,26 @@ const handleInterestsAndAdSource = async (req, res) => {
         const result = await foundUser.save();
         const safeUserData = parseSafeUserData(result);
 
-        const accessToken = jwt.sign({
-            user: result,
-        },
-            accessTokenSecret, {
-            expiresIn: MAX_AGE,
-        });
-        res.cookie('jwt', accessToken, {
-            ...cookieOptions,
-            maxAge: MAX_AGE * 1000,
-        });
+        authCookieService(res, result);
 
-        res.cookie('user', JSON.stringify(safeUserData), {
-            ...cookieOptions,
-            maxAge: MAX_AGE * 1000
-        });
+        // const accessToken = jwt.sign({
+        //     user: result,
+        // },
+        //     accessTokenSecret, {
+        //     expiresIn: MAX_AGE,
+        // });
+        // res.cookie('jwt', accessToken, {
+        //     ...cookieOptions,
+        //     maxAge: MAX_AGE * 1000,
+        // });
+
+        // res.cookie('user', JSON.stringify(safeUserData), {
+        //     ...cookieOptions,
+        //     maxAge: MAX_AGE * 1000
+        // });
 
         res.status(200).json({
-            message: 'update taken',
+            message: 'update success',
             state: queryState.success,
             data: safeUserData,
         });
@@ -305,8 +328,13 @@ const handleInterestsAndAdSource = async (req, res) => {
 }
 
 const handleSignIn = async (req, res) => {
-    const bodyValues = req.body;
+    // this function is for handling signin/login request from client
+    //  # takes signin values and parses then to the joi validation to make sure necessary fields are init
+    //  # checks if the user's email exists 
+    //  # checks if  password matches the HASHED password from the database
+    //  # update authentication cookies
 
+    const bodyValues = req.body;
     try {
         const { error, value } = signInSchema.validate(bodyValues, { abortEarly: false });
         const user = await User.findOne({ email: bodyValues.email });
@@ -339,10 +367,9 @@ const handleSignIn = async (req, res) => {
             });
             return;
         }
+
         authCookieService(res, user);
-
         const safeUserData = parseSafeUserData(user);
-
         res.status(202).json({
             message: 'login successful',
             state: queryState.success,
@@ -360,26 +387,29 @@ const handleSignIn = async (req, res) => {
 }
 
 const handleGoogleAuth = async (req, res) => {
-    try{
-} catch (error) {
-    res.status(405).json({
-        message: error.message,
-        state: queryState.error,
-        data: undefined,
-    });
-    return
-}
+    // this function is intended to handle goggle quick authentication
+    // # get token from google callback
+    // # update users table
+
+    try {
+    } catch (error) {
+        res.status(405).json({
+            message: error.message,
+            state: queryState.error,
+            data: undefined,
+        });
+        return
+    }
 }
 const handleLogout = async (req, res) => {
+    // this function hadles logout requests
+    // here we destroy all authentication cookies
     const cookies = req.cookies;
 
     const clearAllCookies = () => {
         console.log(req.cookies)
         res.clearCookie('user');
         res.clearCookie('jwt');
-        // Object.keys(req.cookies).forEach((cookieName) => {
-        //     res.clearCookie(cookieName);
-        // });
     }
 
     try {
@@ -405,9 +435,6 @@ const handleLogout = async (req, res) => {
             });
             return;
         }
-        // user.refreshToken = '';
-        // const result = await user.save();
-        // console.log(result);
 
         clearAllCookies();
         res.status(205).json({
@@ -426,6 +453,9 @@ const handleLogout = async (req, res) => {
 }
 
 const handleMailGenCode = async (req, res) => {
+    // this function handles code generation for forgotten password requests
+    // # collect user's email and check if it exists in DB
+    // # send email with code generated to this email
     try {
         const { email } = req.body;
         const foundUser = await User.findOne({ email })
@@ -477,6 +507,7 @@ const handleMailGenCode = async (req, res) => {
 }
 
 const handleChangePassword = async (req, res) => {
+    // password change request, updates uses's password with new password
     const { email, password } = req.body;
 
     try {
@@ -502,15 +533,17 @@ const handleChangePassword = async (req, res) => {
         const result = await user.save();
         const safeUserData = parseSafeUserData(result);
 
-        res.cookie('jwt', accessToken, {
-            ...cookieOptions,
-            maxAge: MAX_AGE * 1000,
-        });
+        authCookieService(res, result);
 
-        res.cookie('user', JSON.stringify(safeUserData), {
-            ...cookieOptions,
-            maxAge: MAX_AGE * 1000
-        });
+        // res.cookie('jwt', accessToken, {
+        //     ...cookieOptions,
+        //     maxAge: MAX_AGE * 1000,
+        // });
+
+        // res.cookie('user', JSON.stringify(safeUserData), {
+        //     ...cookieOptions,
+        //     maxAge: MAX_AGE * 1000
+        // });
 
         await sendEmail(email, 'password_changed');
         res.status(202).json({
@@ -529,6 +562,13 @@ const handleChangePassword = async (req, res) => {
 }
 
 const handleInstructorRegister = async (req, res) => {
+    // this handles become and instructor request from client
+    // # validate values with joi 
+    // # checks if user is signed in and is part of our ecosystem 
+    // # checks if phone number exists in db 
+    // # checks if the fullname of the user has at least their first and last name  
+    // #  update users and instructors db with relevant data 
+    // #  send welcome email
     const bodyValues = req.body;
     try {
         const { error, value } = instructorApplicationSchema.validate(bodyValues, { abortEarly: false });
@@ -568,6 +608,7 @@ const handleInstructorRegister = async (req, res) => {
             }); return;
         }
 
+        // checks if full name has first and last name
         const checkNameInclusion = value.fullName.toLowerCase().includes(foundUser.firstName.toLowerCase()) && value.fullName.toLowerCase().includes(foundUser.lastName.toLowerCase());
 
         if (!checkNameInclusion) {
@@ -585,7 +626,7 @@ const handleInstructorRegister = async (req, res) => {
             youtube: value.youtube || '',
             website: value.website || '',
         }
-        
+
         foundUser.handles = handles;
         foundUser.residentialAddress = value.residentialAddress;
         foundUser.country = value.country || '';
@@ -600,7 +641,7 @@ const handleInstructorRegister = async (req, res) => {
             whyInterest: value.whyInterest,
             taughtBefore: value.taughtBefore,
             mentoredPreviously: value.mentoredPreviously,
-            status: 'accepted',
+            status: 'accepted', // status should be pending but for now every instructor is accepted without any admin checks
         });
 
         const user = await foundUser.save();

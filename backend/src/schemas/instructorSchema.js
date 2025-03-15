@@ -1,3 +1,5 @@
+// TODO: to be deprecated
+
 const Joi = require('joi');
 
 const fileValidation = Joi.object({
