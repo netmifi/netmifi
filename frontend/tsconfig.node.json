@@ -8,5 +8,5 @@
     "strict": true,
     "allowJs": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.js"]
 }
