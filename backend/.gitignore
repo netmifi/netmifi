@@ -1,9 +1,6 @@
 node_modules
 .vscode
 .VSCodeCounter
-courses
-cover
-profile
-thumbnail
+src/uploads/*
 .env
 convert-imports.js
