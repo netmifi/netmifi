@@ -24,6 +24,16 @@ export const customButtonDefinitions = {
     "no-pad": "p-0",
   }
 };
+
+export const ROLES_LIST = {
+  "User": 2001,
+  "Blogger": 1984,
+  "Instructor": 1766,
+  "Admin": 5150,
+  "SuperAdmin": 3103,
+  "Overseer": 8439,
+}
+
 // NavLinks
 export const navLinks: NavLinks[] = [
   {
@@ -126,14 +136,36 @@ export const instructorDashboardLinks = [
 
 ];
 
-export const courseSubjects = [
-  { label: "affiliate marketing", thumbnail: AffiliateMarketingSvg },
-  { label: "content creation", thumbnail: AffiliateMarketingSvg },
-  { label: "copy writing", thumbnail: AffiliateMarketingSvg },
-  { label: "digital marketing", thumbnail: AffiliateMarketingSvg },
-  { label: "email copy writing", thumbnail: AffiliateMarketingSvg },
-  { label: "email marketing", thumbnail: AffiliateMarketingSvg },
-  { label: "graphic design", thumbnail: AffiliateMarketingSvg },
-  { label: "technical writing", thumbnail: AffiliateMarketingSvg },
-  { label: "UI/UX design", thumbnail: AffiliateMarketingSvg },
+export const categories = [
+  "article writing",
+  "content creation",
+  "copywriting",
+  "graphics design",
+  "digital marketing",
+  "digital photography",
+  "email marketing",
+  "video editing",
+  "technical writing",
+  "content marketing strategy",
+  "sound editing",
+  "UI/UX design",
+  "videography",
+  "voiceover work",
 ];
+
+// TODO: Add a map to check categories and show in 
+export const courseSubjects = categories.flatMap((category) => {
+  return { label: category, thumbnail: AffiliateMarketingSvg }
+});
+
+// [
+//   { label: "affiliate marketing", thumbnail: AffiliateMarketingSvg },
+//   { label: "content creation", thumbnail: AffiliateMarketingSvg },
+//   { label: "copy writing", thumbnail: AffiliateMarketingSvg },
+//   { label: "digital marketing", thumbnail: AffiliateMarketingSvg },
+//   { label: "email copy writing", thumbnail: AffiliateMarketingSvg },
+//   { label: "email marketing", thumbnail: AffiliateMarketingSvg },
+//   { label: "graphic design", thumbnail: AffiliateMarketingSvg },
+//   { label: "technical writing", thumbnail: AffiliateMarketingSvg },
+//   { label: "UI/UX design", thumbnail: AffiliateMarketingSvg },
+// ];

@@ -20,20 +20,20 @@ const SidebarProfile = ({
   info: string;
 }) => {
   return (
-    <Accordion type="single" collapsible className="md:hidden ">
-      <AccordionItem value={username} className="pb-3">
+    <Accordion type="single" collapsible className="md:hidden">
+      <AccordionItem value={username} className="pb-3 border-none">
         <div className="flex gap-2 items-center">
           <div className="relative">
-            <Link to="/account/profile">
+            {/* className="bg-popover absolute bottom-[10%] right-[0%] shadow-sm rounded-full size-fit z-20 p-0 [&_svg]:text-red" */}
+            <AccordionTrigger className="size-fit p-0 bg-transparent [&_svg]:bg-primary/40 [&_svg]:absolute [&_svg]:right-[0%] [&_svg]:bottom-[10%]  [&[data-state=open]]:bg-transparent [&_svg]:text-popover">
+              {" "}
               <Avatar className="size-fit">
                 <AvatarImage src={profile} className="size-[5rem]" />
                 <AvatarFallback className="size-[5rem] text-5xl">
                   {username.charAt(0)}
                 </AvatarFallback>
               </Avatar>
-            </Link>
-
-            <AccordionTrigger className="bg-popover absolute bottom-[10%] right-[0%] shadow-sm rounded-full size-fit z-20 p-0 [&_svg]:text-red"></AccordionTrigger>
+            </AccordionTrigger>
           </div>
 
           <div className="flex flex-col items-start gap-px">

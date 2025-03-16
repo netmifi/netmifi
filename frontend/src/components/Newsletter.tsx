@@ -9,30 +9,32 @@ import { Button } from "./ui/button";
 import Loader from "./Loader";
 import CustomFormField from "./Form/CustomFormField";
 import { toast } from "sonner";
+import { useNewsletterSignup } from "@/api/hooks/services/useNewsletter";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 
 const Newsletter = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const formSchema = onlyEmailFormSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+  const mutation = useNewsletterSignup();
 
-  const handleSubmit = (email: string) => {
-    setIsLoading(true);
-    console.log(email);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      toast("Subscribed to our newsletter", {
-        duration: 4000,
-        richColors: true,
-        dismissible: true,
-        important: true,
-        description: "We will always keep you updated.",
-        closeButton: true,
-      });
-    }, 500);
+  const handleSubmit = async (email: string) => {
+    try {
+      const { data } = await mutation.mutateAsync({ email });
+      toast.success(
+        "Newsletter activated, we would let you know all updates on our platform.",
+        {
+          duration: 4000,
+          richColors: true,
+          dismissible: true,
+          important: true,
+        }
+      );
+      console.log(data);
+    } catch (error) {
+      mutationErrorHandler(mutation, error);
+    }
   };
   return (
     <section className="w-full padding-x py-10 flex max-md:flex-wrap gap-5 items-center justify-evenly max-md:justify-center">
@@ -58,12 +60,11 @@ const Newsletter = () => {
               control={form.control}
               name="email"
               label="Enter email address"
-              placeholder="eg. johndoe.demo.com"
-              value={" johndoe.demo.com"}
+              placeholder="eg.johndoe.demo.com"
             />
 
-            <Button disabled={isLoading}>
-              {isLoading ? <Loader type="all" /> : "Subscribe"}
+            <Button disabled={mutation.isPending}>
+              {mutation.isPending ? <Loader type="all" /> : "Subscribe"}
             </Button>
           </form>
         </Form>

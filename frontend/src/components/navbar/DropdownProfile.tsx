@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import { profile } from "@/assets/images";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,14 +10,19 @@ import { LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import LogoutModal from "@/components/LogoutModal";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { useApp } from "@/app/app-provider";
 
 const DropdownProfile = () => {
+  const { user } = useApp();
+  // FIXME: The problem of user not being defined on app restart
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center outline-none">
         <Avatar>
-          <AvatarImage src={profile} />
-          <AvatarFallback>A</AvatarFallback>
+          <AvatarImage src={user.profile} />
+          <AvatarFallback className="uppercase bg-primary text-primary-foreground font-bold">
+            {user.firstName ? user.firstName.charAt(0) : ""}
+          </AvatarFallback>
         </Avatar>
 
         {/* <p className="capitalize text-sm hidden md:block">thompson</p> */}

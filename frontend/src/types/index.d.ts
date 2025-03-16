@@ -1,5 +1,5 @@
 declare interface userType {
-  type: 'guest' | 'user' | 'instructor' | 'blogger' | 'admin';
+  type: "guest" | "user" | "instructor" | "blogger" | "admin";
 }
 
 declare interface Comments {
@@ -79,6 +79,7 @@ declare interface Blog {
   comments: Comments;
   date: string;
 }
+
 declare interface PurchasedCourse {
   readonly id: string;
   title: string;
@@ -101,16 +102,32 @@ declare interface PurchasedCourse {
 declare interface Instructor {
   readonly id: string;
   name: string;
-  area: string,
-  profile?: string | null,
-  courses: number,
-  students: number,
-  certificates: number
-  averageRating: number,
-  isFollowing: boolean,
-  isVerified: boolean,
-  date: '3 months ago'
+  area: string;
+  profile?: string | null;
+  courses: number;
+  students: number;
+  certificates: number;
+  averageRating: number;
+  isFollowing: boolean;
+  isVerified: boolean;
+  date: "3 months ago";
 }
+
+declare interface MemberCardProp {
+  className?: string;
+  title: string;
+  titleClassName?: ClassValue;
+  body: string;
+  bodyClassName?: ClassValue;
+  members: Members[];
+}
+
+declare interface Members {
+  name: string;
+  role: string;
+  image: string;
+}
+
 declare interface WindowSize {
   width: number | undefined;
   height: number | undefined;
@@ -144,7 +161,7 @@ declare interface CoursesJumbotronProps {
 declare interface CoursesCardProps extends Course {
   className?: string;
   course: Course;
-  page?: 'dashboard' | 'user';
+  page?: "dashboard" | "user";
 }
 
 declare interface CourseCarouselProps {
@@ -193,15 +210,22 @@ declare interface SelfPageLayoutProps {
   className: string | undefined;
   title: string;
   data: (Blog & Course)[];
-  type: 'blog' | 'course'
+  type: "blog" | "course";
 }
 
+declare interface CourseVideoSectionProps {
+  form?: UseFormReturn<z.infer<typeof form>>;
+  isMoreThanOne: boolean;
+  readonly index: number;
+  readonly id: string;
+  removeField: (key: string) => void
+}
 declare interface CustomFormFieldProps {
-  form?: UseFormReturn<z.infer<typeof form>>
+  form?: UseFormReturn<z.infer<typeof form>>;
   control: Control<z.infer<typeof formSchema>>;
   name: FieldPath<z.infer<typeof formSchema>>;
-  type?: 'textarea' | 'input',
-  textareaType?: 'comment' | 'normal';
+  type?: "textarea" | "input";
+  textareaType?: "comment" | "normal";
   placeholder?: string;
   isPasswordVisible?: boolean;
   inputType?: React.HTMLInputTypeAttribute;
@@ -215,6 +239,7 @@ declare interface CustomFormFieldProps {
   readOnly?: boolean;
   isCurrency?: boolean;
   isOptional?: boolean;
+  parentClassName?: ClassValue;
 }
 
 declare interface CustomFormSelectProps
@@ -223,47 +248,58 @@ declare interface CustomFormSelectProps
   options: string[];
 }
 
-
-declare interface CustomMultiSelectProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+declare interface CustomMultiSelectProps
+  extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   options: string[];
-  variant?: "default" | "secondary" | "destructive" | "inverted" | null | undefined;
+  variant?:
+  | "default"
+  | "secondary"
+  | "destructive"
+  | "inverted"
+  | null
+  | undefined;
   maxCount?: number;
   animation?: number;
   modalPopover?: boolean;
   defaultOptions?: string[];
   className?: string;
 }
-declare interface CustomRadioGroupProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
-  group: { label: string, value: string }[];
+declare interface CustomRadioGroupProps
+  extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+  group: { label: string; value: string }[];
   defaultChecked?: string | number;
   setDetectedValueChange?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-declare interface CountryFormSelect extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+declare interface CountryFormSelect
+  extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   countries: Country[];
 }
 
-declare interface CustomContactFieldProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+declare interface CustomContactFieldProps
+  extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   dialCode?: string;
   setDialCode?: React.Dispatch<React.SetStateAction<string>>;
   setCountry?: React.Dispatch<React.SetStateAction<Country | undefined>>;
 }
 
-declare interface CustomRichTextEditorProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+declare interface CustomRichTextEditorProps
+  extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   config: object;
 }
 
-declare interface CustomFileFieldProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+declare interface CustomFileFieldProps
+  extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   fileRef: UseFormRegisterReturn<z.infer<typeof form>>;
   fileType?: string;
   className?: ClassValue;
+  defaultImg?: string;
 }
-declare interface CustomListFormProps extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
+declare interface CustomListFormProps
+  extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   defaultList?: string[];
   // maxCount?: number;
 }
-
-
 
 declare interface CommentTemplateProps {
   page: "blog" | "course";
@@ -278,7 +314,6 @@ declare interface CommentTemplateProps {
     isVerified: boolean;
   };
 }
-
 
 declare interface CommentProps {
   page: "blog" | "course";
@@ -364,7 +399,6 @@ declare interface CommentOptionsProps {
   isReply: boolean;
 }
 
-
 declare interface JumbotronProps {
   className?: string;
   image: string;
@@ -372,7 +406,7 @@ declare interface JumbotronProps {
   title: string;
   titleClassName?: ClassValue;
   body?: string;
-  bodyClassName?: ClassValue,
+  bodyClassName?: ClassValue;
   button?: JSX.Element;
 }
 
@@ -402,26 +436,26 @@ declare interface CustomElementClickProps {
 
 declare interface ReviewCardProps {
   className: string;
-  name: string; profile: string;
+  name: string;
+  profile: string;
   isVerified: boolean;
   profileUrl?: string;
   review: string;
-  rating: number
+  rating: number;
 }
 
-type RatingTranslation = (
-  "no rating" | //0
-  "very poor" | // 0.5
-  "poor" | // 1
-  "fair" | // 1.5
-  "good" | // 2
-  "very good" | //2.5
-  "average" | // 3
-  "excellent" | // 3.5
-  "outstanding" | // 4
-  "phenomenal" | // 4,5
-  "perfect" // 5
-)
+type RatingTranslation =
+  | "no rating" //0
+  | "very poor" // 0.5
+  | "poor" // 1
+  | "fair" // 1.5
+  | "good" // 2
+  | "very good" //2.5
+  | "average" // 3
+  | "excellent" // 3.5
+  | "outstanding" // 4
+  | "phenomenal" // 4,5
+  | "perfect"; // 5
 
 declare interface RateDialogProps {
   child: React.ReactNode;
@@ -429,7 +463,7 @@ declare interface RateDialogProps {
 
 declare interface MyCourseCardProps {
   className?: ClassValue;
-  type: 'on-page' | 'self-page';
+  type: "on-page" | "self-page";
   course: PurchasedCourse;
 }
 
@@ -447,7 +481,7 @@ declare interface ShareComponentProps {
   url: string;
   title?: string;
   text?: string;
-  files?: File[]
+  files?: File[];
 }
 
 declare interface NavBarProps {
@@ -493,7 +527,7 @@ declare interface HasId {
 }
 
 declare interface DataDisplayToggleProps {
-  className?: ClassValue,
-  display: 'grid' | 'list',
-  setDisplay: React.Dispatch<React.SetStateAction<"list" | "grid">>
+  className?: ClassValue;
+  display: "grid" | "list";
+  setDisplay: React.Dispatch<React.SetStateAction<"list" | "grid">>;
 }

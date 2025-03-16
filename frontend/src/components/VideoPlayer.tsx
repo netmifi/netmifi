@@ -1,5 +1,4 @@
 //  FIXME: fix react player
-import ReactPlayer from "react-player";
 import { useEffect, useRef, useState } from "react";
 import {
   ContextMenu,
@@ -10,7 +9,6 @@ import {
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
@@ -39,6 +37,7 @@ import { FaVolumeHigh } from "react-icons/fa6";
 import { ClassValue } from "clsx";
 import CustomElementClick from "./CustomElementClick";
 import useWindowSize from "@/hooks/useWindowSize";
+import ReactPlayer from "react-player";
 
 type ReactPlayerProps = React.ComponentProps<typeof ReactPlayer>;
 
@@ -77,7 +76,7 @@ const VideoPlayer = ({
 }: VideoPlayerProps) => {
   const videoPlayerRef = useRef<ReactPlayerProps>(null);
   const [currentVideo, setCurrentVideo] = useState(
-    currentCourseVideo || videoUrl || videoCollection[0]
+    (currentCourseVideo || videoCollection[0]) ?? videoUrl
   );
   const [isPreview, setIsPreview] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
