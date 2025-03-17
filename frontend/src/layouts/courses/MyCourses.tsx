@@ -1,4 +1,4 @@
-import MyCourseCard from "@/components/courses/my-courses/MyCourseCard";
+import MyCourseCard from "@/components/courses/my_courses/MyCourseCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { tempPurchasedCourses as purchasedCourses } from "@/constants/temp";
 import {
@@ -96,10 +96,7 @@ const MyCourses = () => {
                           course.collection?.some((item) => collection === item)
                         )
                         .map((course) => (
-                            <MyCourseCard
-                              course={course}
-                              type="self-page"
-                            />
+                          <MyCourseCard course={course} type="self-page" />
                         )) || (
                         <h3 className="text-lg text-center text-accent-foreground opacity-90">
                           No course on this collection

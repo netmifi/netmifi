@@ -3,9 +3,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
-import { useCheckUserAuth } from "../api/hooks/useCheckUserAuth";
+import { useCheckUserAuth } from "../api/hooks/user/useCheckUserAuth";
 
 interface AppProviderProps {
+  isAppLoading: boolean;
+  setIsAppLoading: (state: boolean) => void;
   user: any;
   setUser: (user: any) => void;
   isAuth: boolean;
@@ -19,13 +21,15 @@ interface AppProviderProps {
     rate: number;
   };
   setCourseUploadProgress: (state: {
-    progress: number,
-    elapsedTime: number,
-    rate: number,
+    progress: number;
+    elapsedTime: number;
+    rate: number;
   }) => void;
 }
 
 const initialState = {
+  isAppLoading: false,
+  setIsAppLoading: () => {},
   user: null,
   setUser: () => {},
   isAuth: false,
@@ -49,19 +53,18 @@ export function AppProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<any>(
-    JSON.parse((Cookies.get("user") as string) ?? JSON.stringify("")) || null
-  );
-  const [cartItems, setCartItems] = useState<any[]>([]);
-  // user !== null ? Object.keys(user).length > 0 : 
+  const [isAppLoading, setIsAppLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    const cookieUser = Cookies.get("user");
+    return cookieUser ? JSON.parse(cookieUser) : null;
+  });
   const [isAuth, setIsAuth] = useState(false);
+  const [cartItems, setCartItems] = useState<any[]>([]);
   const [courseUploadProgress, setCourseUploadProgress] = useState({
     progress: 0,
     elapsedTime: 0,
     rate: 0,
   });
-
-  // const checkUser = useCheckUserAuth();
 
   const handleAddToCart = (course: Course) => {
     if (cartItems.find((item) => item.id === course.id))
@@ -72,72 +75,32 @@ export function AppProvider({
   };
 
   useEffect(() => {
-    return () => {
-      if (Cookies.get("user") && Cookies.get("jwt")) {
-        const cookieUser = Cookies.get("user");
-
-        if (cookieUser) {
-          localStorage.setItem("user", cookieUser);
-          setUser(JSON.parse(cookieUser));
-        }
-      } else if (!Cookies.get("jwt")) {
-        Cookies.remove("user");
-        localStorage.removeItem("user");
+    if (Cookies.get("user") && Cookies.get("jwt")) {
+      const cookieUser = Cookies.get("user");
+      if (cookieUser) {
+        localStorage.setItem("user", cookieUser);
+        setUser(JSON.parse(cookieUser));
       }
-    };
-  }, []);
-  useEffect(() => {
-    return () => {
-      console.log(Cookies.get())
-      if (Cookies.get("user") && Cookies.get("jwt")) {
-        // const cookieUser = Cookies.get("user");
-
+    } else if (!Cookies.get("jwt")) {
+      Cookies.remove("user");
+      localStorage.removeItem("user");
     }
-    };
+    // Authentication check finished
+    setIsAppLoading(false);
   }, []);
 
   useEffect(() => {
-    return () => {
-      if (user) {
-        console.log(Object.keys(user).length > 0);
-        setIsAuth(true);
-        localStorage.setItem("user", JSON.stringify(user));
-        // console.log(user);
-      } else {
-        // setIsAuth(false);
-        console.log('no user');
-        // localStorage.removeItem("user");
-      }
-    };
+    if (user) {
+      setIsAuth(true);
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      setIsAuth(false);
+    }
   }, [user]);
 
-  // useEffect(() => {
-  //   const checkCookieAndUpdate = () => {
-  //     const userCookie = Cookies.get('user');
-  //     if (userCookie) {
-  //       checkUser.mutate();
-  //     }
-  //   };
-
-  //   checkCookieAndUpdate();
-  //   const intervalId = setInterval(() => {
-  //     console.log('update')
-  //     checkCookieAndUpdate();
-  //   }, 2 * 60 * 1000);
-
-  //   return () => clearInterval(intervalId);
-  // }, [checkUser]);
-
-  // const { data: checkAuthData, error: checkAuthError } = useCheckUserAuth();
-
-  // console.log(checkAuthData, checkAuthError);
-
-  // if (checkAuthData && !checkAuthError) {
-  //   setIsAuth(true);
-  //   setUser(checkAuthData);
-  // }
-
   const value = {
+    isAppLoading,
+    setIsAppLoading,
     user,
     setUser,
     isAuth,

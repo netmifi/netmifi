@@ -91,7 +91,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CustomFormField from "./Form/CustomFormField";
+import CustomFormField from "./form/CustomFormField";
 import Loader from "./Loader";
 // import usePrivateAxios from "@/hooks/usePrivateAxios";
 // import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -103,20 +103,20 @@ export function CustomTooltip({
   hoverLabel,
 }: CustomTableTooltipProps) {
   return (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span
-            className="bg-transparent border-none p-0 hover:bg-transparent hover:cursor-pointer"
-            // variant="outline"
-            onClick={onClick ?? undefined}
-          >
-            {children}
-          </span>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{hoverLabel}</p>
-        </TooltipContent>
-      </Tooltip>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span
+          className="bg-transparent border-none p-0 hover:bg-transparent hover:cursor-pointer"
+          // variant="outline"
+          onClick={onClick ?? undefined}
+        >
+          {children}
+        </span>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{hoverLabel}</p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
 interface DataTableProps<TableData extends HasId> {
@@ -717,7 +717,7 @@ export default function CustomTable<TableData extends HasId>({
                     <PaginationPrevious onClick={() => table.previousPage()} />
                   </Button>
                 </PaginationItem>
-               {/* FIXME: fix pagination wrapping issues */}
+                {/* FIXME: fix pagination wrapping issues */}
                 <PaginationItem className="justify-center items-center max-w-[80%] overflow-x-auto">
                   {/* <div className="flex max-w-full overflow-x-auto"> */}
                   {Array.from(

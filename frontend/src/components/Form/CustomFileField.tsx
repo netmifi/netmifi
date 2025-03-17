@@ -25,6 +25,8 @@ const CustomFileField = ({
   fileRef,
   fileType = "*",
   className = "",
+  parentClassName = "",
+  defaultImg = "",
 }: CustomFileFieldProps) => {
   const [selectedFile, setSelectedFile] = useState<FileList | undefined | any>(
     ""
@@ -34,7 +36,7 @@ const CustomFileField = ({
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log('new',file);
+    console.log("new", file);
     if (file) {
       previewImageRef.current.src = URL.createObjectURL(file);
       setSelectedFile(file);
@@ -47,7 +49,7 @@ const CustomFileField = ({
       defaultValue={defaultValue}
       disabled={disabled}
       render={() => (
-        <FormItem className="" hidden={hidden}>
+        <FormItem className={cn(parentClassName)} hidden={hidden}>
           <div className="flex flex-col gap-2">
             {!isNotLabeled && (
               <FormLabel className="capitalize flex gap-1">
@@ -80,6 +82,7 @@ const CustomFileField = ({
               </span>
 
               <img
+                src={defaultImg ?? ""}
                 ref={previewImageRef}
                 className={cn("object-contain h-full w-full", {
                   hidden:

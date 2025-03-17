@@ -37,7 +37,6 @@ import TestPage from "./pages/TestPage";
 // import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
 
 import InstructorDashboard from "./pages/instructor_dashboard/Dashboard";
-import { AppProvider } from "./app/app-provider";
 import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
 import MyEarnings from "./pages/instructor_dashboard/MyEarnings";
 import Students from "./pages/instructor_dashboard/Students";
@@ -46,20 +45,26 @@ import Followers from "./pages/instructor_dashboard/Followers";
 import DashboardCourses from "./pages/instructor_dashboard/Courses";
 import CreateCourse from "./pages/instructor_dashboard/CreateCourse";
 import ResetScroll from "./components/ResetScroll";
+import RequireAuth from "./components/RequireAuth";
+import AppLoading from "./components/AppLoading";
+import { PageProgressStart } from "./layouts/RouterProgress";
+import LayoutWithProgress from "./layouts/LayoutWithProgress";
 
 const App = () => {
   return (
-    <AppProvider>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <Router>
-      <ResetScroll />
-          <Routes>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <Router>
+        <ResetScroll />
+        <AppLoading />
+        <PageProgressStart />
+        <Routes>
+          <Route element={<LayoutWithProgress />}>
             {/* AUTH ROUTES */}
             <Route path="/auth" element={<AuthOutletLayout />}>
               <Route path="sign-in" element={<SignIn />} />
               <Route path="sign-up" element={<SignUp />} />
               <Route path="otp-verification" element={<OTPVerification />} />
-              {/* <Route path="verification-type" element={<OTPVerification />} /> */}
+
               <Route path="forgot-password" element={<ForgotPassword />}>
                 <Route path="via-email" element={<ViaEmail />} />
                 <Route path="new-password" element={<NewPassword />} />
@@ -78,9 +83,7 @@ const App = () => {
 
             <Route path="/" element={<AppOutletLayout />}>
               <Route path="home" element={<Home />} />
-
               <Route path="contact" element={<Contact />} />
-
               {/* COURSES ROUTE */}
               <Route path="courses" element={<Courses />}>
                 <Route path="top" element={<TopCourses page="self" />} />
@@ -91,7 +94,6 @@ const App = () => {
               </Route>
 
               {/* COURSES ROUTE */}
-
               <Route path="pricing" element={<h1>Pricing</h1>} />
 
               {/* BLOGS ROUTE */}
@@ -117,45 +119,44 @@ const App = () => {
                 element={<h1>Recent Courses</h1>}
               />
 
-              {/* HELP ROUTE */}
               <Route path="/help" element={<Help />} />
               <Route path="/t&c" element={<TestPage />} />
               <Route path="/test" element={<TestPage />} />
-
-              <Route path="/account/profile" element={<Profile />} />
-              <Route path="/account/settings" element={<Settings />} />
-
-              {/* FEEDBACK ROUTE */}
               <Route path="/feedback" element={<Feedback />} />
-              {/* INSTRUCTOR DASHBOARD ROUTES */}
-              <Route
-                path="dashboard"
-                element={<InstructorDashboardOutletLayout />}
-              >
-                <Route path="home" element={<InstructorDashboard />} />
-                <Route path="home/students" element={<Students />} />
-                <Route
-                  path="home/certified-students"
-                  element={<CertifiedStudents />}
-                />
-                <Route path="home/followers" element={<Followers />} />
-                <Route path="home/courses" element={<DashboardCourses />} />
-                <Route path="my-earnings" element={<MyEarnings />} />
-                <Route path="create" element={<CreateCourse />} />
-              </Route>
-
-              {/* ABOUT ROUTE */}
               <Route path="about" element={<About />} />
+
+              {/* Protected Routes */}
+              <Route element={<RequireAuth />}>
+                <Route path="/account/profile" element={<Profile />} />
+                <Route path="/account/settings" element={<Settings />} />
+
+                {/* INSTRUCTOR DASHBOARD ROUTES */}
+                <Route
+                  path="dashboard"
+                  element={<InstructorDashboardOutletLayout />}
+                >
+                  <Route path="home" element={<InstructorDashboard />} />
+                  <Route path="home/students" element={<Students />} />
+                  <Route
+                    path="home/certified-students"
+                    element={<CertifiedStudents />}
+                  />
+                  <Route path="home/followers" element={<Followers />} />
+                  <Route path="home/courses" element={<DashboardCourses />} />
+                  <Route path="my-earnings" element={<MyEarnings />} />
+                  <Route path="create" element={<CreateCourse />} />
+                </Route>
+              </Route>
 
               {/* 404 page ROUTES */}
               <Route path="*" element={<NotFound />} />
               <Route path="404" element={<NotFound />} />
             </Route>
-          </Routes>
-          <Toaster />
-        </Router>
-      </ThemeProvider>
-    </AppProvider>
+          </Route>
+        </Routes>
+        <Toaster />
+      </Router>
+    </ThemeProvider>
   );
 };
 

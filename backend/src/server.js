@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const instructorRoutes = require('./routes/instructorRoutes');
-const newsletterRoutes = require('./routes/newsletterRoutes');
+const servicesRoutes = require('./routes/servicesRoutes');
 const limiter = require('./middlewares/limiter');
 const corsOptions = require('./config/corsOptions');
 const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
@@ -45,18 +45,18 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 
-// app.use('/uploads/*', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads/profile/*', express.static(path.join(__dirname, 'uploads', 'profile')));
+app.use(limiter);
 
 // app.get('/', (req, res) => {
 //     console.log(req.cookies);
 //     res.send("hello");
 // })
 
-app.use(limiter);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/instructor', verifyJwt, instructorRoutes);
-app.use('/newsletter', verifyJwt, newsletterRoutes);
+app.use('/services', verifyJwt, servicesRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {

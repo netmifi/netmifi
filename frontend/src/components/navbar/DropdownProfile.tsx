@@ -14,13 +14,14 @@ import { useApp } from "@/app/app-provider";
 
 const DropdownProfile = () => {
   const { user } = useApp();
+  // FIXME: The problem of user not being defined on app restart
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center outline-none">
         <Avatar>
           <AvatarImage src={user.profile} />
-          <AvatarFallback className="uppercase text-red font-bold">
-            {user.firstName.charAt(0)}
+          <AvatarFallback className="uppercase bg-primary text-primary-foreground font-bold">
+            {user.firstName ? user.firstName.charAt(0) : ""}
           </AvatarFallback>
         </Avatar>
 

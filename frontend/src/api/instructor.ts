@@ -1,15 +1,13 @@
-import axios from "./axios";
+import instance from "./instance";
 
 const timeout = 30 * 60 * 1000; //30 minutes in milliseconds
 export const createCourse = async (credentials: unknown, onUploadProgress: ({ progress, elapsedTime, rate }: { progress: number, elapsedTime: number, rate: number }) => void) => {
     const startTime = Date.now();
 
-    const response = await axios.post("/instructor/create", credentials, {
+    const response = await instance.post("/instructor/create", credentials, {
         timeout,
         headers: {
             "Content-Type": "multipart/form-data",
-            // "Content-Type": "application/json",
-            // toJSON: true
         },
         onUploadProgress: (event) => {
             const uploadedBytes = event.loaded;

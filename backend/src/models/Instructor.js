@@ -31,9 +31,5 @@ const instructorSchema = new Schema({
         type: String,
         default: "no",
     },
-    about: {
-        type: String,
-        default: "",
-    },
 }, { timestamps: true });
 module.exports = mongoose.model('Instructor', instructorSchema);

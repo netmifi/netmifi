@@ -1,13 +1,13 @@
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { useInstructorRegister } from "@/api/hooks/useInstructorRegister";
+import { useInstructorRegister } from "@/api/hooks/auth/useInstructorRegister";
 import { useApp } from "@/app/app-provider";
-import CountryFormSelect from "@/components/Form/CountryFormSelect";
-import CustomContactField from "@/components/Form/CustomContactField";
-import CustomDatePicker from "@/components/Form/CustomDatePicker";
-import CustomFormField from "@/components/Form/CustomFormField";
-import CustomFormSelect from "@/components/Form/CustomFormSelect";
-import CustomMultiSelect from "@/components/Form/CustomMultiSelect";
-import CustomRadioGroup from "@/components/Form/CustomRadioGroup";
+import CountryFormSelect from "@/components/form/CountryFormSelect";
+import CustomContactField from "@/components/form/CustomContactField";
+import CustomDatePicker from "@/components/form/CustomDatePicker";
+import CustomFormField from "@/components/form/CustomFormField";
+import CustomFormSelect from "@/components/form/CustomFormSelect";
+import CustomMultiSelect from "@/components/form/CustomMultiSelect";
+import CustomRadioGroup from "@/components/form/CustomRadioGroup";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -54,7 +54,7 @@ const SignInstructor = () => {
     },
   });
   const navigate = useNavigate();
-  
+
   const radioGroupData = [
     {
       label: "yes",

@@ -11,7 +11,7 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { LogOutIcon } from "lucide-react";
-import { useLogout } from "@/api/hooks/useLogout";
+import { useLogout } from "@/api/hooks/auth/useLogout";
 import { useApp } from "@/app/app-provider";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";

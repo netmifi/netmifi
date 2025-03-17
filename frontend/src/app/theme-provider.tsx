@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useApp } from "./app-provider";
 
 type Theme = "dark" | "light" | "system";
 
@@ -30,6 +31,8 @@ export function ThemeProvider({
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   );
 
+  const { user } = useApp();
+
   useEffect(() => {
     const root = window.document.documentElement;
 
@@ -47,6 +50,13 @@ export function ThemeProvider({
 
     root.classList.add(theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (user && user.theme) {
+      localStorage.setItem(storageKey, user.theme);
+      user.theme !== theme && setTheme(user.theme);
+    }
+  }, [storageKey, theme, user]);
 
   const value = {
     theme,

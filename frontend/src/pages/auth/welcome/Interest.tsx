@@ -1,5 +1,5 @@
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { useIntrestAdSource } from "@/api/hooks/useInterestAdSource";
+import { useIntrestAdSource } from "@/api/hooks/auth/useInterestAdSource";
 import { useApp } from "@/app/app-provider";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";

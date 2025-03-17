@@ -239,6 +239,7 @@ declare interface CustomFormFieldProps {
   readOnly?: boolean;
   isCurrency?: boolean;
   isOptional?: boolean;
+  parentClassName?: ClassValue;
 }
 
 declare interface CustomFormSelectProps
@@ -292,6 +293,7 @@ declare interface CustomFileFieldProps
   fileRef: UseFormRegisterReturn<z.infer<typeof form>>;
   fileType?: string;
   className?: ClassValue;
+  defaultImg?: string;
 }
 declare interface CustomListFormProps
   extends Omit<CustomFormFieldProps, "isPasswordVisible"> {

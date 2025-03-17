@@ -114,7 +114,7 @@ const About = () => {
           </p>
         </div>
       </section>
-
+{/* 
       <MemberCard
         title="Meet Our Team"
         body="Meet our team of innovators who drive our missions and vision forward."
@@ -123,7 +123,7 @@ const About = () => {
           { name: "Okenwa Victor", role: "CTO", image: Pic4Svg },
           { name: "Emmanuel Chukwu", role: "COO", image: Pic3Svg },
         ]}
-      />
+      /> */}
       <MemberCard
         title="Meet Our Instructors"
         body="Over 400 industry professionals from content creation hottest companies are our instructors"

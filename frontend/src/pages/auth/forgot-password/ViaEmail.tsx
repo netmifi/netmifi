@@ -1,7 +1,7 @@
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { useMailGenCode } from "@/api/hooks/useMailGenCode";
+import { useMailGenCode } from "@/api/hooks/auth/useMailGenCode";
 import { useApp } from "@/app/app-provider";
-import CustomFormField from "@/components/Form/CustomFormField";
+import CustomFormField from "@/components/form/CustomFormField";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";

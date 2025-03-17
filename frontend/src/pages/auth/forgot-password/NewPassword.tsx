@@ -1,4 +1,4 @@
-import CustomFormField from "@/components/Form/CustomFormField";
+import CustomFormField from "@/components/form/CustomFormField";
 import { Form } from "@/components/ui/form";
 import { onlyPasswordFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import Loader from "@/components/Loader";
-import { useChangePassword } from "@/api/hooks/useChangePassword";
+import { useChangePassword } from "@/api/hooks/auth/useChangePassword";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { useApp } from "@/app/app-provider";
 

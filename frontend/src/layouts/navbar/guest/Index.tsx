@@ -3,31 +3,29 @@ import NavSearch from "@/components/navbar/NavSearch";
 import { Button } from "@/components/ui/button";
 import { navLinks } from "@/constants";
 import { cn } from "@/lib/utils";
-import { useStoreActions, useStoreState } from "@/store/store";
+import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 const GuestNavbar = () => {
-  const navState = useStoreState((state) => state.nav.navState);
-  const setNavState = useStoreActions((action) => action.nav.set);
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="sticky top-0 z-30 bg-popover flex justify-between items-center padding-x py-3 shadow-sm max-sm:gap-1">
       <CustomLogo className="w-[2em] sm:w-[10em]" logoScreenSize="sm" />
       <div
         className={cn(
           "h-full max-md:w-full max-md:fixed max-md:top-0 max-md:left-0 max-md:transition-all z-10",
-          { "max-md:hidden": !navState }
+          { "max-md:hidden": !isOpen }
         )}
       >
         <div
           className="md:hidden absolute bg-custom-transparent-black w-full h-full left-0 top-0 px-1 -z-10"
-          onClick={() => setNavState(false)}
+          onClick={() => setIsOpen(false)}
         ></div>
         <div className="h-full max-md:w-[250px] max-md:flex max-md:flex-col max-md:gap-5 max-md:bg-background max-md:p-3">
           <Button
             className="md:hidden bg-transparent text-low-contrast border ml-auto hover:text-secondary"
-            onClick={() => setNavState(false)}
+            onClick={() => setIsOpen(false)}
           >
             <FaTimes />
           </Button>
@@ -88,7 +86,7 @@ const GuestNavbar = () => {
       </div>
 
       <Button
-        onClick={() => setNavState(true)}
+        onClick={() => setIsOpen(true)}
         className="size-fit p-2 md:hidden bg-transparent text-low-contrast text-lg rounded-full hover:bg-primary-foreground [&_svg]:size-5"
       >
         <FaBars />

@@ -84,7 +84,7 @@ const AuthOutletLayout = () => {
               )}
             </div>
 
-            <aside className="bg-low-red max-xl:hidden basis-[40%] padding-x flex flex-col min-h-screen flex-grow">
+            <aside className="bg-low-red max-lg:hidden basis-[40%] padding-x flex flex-col min-h-screen flex-grow">
               <div className="flex flex-col mt-auto">
                 <img
                   src={checkPathRootPath() ? logo : GetStartedSvg}

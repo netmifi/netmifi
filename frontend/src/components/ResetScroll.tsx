@@ -5,10 +5,13 @@ function ResetScroll() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-    window.scrollTo(0, 0);
+    // alert('You are on:'+)
+    // if ("scrollRestoration" in window.history) {
+    //   window.history.scrollRestoration = "manual";
+    // }
+    console.log(window.history);
+    window.scrollTo({ behavior: "instant", top: 20000, left: 3000 });
+    
   }, [pathname]);
 
   return null;

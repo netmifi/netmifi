@@ -1,6 +1,6 @@
 import { useStoreActions, useStoreState } from "@/store/store";
 import { instructorDashboardLinks, navLinks } from "@/constants";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FaTimes, FaUsers } from "react-icons/fa";
@@ -32,11 +32,13 @@ import {
   SidebarMenuSkeleton,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
-import React from "react";
+import React, { useEffect } from "react";
 import { CustomLogo } from "@/components/CustomLogo";
 import SidebarProfile from "@/components/navbar/SidebarProfile";
 import { aboutHero } from "@/assets/images";
+import { useApp } from "@/app/app-provider";
 
 export const NavSkeleton = () => {
   return (
@@ -52,6 +54,20 @@ export const NavSkeleton = () => {
 
 const AppSidebar = ({ state }: { state: userType["type"] }) => {
   const links = state === "instructor" ? instructorDashboardLinks : navLinks;
+  const { user } = useApp();
+
+  const fullName = user.firstName + " " + user.lastName;
+
+  const { pathname } = useLocation();
+
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  useEffect(() => {
+    if (pathname) {
+      if (isMobile) setOpenMobile(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return (
     <Sidebar className="flex-shrink-0 w-64 transition-all duration-300 ease-in-out">
@@ -65,8 +81,8 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
       <SidebarContent>
         <SidebarGroup>
           <SidebarProfile
-            username="victony darey"
-            info="fullstack developer"
+            username={fullName}
+            info={"@" + user.username}
             profile={aboutHero}
           />
         </SidebarGroup>
@@ -133,7 +149,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                 <SidebarMenu className="pl-4 gap-4">
                   <SidebarMenuItem>
                     <NavLink
-                      to={"/settings"}
+                      to={"/account/settings"}
                       className={({ isActive, isPending }) =>
                         isPending
                           ? "pending"
