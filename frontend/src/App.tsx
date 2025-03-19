@@ -13,7 +13,7 @@ const App = () => {
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <Router>
           <Routes>
-              <Route path="index" element={<Home />} />
+              <Route path="/" element={<Home />} />
               <Route path="home" element={<Home />} />
               <Route path="community" element={<Community />} />
               <Route path="*" element={<NotFound />} />

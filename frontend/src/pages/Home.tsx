@@ -1,28 +1,90 @@
 import { useState } from "react";
-import { AiFillCheckCircle, AiFillHome } from "react-icons/ai";
+import { AiFillCheckCircle } from "react-icons/ai";
 import { FaTimes } from "react-icons/fa"; // Cancel icon
 import { FaRegCheckCircle } from "react-icons/fa"; // Done (red) button icon
-import { FaPeopleGroup } from "react-icons/fa6";
-import Logo from "../assets/images/netmifi_logo.svg";
-import { Menu, X } from "lucide-react";
 import NavWaitlist from "@/components/navbar/NavbarWaitlist";
+import { useNavigate } from "react-router-dom";
+import { updateWaitlistSchema } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { useMutation } from "@tanstack/react-query";
 
 const Home = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const mutation = useMutation({
+    mutationFn: async (formData) => {
+      const response = await fetch("http://localhost:3000/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Object.fromEntries(formData.entries())),
+      });
 
-  const handleAdd = async (e) => {
-    e.preventDefault();
-    // Simulate a successful form submission
-    try {
-      // Show the modal on success
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      return await response.json();
+    },
+    onSuccess: () => {
       setIsModalOpen(true);
-    } catch (err) {
-      alert("Error enlisting. Please try again.");
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+    },
+  });
+
+  const formSchema = updateWaitlistSchema();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      name: "",
+    },
+  });
+
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log("Form submitted! Raw values:", values); // Log raw form values
+
+    try {
+      // Remove empty values
+      const cleanedValues = Object.fromEntries(
+        Object.entries(values).filter(([_, v]) => v != null && v !== "")
+      );
+      console.log("Cleaned values (filtered null/empty):", cleanedValues);
+
+      // Create FormData object
+      const formData = new FormData();
+      if (cleanedValues.email) {
+        formData.append("email", cleanedValues.email as string);
+      }
+      if (cleanedValues.name) {
+        formData.append("name", cleanedValues.name as string);
+      }
+
+      console.log(
+        "Final FormData object:",
+        Object.fromEntries(formData.entries())
+      );
+
+      // Trigger the mutation
+      console.log("Calling mutation...");
+      await mutation.mutateAsync(formData);
+      console.log("Mutation successful!");
+    } catch (error) {
+      console.error("Mutation error:", error);
+      mutationErrorHandler(mutation, error);
     }
   };
 
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const closeModal = () => {
     setIsModalOpen(false);
+    navigate("/community");
   };
 
   return (
@@ -31,7 +93,7 @@ const Home = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
-          <div className="bg-white rounded-xl p-6 w-[70%] md:w-[25%] space-y-5">
+          <div className="bg-white rounded-xl p-6 w-[70%] lg:w-[25%] space-y-5">
             {/* Modal Header with Close Icon */}
             <div className="flex justify-end">
               <button
@@ -70,44 +132,7 @@ const Home = () => {
           </div>
         </div>
       )}
-      <NavWaitlist/>
-      {/* <div className="justify-between bg-white hidden lg:flex lg:h-80px lg:w-[833px] lg:px-[105px] lg:py-[30px] rounded-3xl ring-[0.3px] fixed top-[43px] left-[49px]">
-        <div className="w-[133px] h-[39px]">
-          <img src={Logo} alt="Logo netmifi" />
-        </div>
-
-        <div className="flex gap-4 items-center">
-          <div className="flex items-center gap-2 ">
-            <AiFillHome fill="#000000" size={20} />
-            <a href="/home">Home</a>
-          </div>
-          <div className="flex items-center gap-2 w-[135px] h-[26px]">
-            <FaPeopleGroup size={20} />
-            <a href="/community">Community</a>
-          </div>
-        </div>
-      </div>
-      <div className="bg-white lg:hidden w-full lg:px-[105px] px-10 py-[30px] lg:ring-[0.3px] fixed space-y-4 ">
-        <div className="justify-between flex r">
-          <div className="w-[133px] h-[39px]">
-            <img src={Logo} alt="Logo netmifi" />
-          </div>
-
-          <div className="flex gap-4 items-center">
-            <Menu /> <X />
-          </div>
-        </div>
-        <div>
-          <div className="flex items-center gap-2 ">
-            <AiFillHome fill="#000000" size={20} />
-            <a href="/home">Home</a>
-          </div>
-          <div className="flex items-center gap-2 w-[135px] h-[26px]">
-            <FaPeopleGroup size={20} />
-            <a href="/community">Community</a>
-          </div>
-        </div>
-      </div> */}
+      <NavWaitlist />
       <div className="mt-36 lg:mt-56 flex justify-center lg:space-x-10">
         <div className="lg:flex flex-col hidden justify-between py-10 text-white h-[60vh]">
           <div className="bg-[#1DA1F2] px-2 text-center rounded-lg text-lg -skew-x-[9.62deg] skew-y-[9.62deg]">
@@ -128,14 +153,18 @@ const Home = () => {
             among the first to try it out and shape the future of edtech.
           </p>
 
-          <form onSubmit={handleAdd} className="lg:w-[534px] w-full space-y-5">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="lg:w-[534px] w-full space-y-5"
+          >
             <p className="font-bold text-xl">JOIN OUR WAITLIST</p>
             <div className="px-5 flex flex-col py-2 ring-[1px] ring-black rounded-xl hover:ring-[#9E0000]">
-              <label className="md:text-sm text-[#CE2600]" htmlFor="name">
+              <label className="lg:text-sm text-[#CE2600]" htmlFor="name">
                 Full name
               </label>
               <input
-                className="outline-none text-base text-[#1A0F28] "
+                {...form.register("name")}
+                className="outline-none text-base text-[#1A0F28]"
                 type="text"
                 name="name"
                 id="name"
@@ -144,10 +173,11 @@ const Home = () => {
               />
             </div>
             <div className="px-5 flex flex-col py-2 ring-[1px] ring-black rounded-xl hover:ring-[#9E0000]">
-              <label className="md:text-sm text-[#CE2600]" htmlFor="name">
+              <label className="lg:text-sm text-[#CE2600]" htmlFor="name">
                 Email
               </label>
               <input
+                {...form.register("email")}
                 className="outline-none text-base text-[#1A0F28]"
                 type="email"
                 name="email"

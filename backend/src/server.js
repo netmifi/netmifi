@@ -6,10 +6,11 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-const instructorRoutes = require('./routes/instructorRoutes');
+// const authRoutes = require('./routes/authRoutes');
+// const userRoutes = require('./routes/userRoutes');
+// const instructorRoutes = require('./routes/instructorRoutes');
 const servicesRoutes = require('./routes/servicesRoutes');
+const waitlistRoutes = require('./routes/waitlistRoutes')
 const limiter = require('./middlewares/limiter');
 const corsOptions = require('./config/corsOptions');
 const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
@@ -17,7 +18,7 @@ const path = require('path');
 const verifyJwt = require('./middlewares/verifyJwt');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const dbURI = process.env.DATABASE_URI || '';
+const dbURI = process.env.DATABASE_URI || 'mongodb://localhost:27017/netmifi';
 const stageEnv = process.env.NODE_ENV;
 
 app.use(cors(corsOptions));
@@ -53,10 +54,11 @@ app.use('/uploads/profile/*', express.static(path.join(__dirname, 'uploads', 'pr
 // })
 
 app.use(limiter);
-app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
-app.use('/instructor', verifyJwt, instructorRoutes);
+// app.use('/auth', authRoutes);
+// app.use('/user', userRoutes);
+// app.use('/instructor', verifyJwt, instructorRoutes);
 app.use('/services', verifyJwt, servicesRoutes);
+app.use('/waitlist', waitlistRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {
