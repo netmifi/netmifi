@@ -8,6 +8,7 @@ import { Button } from "../ui/button";
 import { GoogleIconSvg } from "@/assets/svg";
 
 const GoogleAuth = () => {
+  // google authentication button
   const mutate = useGoogleAuth();
   const googleLogin = useGoogleLogin({
     onSuccess(credentialResponse) {

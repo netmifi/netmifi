@@ -1,4 +1,3 @@
-// import "dotenv";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
@@ -11,11 +10,11 @@ import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persist
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-// TODO: DELETE AND UNINSTALL FROALA EDITOR
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      gcTime: 1000 * 60 * 60 * 24, // 24 hours
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours cache time
       staleTime: 1000 * 60 * 5, // 5 minutes    },
     },
   },
@@ -29,6 +28,7 @@ persistQueryClient({
   queryClient,
   persister,
 });
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AppProvider>

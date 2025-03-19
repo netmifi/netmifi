@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { aboutHero } from "@/assets/images";
+// reusable form field for file input
 import {
   FormControl,
   FormField,
@@ -31,10 +31,9 @@ const CustomFileField = ({
   const [selectedFile, setSelectedFile] = useState<FileList | undefined | any>(
     ""
   );
-
   const previewImageRef = useRef<HTMLImageElement>(null);
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // this function handles image preview
     const file = event.target.files?.[0];
     console.log("new", file);
     if (file) {

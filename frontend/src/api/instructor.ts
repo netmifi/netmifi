@@ -1,6 +1,9 @@
 import instance from "./instance";
+//  handles all instructor dashboard based request
 
 const timeout = 30 * 60 * 1000; //30 minutes in milliseconds
+
+// for course upload and creation
 export const createCourse = async (credentials: unknown, onUploadProgress: ({ progress, elapsedTime, rate }: { progress: number, elapsedTime: number, rate: number }) => void) => {
     const startTime = Date.now();
 
@@ -10,9 +13,10 @@ export const createCourse = async (credentials: unknown, onUploadProgress: ({ pr
             "Content-Type": "multipart/form-data",
         },
         onUploadProgress: (event) => {
+            // axios progress returns an event with the details of file upload
             const uploadedBytes = event.loaded;
             const totalBytes = event.total || 0;
-            const calculatedProgress = Math.round((uploadedBytes * 100) / totalBytes);
+            const calculatedProgress = Math.round((uploadedBytes * 100) / totalBytes); // calculate upload bytes loaded and convert into percentage
 
             const currentTime = Date.now();
             const elapsedTime = (currentTime - startTime) / 1000; // Convert to seconds

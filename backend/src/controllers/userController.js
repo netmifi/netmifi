@@ -46,7 +46,7 @@ const handleFindUser = async (req, res) => {
             }); return;
         }
 
-        const safeUser = parseSafeUserData(user)
+        const safeUser = parseSafeUserData(user);
 
         res.status(201).json({
             message: 'user found',

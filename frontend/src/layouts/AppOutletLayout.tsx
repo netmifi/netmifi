@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useApp } from "@/app/app-provider";
 
 export const MainContent = ({ state }: { state: userType["type"] }) => {
+  // layout component is the wrapper for ur application
   const { open, setOpen, isMobile } = useSidebar();
 
   useEffect(() => {

@@ -3,13 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Courses from "./pages/Courses";
-import Blogs from "./pages/Blogs";
-import Blog from "./layouts/blogs/Blog";
 import TopCourses from "./layouts/courses/TopCourses";
 import RecentCourses from "./layouts/courses/RecentCourses";
-import FeaturedBlogs from "./layouts/blogs/FeaturedBlogs";
-import PopularBlogs from "./layouts/blogs/PopularBlogs";
-import RecentBlogs from "./layouts/blogs/RecentBlogs";
 import Instructors from "./pages/Instructors";
 import CoursePreview from "./layouts/courses/CoursePreview";
 import AppOutletLayout from "./layouts/AppOutletLayout";
@@ -34,8 +29,6 @@ import Profile from "./pages/account/Profile";
 import Settings from "./pages/account/Settings";
 import SignInstructor from "./pages/auth/welcome/SignInstructor";
 import TestPage from "./pages/TestPage";
-// import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
-
 import InstructorDashboard from "./pages/instructor_dashboard/Dashboard";
 import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
 import MyEarnings from "./pages/instructor_dashboard/MyEarnings";
@@ -93,11 +86,11 @@ const App = () => {
                 <Route path="my-courses/:id" element={<LearnPlay />} />
               </Route>
 
-              {/* COURSES ROUTE */}
-              <Route path="pricing" element={<h1>Pricing</h1>} />
+              {/* !!! PRICING ROUTE HAS BEEN SUSPENDED !!! */}
+              {/* <Route path="pricing" element={<h1>Pricing</h1>} /> */}
 
-              {/* BLOGS ROUTE */}
-              <Route path="blogs" element={<Blogs />}>
+              {/* !!! BLOG ROUTE HAS BEEN SUSPENDED !!! */}
+              {/* <Route path="blogs" element={<Blogs />}>
                 <Route
                   path="featured"
                   element={<FeaturedBlogs page="self" />}
@@ -105,7 +98,7 @@ const App = () => {
                 <Route path="popular" element={<PopularBlogs page="self" />} />
                 <Route path="recent" element={<RecentBlogs page="self" />} />
                 <Route path="blog/:id" element={<Blog />} />
-              </Route>
+              </Route> */}
 
               {/* INSTRUCTORS ROUTE */}
               <Route path="instructors" element={<Instructors />}>

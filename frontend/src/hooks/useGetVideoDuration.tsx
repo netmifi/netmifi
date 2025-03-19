@@ -1,23 +1,9 @@
+// hooks for getting video duration
 import ReactPlayer from "react-player";
 import { convertToReadableTime } from "@/lib/utils";
-import { useRef, useState } from "react";
-type ReactPlayerProps = React.ComponentProps<typeof ReactPlayer>;
+import { useState } from "react";
 
 const useGetVideoDuration = (videoUrl: string) => {
-  // const player = new ReactPlayer({ url: videoUrl });
-
-  // // Simulate waiting for video to load (replace with actual event listener)
-  // await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  // if (player.getDuration()) {
-  //   return player.getDuration();
-  // } else {
-  //   // Handle cases where duration is unavailable (e.g., errors)
-  //   console.error("Error fetching video duration:", videoUrl);
-  //   return null;
-  // }
-
-  // const videoRef = useRef<ReactPlayerProps>(null);
   const [rawDuration, setRawDuration] = useState(0);
   const [readableDuration, setReadableDuration] = useState("00:00");
 

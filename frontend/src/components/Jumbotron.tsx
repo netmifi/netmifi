@@ -1,3 +1,4 @@
+// REUSABLE COMPONENT FOR JUMBOTRON/HERO SECTIONS 
 import { cn } from "@/lib/utils";
 
 const Jumbotron = ({

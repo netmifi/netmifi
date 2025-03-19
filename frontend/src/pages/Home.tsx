@@ -23,10 +23,12 @@ import { NavLink } from "react-router-dom";
 const Home = () => {
   const { isAuth, user } = useApp();
   const greetingPhrases = [
-    "Ahoy There",
+    "Hi",
     "Hi There",
+    "Hey",
     "Hello There",
     "Good to See You",
+    "Great to See You",
     "Welcome Back",
   ];
 
@@ -95,10 +97,7 @@ const Home = () => {
         }
       />
 
-      <section
-        className="padding-x padding-y flex flex-col gap-16"
-        ref={exploreSectionRef}
-      >
+      <section className=" flex flex-col gap-16" ref={exploreSectionRef}>
         {isAuth && (
           <div>
             <MyCourseCarousel data={purchasedCourses} />

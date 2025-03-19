@@ -3,6 +3,7 @@ import { checkUserAuth } from "../../user";
 import { useApp } from "@/app/app-provider";
 
 export const useCheckUserAuth = () => {
+    //  tanstack mutation handles hook auth check usually to check user if user sis still logged in 
     const { setUser, setIsAuth } = useApp();
     const queryClient = useQueryClient();
 

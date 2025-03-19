@@ -1,3 +1,4 @@
+// handles all service related routes 
 import instance from "./instance";
 
 const timeout = 3 * 60 * 1000; //5 minutes in milliseconds

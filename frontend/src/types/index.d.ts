@@ -1,3 +1,5 @@
+// THIS FILE SHOULD NOT HAVE ANY IMPORT OR EXPORT
+// please declare all types on this file
 declare interface userType {
   type: "guest" | "user" | "instructor" | "blogger" | "admin";
 }

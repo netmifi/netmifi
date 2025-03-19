@@ -1,5 +1,5 @@
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { useIntrestAdSource } from "@/api/hooks/auth/useInterestAdSource";
+import { useInterestAdSource } from "@/api/hooks/auth/useInterestAdSource";
 import { useApp } from "@/app/app-provider";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ const Interest = () => {
   ];
 
   const { setUser } = useApp();
-  const interestAdMutation = useIntrestAdSource();
+  const interestAdMutation = useInterestAdSource();
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [selectedMediaSources, setSelectedMediaSources] = useState<string[]>(
     []

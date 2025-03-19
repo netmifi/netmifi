@@ -1,3 +1,5 @@
+// REUSABLE COMPONENT FOR LOADERS USUALLY USED FOR SHOWING FORM LOADING  
+// Please check the types folder to see the props
 import { cn } from "@/lib/utils";
 import { FaSpinner } from "react-icons/fa";
 const Loader = ({ className = "", type, size = 20 }: LoaderProps) => {

@@ -1,5 +1,6 @@
+// show loader app loads
 import { Outlet, useLocation } from "react-router-dom";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import NProgress from "nprogress";
 
 const LayoutWithProgress = () => {

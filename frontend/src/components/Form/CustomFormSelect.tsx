@@ -1,3 +1,4 @@
+// reusable field for select
 import {
   FormField,
   FormItem,
@@ -21,7 +22,7 @@ const CustomFormSelect = ({
   defaultValue = "",
   hidden = false,
   isNotLabeled = false,
-  options,
+  options, // select options
 }: CustomFormSelectProps) => {
   return (
     <FormField

@@ -14,8 +14,8 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
   const trimmedData = data.slice(0, 10);
 
   return (
-    <div className="flex flex-col gap-5">
-      <h3 className="text-lg sm:text-xl font-bold capitalize">{title}</h3>
+    <div className="sm:padding-x flex flex-col gap-5">
+      <h3 className="max-sm:px-2 text-lg sm:text-xl font-bold capitalize">{title}</h3>
 
       <div className="flex justify-center items-center">
         <Carousel

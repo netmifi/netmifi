@@ -4,9 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import CustomFormField from "../Form/CustomFormField";
-import CustomFileField from "../Form/CustomFileField";
-import CustomRichTextEditor from "../Form/CustomRichTextEditor";
+import CustomFormField from "../form/CustomFormField";
+import CustomFileField from "../form/CustomFileField";
+import CustomRichTextEditor from "../form/CustomRichTextEditor";
 import { Button } from "../ui/button";
 import { XCircleIcon } from "lucide-react";
 

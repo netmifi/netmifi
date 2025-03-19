@@ -1,3 +1,8 @@
+//  THIS IS THE APP'S CONTEXT PROVIDER FOR STORING GLOBAL AND REUSABLE STATE ** REF the react context provide **
+// RULE: any state in the context must be a reusable state
+
+// NOTE: FOLLOW THE STEPS BELOW TO CREATE A STATE
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 import { createContext, useContext, useEffect, useState } from "react";
@@ -5,6 +10,7 @@ import Cookies from "js-cookie";
 import { toast } from "sonner";
 import { useCheckUserAuth } from "../api/hooks/user/useCheckUserAuth";
 
+// 1. provide the state type to obey typescript linting rule
 interface AppProviderProps {
   isAppLoading: boolean;
   setIsAppLoading: (state: boolean) => void;
@@ -27,6 +33,7 @@ interface AppProviderProps {
   }) => void;
 }
 
+// 2. initialize the state with a default false, this is mainly before the app/component mounts
 const initialState = {
   isAppLoading: false,
   setIsAppLoading: () => {},
@@ -52,7 +59,9 @@ export function AppProvider({
   ...props
 }: {
   children: React.ReactNode;
-}) {
+  }) {
+  
+  // 3. declare you state.
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [user, setUser] = useState(() => {
     const cookieUser = Cookies.get("user");
@@ -67,14 +76,16 @@ export function AppProvider({
   });
 
   const handleAddToCart = (course: Course) => {
+    // this function handles cart addition
     if (cartItems.find((item) => item.id === course.id))
-      return toast.error(`${course.title} already in cart`);
+      return toast.error(`${course.title} already in cart`); // is item already in cart
 
-    setCartItems([...cartItems, course]);
+    setCartItems([...cartItems, course]); // update cart
     toast.success(`${course.title} has been added to your cart`);
   };
 
   useEffect(() => {
+    // this effect checks if there client is logged in by checking  cookies 
     if (Cookies.get("user") && Cookies.get("jwt")) {
       const cookieUser = Cookies.get("user");
       if (cookieUser) {
@@ -98,6 +109,7 @@ export function AppProvider({
     }
   }, [user]);
 
+  // 4. Put in state so contextcan carefully export it
   const value = {
     isAppLoading,
     setIsAppLoading,

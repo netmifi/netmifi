@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 const AboutContact = () => {
+  //  About us contact form
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const formSchema = contactUsEmailFormSchema();
@@ -39,7 +40,6 @@ const AboutContact = () => {
         important: true,
         description: "We will reply ass soon as possible.",
         closeButton: true,
-        className: "bg-green-500",
       });
     }, 500);
   };

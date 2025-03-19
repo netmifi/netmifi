@@ -5,13 +5,15 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 // import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
-const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/; // time regular expression
 
 export function cn(...inputs: ClassValue[]) {
+  // vercel shadcn function for handling classname literals
   return twMerge(clsx(inputs))
 }
 
 export const splitCamelCaseToWords = (input: string) => {
+  // function to change camelCase to camel case
   return input.replace(/([A-Z])/g, " $1").trim();
 };
 
@@ -31,11 +33,8 @@ export function formatNumber(n: number): string {
   }).format(n);
 }
 
-export const useSetCourseUploadProgress = () => {
-
-}
-``
 export const convertToReadableNumber = (number: number) => {
+  //  converts number to human friendly like 1000 to 1k
   if (number < 999)
     return number;
   else if (number <= 999000)
@@ -49,6 +48,7 @@ export const convertToReadableNumber = (number: number) => {
 }
 
 export const convertToReadableTime = (timeInSeconds: number) => {
+  // coverts time from seconds to Hours:Minutes:Seconds
   const hours = Math.floor(timeInSeconds / 3600);
   const minutes = Math.floor((timeInSeconds % 3600) / 60);
   const seconds = Math.floor(timeInSeconds % 60);
@@ -65,6 +65,7 @@ export const convertToReadableTime = (timeInSeconds: number) => {
 }
 
 export const getFirstLettersForProfile = (name: string) => {
+  // get first letters for first and last name
   const nameArray = name.split(' ');
   const firstLetterOfFirstName = nameArray[0].charAt(0);
   const firstLetterOfLastName = nameArray[1].charAt(0);
@@ -176,7 +177,6 @@ export const createCollectionFormSchema = () =>
     collection: z.string().min(3, { message: "Collection name must have at least 3 characters" }),
     courseId: z.string()
   });
-
 
 export const contactUsEmailFormSchema = () =>
   z.object({

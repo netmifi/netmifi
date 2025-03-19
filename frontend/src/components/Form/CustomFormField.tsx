@@ -1,3 +1,4 @@
+// this reusable field handles basic input and textarea, e.g password field, text, url etc
 import {
   FormControl,
   FormField,
@@ -15,7 +16,7 @@ const CustomFormField = ({
   form,
   control,
   name,
-  type = "input",
+  type = "input", // textarea
   textareaType = "normal",
   isPasswordVisible,
   placeholder = "",
@@ -73,6 +74,7 @@ const CustomFormField = ({
                 </div>
               )} */}
 
+              {/* TODO: convert input to standard currency string i.e with commas */}
               {isCurrency && (
                 <div className="text-sm sm:text-base flex justify-center items-center px-2 *:text-base *:size-5">
                   <FaNairaSign />

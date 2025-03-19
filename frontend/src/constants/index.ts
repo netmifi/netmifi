@@ -2,6 +2,7 @@ import { AffiliateMarketingSvg } from "@/assets/svg";
 import { ArrowLeftSquareIcon, BookOpenText, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, UsersIcon, UsersRoundIcon, Wallet2 } from "lucide-react";
 
 export const customButtonDefinitions = {
+  // button variant custom definitions
   variants: {
     default: "bg-red text-primary-foreground hover:brightness-95",
     blue: "bg-blue text-primary-foreground hover:brightness-95",
@@ -36,13 +37,14 @@ export const ROLES_LIST = {
 
 // NavLinks
 export const navLinks: NavLinks[] = [
+  // navigation links for top/side bar
   {
     href: "/home",
     label: "Home",
     icon: HomeIcon,
-    onlyUser: false,
-    onlyGuest: false,
-    onlySmallScreen: false,
+    onlyUser: false, // only viewed for logged in users?
+    onlyGuest: false, // only viewed for visitors?
+    onlySmallScreen: false, // only viewed on mobile devices?
   },
   {
     href: "/dashboard",
@@ -60,22 +62,24 @@ export const navLinks: NavLinks[] = [
     onlyGuest: false,
     onlySmallScreen: false,
   },
-  {
-    href: "/blogs",
-    label: "Blogs",
-    icon: InfoIcon,
-    onlyUser: false,
-    onlyGuest: false,
-    onlySmallScreen: false,
-  },
-  {
-    href: "/pricing",
-    label: "Pricing",
-    icon: Wallet2,
-    onlyUser: false,
-    onlyGuest: false,
-    onlySmallScreen: false,
-  },
+  // REM --- Blogs has been suspended
+  // {
+  //   href: "/blogs",
+  //   label: "Blogs",
+  //   icon: InfoIcon,
+  //   onlyUser: false,
+  //   onlyGuest: false,
+  //   onlySmallScreen: false,
+  // },
+  // REM --- Pricing has been suspended, pay-per course feature in init
+  // {
+  //   href: "/pricing",
+  //   label: "Pricing",
+  //   icon: Wallet2,
+  //   onlyUser: false,
+  //   onlyGuest: false,
+  //   onlySmallScreen: false,
+  // },
   {
     href: "/instructors",
     label: "Instructors",

@@ -1,17 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 function ResetScroll() {
   const { pathname } = useLocation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // alert('You are on:'+)
-    // if ("scrollRestoration" in window.history) {
-    //   window.history.scrollRestoration = "manual";
-    // }
-    console.log(window.history);
-    window.scrollTo({ behavior: "instant", top: 20000, left: 3000 });
-    
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+      console.log(window.history.state);
+    }
+    window.scrollTo({ behavior: "instant", top: 0, left: 0 });
+    console.log("restoring");
   }, [pathname]);
 
   return null;

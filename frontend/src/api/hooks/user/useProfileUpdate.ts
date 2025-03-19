@@ -4,6 +4,7 @@ import { updateProfile } from "../../user";
 import { useApp } from "@/app/app-provider";
 
 export const useProfileUpdate = () => {
+    //  profile update please check profile page
     const { setUser, setIsAuth } = useApp();
     const queryClient = useQueryClient();
 

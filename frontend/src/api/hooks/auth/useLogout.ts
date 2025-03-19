@@ -3,15 +3,13 @@ import { logout } from "../../auth";
 import { useApp } from "@/app/app-provider";
 
 export const useLogout = () => {
+    const queryClient = useQueryClient();
     const { setUser, setIsAuth } = useApp();
 
-
-    const queryClient = useQueryClient();
-
     return useMutation({
-        mutationFn: logout,
+        mutationFn: logout,// **REF ../../auth**
         onSuccess: (data) => {
-            setUser(null);
+            setUser(null); // set user context state to null to remove stored user state
             setIsAuth(false);
             queryClient.setQueryData(["Logout"], data);
         },

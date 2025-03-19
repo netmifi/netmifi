@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { findUser } from "../../user";
 
 export const useFindUser = () => {
+    // this hook handles finding user usually for display profile
     const queryClient = useQueryClient();
 
     return useMutation({

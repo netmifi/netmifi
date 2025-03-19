@@ -401,6 +401,7 @@ const handleGoogleAuth = async (req, res) => {
         return
     }
 }
+
 const handleLogout = async (req, res) => {
     // this function hadles logout requests
     // here we destroy all authentication cookies

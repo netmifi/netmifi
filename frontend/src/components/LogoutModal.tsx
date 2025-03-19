@@ -1,4 +1,4 @@
-import { useState } from "react";
+// REUSABLE MODAL FOR LOGOUT
 import {
   Dialog,
   DialogClose,

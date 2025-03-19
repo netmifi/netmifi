@@ -1,3 +1,4 @@
+// this file handles all user requests
 import instance from "./instance";
 
 const timeout = 3 * 60 * 1000; //5 minutes in milliseconds
@@ -29,9 +30,9 @@ export const updatePassword = async (credentials: unknown) => {
     const response = await instance.put("/user/update-password", credentials, {
         timeout,
     });
-
     return response.data;
 };
+
 export const changeTheme = async (credentials: unknown) => {
     const response = await instance.put("/user/change-theme", credentials, {
         timeout,

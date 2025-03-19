@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// REUSABLE TABLE FOR DATA DISPLAY
 import { Key, useState } from "react";
 import {
   ColumnDef,
@@ -44,10 +45,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Form } from "./ui/form";
-
-// import DeleteIcon from "@/assets/images/delete.svg";
-// import EditIcon from "@/assets/images/edit.svg";
-// import EyeIcon from "@/assets/images/eye.svg";
 import { Checkbox } from "./ui/checkbox";
 
 import {
@@ -102,6 +99,7 @@ export function CustomTooltip({
   children,
   hoverLabel,
 }: CustomTableTooltipProps) {
+  // reusable actions tooltip
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -121,32 +119,32 @@ export function CustomTooltip({
 }
 interface DataTableProps<TableData extends HasId> {
   data: TableData[];
-  keys: (keyof TableData)[];
-  lastPage?: number;
-  pageSize: number;
-  promptLabel: string;
+  keys: (keyof TableData)[]; // columns you would like to display on table
+  lastPage?: number; // last page of lazy loaded (paginated) data
+  pageSize: number; // number of rows on page !!! COULD BE DEPRECATED !!!
+  promptLabel: string; // primary key you want to display
   isDialog: boolean;
   isView?: boolean;
   isEdit?: boolean;
   isDelete?: boolean;
-  setData: React.Dispatch<React.SetStateAction<TableData[]>>;
+  setData: React.Dispatch<React.SetStateAction<TableData[]>>; // update data
   ViewComponent?: React.ComponentType<{
-    datum: TableData;
+    datum: TableData; // data to display
     // handleSubmit?: (updatedContact: newContactData) => void;
-    setIsViewOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  }>;
+    setIsViewOpen: React.Dispatch<React.SetStateAction<boolean>>; // view component custom trigger off/on
+  }>; // component to view all data details
   EditComponent?: React.ComponentType<{
     data: TableData;
     handleSubmit?: (updatedContact: newContactData) => void;
     setIsFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  }>;
-  deleteURL: string;
+  }>; // component for editing
+  deleteURL: string; // url for deleting one or multiple data
   clearAllURL?: string;
   isPending?: boolean;
   specialStyle: {
     column: string;
     className: ClassValue;
-  }[];
+  }[]; // this helps you apply custom style to your column
 }
 
 const generateColumns = <TableData extends HasId>(

@@ -1,3 +1,4 @@
+// Reusable radio group field
 import {
   FormControl,
   FormField,
@@ -14,7 +15,7 @@ const CustomRadioGroup = ({
   label = "",
   group,
   isNotLabeled = false,
-  defaultChecked,
+  defaultChecked, // default value to check
   setDetectedValueChange,
 }: CustomRadioGroupProps) => {
   return (
