@@ -10,11 +10,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const Home = () => {
   const mutation = useMutation({
     mutationFn: async (formData) => {
-      const response = await fetch("http://localhost:3000/waitlist", {
+      const response = await fetch("http://localhost:3000/services/waitlist", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -22,17 +23,30 @@ const Home = () => {
         body: JSON.stringify(Object.fromEntries(formData.entries())),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
+      // if (!response.ok) {
+      //   throw new Error("Failed to submit form");
+      // }
 
       return await response.json();
     },
-    onSuccess: () => {
-      setIsModalOpen(true);
+    onSuccess: (data) => {
+      if (data.state?.isSuccess) {
+        setIsModalOpen(true);
+      } else if (data.state?.isBlocked) {
+        toast.error(data.message, {
+          className: "bg-white ring-1 font-[500] ring-red-700 text-red-700 shadow-lg",
+        });
+      } else {
+        toast.error(data.message || "An unexpected error occurred", {
+          className: "bg-red-700 text-white shadow-lg",
+        });
+      }
     },
     onError: (error) => {
       console.error("Mutation error:", error);
+      toast.error(error.message || "Submission failed, please try again.", {
+        className: "bg-red-700 text-white shadow-lg",
+      });
     },
   });
 
@@ -46,14 +60,11 @@ const Home = () => {
   });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("Form submitted! Raw values:", values); // Log raw form values
-
     try {
       // Remove empty values
       const cleanedValues = Object.fromEntries(
         Object.entries(values).filter(([_, v]) => v != null && v !== "")
       );
-      console.log("Cleaned values (filtered null/empty):", cleanedValues);
 
       // Create FormData object
       const formData = new FormData();
@@ -64,15 +75,8 @@ const Home = () => {
         formData.append("name", cleanedValues.name as string);
       }
 
-      console.log(
-        "Final FormData object:",
-        Object.fromEntries(formData.entries())
-      );
-
       // Trigger the mutation
-      console.log("Calling mutation...");
       await mutation.mutateAsync(formData);
-      console.log("Mutation successful!");
     } catch (error) {
       console.error("Mutation error:", error);
       mutationErrorHandler(mutation, error);

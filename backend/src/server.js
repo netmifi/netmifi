@@ -57,7 +57,7 @@ app.use(limiter);
 // app.use('/auth', authRoutes);
 // app.use('/user', userRoutes);
 // app.use('/instructor', verifyJwt, instructorRoutes);
-app.use('/services', verifyJwt, servicesRoutes);
+app.use('/services', servicesRoutes);
 app.use('/waitlist', waitlistRoutes);
 
 mongoose.connect(dbURI)

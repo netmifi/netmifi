@@ -19,7 +19,9 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
               <Route path="404" element={<NotFound />} />
           </Routes>
-          <Toaster />
+          <Toaster position="top-center"  toastOptions={{
+          className: "shadow-lg text-black ",
+        }}/>
         </Router>
       </ThemeProvider>
     </AppProvider>
