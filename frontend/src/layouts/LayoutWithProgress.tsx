@@ -1,5 +1,5 @@
 // show loader app loads
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import { useEffect, useLayoutEffect } from "react";
 import NProgress from "nprogress";
 

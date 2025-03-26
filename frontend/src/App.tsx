@@ -1,5 +1,10 @@
 import { ThemeProvider } from "@/app/theme-provider";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Courses from "./pages/Courses";
@@ -42,55 +47,66 @@ import RequireAuth from "./components/RequireAuth";
 import AppLoading from "./components/AppLoading";
 import { PageProgressStart } from "./layouts/RouterProgress";
 import LayoutWithProgress from "./layouts/LayoutWithProgress";
+import { useLayoutEffect } from "react";
 
 const App = () => {
+  //   const location = useLocation();
+
+  //   useLayoutEffect(() => {
+  //     // Scroll to the top of the page when the route changes
+  //     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  //   }, [location.pathname]);
+  // };
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <Router>
-        <ResetScroll />
         <AppLoading />
         <PageProgressStart />
-        <Routes>
-          <Route element={<LayoutWithProgress />}>
-            {/* AUTH ROUTES */}
-            <Route path="/auth" element={<AuthOutletLayout />}>
-              <Route path="sign-in" element={<SignIn />} />
-              <Route path="sign-up" element={<SignUp />} />
-              <Route path="otp-verification" element={<OTPVerification />} />
+        <ResetScroll>
+          <Routes>
+            <Route element={<LayoutWithProgress />}>
+              {/* AUTH ROUTES */}
+              <Route path="/auth" element={<AuthOutletLayout />}>
+                <Route path="sign-in" element={<SignIn />} />
+                <Route path="sign-up" element={<SignUp />} />
+                <Route path="otp-verification" element={<OTPVerification />} />
 
-              <Route path="forgot-password" element={<ForgotPassword />}>
-                <Route path="via-email" element={<ViaEmail />} />
-                <Route path="new-password" element={<NewPassword />} />
+                <Route path="forgot-password" element={<ForgotPassword />}>
+                  <Route path="via-email" element={<ViaEmail />} />
+                  <Route path="new-password" element={<NewPassword />} />
+                </Route>
+
+                <Route path={"welcome"} element={<Welcome />}>
+                  <Route
+                    path="instructor-application"
+                    element={<SignInstructor />}
+                  />
+                  <Route path={"interest"} element={<Interest />} />
+                </Route>
               </Route>
 
-              <Route path={"welcome"} element={<Welcome />}>
-                <Route
-                  path="instructor-application"
-                  element={<SignInstructor />}
-                />
-                <Route path={"interest"} element={<Interest />} />
-              </Route>
-            </Route>
+              {/* ROOT ROUTES */}
 
-            {/* ROOT ROUTES */}
+              <Route path="/" element={<AppOutletLayout />}>
+                <Route path="home" element={<Home />} />
+                <Route path="contact" element={<Contact />} />
+                {/* COURSES ROUTE */}
+                <Route path="courses" element={<Courses />}>
+                  <Route path="top" element={<TopCourses page="self" />} />
+                  <Route
+                    path="recent"
+                    element={<RecentCourses page="self" />}
+                  />
+                  <Route path="course/:id" element={<CoursePreview />} />
+                  <Route path="my-courses" element={<MyCourses />} />
+                  <Route path="my-courses/:id" element={<LearnPlay />} />
+                </Route>
 
-            <Route path="/" element={<AppOutletLayout />}>
-              <Route path="home" element={<Home />} />
-              <Route path="contact" element={<Contact />} />
-              {/* COURSES ROUTE */}
-              <Route path="courses" element={<Courses />}>
-                <Route path="top" element={<TopCourses page="self" />} />
-                <Route path="recent" element={<RecentCourses page="self" />} />
-                <Route path="course/:id" element={<CoursePreview />} />
-                <Route path="my-courses" element={<MyCourses />} />
-                <Route path="my-courses/:id" element={<LearnPlay />} />
-              </Route>
+                {/* !!! PRICING ROUTE HAS BEEN SUSPENDED !!! */}
+                {/* <Route path="pricing" element={<h1>Pricing</h1>} /> */}
 
-              {/* !!! PRICING ROUTE HAS BEEN SUSPENDED !!! */}
-              {/* <Route path="pricing" element={<h1>Pricing</h1>} /> */}
-
-              {/* !!! BLOG ROUTE HAS BEEN SUSPENDED !!! */}
-              {/* <Route path="blogs" element={<Blogs />}>
+                {/* !!! BLOG ROUTE HAS BEEN SUSPENDED !!! */}
+                {/* <Route path="blogs" element={<Blogs />}>
                 <Route
                   path="featured"
                   element={<FeaturedBlogs page="self" />}
@@ -100,54 +116,55 @@ const App = () => {
                 <Route path="blog/:id" element={<Blog />} />
               </Route> */}
 
-              {/* INSTRUCTORS ROUTE */}
-              <Route path="instructors" element={<Instructors />}>
-                <Route path="instructor/:id" element={<Instructor />} />
-              </Route>
-
-              {/* USER ROUTES */}
-              <Route path="/user/:id" element={<h1>User</h1>} />
-              <Route
-                path="/user/:id/courses"
-                element={<h1>Recent Courses</h1>}
-              />
-
-              <Route path="/help" element={<Help />} />
-              <Route path="/t&c" element={<TestPage />} />
-              <Route path="/test" element={<TestPage />} />
-              <Route path="/feedback" element={<Feedback />} />
-              <Route path="about" element={<About />} />
-
-              {/* Protected Routes */}
-              <Route element={<RequireAuth />}>
-                <Route path="/account/profile" element={<Profile />} />
-                <Route path="/account/settings" element={<Settings />} />
-
-                {/* INSTRUCTOR DASHBOARD ROUTES */}
-                <Route
-                  path="dashboard"
-                  element={<InstructorDashboardOutletLayout />}
-                >
-                  <Route path="home" element={<InstructorDashboard />} />
-                  <Route path="home/students" element={<Students />} />
-                  <Route
-                    path="home/certified-students"
-                    element={<CertifiedStudents />}
-                  />
-                  <Route path="home/followers" element={<Followers />} />
-                  <Route path="home/courses" element={<DashboardCourses />} />
-                  <Route path="my-earnings" element={<MyEarnings />} />
-                  <Route path="create" element={<CreateCourse />} />
+                {/* INSTRUCTORS ROUTE */}
+                <Route path="instructors" element={<Instructors />}>
+                  <Route path="instructor/:id" element={<Instructor />} />
                 </Route>
-              </Route>
 
-              {/* 404 page ROUTES */}
-              <Route path="*" element={<NotFound />} />
-              <Route path="404" element={<NotFound />} />
+                {/* USER ROUTES */}
+                <Route path="/user/:id" element={<h1>User</h1>} />
+                <Route
+                  path="/user/:id/courses"
+                  element={<h1>Recent Courses</h1>}
+                />
+
+                <Route path="/help" element={<Help />} />
+                <Route path="/t&c" element={<TestPage />} />
+                <Route path="/test" element={<TestPage />} />
+                <Route path="/feedback" element={<Feedback />} />
+                <Route path="about" element={<About />} />
+
+                {/* Protected Routes */}
+                <Route element={<RequireAuth />}>
+                  <Route path="/account/profile" element={<Profile />} />
+                  <Route path="/account/settings" element={<Settings />} />
+
+                  {/* INSTRUCTOR DASHBOARD ROUTES */}
+                  <Route
+                    path="dashboard"
+                    element={<InstructorDashboardOutletLayout />}
+                  >
+                    <Route path="home" element={<InstructorDashboard />} />
+                    <Route path="home/students" element={<Students />} />
+                    <Route
+                      path="home/certified-students"
+                      element={<CertifiedStudents />}
+                    />
+                    <Route path="home/followers" element={<Followers />} />
+                    <Route path="home/courses" element={<DashboardCourses />} />
+                    <Route path="my-earnings" element={<MyEarnings />} />
+                    <Route path="create" element={<CreateCourse />} />
+                  </Route>
+                </Route>
+
+                {/* 404 page ROUTES */}
+                <Route path="*" element={<NotFound />} />
+                <Route path="404" element={<NotFound />} />
+              </Route>
             </Route>
-          </Route>
-        </Routes>
-        <Toaster />
+          </Routes>
+        </ResetScroll>
+        <Toaster richColors duration={15000} />
       </Router>
     </ThemeProvider>
   );

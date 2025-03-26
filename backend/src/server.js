@@ -16,6 +16,8 @@ const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
 const path = require('path');
 const verifyJwt = require('./middlewares/verifyJwt');
 const app = express();
+const passport = require("passport");
+const session = require("express-session");
 const PORT = process.env.PORT || 3000;
 const dbURI = process.env.DATABASE_URI || '';
 const stageEnv = process.env.NODE_ENV;
@@ -44,6 +46,16 @@ app.use(express.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
+app.use(
+    session({
+        secret: process.env.SECRET_KEY,
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+
+app.use(passport.initialize());
+
 
 app.use('/uploads/profile/*', express.static(path.join(__dirname, 'uploads', 'profile')));
 app.use(limiter);

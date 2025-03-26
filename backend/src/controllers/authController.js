@@ -12,7 +12,10 @@ const Instructor = require('../models/Instructor');
 const { sendEmail } = require('../services/emailService');
 const ACCESS_LEVELS = require('../constants/accessLevels');
 const { authCookieService } = require('../services/cookieService');
+const { OAuth2Client } = require('google-auth-library');
+const { fetchGoogleUserInfo, createGoogleUser } = require('../services/googleAuthService');
 
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const SALT_ROUNDS = 12; // PLEASE DO NOT ALTER
 
@@ -69,7 +72,6 @@ const handleVerifyCode = async (req, res) => {
     // # checks if sent code matches database save code
     try {
         const { id, state, code } = req.body;
-
         const foundUser = await User.findById(id)
 
         if (!foundUser) {
@@ -113,14 +115,12 @@ const handleVerifyCode = async (req, res) => {
         }
 
         foundUser.generatedCode = null;
-
-
         const result = await foundUser.save();
         const safeUserData = parseSafeUserData(result);
 
         if (state === 'verify') {
             await sendEmail(foundUser.email, 'email_verified');
-            await sendEmail(foundUser.email, 'registration_successful');
+            await sendEmail(foundUser.email, 'registration_successful', result.firstName);
         }
 
         authCookieService(res, result);
@@ -387,18 +387,76 @@ const handleSignIn = async (req, res) => {
 }
 
 const handleGoogleAuth = async (req, res) => {
-    // this function is intended to handle goggle quick authentication
-    // # get token from google callback
-    // # update users table
-
     try {
+        const { access_token } = req.body
+        console.log(access_token);
+        if (!access_token) {
+            return res.status(400).json({
+                message: "Access token is required",
+                state: queryState.error,
+                data: undefined,
+            });
+        }
+
+        // Get user info from Google using the access token
+        const googleUserInfo = await fetchGoogleUserInfo(access_token)
+
+        if (!googleUserInfo) {
+            return res.status(401).json({
+                message: "Invalid Google token",
+                state: queryState.error,
+                data: undefined,
+            })
+        }
+        console.log(googleUserInfo)
+        const { sub: googleId, email, name, picture } = googleUserInfo;
+
+        // Check if user exists by googleId or email
+        let user = await User.findOne({ $or: [{ googleId }, { email }] })
+        let isNewUser = false
+
+        if (!user) {
+            // New user - create account
+            isNewUser = true
+            user = await createGoogleUser(googleId, email, name, picture); // Ref /services/googleAuthService
+        } else if (user.email === email) {
+            // Existing user with same email
+            if (user.password && !user.googleId) {
+                // User exists with password login but no Google ID
+                return res.status(409).json({
+                    message: "Email already registered with password. Please login with your password or use account linking.",
+                    state: queryState.blocked,
+                    data: undefined,
+                })
+            } else if (!user.googleId) {
+                // User exists but doesn't have Google ID - update their account
+                user.googleId = googleId
+                if (picture && !user.profilePicture) {
+                    user.profilePicture = picture
+                }
+                await user.save()
+            }
+        }
+
+        // Set auth cookies
+        authCookieService(res, user);
+
+        // Return safe user data
+        const safeUserData = parseSafeUserData(user)
+
+        // Return success with 200 status code
+        return res.status(200).json({
+            message: "Google authentication successful",
+            state: queryState.success,
+            data: { ...safeUserData, isNewUser },
+        })
     } catch (error) {
-        res.status(405).json({
-            message: error.message,
+        console.error("Google auth error:", error)
+        return res.status(500).json({
+            message: error.message || "Authentication failed",
             state: queryState.error,
             data: undefined,
-        });
-        return
+        })
     }
 }
 
@@ -470,6 +528,15 @@ const handleMailGenCode = async (req, res) => {
             return;
         }
 
+        if (user.googleId) {
+            res.status(409).json({
+                message: 'You signed in through google.',
+                state: queryState.error,
+                data: undefined,
+            });
+            return;
+        }
+
         const generatedCode = generateOtp('forgot');
         await sendEmail(email, 'verification_code', generatedCode.code).then(async () => {
             foundUser.generatedCode = generatedCode;
@@ -522,30 +589,22 @@ const handleChangePassword = async (req, res) => {
             return;
         }
 
-        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-        const accessToken = jwt.sign({
-            user: user,
-        },
-            accessTokenSecret, {
-            expiresIn: MAX_AGE,
-        });
+        if (user.googleId) {
+            res.status(409).json({
+                message: 'You signed in through google.',
+                state: queryState.error,
+                data: undefined,
+            });
+            return;
+        }
 
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
         user.password = hashedPassword;
+        
         const result = await user.save();
         const safeUserData = parseSafeUserData(result);
 
         authCookieService(res, result);
-
-        // res.cookie('jwt', accessToken, {
-        //     ...cookieOptions,
-        //     maxAge: MAX_AGE * 1000,
-        // });
-
-        // res.cookie('user', JSON.stringify(safeUserData), {
-        //     ...cookieOptions,
-        //     maxAge: MAX_AGE * 1000
-        // });
-
         await sendEmail(email, 'password_changed');
         res.status(202).json({
             message: 'password update successful',

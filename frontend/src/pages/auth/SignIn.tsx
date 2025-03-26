@@ -1,4 +1,3 @@
-import { GoogleIconSvg } from "@/assets/svg";
 import CustomFormField from "@/components/form/CustomFormField";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";

@@ -5,12 +5,12 @@ import { toast } from "sonner";
 
 const mutationErrorHandler = (error?: any) => {
     // takes the error param and checks the error
-    if (error?.response?.data?.errors && error.response.data.errors.details.length > 0) {
+    if (error.response.data.errors && error.response.data.errors.details.length > 0) {
         error.response.data?.errors?.details.map((detail: any) => {
             toast.error(detail.message) // sends an alert toast to user
         });
     } else {
-        toast.error(error.response.data.message || error.message || 'Something went wrong');
+        toast.error((error.response.data.message || error.message || error) ?? 'Something went wrong');
     }
 }
 

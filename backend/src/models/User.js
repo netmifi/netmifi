@@ -28,12 +28,17 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
-    password: {
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true
+      },
+      password: {
         type: String,
         minlength: 7,
-        required: true,
+        required: function() { return !this.googleId; }, // Conditional requirement if the sign up is coming from google
         trim: true
-    },
+      },
     country: {
         name: String, dialCode: String, code: String, flag: String
     },
