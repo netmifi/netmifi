@@ -1,12 +1,9 @@
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { useInstructorRegister } from "@/api/hooks/auth/useInstructorRegister";
 import { useApp } from "@/app/app-provider";
-import CountryFormSelect from "@/components/form/CountryFormSelect";
 import CustomContactField from "@/components/form/CustomContactField";
-import CustomDatePicker from "@/components/form/CustomDatePicker";
 import CustomFormField from "@/components/form/CustomFormField";
 import CustomFormSelect from "@/components/form/CustomFormSelect";
-import CustomMultiSelect from "@/components/form/CustomMultiSelect";
 import CustomRadioGroup from "@/components/form/CustomRadioGroup";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
@@ -18,7 +15,6 @@ import { instructorFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { useEffect, useState } from "react";
-import { useCountries } from "react-countries";
 import { useForm } from "react-hook-form";
 import {
   FaAsterisk,
@@ -88,7 +84,7 @@ const SignInstructor = () => {
         state && state.returnUrl ? state.returnUrl : "/auth/welcome/interest"
       );
     } catch (error) {
-      mutationErrorHandler(instructorRegisterMutation, error);
+      mutationErrorHandler(error);
     }
   };
 

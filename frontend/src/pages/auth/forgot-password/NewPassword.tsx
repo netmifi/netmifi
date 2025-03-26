@@ -44,7 +44,7 @@ const NewPassword = () => {
       console.log(data);
       navigate("/");
     } catch (error) {
-      toast.error(mutationErrorHandler(changePasswordMutation, error));
+      mutationErrorHandler(error);
     }
     // console.log(password);
     // setIsLoading(true);

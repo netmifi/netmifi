@@ -101,7 +101,7 @@ const OTPVerification = () => {
         navigate("/auth/welcome");
       }
     } catch (error) {
-      mutationErrorHandler(findCodeMutation, error);
+      mutationErrorHandler(error);
     }
   };
 

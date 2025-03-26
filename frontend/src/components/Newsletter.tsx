@@ -33,7 +33,7 @@ const Newsletter = () => {
       );
       console.log(data);
     } catch (error) {
-      mutationErrorHandler(mutation, error);
+      mutationErrorHandler(error);
     }
   };
   return (

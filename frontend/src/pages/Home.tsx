@@ -14,7 +14,6 @@ import {
 } from "@/constants/temp";
 import RecentCourses from "@/layouts/courses/RecentCourses";
 import TopCourses from "@/layouts/courses/TopCourses";
-import { convertToReadableNumber } from "@/lib/utils";
 import { ArrowDownIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -65,7 +64,7 @@ const Home = () => {
             isVerified={false}
             profileName={`${user.firstName} ${user.lastName}`}
             profileURL=""
-            profileImage=""
+            profileImage={user.profile ?? ""}
             profileImageClassName="size-20 text-2xl"
             onlyAvatar
           />

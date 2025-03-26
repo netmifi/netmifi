@@ -44,7 +44,7 @@ const SignIn = () => {
       console.log(data);
       navigate(state && state.returnUrl ? state.returnUrl : "/");
     } catch (error) {
-      mutationErrorHandler(loginMutation, error);
+      mutationErrorHandler(error);
     }
   };
   return (

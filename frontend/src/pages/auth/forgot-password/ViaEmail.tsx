@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { onlyEmailFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -42,19 +41,8 @@ const ViaEmail = () => {
         },
       });
     } catch (error) {
-      toast.error(mutationErrorHandler(mailCodeMutation, error));
+      mutationErrorHandler(error);
     }
-
-    // console.log(email);
-    //   setTimeout(() => {
-    //     setIsLoading(false);
-    //     navigate("/auth/otp-verification", {
-    //       state: {
-    //         type: "forgot",
-    //         email: email,
-    //       },
-    //     });
-    //   }, 2000);
   };
 
   return (

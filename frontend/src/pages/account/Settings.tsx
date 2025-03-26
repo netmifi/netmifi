@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { useProfileUpdate } from "@/api/hooks/user/useProfileUpdate";
 import { toast } from "sonner";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loader from "@/components/Loader";
 import { useApp } from "@/app/app-provider";
 import { parsePhoneNumber } from "libphonenumber-js";
@@ -82,7 +82,7 @@ const ProfileSection = () => {
       toast.success("Profile update successful");
       // navigate("/account/profile");
     } catch (error) {
-      mutationErrorHandler(mutation, error);
+      mutationErrorHandler(error);
     }
   };
   return (
@@ -245,7 +245,7 @@ const PasswordChangeSection = () => {
       toast.success("Password update successful");
       // navigate("/account/profile");
     } catch (error) {
-      mutationErrorHandler(mutation, error);
+      mutationErrorHandler(error);
     }
   };
 
@@ -325,7 +325,7 @@ const ThemeSection = () => {
       );
       // navigate("/account/profile");
     } catch (error) {
-      mutationErrorHandler(mutation, error);
+      mutationErrorHandler(error);
     }
   };
 

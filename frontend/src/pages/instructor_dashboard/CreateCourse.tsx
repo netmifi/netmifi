@@ -142,7 +142,7 @@ const CreateCourse = () => {
       // TODO: Find the best route to navigate
       // navigate("/");
     } catch (error) {
-      mutationErrorHandler(createCourseMutation, error);
+      mutationErrorHandler(error);
     }
   };
 

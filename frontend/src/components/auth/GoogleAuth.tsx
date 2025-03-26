@@ -57,6 +57,7 @@ const GoogleAuth = () => {
     // scope: "email profile",
     // Use the flow that returns an access token, not an ID token
     flow: "implicit",
+    prompt: "consent" // After user selects google account
   });
 
   // Handle the Google login click

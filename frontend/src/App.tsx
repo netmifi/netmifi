@@ -46,7 +46,6 @@ import RequireAuth from "./components/RequireAuth";
 import AppLoading from "./components/AppLoading";
 import { PageProgressStart } from "./layouts/RouterProgress";
 import LayoutWithProgress from "./layouts/LayoutWithProgress";
-import { useLayoutEffect } from "react";
 
 const App = () => {
   //   const location = useLocation();

@@ -52,7 +52,7 @@ const SignUp = () => {
       setUser(data);
       console.log(data);
     } catch (error) {
-      mutationErrorHandler(registerMutation, error);
+      mutationErrorHandler(error);
     }
   };
 

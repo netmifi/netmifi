@@ -80,7 +80,7 @@ const Interest = () => {
         important: true,
       });
     } catch (error) {
-      mutationErrorHandler(interestAdMutation, error);
+      mutationErrorHandler(error);
     }
   };
 
