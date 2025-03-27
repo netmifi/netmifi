@@ -1,9 +1,7 @@
-// Context specially for handling theme-ing
-// Follow the comments below for details explanation
 import { createContext, useContext, useEffect, useState } from "react";
 import { useApp } from "./app-provider";
 
-type Theme = "dark" | "light" | "system"; // them types
+type Theme = "dark" | "light" | "system";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -14,12 +12,15 @@ type ThemeProviderProps = {
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  systemTheme: "dark" | "light"; // Add this to expose the system preference
+  effectiveTheme: "dark" | "light"; // This will be the actual theme in effect
 };
 
 const initialState: ThemeProviderState = {
-  // before app mounts we want the theme to be system default (usually light)
   theme: "system",
   setTheme: () => null,
+  systemTheme: "light",
+  effectiveTheme: "light",
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
@@ -34,26 +35,41 @@ export function ThemeProvider({
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   );
 
+  // Track the system preference
+  const [systemTheme, setSystemTheme] = useState<"dark" | "light">(
+    typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light"
+  );
+
+  // Compute the effective theme
+  const effectiveTheme = theme === "system" ? systemTheme : theme;
+
   const { user } = useApp();
 
+  // Listen for changes to system preference
   useEffect(() => {
-    // this effect takes effect any time theme is changed
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      const newSystemTheme = e.matches ? "dark" : "light";
+      setSystemTheme(newSystemTheme);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  // Apply the theme to the document
+  useEffect(() => {
     const root = window.document.documentElement;
-    root.classList.remove("light", "dark"); // remove the current theme
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)") // CSS preference. NOTE this does not have any drastic effect on UI based on theme default to light or system
-        .matches
-        ? "dark"
-        : "light";
+    root.classList.remove("light", "dark");
+    root.classList.add(effectiveTheme);
+  }, [effectiveTheme]);
 
-      root.classList.add(systemTheme); // update theme with new theme
-      return;
-    }
-    root.classList.add(theme);
-  }, [theme]);
-
+  // Handle user preferences
   useEffect(() => {
-    // this effect takes place when logged in user requests a new theme oor we want to load theme from user preferences
     if (user && user.theme) {
       localStorage.setItem(storageKey, user.theme);
       user.theme !== theme && setTheme(user.theme);
@@ -66,6 +82,8 @@ export function ThemeProvider({
       localStorage.setItem(storageKey, theme);
       setTheme(theme);
     },
+    systemTheme,
+    effectiveTheme,
   };
 
   return (
