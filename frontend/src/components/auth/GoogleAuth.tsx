@@ -33,7 +33,7 @@ const GoogleAuth = () => {
         console.log("Google auth success:", data);
         toast.success(
           data.isNewUser
-            ? `Your account is being created with the user name ${data.user.username}`
+            ? `Your account is being created with the user name ${data.username}`
             : "You have been signed in, thanks for coming back"
         );
       } catch (error) {

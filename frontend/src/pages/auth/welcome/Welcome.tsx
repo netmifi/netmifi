@@ -8,23 +8,18 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { ArrowLeftIcon } from "lucide-react";
-import { logoText, logoTextWhite } from "@/assets/logo";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { CustomLogo } from "@/components/CustomLogo";
 
 const Welcome = () => {
   const navigate = useNavigate();
   const rootCourses = ["/auth/welcome/", "/auth/welcome"];
   const { pathname } = useLocation();
-  const { theme } = useTheme();
   const { user } = useApp();
 
   return (
     <div className="flex flex-col gap-6 justify-center items-center w-full">
-      <img
-        src={theme === "dark" ? logoTextWhite : logoText}
-        className="w-[7rem] mt-8"
-        alt="logo"
-      />
+      <CustomLogo   className="w-[7rem] mt-8" />
       <Card className="px-0 w-full min-w-full md:min-w-[70%] md:w-[70%]">
         <CardContent className="px-[0.5px]">
           <CardHeader className="items-start">
