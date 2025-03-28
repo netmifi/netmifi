@@ -15,6 +15,7 @@ import MyCourses from "./layouts/courses/MyCourses";
 import { Toaster } from "@/components/ui/sonner";
 import Instructor from "./layouts/instructors/Instructor";
 import Contact from "./pages/Contact";
+import Cart from "./pages/account/Cart"
 import Help from "./pages/Help";
 import Feedback from "./pages/Feedback";
 import SignUp from "./pages/auth/SignUp";
@@ -122,7 +123,7 @@ const App = () => {
               <Route element={<RequireAuth />}>
                 <Route path="/account/profile" element={<Profile />} />
                 <Route path="/account/settings" element={<Settings />} />
-
+                <Route path="/account/cart" element={<Cart />} />
                 {/* INSTRUCTOR DASHBOARD ROUTES */}
                 <Route
                   path="dashboard"
