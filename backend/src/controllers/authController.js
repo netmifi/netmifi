@@ -4,7 +4,7 @@
 const { signUpSchema, signInSchema, instructorApplicationSchema } = require('../schemas/authSchema');
 const { queryState } = require('../constants/queryState');
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { cookieOptions } = require('../constants/cookieOptions');
 const { generateOtp, parseSafeUserData } = require('../utils');
@@ -600,7 +600,7 @@ const handleChangePassword = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
         user.password = hashedPassword;
-        
+
         const result = await user.save();
         const safeUserData = parseSafeUserData(result);
 
