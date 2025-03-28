@@ -28,6 +28,9 @@
     scrollbar-width: thin;
   }
 
+  *::-webkit-scrollbar {
+    background: red;
+  }
   body {
     @apply bg-background text-foreground;
   }

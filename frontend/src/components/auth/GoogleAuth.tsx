@@ -53,11 +53,17 @@ const GoogleAuth = () => {
       console.error("Non-OAuth error:", nonOAuthError);
       setIsLoading(false);
     },
+    error_callback: (error) => {
+      if (error) {
+        console.error("Error callback:", error);
+        setIsLoading(false);
+      }
+    },
     // Request specific scopes if needed
     // scope: "email profile",
     // Use the flow that returns an access token, not an ID token
     flow: "implicit",
-    prompt: "consent" // After user selects google account
+    prompt: "consent", // After user selects google account
   });
 
   // Handle the Google login click

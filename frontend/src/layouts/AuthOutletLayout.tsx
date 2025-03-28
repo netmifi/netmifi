@@ -3,7 +3,6 @@ import { GetStartedSvg } from "@/assets/svg";
 import { useTheme } from "@/app/theme-provider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
 import {
   FaFacebookF,
   FaInstagram,
@@ -11,6 +10,7 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { CustomLogo } from "@/components/CustomLogo";
 
 const AuthOutletLayout = () => {
   const { theme } = useTheme();
@@ -74,11 +74,7 @@ const AuthOutletLayout = () => {
                 </section>
               ) : (
                 <section className="flex flex-col gap-5">
-                  <img
-                    src={theme === "dark" ? logoTextWhite : logoText}
-                    className="w-[15rem]"
-                    alt="logo"
-                  />
+                  <CustomLogo className="w-[280px] sm:w-[320px]" />
                   <Outlet />
                 </section>
               )}

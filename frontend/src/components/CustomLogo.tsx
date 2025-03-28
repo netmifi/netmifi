@@ -44,7 +44,7 @@ export const CustomLogo = ({
   return (
     <img
       className={className as string}
-      src={checkLogoType() || "/placeholder.svg"}
+      src={checkLogoType()}
       alt=""
     />
   );
