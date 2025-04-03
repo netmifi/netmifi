@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/netmifi/netmifi/issues"
   },
-  "homepage": "https://github.com/netmifi/netmifi#readme"
+  "homepage": "https://github.com/netmifi/netmifi#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "netmifi": "file:"
+  }
 }
