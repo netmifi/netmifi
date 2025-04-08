@@ -1,0 +1,19 @@
+{
+  "name": "netmifi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netmifi/netmifi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/netmifi/netmifi/issues"
+  },
+  "homepage": "https://github.com/netmifi/netmifi#readme"
+}

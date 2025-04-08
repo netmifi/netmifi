@@ -1,0 +1,33 @@
+/backend
+├── /src
+│   ├── /config             # Configuration files (e.g., corsOptions)
+│   │   └── corsOptions.js           # Database connection setup
+│   ├── /constants          # Constants (e.g., roles, error messages, templates)
+│   │   └── accessLevels.js
+│   ├── /controllers        # Route controllers for handling business logic
+│   │   └── userController.js
+│   │   └── courseController.js
+│   ├── /middlewares        # Custom middleware functions for intercepting and validating requests from controllers
+│   │   └── credentials.js 
+│   │   └── verifyRoles.js 
+│   ├── /models             # Mongoose models (data schemas)
+│   │   └── User.js
+│   │   └── Course.js
+│   ├── /routes             # Express route definitions
+│   │   └── userRoutes.js
+│   │   └── courseRoutes.js
+│   ├── /schemas            # Joi validation schemas
+│   │   └── userSchema.js
+│   │   └── courseSchema.js
+│   ├── /types              # TypeScript type definitions
+│   │   └── userTypes.js    # Interfaces and types
+│   │   └── courseTypes.js
+│   ├── /utils              # Utility functions (e.g., token generation, hashing)
+│   │   └── index.js
+│   ├── /services           # Business logic services
+│   │   └── courseService.js
+│   └── server.js           # Main entry point of the server
+├── .env                    # Environment variables
+├── .eslintrc.json          # ESLint configuration
+├── package.json            # Package dependencies and scripts
+└── README.md               # Documentation for the project

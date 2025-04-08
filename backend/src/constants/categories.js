@@ -1,0 +1,16 @@
+module.exports = [
+    "article writing",
+    "content creation",
+    "copywriting",
+    "graphics design",
+    "digital marketing",
+    "digital photography",
+    "email marketing",
+    "video editing",
+    "technical writing",
+    "content marketing strategy",
+    "sound editing",
+    "ui/ux design",
+    "videography",
+    "voiceover work",
+];
