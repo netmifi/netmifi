@@ -49,15 +49,27 @@ export const convertToReadableNumber = (number: number) => {
 
 export const convertToReadableTime = (timeInSeconds: number) => {
   // coverts time from seconds to Hours:Minutes:Seconds
-  const hours = Math.floor(timeInSeconds / 3600);
-  const minutes = Math.floor((timeInSeconds % 3600) / 60);
-  const seconds = Math.floor(timeInSeconds % 60);
+  const days = Math.floor(timeInSeconds / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (timeInSeconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor(
+    (timeInSeconds % (1000 * 60 * 60)) / (1000 * 60)
+  );
+  const seconds = Math.floor((timeInSeconds % (1000 * 60)) / 1000);
+  
+  // const hours = Math.floor(timeInSeconds / 3600);
+  // const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  // const seconds = Math.floor(timeInSeconds % 60);
 
+  const formattedDays = days.toString().padStart(2, '');
   const formattedHours = hours.toString().padStart(2, '0');
   const formattedMinutes = minutes.toString().padStart(2, '0');
   const formattedSeconds = seconds.toString().padStart(2, '0');
 
-  if (hours === 0) {
+  if (days > 0) {
+    return `${formattedDays}d ${formattedHours}h ${formattedMinutes}m ${formattedSeconds}s`;
+  } else if (hours === 0) {
     return `${formattedMinutes}:${formattedSeconds}`;
   } else {
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;

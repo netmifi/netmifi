@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/netmifi/netmifi#readme",
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "netmifi": "file:"
+    "bcryptjs": "^3.0.2",
+    "netmifi": "file:",
+    "tailwind-scrollbar-hide": "^2.0.0"
   }
 }

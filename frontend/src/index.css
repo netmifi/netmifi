@@ -264,6 +264,17 @@
   .hover-item:hover .hover-item-container {
     @apply top-1/2;
   }
+
+/* Custom progress bar styles */
+.progress-bar {
+  background-color: #dadada; /* Background color */
+}
+
+.progress-bar .indicator {
+  background-color: #b40000; /* red color for the indicator */
+  transition: width 0.3s ease-in-out;
+}
+
   .hover-item-container {
     @apply absolute bg-transparent-black flex items-center w-full top-full bottom-0 text-white/80 shadow-xl shadow-primary transition-all delay-200;
   }

@@ -28,7 +28,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
-import { PaymentModal } from "@/components/ui/checkoutmodal";
+import { Modal } from "@/components/ui/checkoutmodal";
 import CustomCard from "@/components/CustomCard";
 import NavSearch from "@/components/navbar/NavSearch";
 import NavbarPopover from "@/components/navbar/NavbarPopover";
@@ -36,7 +36,7 @@ import AppSidebar, { NavSkeleton } from "@/layouts/navbar/user/AppSidebar";
 import GuestNavbar from "@/layouts/navbar/guest/Index";
 import { Sidebar } from "@/components/ui/sidebar";
 
-const Welcome = () => {
+const Cart = () => {
   const navigate = useNavigate();
   const rootCourses = ["/auth/welcome/", "/auth/welcome"];
   const { pathname } = useLocation();
@@ -95,9 +95,7 @@ const Welcome = () => {
   return (
     <>
       <div className="flex flex-col gap-6 justify-center items-center w-full">
-        <div className="flex flex-col items-center justify-center ">
-
-        </div>
+        <div className="flex flex-col items-center justify-center "></div>
         <Card className="px-0 rounded-none bg-inherit border-0 w-full min-w-full lg:min-w-[70%] md:min-w-[90%] lg:w-[70%] md:w-[90%]">
           <CardContent className="px-[0.5px]">
             <CardHeader className="items-start flex">
@@ -232,7 +230,7 @@ const Welcome = () => {
                         <p className="text-base"> NGN 10,000.00</p>
                       </div>
                       <div className="flex w-full">
-                        <PaymentModal
+                        <Modal
                           trigger={
                             <Button
                               disabled={
@@ -250,8 +248,30 @@ const Welcome = () => {
                               <ArrowRight />
                             </Button>
                           }
-                          title="How do you like to pay?"
-                          description="“If your card hasn’t been enabled for online transactions, kindly opt for a bank transfer as an alternative”"
+                          header="How do you like to pay?"
+                          description={
+                            <>
+                              <svg
+                                width="13"
+                                height="13"
+                                viewBox="0 0 13 13"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M6.5 4.05556V6.5M6.5 8.94444H6.50611M12 6.5C12 7.22227 11.8577 7.93747 11.5813 8.60476C11.3049 9.27205 10.8998 9.87836 10.3891 10.3891C9.87836 10.8998 9.27205 11.3049 8.60476 11.5813C7.93747 11.8577 7.22227 12 6.5 12C5.77773 12 5.06253 11.8577 4.39524 11.5813C3.72795 11.3049 3.12163 10.8998 2.61091 10.3891C2.10019 9.87836 1.69506 9.27205 1.41866 8.60476C1.14226 7.93747 1 7.22227 1 6.5C1 5.04131 1.57946 3.64236 2.61091 2.61091C3.64236 1.57946 5.04131 1 6.5 1C7.95869 1 9.35764 1.57946 10.3891 2.61091C11.4205 3.64236 12 5.04131 12 6.5Z"
+                                  stroke="#CE2600"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                />
+                              </svg>
+                              <p>
+                                If your card hasn’t been enabled for online
+                                transactions, kindly opt for a bank transfer as
+                                an alternative
+                              </p>
+                            </>
+                          }
                           body={
                             <div className="grid md:grid-cols-2 gap-x-6 gap-y-2 grid-cols-1">
                               <CustomCard
@@ -356,4 +376,4 @@ const Welcome = () => {
 
 // export default SignInstructor;
 
-export default Welcome;
+export default Cart;
