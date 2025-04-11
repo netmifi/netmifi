@@ -129,8 +129,7 @@ const App = () => {
               <Route path="/test" element={<TestPage />} />
               <Route path="/feedback" element={<Feedback />} />
               <Route path="about" element={<About />} />
-
-              <Route path="/leader-board" element={<LeaderBoard />} />
+              
               {/* Protected Routes */}
               <Route element={<RequireAuth />}>
                 <Route path="/account/profile" element={<Profile />} />

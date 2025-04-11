@@ -241,7 +241,7 @@ const handleSignUp = async (req, res) => {
                 console.log("user found");
 
 
-                const safeUserData = parseSafeUserData(user); // send back a safe user data to client ** REF utils/index.js**
+                const safeUserData = parseSafeUserData(user, true); // send back a safe user data to client ** REF utils/index.js**
                 authCookieService(res, user); // ** REF services/cookieService **
                 res.status(201).json({
                     message: 'user creation successful',
@@ -335,10 +335,12 @@ const handleSignIn = async (req, res) => {
     //  # update authentication cookies
 
     const bodyValues = req.body;
+    console.log("body values:",bodyValues)
     try {
         const { error, value } = signInSchema.validate(bodyValues, { abortEarly: false });
         const user = await User.findOne({ email: bodyValues.email });
-
+        console.log("error from joi:",error)
+        
         if (error) {
             console.log(error);
             res.status(403).json({
@@ -358,7 +360,11 @@ const handleSignIn = async (req, res) => {
             return;
         }
 
+        // console.log("math:", await bcrypt.compare(value.password, user.password)
+        // )
         const math = await bcrypt.compare(value.password, user.password);
+        console.log("value:",value)
+        console.log("user:",user)
         if (!math) {
             res.status(400).json({
                 message: 'incorrect password',
@@ -692,7 +698,7 @@ const handleInstructorRegister = async (req, res) => {
         foundUser.country = value.country || '';
         foundUser.phone = value.phone || '';
         foundUser.roles = { ...foundUser.roles, Instructor: ACCESS_LEVELS.Instructor };
-        about && foundUser.about;
+        foundUser.about || '';
 
         const instructor = await Instructor.create({
             userId: foundUser._id,

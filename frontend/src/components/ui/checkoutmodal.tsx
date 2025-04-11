@@ -6,8 +6,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 
 export function Modal({
   trigger,
@@ -27,24 +25,20 @@ export function Modal({
         
       >
         {/* Header */}
-        <DialogHeader className="flex justify-between items-center ">
-          {header && <DialogTitle className="text-2xl">{header}</DialogTitle>}
+        <DialogHeader className="">
+          {header && <DialogTitle className="text-2xl text-center">{header}</DialogTitle>}
         </DialogHeader>
 
         {/* Description (Optional) */}
         {description && (
-          <DialogDescription className="text-sm gap-2 items-start text-gray-500 flex justify-center">
-            <span className="text-center">{description}</span>
+          <DialogDescription className="text-sm text-gray-500 ">
+            <span className="text-center flex">{description}</span>
           </DialogDescription>
         )}
 
         {/* Custom Body (Optional) */}
         {body && <div className="mt-4">{body}</div>}
 
-        {/* Optional Close Button */}
-        <Button className="mt-4" onClick={() => onClose && onClose()}>
-          Claim <ArrowRight/>
-        </Button>
       </DialogContent>
     </Dialog>
   );

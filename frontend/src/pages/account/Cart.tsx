@@ -49,6 +49,7 @@ const Cart = () => {
   const instructorRegisterMutation = useInstructorRegister();
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   // const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
   const [country, setCountry] = useState<Country>({
     name: "Nigeria",
@@ -57,6 +58,10 @@ const Cart = () => {
     flag: "🇳🇬",
   });
   const [, setDialCode] = useState(country?.dialCode || "+234");
+
+  const closeModal = (open: boolean) => {
+    setShowModal(open);
+  };
 
   const formSchema = instructorFormSchema();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -100,21 +105,9 @@ const Cart = () => {
           <CardContent className="px-[0.5px]">
             <CardHeader className="items-start flex">
               <div className="flex text-lg justify-between w-full gap-3">
-                <Breadcrumb className="flex md:text-xl text-lg items-center justify-evenly">
-                  <BreadcrumbList className="flex space-x-2 md:text-xl text-black">
-                    <BreadcrumbItem
-                      className={currentStep === "Carts" ? "font-bold" : ""}
-                    >
-                      Carts
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem
-                      className={currentStep === "Checkouts" ? "font-bold" : ""}
-                    >
-                      Checkouts
-                    </BreadcrumbItem>
-                  </BreadcrumbList>
-                </Breadcrumb>
+                <h4 className={currentStep === "Checkouts" ? "font-bold" : ""}>
+                  Cart{" "}
+                </h4>
                 <Button
                   variant={"secondary"}
                   className="border self-end border-red bg-low-red py-6 "
@@ -137,9 +130,9 @@ const Cart = () => {
             <CardContent>
               <div className="mt- w-full flex flex-col gap-">
                 <Form {...form}>
-                  <form
+                  <div
                     onSubmit={form.handleSubmit(handleSubmit)}
-                    className="w-full grid grid-cols-1 md:grid-cols-2 justify-between gap-5 *:flex-grow *:min-w-[50%]"
+                    className="w-full grid grid-cols-1 md:grid-cols- 2 justify-between gap-5 *:flex-grow *:min-w-[50%]"
                   >
                     <div className="flex flex-col gap-3 ">
                       <div className="flex gap-3 items-start border rounded-xl p-6 relative">
@@ -173,197 +166,74 @@ const Cart = () => {
                         </div>
                         <hr />
                         <div className="flex justify-between font-bold w-full">
-                          <p className="text-xs">Cart Total</p>
+                          <p className="text-xs">Total</p>
                           <p className="text-base"> NGN 10,000.00</p>
                         </div>
                         <div className="flex w-full">
-                          <Button
-                            disabled={isCheckingOut}
-                            className="sm:ml-auto basis-full "
-                            type="submit"
+                          <Modal
+                            isOpen={showModal}
+                            onClose={closeModal}
+                            trigger={
+                              <Button
+                                disabled={
+                                  !isAccepted ||
+                                  instructorRegisterMutation.isPending
+                                }
+                                className="sm:ml-auto basis-full "
+                                type="submit"
+                                onClick={() => setShowModal(true)}
+                              >
+                                {instructorRegisterMutation.isPending ? (
+                                  <Loader type="all" />
+                                ) : (
+                                  "Checkout"
+                                )}
+                              </Button>
+                            }
+                            header="How do you like to pay?"
+                            
+                            body={
+                              <div className="grid md:grid-cols-2 gap-x-6 gap-y-2 grid-cols-1">
+                                <CustomCard
+                                  logo={
+                                    <svg
+                                      width="29"  
+                                      height="26"
+                                      viewBox="0 0 29 26"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M28.4121 4.67746L15.1366 0.103592C14.7264 -0.0345307 14.2742 -0.0345307 13.8639 0.103592L0.58793 4.67746C0.415233 4.73555 0.266419 4.83951 0.161363 4.97543C0.056308 5.11136 1.38358e-05 5.27279 0 5.43816L0 7.3125C0 7.76141 0.405547 8.125 0.90625 8.125H28.0938C28.5945 8.125 29 7.76141 29 7.3125V5.43816C29 5.09945 28.7655 4.79629 28.4121 4.67746ZM3.625 9.75V17.875H2.71875C2.21805 17.875 1.8125 18.2386 1.8125 18.6875V21.125H27.1875V18.6875C27.1875 18.2386 26.782 17.875 26.2812 17.875H25.375V9.75H21.75V17.875H16.3125V9.75H12.6875V17.875H7.25V9.75H3.625ZM28.0938 22.75H0.90625C0.405547 22.75 0 23.1136 0 23.5625V25.1875C0 25.6364 0.405547 26 0.90625 26H28.0938C28.5945 26 29 25.6364 29 25.1875V23.5625C29 23.1136 28.5945 22.75 28.0938 22.75Z"
+                                        fill="#9E0000"
+                                      />
+                                    </svg>
+                                  }
+                                  title="Bank Transfer"
+                                  description="Transfer to Netmifi account"
+                                />
+                              </div>
+                            }
+                          />
+                        </div>
+                        <div className="items-center flex flex-col">
+                          <Label
+                            htmlFor="accept"
+                            className="md:text-xs text-sm"
                           >
-                            {instructorRegisterMutation.isPending ? (
-                              <Loader type="all" />
-                            ) : (
-                              "Checkout"
-                            )}
-                            <ArrowRight />
-                          </Button>
+                            By clicking the Checkout button, you agree to
+                            Netmifi’s
+                          </Label>
+                          <Link
+                            to="/t&c"
+                            className="md:text-xs text-sm text-red "
+                          >
+                            Terms and conditions?
+                          </Link>
                         </div>
                       </div>
                     </div>
-                    <div className="max-h-[30rem] w-full p-6 border rounded-xl bg-gray-100 flex flex-col flex-wrap justify-between gap-2 *:flex-grow ">
-                      <h1 className="font-semibold md:text-sm text-xs flex items-center gap-1">
-                        Contact Information
-                      </h1>
-                      {/* {console.log(form.formState.errors)}{" "} */}
-                      <div className="flex flex-col gap-6">
-                        <CustomFormField
-                          name="fullName"
-                          control={form.control}
-                          placeholder="Enter your full name"
-                          label="full name"
-                        />
-                        <CustomFormField
-                          name="email"
-                          control={form.control}
-                          placeholder="example@gmail.com"
-                          label="Email"
-                        />
-                        <CustomContactField
-                          form={form}
-                          name="phone"
-                          control={form.control}
-                          placeholder="Enter your phone number"
-                          label="phone number"
-                          setDialCode={setDialCode}
-                          setCountry={setCountry}
-                        />
-                      </div>
-                      <div className="flex justify-between w-full">
-                        <p className="text-xs">Cart Total</p>
-                        <p className="text-sm"> NGN 10,000.00</p>
-                      </div>
-                      <hr />
-                      <div className="flex justify-between font-bold w-full">
-                        <p className="text-xs">Total</p>
-                        <p className="text-base"> NGN 10,000.00</p>
-                      </div>
-                      <div className="flex w-full">
-                        <Modal
-                          trigger={
-                            <Button
-                              disabled={
-                                !isAccepted ||
-                                instructorRegisterMutation.isPending
-                              }
-                              className="sm:ml-auto basis-full "
-                              type="submit"
-                            >
-                              {instructorRegisterMutation.isPending ? (
-                                <Loader type="all" />
-                              ) : (
-                                "Pay Now"
-                              )}{" "}
-                              <ArrowRight />
-                            </Button>
-                          }
-                          header="How do you like to pay?"
-                          description={
-                            <>
-                              <svg
-                                width="13"
-                                height="13"
-                                viewBox="0 0 13 13"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M6.5 4.05556V6.5M6.5 8.94444H6.50611M12 6.5C12 7.22227 11.8577 7.93747 11.5813 8.60476C11.3049 9.27205 10.8998 9.87836 10.3891 10.3891C9.87836 10.8998 9.27205 11.3049 8.60476 11.5813C7.93747 11.8577 7.22227 12 6.5 12C5.77773 12 5.06253 11.8577 4.39524 11.5813C3.72795 11.3049 3.12163 10.8998 2.61091 10.3891C2.10019 9.87836 1.69506 9.27205 1.41866 8.60476C1.14226 7.93747 1 7.22227 1 6.5C1 5.04131 1.57946 3.64236 2.61091 2.61091C3.64236 1.57946 5.04131 1 6.5 1C7.95869 1 9.35764 1.57946 10.3891 2.61091C11.4205 3.64236 12 5.04131 12 6.5Z"
-                                  stroke="#CE2600"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                />
-                              </svg>
-                              <p>
-                                If your card hasn’t been enabled for online
-                                transactions, kindly opt for a bank transfer as
-                                an alternative
-                              </p>
-                            </>
-                          }
-                          body={
-                            <div className="grid md:grid-cols-2 gap-x-6 gap-y-2 grid-cols-1">
-                              <CustomCard
-                                logo={
-                                  <svg
-                                    width="29"
-                                    height="26"
-                                    viewBox="0 0 29 26"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M28.4121 4.67746L15.1366 0.103592C14.7264 -0.0345307 14.2742 -0.0345307 13.8639 0.103592L0.58793 4.67746C0.415233 4.73555 0.266419 4.83951 0.161363 4.97543C0.056308 5.11136 1.38358e-05 5.27279 0 5.43816L0 7.3125C0 7.76141 0.405547 8.125 0.90625 8.125H28.0938C28.5945 8.125 29 7.76141 29 7.3125V5.43816C29 5.09945 28.7655 4.79629 28.4121 4.67746ZM3.625 9.75V17.875H2.71875C2.21805 17.875 1.8125 18.2386 1.8125 18.6875V21.125H27.1875V18.6875C27.1875 18.2386 26.782 17.875 26.2812 17.875H25.375V9.75H21.75V17.875H16.3125V9.75H12.6875V17.875H7.25V9.75H3.625ZM28.0938 22.75H0.90625C0.405547 22.75 0 23.1136 0 23.5625V25.1875C0 25.6364 0.405547 26 0.90625 26H28.0938C28.5945 26 29 25.6364 29 25.1875V23.5625C29 23.1136 28.5945 22.75 28.0938 22.75Z"
-                                      fill="#9E0000"
-                                    />
-                                  </svg>
-                                }
-                                title="Bank Transfer"
-                                description="Transfer to Netmifi account"
-                              />
-                              <CustomCard
-                                logo={
-                                  <svg
-                                    width="29"
-                                    height="26"
-                                    viewBox="0 0 29 26"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M28.4121 4.67746L15.1366 0.103592C14.7264 -0.0345307 14.2742 -0.0345307 13.8639 0.103592L0.58793 4.67746C0.415233 4.73555 0.266419 4.83951 0.161363 4.97543C0.056308 5.11136 1.38358e-05 5.27279 0 5.43816L0 7.3125C0 7.76141 0.405547 8.125 0.90625 8.125H28.0938C28.5945 8.125 29 7.76141 29 7.3125V5.43816C29 5.09945 28.7655 4.79629 28.4121 4.67746ZM3.625 9.75V17.875H2.71875C2.21805 17.875 1.8125 18.2386 1.8125 18.6875V21.125H27.1875V18.6875C27.1875 18.2386 26.782 17.875 26.2812 17.875H25.375V9.75H21.75V17.875H16.3125V9.75H12.6875V17.875H7.25V9.75H3.625ZM28.0938 22.75H0.90625C0.405547 22.75 0 23.1136 0 23.5625V25.1875C0 25.6364 0.405547 26 0.90625 26H28.0938C28.5945 26 29 25.6364 29 25.1875V23.5625C29 23.1136 28.5945 22.75 28.0938 22.75Z"
-                                      fill="#9E0000"
-                                    />
-                                  </svg>
-                                }
-                                title="Bank Transfer"
-                                description="Transfer to Netmifi account"
-                              />
-                              <CustomCard
-                                logo={
-                                  <svg
-                                    width="29"
-                                    height="26"
-                                    viewBox="0 0 29 26"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M28.4121 4.67746L15.1366 0.103592C14.7264 -0.0345307 14.2742 -0.0345307 13.8639 0.103592L0.58793 4.67746C0.415233 4.73555 0.266419 4.83951 0.161363 4.97543C0.056308 5.11136 1.38358e-05 5.27279 0 5.43816L0 7.3125C0 7.76141 0.405547 8.125 0.90625 8.125H28.0938C28.5945 8.125 29 7.76141 29 7.3125V5.43816C29 5.09945 28.7655 4.79629 28.4121 4.67746ZM3.625 9.75V17.875H2.71875C2.21805 17.875 1.8125 18.2386 1.8125 18.6875V21.125H27.1875V18.6875C27.1875 18.2386 26.782 17.875 26.2812 17.875H25.375V9.75H21.75V17.875H16.3125V9.75H12.6875V17.875H7.25V9.75H3.625ZM28.0938 22.75H0.90625C0.405547 22.75 0 23.1136 0 23.5625V25.1875C0 25.6364 0.405547 26 0.90625 26H28.0938C28.5945 26 29 25.6364 29 25.1875V23.5625C29 23.1136 28.5945 22.75 28.0938 22.75Z"
-                                      fill="#9E0000"
-                                    />
-                                  </svg>
-                                }
-                                title="Bank Transfer"
-                                description="Transfer to Netmifi account"
-                              />
-                              <CustomCard
-                                logo={
-                                  <svg
-                                    width="29"
-                                    height="26"
-                                    viewBox="0 0 29 26"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M28.4121 4.67746L15.1366 0.103592C14.7264 -0.0345307 14.2742 -0.0345307 13.8639 0.103592L0.58793 4.67746C0.415233 4.73555 0.266419 4.83951 0.161363 4.97543C0.056308 5.11136 1.38358e-05 5.27279 0 5.43816L0 7.3125C0 7.76141 0.405547 8.125 0.90625 8.125H28.0938C28.5945 8.125 29 7.76141 29 7.3125V5.43816C29 5.09945 28.7655 4.79629 28.4121 4.67746ZM3.625 9.75V17.875H2.71875C2.21805 17.875 1.8125 18.2386 1.8125 18.6875V21.125H27.1875V18.6875C27.1875 18.2386 26.782 17.875 26.2812 17.875H25.375V9.75H21.75V17.875H16.3125V9.75H12.6875V17.875H7.25V9.75H3.625ZM28.0938 22.75H0.90625C0.405547 22.75 0 23.1136 0 23.5625V25.1875C0 25.6364 0.405547 26 0.90625 26H28.0938C28.5945 26 29 25.6364 29 25.1875V23.5625C29 23.1136 28.5945 22.75 28.0938 22.75Z"
-                                      fill="#9E0000"
-                                    />
-                                  </svg>
-                                }
-                                title="Bank Transfer"
-                                description="Transfer to Netmifi account"
-                              />
-                            </div>
-                          }
-                        />
-                      </div>
-                      <div className="items-center flex flex-col">
-                        <Label htmlFor="accept" className="md:text-xs text-sm">
-                          By clicking the “Pay now” button, you agree to
-                          Netmifi’s
-                        </Label>
-                        <Link
-                          to="/t&c"
-                          className="md:text-xs text-sm text-red "
-                        >
-                          Terms and conditions?
-                        </Link>
-                      </div>
-                    </div>
-                  </form>
+                  </div>
                 </Form>
               </div>
             </CardContent>

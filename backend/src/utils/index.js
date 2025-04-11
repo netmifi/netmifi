@@ -15,7 +15,7 @@ const generateOtp = (state) => {
     };
 }
 
-const parseSafeUserData = (user) => {
+const parseSafeUserData = (user, withGeneratedCode) => {
     const details = {
         id: user._id,
         firstName: user.firstName,
@@ -38,8 +38,8 @@ const parseSafeUserData = (user) => {
         updatedAt: user.updatedAt,
     }
 
-    // const result = withGeneratedCode ? { ...details, generatedCode: { state: user.generatedCode.state, expiresIn: user.generatedCode.expiresIn } } : details
-    return details
+    const result = withGeneratedCode ? { ...details, generatedCode: { state: user.generatedCode.state, expiresIn: user.generatedCode.expiresIn } } : details
+    return result
 }
 
 module.exports = {
