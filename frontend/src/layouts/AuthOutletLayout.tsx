@@ -1,4 +1,4 @@
-import { logo, logoText, logoTextWhite } from "@/assets/logo";
+import { logo } from "@/assets/logo";
 import { GetStartedSvg } from "@/assets/svg";
 import { useTheme } from "@/app/theme-provider";
 import { Button } from "@/components/ui/button";

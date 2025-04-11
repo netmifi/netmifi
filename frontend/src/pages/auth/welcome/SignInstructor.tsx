@@ -34,7 +34,7 @@ const SignInstructor = () => {
   const instructorRegisterMutation = useInstructorRegister();
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
   // const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
-  const [country, setCountry] = useState<Country>({
+  const [country, setCountry] = useState<Country | undefined>({
     name: "Nigeria",
     dialCode: "+234",
     code: "NG",
@@ -89,7 +89,7 @@ const SignInstructor = () => {
   };
 
   useEffect(() => {
-    form.setValue("country", country);
+    form.setValue("country", country as Country);
   }, [country, form]);
 
   return (

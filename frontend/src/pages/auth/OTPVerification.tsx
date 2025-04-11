@@ -75,7 +75,7 @@ const OTPVerification = () => {
         important: true,
       });
     } catch (error) {
-      mutationErrorHandler(findCodeMutation, error);
+      mutationErrorHandler(error);
     }
   };
 
@@ -230,10 +230,10 @@ const OTPVerification = () => {
                         hidden: timeDifference > resendCodeTime,
                       })}
                       type="button"
-                      disabled={resendCodeMutation.pending}
+                      disabled={resendCodeMutation.isPending}
                       onClick={handleResendCode}
                     >
-                      {resendCodeMutation.pending ? (
+                      {resendCodeMutation.isPending ? (
                         <Loader type="loader" />
                       ) : (
                         "Resend"

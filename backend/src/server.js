@@ -11,6 +11,7 @@ const userRoutes = require('./routes/userRoutes');
 const instructorRoutes = require('./routes/instructorRoutes');
 const servicesRoutes = require('./routes/servicesRoutes');
 const searchRoutes = require('./routes/searchRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 const limiter = require('./middlewares/limiter');
 const corsOptions = require('./config/corsOptions');
 const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
@@ -65,6 +66,7 @@ app.use('/user', userRoutes);
 app.use('/instructor', verifyJwt, instructorRoutes);
 app.use('/services', verifyJwt, servicesRoutes);
 app.use('/search', searchRoutes);
+app.use('/cart', cartRoutes); // Add cart routes
 
 mongoose.connect(dbURI)
     .then(() => {

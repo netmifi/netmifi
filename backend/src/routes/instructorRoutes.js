@@ -1,8 +1,6 @@
-const { uploadCourse } = require('../controllers/instructorController');
+const { uploadCourse } = require('@/controllers/instructorController');
 const express = require('express');
 const verifyRoles = require('../middlewares/verifyRole');
-
-
 const router = express.Router();
 
 

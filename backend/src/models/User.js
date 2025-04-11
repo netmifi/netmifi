@@ -110,10 +110,24 @@ const userSchema = new Schema({
             code: Number,
             expiresIn: Date,
         },
-    }
+    },
+    cart: [
+        {
+            productId: {
+                type: Schema.Types.ObjectId,
+                ref: 'Product',
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true,
+                default: 1
+            }
+        }
+    ]
 }, { timestamps: true });
-
 
 // This is a TTL index on the generatedCode.expiresIn field
 userSchema.index({ 'generatedCode.expiresIn': 1 }, { expireAfterSeconds: 0 });
+
 module.exports = mongoose.model('User', userSchema);

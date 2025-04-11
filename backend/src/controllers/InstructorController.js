@@ -107,7 +107,7 @@ upload.any(), (req, res, next) => {
                 sections[sectionKey] = {
                     title: field.title, // title of the section
                     description: field.description || '', //  section description
-                    video: uploadedFiles[`dynamicFields[${fieldKey}][video]`] || null, // vidoe
+                    video: uploadedFiles[`dynamicFields[${fieldKey}][video]`] || null, // video
                 };
                 sectionCounter++;
             }

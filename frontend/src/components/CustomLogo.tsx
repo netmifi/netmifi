@@ -1,7 +1,7 @@
 import { logo, logoText, logoTextWhite } from "@/assets/logo";
-import { useTheme } from "../app/theme-provider";
 import { ClassValue } from "clsx";
 import useWindowSize from "@/hooks/useWindowSize";
+import { useTheme } from "@/app/theme-provider";
 
 export const CustomLogo = ({
   className = "",
@@ -45,7 +45,7 @@ export const CustomLogo = ({
     <img
       className={className as string}
       src={checkLogoType()}
-      alt=""
+      alt="Netmifi logo"
     />
   );
 };

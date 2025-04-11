@@ -17,7 +17,7 @@ import { useLocation } from "react-router-dom";
 //   return null;
 // }
 
-const ResetScroll = ({ children }) => {
+const ResetScroll = ({ children }: {children: React.ReactNode}) => {
   const location = useLocation();
 
   useLayoutEffect(() => {

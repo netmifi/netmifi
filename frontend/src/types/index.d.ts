@@ -444,7 +444,7 @@ declare interface CustomElementClickProps {
 }
 
 declare interface ReviewCardProps {
-  className: string;
+  className?: string;
   name: string;
   profile: string;
   isVerified: boolean;

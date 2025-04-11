@@ -65,7 +65,7 @@ const NewPassword = () => {
       <div className="flex flex-col gap-2 w-full mb-8">
         <h3 className="text-xl sm:text-2xl font-bold">Input new password</h3>
         <p className="text-sm sm:text-base">
-          Set a new password to your <b>Netmifi</b> account.
+          Set a new password to access your <b>Netmifi</b> account.
         </p>
       </div>
 

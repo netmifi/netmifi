@@ -1,4 +1,4 @@
-//  THIS FILE IS STRICTLY AUTHENTIFICATION LOGIC
+//  THIS FILE IS STRICTLY AUTHENTICATION LOGIC
 // this file handles all auth business logic especially those that tamper with the user collection in our database
 
 const { signUpSchema, signInSchema, instructorApplicationSchema } = require('../schemas/authSchema');

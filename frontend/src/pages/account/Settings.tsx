@@ -32,7 +32,7 @@ import CustomRadioGroup from "@/components/form/CustomRadioGroup";
 const ProfileSection = () => {
   const { user } = useApp();
   const mutation = useProfileUpdate();
-  const [country, setCountry] = useState<Country>(
+  const [country, setCountry] = useState<Country | undefined>(
     user.country ?? {
       name: "Nigeria",
       dialCode: "+234",
@@ -40,7 +40,7 @@ const ProfileSection = () => {
       flag: "🇳🇬",
     }
   );
-  const [, setDialCode] = useState(country?.dialCode);
+  const [, setDialCode] = useState(country?.dialCode || '');
   const formSchema = updateProfileSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -87,7 +87,6 @@ const ProfileSection = () => {
   };
   return (
     <section>
-      {/* {process.env.SERVER_BASE_ROUTE} */}
       <img
         src={`http://localhost:3000/uploads/profile/${user.profile}`}
         alt="no image"

@@ -1,7 +1,4 @@
-"use client";
-
 import type React from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -241,7 +238,7 @@ const NavSearch = ({
   );
 
   const renderSuggestions = () => (
-    <div className="w-full bg-background border rounded-b-lg shadow-md z-50">
+    <div className="w-full absolute bg-background border rounded-b-lg shadow-md z-50">
       <ScrollArea className="max-h-[60vh]">
         {suggestionsLoading ? (
           // Skeleton loading state
@@ -277,7 +274,7 @@ const NavSearch = ({
   );
 
   const renderSearchHistory = () => (
-    <div className="w-full bg-background border rounded-b-lg shadow-md z-50">
+    <div className="w-full absolute bg-background border rounded-b-lg shadow-md z-50">
       <ScrollArea className="max-h-[60vh]">
         <div className="py-2">
           <div className="px-4 py-1 text-sm font-medium text-muted-foreground">

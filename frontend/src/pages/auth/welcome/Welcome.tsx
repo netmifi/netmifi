@@ -1,4 +1,3 @@
-import { useTheme } from "@/app/theme-provider";
 import { useApp } from "@/app/app-provider";
 import { Button } from "@/components/ui/button";
 import {

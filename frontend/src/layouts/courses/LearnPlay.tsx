@@ -151,9 +151,9 @@ const LearnPlay = () => {
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    // ...courseContents.flatMap((content) =>
-    //   content.courses.flatMap((course) => course.videoUrl)
-    // ),
+    ...courseContents.flatMap((content) =>
+      content.courses.flatMap((course) => course.videoUrl)
+    ),
   ]);
 
   // Subtitle mapping for each video
@@ -565,7 +565,7 @@ const LearnPlay = () => {
                     <ReviewCard
                       isVerified={review.isVerified}
                       name={review.name}
-                      profile={review?.profile}
+                      profile={review?.profile || ''}
                       profileUrl={review.profileUrl}
                       rating={review.rating}
                       review={review.review}
