@@ -1,6 +1,4 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { useTheme } from "@/app/theme-provider";
-import { logoText, logoTextWhite } from "@/assets/logo";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,22 +10,18 @@ import { ArrowLeftIcon, MailIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { CustomLogo } from "@/components/CustomLogo";
 
 const ForgotPassword = () => {
   const rootCourses = ["/auth/forgot-password/", "/auth/forgot-password"];
   const { pathname } = useLocation();
-  const { theme } = useTheme();
   const navigate = useNavigate();
   const [via, setVia] = useState<"email" | "sms">("email");
 
   return (
     <div className="bg-destructive/20 w-screen flex flex-col items-center">
-      <img
-        src={theme === "dark" ? logoTextWhite : logoText}
-        className="w-[7rem] sm:mr-auto sm:mt-10 sm:ml-10 mt-auto"
-        alt="logo"
-      />
-
+      <CustomLogo className="w-[7rem] sm:mr-auto sm:mt-10 sm:ml-10 mt-auto"  />
+  
       <Card className="max-sm:mt-auto sm:my-auto max-sm:h-[60vh] md:w-[25em] max-w-full rounded-none sm:rounded-3xl">
         <CardContent className="p-5 sm:p-7 ">
           <CardHeader className="items-start gap-5 p-0 mb-5">
