@@ -10,6 +10,7 @@ import { AiFillQuestionCircle } from "react-icons/ai";
 import { FaFile, FaMicrophone } from "react-icons/fa6";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
+  ArrowRight,
   CogIcon,
   File,
   HelpCircleIcon,
@@ -135,9 +136,10 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                         </span>
                       </Link>
                     </div>
-                    <Button>
-                      <NavLink to={"/courses/my-courses"}>See all</NavLink>
-                    </Button>
+                    <div className="px-5 gap-1 underline-offset-2 text-red flex text-sm underline ">
+                      <NavLink to={"/courses/my-courses"}>See all</NavLink>{" "}
+                      <ArrowRight className="w-4" />
+                    </div>
                   </div>
                 </SidebarMenu>
               </SidebarGroupContent>

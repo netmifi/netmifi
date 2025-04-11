@@ -8,7 +8,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { PlusCircleIcon } from "lucide-react";
+import { PlusCircleIcon, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavSearch from "@/components/navbar/NavSearch";
 
@@ -63,8 +63,14 @@ const TopBar = ({
         )}
 
         <NavbarPopover type="notification" />
-
-        {state === "user" && <NavbarPopover type="cart" />}
+        {/* uncomment this below for popover cat */}
+        {/* {state === "user" && <NavbarPopover type="cart" />} */}
+        
+        {state === "user" && (
+          <Link to="/account/cart">
+            <ShoppingCart />
+          </Link>
+        )}
 
         <div className="max-sm:hidden">
           <DropdownProfile />

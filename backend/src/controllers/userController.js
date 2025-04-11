@@ -9,7 +9,7 @@ const fs = require('fs/promises');
 const fsSync = require('fs');
 const multer = require('multer');
 const path = require('path');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { authCookieService } = require('../services/cookieService');
 const SALT_ROUNDS = 12;
 

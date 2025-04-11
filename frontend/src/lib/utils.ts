@@ -5,7 +5,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 // import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 
-const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/; // time regular expression
+// const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/; // time regular expression
 
 export function cn(...inputs: ClassValue[]) {
   // vercel shadcn function for handling classname literals
@@ -49,26 +49,29 @@ export const convertToReadableNumber = (number: number) => {
 
 export const convertToReadableTime = (timeInSeconds: number) => {
   // coverts time from seconds to Hours:Minutes:Seconds
-  const days = Math.floor(timeInSeconds / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
+  const d = Math.floor(timeInSeconds / (1000 * 60 * 60 * 24));
+  const h = Math.floor(
     (timeInSeconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
-  const minutes = Math.floor(
+  const m = Math.floor(
     (timeInSeconds % (1000 * 60 * 60)) / (1000 * 60)
   );
-  const seconds = Math.floor((timeInSeconds % (1000 * 60)) / 1000);
+  const s = Math.floor((timeInSeconds % (1000 * 60)) / 1000);
   
-  // const hours = Math.floor(timeInSeconds / 3600);
-  // const minutes = Math.floor((timeInSeconds % 3600) / 60);
-  // const seconds = Math.floor(timeInSeconds % 60);
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
 
-  const formattedDays = days.toString().padStart(2, '');
+  const formattedD = d.toString().padStart(2, '');
   const formattedHours = hours.toString().padStart(2, '0');
+  const formattedH = h.toString().padStart(2, '0');
   const formattedMinutes = minutes.toString().padStart(2, '0');
+  const formattedM = m.toString().padStart(2, '0');
   const formattedSeconds = seconds.toString().padStart(2, '0');
+  const formattedS = s.toString().padStart(2, '0');
 
-  if (days > 0) {
-    return `${formattedDays}d ${formattedHours}h ${formattedMinutes}m ${formattedSeconds}s`;
+  if (d > 0) {
+    return `${formattedD}:${formattedH}:${formattedM}:${formattedS}`;
   } else if (hours === 0) {
     return `${formattedMinutes}:${formattedSeconds}`;
   } else {
