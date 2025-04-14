@@ -93,9 +93,9 @@ const App = () => {
                     path="recent"
                     element={<RecentCourses page="self" />}
                   />
-                  <Route path="course/:id" element={<CoursePreview />} />
+                  <Route path="course/:slug" element={<CoursePreview />} />
                   <Route path="my-courses" element={<MyCourses />} />
-                  <Route path="my-courses/:id" element={<LearnPlay />} />
+                  <Route path="my-courses/:slug" element={<LearnPlay />} />
                 </Route>
 
                 {/* !!! PRICING ROUTE HAS BEEN SUSPENDED !!! */}
@@ -109,18 +109,18 @@ const App = () => {
                 />
                 <Route path="popular" element={<PopularBlogs page="self" />} />
                 <Route path="recent" element={<RecentBlogs page="self" />} />
-                <Route path="blog/:id" element={<Blog />} />
+                <Route path="blog/:slug" element={<Blog />} />
               </Route> */}
 
               {/* INSTRUCTORS ROUTE */}
               <Route path="instructors" element={<Instructors />}>
-                <Route path="instructor/:id" element={<Instructor />} />
+                <Route path="instructor/:slug" element={<Instructor />} />
               </Route>
 
               {/* USER ROUTES */}
-              <Route path="/user/:id" element={<h1>User</h1>} />
+              <Route path="/user/:slug" element={<h1>User</h1>} />
               <Route
-                path="/user/:id/courses"
+                path="/user/:slug/courses"
                 element={<h1>Recent Courses</h1>}
               />
 

@@ -20,8 +20,8 @@ const instructorSchema = new Schema({
         type: String,
     },
     whyInterest: {
-        type: String,
-        default: "",
+      type: String,
+      default: "",
     },
     taughtBefore: {
         type: String,
@@ -31,7 +31,20 @@ const instructorSchema = new Schema({
         type: String,
         default: "no",
     },
-}, { timestamps: true });
+}, {   toJSON: {
+    transform: function (doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+    }
+  },
+  toObject: {
+    transform: function (doc, ret) {
+      ret.id = ret._id;
+      delete ret._id;
+    }
+    },
+    timestamps: true
+});
 
 // Text index on full name for searching
 instructorSchema.index({ fullName: 'text' });

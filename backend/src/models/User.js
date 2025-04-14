@@ -1,6 +1,40 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const cartSchema = new Schema(
+    {
+        productId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Course',
+            required: true
+        },
+        instructorId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        instructorName: { type: String, required: true },
+        title: { type: String, required: true },
+        price: { type: Number, required: true },
+        oldPrice: { type: Number, required: false },
+        category: { type: String, required: false },
+    }, {
+        toJSON: {
+            transform: function (doc, ret) {
+              ret.id = ret._id;
+              delete ret._id;
+            }
+          },
+          toObject: {
+            transform: function (doc, ret) {
+              ret.id = ret._id;
+              delete ret._id;
+            }
+          },
+    }
+);
+
+
 const userSchema = new Schema({
     firstName: {
         type: String,
@@ -32,13 +66,13 @@ const userSchema = new Schema({
         type: String,
         unique: true,
         sparse: true
-      },
-      password: {
+    },
+    password: {
         type: String,
         minlength: 7,
-        required: function() { return !this.googleId; }, // Conditional requirement if the sign up is coming from google
+        required: function () { return !this.googleId; }, // Conditional requirement if the sign up is coming from google
         trim: true
-      },
+    },
     country: {
         name: String, dialCode: String, code: String, flag: String
     },
@@ -111,23 +145,28 @@ const userSchema = new Schema({
             expiresIn: Date,
         },
     },
-    cart: [
-        {
-            productId: {
-                type: Schema.Types.ObjectId,
-                ref: 'Product',
-                required: true
-            },
-            quantity: {
-                type: Number,
-                required: true,
-                default: 1
-            }
-        }
-    ]
-}, { timestamps: true });
+    cart: {
+        type: Array,
+        of: cartSchema,
+        required: false,
+        default: [],
+    },
+}, {
+        toJSON: {
+          transform: function (doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+          }
+        },
+        toObject: {
+          transform: function (doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+          }
+        },
+    timestamps: true
+});
 
 // This is a TTL index on the generatedCode.expiresIn field
 userSchema.index({ 'generatedCode.expiresIn': 1 }, { expireAfterSeconds: 0 });
-
 module.exports = mongoose.model('User', userSchema);

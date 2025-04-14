@@ -1,5 +1,4 @@
 import { useApp } from "@/app/app-provider";
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { ScrollArea } from "../ui/scroll-area";
@@ -7,20 +6,25 @@ import {
   ArrowUpRightFromCircleIcon,
   BadgeIcon,
   BellRing,
-  EllipsisVerticalIcon,
   MessageSquare,
   ShoppingCart,
   TrashIcon,
 } from "lucide-react";
 import { FaNairaSign } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { useRemoveFromCart } from "@/api/hooks/cart/useRemoveFromCart";
+import { toast } from "sonner";
+import Loader from "../Loader";
 
 const NavbarPopover = ({
   type,
 }: {
   type: "message" | "notification" | "cart";
 }) => {
-  const { cartItems, setCartItems } = useApp();
+  const { cartItems } = useApp();
   const notifications = [];
+  const mutation = useRemoveFromCart();
 
   const counter =
     type === "cart"
@@ -29,9 +33,22 @@ const NavbarPopover = ({
       ? notifications.length
       : 0;
 
-  const handleRemoveCartItem = (course: Course) => {
-    const newCart = cartItems.filter((item) => course.id === item.id);
-    setCartItems(newCart);
+  const handleRemoveCartItem = async (course: Course) => {
+    // const newCart = cartItems.filter((item) => course.id === item.id);
+    // setCartItems(newCart);
+    try {
+      // this function handles cart addition
+      console.log("course", course);
+      // if (cartItems.find((item) => item.id === course.id))
+      //   return toast.error(`${course.title} already in cart`); // is item already in cart
+
+      const { data } = await mutation.mutateAsync(course);
+      // setCartItems([...cartItems, course]); // update cart
+      console.log(data);
+      toast.success(`${course.title} has been removed from your cart`);
+    } catch (error) {
+      mutationErrorHandler(error);
+    }
   };
 
   return (
@@ -75,36 +92,27 @@ const NavbarPopover = ({
                           <FaNairaSign /> {item.price}
                         </span>
                       </Button>
-
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button variant={"ghost"} className="bg px-1">
-                            <EllipsisVerticalIcon />
-                          </Button>
-                        </PopoverTrigger>
-
-                        <PopoverContent className="p-0 flex *:flex-grow w-fit *:rounded-none overflow-hidden">
-                          <Button
-                            variant="primary"
-                            className="hover:bg-primary/80 hover:text-popover"
-                          >
-                            <ArrowUpRightFromCircleIcon />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            onClick={() => handleRemoveCartItem(item)}
-                            className="hover:bg-primary/80 hover:text-popover"
-                          >
-                            <TrashIcon />
-                          </Button>
-                        </PopoverContent>
-                      </Popover>
+                      <Button
+                        disabled={mutation.isPending}
+                        variant="ghost"
+                        onClick={() => handleRemoveCartItem(item)}
+                        className="hover:bg-primary/80 hover:text-popover"
+                      >
+                        {mutation.isPending ? (
+                          <Loader type="loader" />
+                        ) : (
+                          <TrashIcon />
+                        )}
+                      </Button>
                     </div>
                   ))}
                 </div>
-                <div className="sticky bottom-0 w-full bg-secondary shadow-sm p-4">
-                  <Button className="w-full ">
-                    Check All <ArrowUpRightFromCircleIcon />
+                <div className="sticky bottom-0 bg-popover w-full shadow-inner p-4">
+                  <Button asChild className="w-full">
+                    <Link to="/account/cart">
+                      View your cart
+                      <ArrowUpRightFromCircleIcon />
+                    </Link>
                   </Button>
                 </div>
               </div>

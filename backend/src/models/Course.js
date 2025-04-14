@@ -35,7 +35,20 @@ const courseSchema = new Schema(
             required: false,
         },
     },
-    { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
+    {
+        toJSON: {
+            transform: function (doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+            }
+        },
+        toObject: {
+            transform: function (doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+            }
+        }, timestamps: true
+    } // Automatically adds `createdAt` and `updatedAt` fields
 );
 
 // Text index on title and category for searching

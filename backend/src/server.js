@@ -66,7 +66,7 @@ app.use('/user', userRoutes);
 app.use('/instructor', verifyJwt, instructorRoutes);
 app.use('/services', verifyJwt, servicesRoutes);
 app.use('/search', searchRoutes);
-app.use('/cart', cartRoutes); // Add cart routes
+app.use('/cart', verifyJwt, cartRoutes); // Add cart routes
 
 mongoose.connect(dbURI)
     .then(() => {

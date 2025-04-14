@@ -64,13 +64,13 @@ const TopBar = ({
 
         <NavbarPopover type="notification" />
         {/* uncomment this below for popover cat */}
-        {/* {state === "user" && <NavbarPopover type="cart" />} */}
+        {state === "user" && <NavbarPopover type="cart" />}
         
-        {state === "user" && (
+        {/* {state === "user" && (
           <Link to="/account/cart">
             <ShoppingCart />
           </Link>
-        )}
+        )} */}
 
         <div className="max-sm:hidden">
           <DropdownProfile />

@@ -35,13 +35,13 @@ const Recommendations = () => {
         tempCourses.filter(
           (course) =>
             course.type === type &&
-            course.subject.toLowerCase() === subject.toLowerCase()
+            course.category.toLowerCase() === subject.toLowerCase()
         )
       );
     } else if (type === "all" && subject !== "for you") {
       setData(
         tempCourses.filter(
-          (course) => course.subject.toLowerCase() === subject.toLowerCase()
+          (course) => course.category.toLowerCase() === subject.toLowerCase()
         )
       );
     } else if (type !== "all" && subject === "for you") {

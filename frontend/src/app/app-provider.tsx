@@ -8,7 +8,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { toast } from "sonner";
-import { useCheckUserAuth } from "../api/hooks/user/useCheckUserAuth";
 
 // 1. provide the state type to obey typescript linting rule
 interface AppProviderProps {
@@ -59,42 +58,40 @@ export function AppProvider({
   ...props
 }: {
   children: React.ReactNode;
-  }) {
-  
+}) {
   // 3. declare you state.
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [user, setUser] = useState(() => {
     const cookieUser = Cookies.get("user");
     return cookieUser ? JSON.parse(cookieUser) : null;
   });
-  const [isAuth, setIsAuth] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [isAuth, setIsAuth] = useState(
+    user && Object.values(user).length > 0 ? true : false
+  );
+  const [cartItems, setCartItems] = useState<any[]>(
+    user && Object.values(user).length > 0 && user.cart.length > 0
+      ? user.cart
+      : []
+  );
   const [courseUploadProgress, setCourseUploadProgress] = useState({
     progress: 0,
     elapsedTime: 0,
     rate: 0,
   });
 
-  const handleAddToCart = (course: Course) => {
-    // this function handles cart addition
-    if (cartItems.find((item) => item.id === course.id))
-      return toast.error(`${course.title} already in cart`); // is item already in cart
-
-    setCartItems([...cartItems, course]); // update cart
-    toast.success(`${course.title} has been added to your cart`);
-  };
-
   useEffect(() => {
-    // this effect checks if there client is logged in by checking  cookies 
+    // this effect checks if there client is logged in by checking  cookies
     if (Cookies.get("user") && Cookies.get("jwt")) {
       const cookieUser = Cookies.get("user");
       if (cookieUser) {
         localStorage.setItem("user", cookieUser);
         setUser(JSON.parse(cookieUser));
+        setIsAuth(true);
       }
     } else if (!Cookies.get("jwt")) {
       Cookies.remove("user");
       localStorage.removeItem("user");
+      setIsAuth(false);
     }
     // Authentication check finished
     setIsAppLoading(false);
@@ -104,12 +101,22 @@ export function AppProvider({
     if (user) {
       setIsAuth(true);
       localStorage.setItem("user", JSON.stringify(user));
+      setCartItems(user ? user.cart : []);
     } else {
       setIsAuth(false);
     }
   }, [user]);
 
-  // 4. Put in state so contextcan carefully export it
+  // useEffect(() => {
+  //   if (localStorage.) {
+  //     setIsAuth(true);
+  //     localStorage.setItem("user", JSON.stringify(user));
+  //   } else {
+  //     setIsAuth(false);
+  //   }
+  // }, [user]);
+
+  // 4. Put in state so context can carefully export it
   const value = {
     isAppLoading,
     setIsAppLoading,
@@ -119,7 +126,7 @@ export function AppProvider({
     setIsAuth,
     cartItems,
     setCartItems,
-    handleAddToCart,
+    // handleAddToCart,
     courseUploadProgress,
     setCourseUploadProgress,
   };
