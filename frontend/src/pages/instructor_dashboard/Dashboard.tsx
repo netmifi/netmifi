@@ -71,7 +71,7 @@ const Dashboard = () => {
                 id={course.id}
                 type={course.type}
                 price={course.price}
-                subject={course.subject}
+                subject={course.category}
                 thumbnail={course.thumbnail}
                 title={course.title}
                 videoURL={course.videoURL}

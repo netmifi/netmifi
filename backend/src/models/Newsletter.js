@@ -8,7 +8,21 @@ const newsletterSchema = new Schema({
         required: true,
         unique: true
     },
-}, { timestamps: true });
+}, {
+    toJSON: {
+        transform: function (doc, ret) {
+          ret.id = ret._id;
+          delete ret._id;
+        }
+      },
+      toObject: {
+        transform: function (doc, ret) {
+          ret.id = ret._id;
+          delete ret._id;
+        }
+      },
+      timestamps: true
+});
 
 // This is a TTL index on the generatedCode.expiresIn field
 module.exports = mongoose.model('Newsletter', newsletterSchema);

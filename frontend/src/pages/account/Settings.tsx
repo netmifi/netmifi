@@ -48,7 +48,7 @@ const ProfileSection = () => {
       profile: null,
       cover: null,
       country: user.country,
-      phone: parsePhoneNumber(user.phone).nationalNumber,
+      phone: user.phone? parsePhoneNumber(user.phone).nationalNumber : '',
       residentialAddress: user.residentialAddress,
       ...user.handles,
       about: user.about,

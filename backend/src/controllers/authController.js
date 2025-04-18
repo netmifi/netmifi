@@ -6,7 +6,6 @@ const { queryState } = require('../constants/queryState');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { cookieOptions } = require('../constants/cookieOptions');
 const { generateOtp, parseSafeUserData } = require('../utils');
 const Instructor = require('../models/Instructor');
 const { sendEmail } = require('../services/emailService');
@@ -296,23 +295,6 @@ const handleInterestsAndAdSource = async (req, res) => {
         const safeUserData = parseSafeUserData(result);
 
         authCookieService(res, result);
-
-        // const accessToken = jwt.sign({
-        //     user: result,
-        // },
-        //     accessTokenSecret, {
-        //     expiresIn: MAX_AGE,
-        // });
-        // res.cookie('jwt', accessToken, {
-        //     ...cookieOptions,
-        //     maxAge: MAX_AGE * 1000,
-        // });
-
-        // res.cookie('user', JSON.stringify(safeUserData), {
-        //     ...cookieOptions,
-        //     maxAge: MAX_AGE * 1000
-        // });
-
         res.status(200).json({
             message: 'update success',
             state: queryState.success,
@@ -335,12 +317,10 @@ const handleSignIn = async (req, res) => {
     //  # update authentication cookies
 
     const bodyValues = req.body;
-    console.log("body values:",bodyValues)
+    // console.log("body values:",bodyValues)
     try {
         const { error, value } = signInSchema.validate(bodyValues, { abortEarly: false });
         const user = await User.findOne({ email: bodyValues.email });
-        console.log("error from joi:",error)
-        
         if (error) {
             console.log(error);
             res.status(403).json({
@@ -362,10 +342,9 @@ const handleSignIn = async (req, res) => {
 
         // console.log("math:", await bcrypt.compare(value.password, user.password)
         // )
-        const math = await bcrypt.compare(value.password, user.password);
-        console.log("value:",value)
-        console.log("user:",user)
-        if (!math) {
+        const match = await bcrypt.compare(value.password, user.password);
+
+        if (!match) {
             res.status(400).json({
                 message: 'incorrect password',
                 state: queryState.blocked,
@@ -376,11 +355,11 @@ const handleSignIn = async (req, res) => {
 
         authCookieService(res, user);
         const safeUserData = parseSafeUserData(user);
+        console.log(safeUserData)
         res.status(202).json({
             message: 'login successful',
             state: queryState.success,
             data: safeUserData,
-            // accessToken
         });
     } catch (error) {
         res.status(405).json({

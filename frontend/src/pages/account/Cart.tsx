@@ -20,7 +20,7 @@ import Loader from "@/components/Loader";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
-import { instructorFormSchema } from "@/lib/utils";
+import { formatNumber, instructorFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { useEffect, useState } from "react";
@@ -35,22 +35,98 @@ import NavbarPopover from "@/components/navbar/NavbarPopover";
 import AppSidebar, { NavSkeleton } from "@/layouts/navbar/user/AppSidebar";
 import GuestNavbar from "@/layouts/navbar/guest/Index";
 import { Sidebar } from "@/components/ui/sidebar";
+import { FaNairaSign } from "react-icons/fa6";
+import { useRemoveFromCart } from "@/api/hooks/cart/useRemoveFromCart";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+
+
+const CartItem = ({
+  item,
+  setTotalPrice,
+}: {
+    item: { id: string; title: string; price: number; instructorName: string };
+  setTotalPrice: React.Dispatch<React.SetStateAction<number>>
+}) => {
+  const mutation = useRemoveFromCart();
+  const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
+
+  const handleRemoveCartItem = async (cartItem) => {
+    try {
+      const { data } = await mutation.mutateAsync(cartItem);
+      console.log(data);
+      toast.success(`${cartItem.title} has been removed from your cart`);
+    } catch (error) {
+      mutationErrorHandler(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isAccepted) setTotalPrice((prev: number) => prev + item.price);
+    else
+      setTotalPrice((prev: number) => (prev !== 0 ? prev - item.price : 0));
+  }, [isAccepted, setTotalPrice, item.price]);
+
+  return (
+    <div
+      key={item.id}
+      className="flex gap-3 items-start border rounded-xl p-6 relative"
+    >
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="absolute top-3 right-3 w-[15px] h-[15px]">
+            {mutation.isPending ? (
+              <Loader type="loader" />
+            ) : (
+              <XCircle
+                className="cursor-pointer text-gray-500 w-[15px] h-[15px]"
+                onClick={() => handleRemoveCartItem(item)}
+              />
+            )}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          Remove {item.title} <br /> by {item.instructorName} from cart
+        </TooltipContent>
+      </Tooltip>
+      <Checkbox
+        id={item.id}
+        checked={isAccepted}
+        onCheckedChange={(checked) => setIsAccepted(checked)}
+      />
+      <div className="flex flex-col gap-2 w-full font-bold">
+        <div className="flex justify-between text-sm">
+          <p className="text-xs sm:text-base">{item.title}</p>
+          <p className="text-red text-xs sm:text-sm flex items-center">
+            <FaNairaSign /> {item.price.toLocaleString()}
+          </p>
+        </div>
+        <div className="flex justify-between text-xs font-thin text-gray-400">
+          <Badge className="bg-gray-200 text-gray-400 px-4py-1 text-xs">
+            {item.instructorName}
+          </Badge>
+          {/* <p>(N10,000)</p> */}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Cart = () => {
   const navigate = useNavigate();
-  const rootCourses = ["/auth/welcome/", "/auth/welcome"];
-  const { pathname } = useLocation();
-  const { theme } = useTheme();
-  const { user } = useApp();
-  const { setUser } = useApp();
+  const { user, setUser } = useApp();
   const { state } = useLocation();
   const currentStep = "Checkouts";
   // const { countries } = useCountries();
   const instructorRegisterMutation = useInstructorRegister();
-  const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  // const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
+  const [vat, setVat] = useState(totalPrice);
   const [country, setCountry] = useState<Country>({
     name: "Nigeria",
     dialCode: "+234",
@@ -89,13 +165,17 @@ const Cart = () => {
         state && state.returnUrl ? state.returnUrl : "/auth/welcome/interest"
       );
     } catch (error) {
-      mutationErrorHandler(instructorRegisterMutation);
+      mutationErrorHandler(error);
     }
   };
 
   useEffect(() => {
     form.setValue("country", country);
   }, [country, form]);
+
+  useEffect(() => {
+    setVat((totalPrice * 7.5) / 100);
+  }, [totalPrice]);
 
   return (
     <>
@@ -135,39 +215,36 @@ const Cart = () => {
                     className="w-full grid grid-cols-1 md:grid-cols- 2 justify-between gap-5 *:flex-grow *:min-w-[50%]"
                   >
                     <div className="flex flex-col gap-3 ">
-                      <div className="flex gap-3 items-start border rounded-xl p-6 relative">
-                        <XCircle className="absolute top-3 right-3 text-gray-500 w-[15px] h-[15px]" />
-                        <Checkbox
-                          id="accept"
-                          checked={isAccepted}
-                          onCheckedChange={(checked) => setIsAccepted(checked)}
-                        />
-                        <div className="flex flex-col gap-2 w-full font-bold">
-                          <div className="flex justify-between text-sm">
-                            <p>Content Production - Tutorial </p>
-                            <p className="text-red text-base">NGN 5,000</p>
-                          </div>
-                          <div className="flex justify-between text-xs font-thin text-gray-400">
-                            <Badge className="bg-gray-200 text-gray-400 px-4py-1 text-xs">
-                              By Angela Sun
-                            </Badge>
-                            <p>(N10,000)</p>
-                          </div>
-                        </div>
-                      </div>
+                      {user.cart && user.cart.length > 0 ? (
+                        user.cart.map((item: { id: string; title: string; price: number; instructorName: string; }) => (
+                          <CartItem
+                            item={item}
+                            setTotalPrice={setTotalPrice}
+                          />
+                        ))
+                      ) : (
+                        <p>No item(s) to display on cart</p>
+                      )}
+
                       <div className="flex flex-col gap-3">
                         <div className="flex justify-between w-full">
                           <p className="text-xs">Subtotal </p>
-                          <p className="text-sm"> NGN 9,800.00</p>
+                          <p className="text-sm">
+                            {" "}
+                            NGN {totalPrice.toLocaleString()}
+                          </p>
                         </div>
                         <div className="flex justify-between w-full">
                           <p className="text-xs">Vat </p>
-                          <p className="text-sm"> NGN 200.00</p>
+                          <p className="text-sm"> NGN {vat.toLocaleString()}</p>
                         </div>
                         <hr />
                         <div className="flex justify-between font-bold w-full">
                           <p className="text-xs">Total</p>
-                          <p className="text-base"> NGN 10,000.00</p>
+                          <p className="text-base">
+                            {" "}
+                            NGN {(totalPrice + vat).toLocaleString()}
+                          </p>
                         </div>
                         <div className="flex w-full">
                           <Modal
@@ -176,7 +253,7 @@ const Cart = () => {
                             trigger={
                               <Button
                                 disabled={
-                                  !isAccepted ||
+                                  totalPrice < 1 ||
                                   instructorRegisterMutation.isPending
                                 }
                                 className="sm:ml-auto basis-full "
@@ -191,13 +268,12 @@ const Cart = () => {
                               </Button>
                             }
                             header="How do you like to pay?"
-                            
                             body={
                               <div className="grid md:grid-cols-2 gap-x-6 gap-y-2 grid-cols-1">
                                 <CustomCard
                                   logo={
                                     <svg
-                                      width="29"  
+                                      width="29"
                                       height="26"
                                       viewBox="0 0 29 26"
                                       fill="none"

@@ -36,14 +36,13 @@ const LogoutModal = ({
       setIsAuth(false);
       setUser(null);
       navigate("/");
+      location.reload();
       toast.success("Logout successful", {
-        duration: 4000,
-        richColors: true,
-        dismissible: true,
+        duration: 6000,
         important: true,
       });
     } catch (error) {
-      toast.error(mutationErrorHandler(logoutMutation, error));
+      mutationErrorHandler(error);
     }
   };
 

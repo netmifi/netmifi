@@ -35,11 +35,37 @@ const courseSchema = new Schema(
             required: false,
         },
     },
-    { timestamps: true } // Automatically adds `createdAt` and `updatedAt` fields
+    {
+        toJSON: {
+            transform: function (doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+            }
+        },
+        toObject: {
+            transform: function (doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+            }
+        }, timestamps: true
+    } // Automatically adds `createdAt` and `updatedAt` fields
 );
 
-// Text index on title and category for searching
-courseSchema.index({ title: 'text', category: 'text' });
-
+// compound index for category and price filtering
+courseSchema.index({ category: 1, price: 1 });
+// Create text indexes for full-text search
+courseSchema.index({ 
+    title: 'text', 
+    category: 'text',
+    description: 'text', 
+    // tags: 'text'
+  }, {
+    weights: {
+      title: 10,
+      category: 5,
+      description: 3,
+    //   tags: 5,
+    }
+  });
 // Create a Mongoose model for the course
 module.exports = mongoose.model('Course', courseSchema);

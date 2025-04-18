@@ -16,15 +16,33 @@ import { cn } from "@/lib/utils";
 import { useApp } from "@/app/app-provider";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { useAddToCart } from "@/api/hooks/cart/useAddToCart";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import Loader from "../Loader";
 
 const CourseCard = ({
   className = "",
   course,
   page = "user",
 }: CoursesCardProps) => {
-  const { cartItems, setCartItems, handleAddToCart} = useApp();
+  const { cartItems, setCartItems } = useApp();
+  const mutation = useAddToCart();
 
+  const handleAddToCart = async (course: Course) => {
+    try {
+      // this function handles cart addition
+      console.log("course", course);
+      if (cartItems.find((item) => item.id === course.id))
+        return toast.error(`${course.title} already in cart`); // is item already in cart
 
+      const { data } = await mutation.mutateAsync(course);
+      // setCartItems([...cartItems, course]); // update cart
+      console.log(data);
+      toast.success(`${course.title} has been added to your cart`);
+    } catch (error) {
+      mutationErrorHandler(error);
+    }
+  };
 
   return (
     <Card
@@ -54,8 +72,13 @@ const CourseCard = ({
             </CardTitle>
           </NavLink>
           {page !== "dashboard" && (
+<<<<<<< HEAD
             <CardDescription className="text-xs hidden md:block px-5 py-2 capitalize bg-secondary">
               {course.subject}
+=======
+            <CardDescription className="text-xs px-5 py-2 capitalize bg-secondary">
+              {course.category}
+>>>>>>> 6db0ad61c33f5ae5c8224d1f8d58993a12838245
             </CardDescription>
           )}
         </div>
@@ -103,10 +126,14 @@ const CourseCard = ({
               <TooltipTrigger asChild>
                 <Button
                   variant={"transparent"}
-                  onClick={()=> handleAddToCart(course)}
+                  onClick={() => handleAddToCart(course)}
                   className="p-0 [&_svg]:size-6"
                 >
-                  <PlusCircle className="fill-red text-primary-foreground drop-shadow-md" />
+                  {mutation.isPending ? (
+                    <Loader type="loader" />
+                  ) : (
+                    <PlusCircle className="fill-red text-primary-foreground drop-shadow-md" />
+                  )}
                 </Button>
               </TooltipTrigger>
 

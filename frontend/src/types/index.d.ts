@@ -46,14 +46,16 @@ declare interface Comments {
 }
 
 declare interface Course {
-  // course type-of-data for backend
-  readonly id: string;
+  readonly id: string; // MongoDB ObjectId
+  slug: string;
   type: "paid" | "free";
-  price: number | string;
-  subject: string;
+  price: number;
+  oldPrice?: number;
+  category: string;
   thumbnail: string;
   title: string;
   videoURL: string;
+  instructorId: string;
   instructorName: string;
   instructorProfileImage: string;
   instructorProfileURL: string;
@@ -63,6 +65,7 @@ declare interface Course {
   isFollowing: boolean;
   date: string;
 }
+
 
 declare interface Blog {
   readonly id: string;
