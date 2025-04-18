@@ -44,6 +44,7 @@ import RequireAuth from "./components/RequireAuth";
 import AppLoading from "./components/AppLoading";
 import { PageProgressStart } from "./layouts/RouterProgress";
 import LayoutWithProgress from "./layouts/LayoutWithProgress";
+import SearchResults from "./pages/SearchResults";
 
 const App = () => {
   //   const location = useLocation();
@@ -129,6 +130,7 @@ const App = () => {
               <Route path="/test" element={<TestPage />} />
               <Route path="/feedback" element={<Feedback />} />
               <Route path="about" element={<About />} />
+              <Route path="search-results" element={<SearchResults />} />
               
               {/* Protected Routes */}
               <Route element={<RequireAuth />}>

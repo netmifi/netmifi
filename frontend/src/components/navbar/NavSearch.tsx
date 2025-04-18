@@ -173,7 +173,7 @@ const NavSearch = ({
     staleTime: 300000, // 5 minutes
   })
 
-  const { data: suggestions, isLoading: suggestionsLoading } = useSearchSuggestion(debouncedSearchTerm)
+  const { data: suggestionsData, isLoading: suggestionsLoading } = useSearchSuggestion(debouncedSearchTerm)
 
   // Delete history item mutation
   const deleteHistoryMutation = useMutation({
@@ -199,8 +199,8 @@ const NavSearch = ({
     deleteHistoryMutation.mutate(id)
   }
 
-  const showSuggestions = searchValue.length > 0 && (suggestions?.length > 0 || suggestionsLoading)
-  const showHistory = inputFocused && !searchValue.length && (searchHistory?.length > 0 || historyLoading)
+  const showSuggestions = searchValue.length > 0 && (suggestionsData?.length > 0 || suggestionsLoading)
+      const showHistory = inputFocused && !searchValue.length && (searchHistory?.length > 0 || historyLoading)
 
   const mdWidth = width && width < 768
   const smWidth = width && width < 640
@@ -208,6 +208,12 @@ const NavSearch = ({
   function shortenSuggestion(suggestion: string) {
     return suggestion.slice(0, smWidth ? 25 : mdWidth ? 55 : 100)
   }
+
+  
+  useEffect(()=> {
+    console.log(suggestionsData, debouncedSearchTerm)
+      }, [suggestionsData, debouncedSearchTerm]);
+    
 
   const renderSearchButton = () => (
     <Button
@@ -235,7 +241,7 @@ const NavSearch = ({
             ))}
           </div>
         ) : (
-          suggestions?.map((suggestion, index) => (
+          suggestionsData?.map((suggestion, index) => (
             <div key={index} className="flex items-center hover:bg-muted/50 px-3 py-2">
               <Button
                 variant="ghost"

@@ -46,6 +46,15 @@ const instructorSchema = new Schema({
     timestamps: true
 });
 
+// - index for status filtering
+instructorSchema.index({ status: 1 });
 // Text index on full name for searching
-instructorSchema.index({ fullName: 'text' });
+instructorSchema.index({ 
+  fullName: 'text', 
+}, {
+  weights: {
+    fullName: 10,
+  }
+});
+
 module.exports = mongoose.model('Instructor', instructorSchema);

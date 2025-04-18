@@ -169,4 +169,21 @@ const userSchema = new Schema({
 
 // This is a TTL index on the generatedCode.expiresIn field
 userSchema.index({ 'generatedCode.expiresIn': 1 }, { expireAfterSeconds: 0 });
+userSchema.index({ 'roles.Instructor': 1 });
+userSchema.index({ 
+    firstName: 'text', 
+    lastName: 'text',
+    username: 'text',
+    email: 'text',
+    about: 'text'
+  }, {
+    weights: {
+      username: 10,
+      firstName: 8,
+      lastName: 7,
+      email: 5,
+      about: 3
+    }
+  });
+
 module.exports = mongoose.model('User', userSchema);
