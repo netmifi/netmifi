@@ -4,7 +4,7 @@ const verifyJwt = require('../middlewares/verifyJwt');
 
 const router = express.Router();
 
-router.post('/add', verifyJwt, handleAddToCart); // add to cart
+router.post('/add', handleAddToCart); // add to cart
 router.post('/remove', verifyJwt, handleRemoveFromCart); // remove from cart
 router.get('/view/:userId', verifyJwt, handleViewCart); // view cart
 

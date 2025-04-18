@@ -29,7 +29,7 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
     <Card
       key={course.id}
       className={cn(
-        "min-h-full basis-full sm:basis-[45%] sm:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col gap-7",
+        "min-h-full basis-full md:basis-[45%] md:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col md:gap-7",
         className
       )}
     >
@@ -46,15 +46,15 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
         </div>
 
         <NavLink to={`course/${course.id}/`}>
-          <CardTitle className="capitalize text-low-contrast text-base font-bold font-montserrat px-5">
-            {course.title.length > 45
+          <CardTitle className="capitalize text-low-contrast text-xs md:text-base font-bold font-montserrat px-5">
+            {course.title.length > 20
               ? course.title.slice(0, 45) + "..."
               : course.title}
           </CardTitle>
         </NavLink>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-2 mt-auto">
+      <CardContent className="flex flex-col md:gap-2 mt-1 gap-2 mt- auto">
         <div className="flex justify-between">
           <PostAvatar
             isVerified={course.isVerified}
@@ -147,7 +147,7 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
         <div className="flex flex-col">
           <Progress value={course.progress} className="h-0.5" />
 
-          <span className="text-xs">{course.progress}% Completed</span>
+          <span className="text-xs hidden md:block">{course.progress}% Completed</span>
         </div>
       </CardContent>
     </Card>
