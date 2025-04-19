@@ -58,7 +58,7 @@ const SearchResults = () => {
     );
   }
 
-  if (!results || Object.key(results).length === 0) {
+  if (!results || Object.keys(results).length === 0) {
     return (
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-4">Search Results</h2>
