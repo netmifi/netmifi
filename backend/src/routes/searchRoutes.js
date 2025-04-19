@@ -1,4 +1,4 @@
-const { handleSearchSuggestion  } = require('@/controllers/searchController')
+const { handleSearchSuggestion, handleQuery } = require('@/controllers/searchController')
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
@@ -15,6 +15,6 @@ router.get('/suggestion',  handleSearchSuggestion);
  * Returns course documents where the query matches in the title,
  * instructor, or category fields.
  */
-router.get('/query', );
+router.get('/query', handleQuery);
 
 module.exports = router;
