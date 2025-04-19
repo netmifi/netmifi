@@ -19,19 +19,39 @@ const cartSchema = new Schema(
         oldPrice: { type: Number, required: false },
         category: { type: String, required: false },
     }, {
-        toJSON: {
-            transform: function (doc, ret) {
-              ret.id = ret._id;
-              delete ret._id;
-            }
-          },
-          toObject: {
-            transform: function (doc, ret) {
-              ret.id = ret._id;
-              delete ret._id;
-            }
-          },
-    }
+    toJSON: {
+        transform: function (doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+        }
+    },
+    toObject: {
+        transform: function (doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+        }
+    },
+}
+);
+
+const searchHistorySchema = new Schema(
+    {
+        query: { type: String, required: true },
+    }, {
+    toJSON: {
+        transform: function (doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+        }
+    },
+    toObject: {
+        transform: function (doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+        }
+    },
+    timestamps: true,
+}
 );
 
 
@@ -151,39 +171,52 @@ const userSchema = new Schema({
         required: false,
         default: [],
     },
+    searchHistory: {
+        type: Array,
+        of: searchHistorySchema,
+        required: false,
+        default: [],
+    },
 }, {
-        toJSON: {
-          transform: function (doc, ret) {
+    toJSON: {
+        transform: function (doc, ret) {
             ret.id = ret._id;
             delete ret._id;
-          }
-        },
-        toObject: {
-          transform: function (doc, ret) {
+        }
+    },
+    toObject: {
+        transform: function (doc, ret) {
             ret.id = ret._id;
             delete ret._id;
-          }
-        },
+        }
+    },
     timestamps: true
 });
 
 // This is a TTL index on the generatedCode.expiresIn field
 userSchema.index({ 'generatedCode.expiresIn': 1 }, { expireAfterSeconds: 0 });
-userSchema.index({ 'roles.Instructor': 1 });
-userSchema.index({ 
-    firstName: 'text', 
+userSchema.index({
+    firstName: 'text',
     lastName: 'text',
     username: 'text',
     email: 'text',
     about: 'text'
-  }, {
-    weights: {
-      username: 10,
-      firstName: 8,
-      lastName: 7,
-      email: 5,
-      about: 3
+}
+    , {
+        weights: {
+            username: 10,
+            firstName: 8,
+            lastName: 7,
+            email: 5,
+            about: 3
+        }
     }
-  });
+);
+
+userSchema.index({ firstName: 1 })
+userSchema.index({ lastName: 1 })
+userSchema.index({ username: 1 })
+userSchema.index({ email: 1 })
+userSchema.index({ "roles.Instructor": 1 })
 
 module.exports = mongoose.model('User', userSchema);

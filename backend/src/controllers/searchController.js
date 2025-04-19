@@ -21,7 +21,7 @@ async function getCourseSuggestions(query) {
       }
     },
     {
-      $limit: 5
+      $limit: 15
     },
     {
       $project: {
@@ -44,7 +44,7 @@ async function getCourseSuggestions(query) {
       }
     },
     {
-      $limit: 3
+      $limit: 10
     },
     {
       $project: {
@@ -78,7 +78,7 @@ async function getInstructorSuggestions(query) {
       }
     },
     {
-      $limit: 5
+      $limit: 15
     },
     {
       $project: {
@@ -103,7 +103,7 @@ async function getInstructorSuggestions(query) {
       }
     },
     {
-      $limit: 3
+      $limit: 10
     },
     {
       $project: {
@@ -121,42 +121,53 @@ async function getInstructorSuggestions(query) {
 }
 
 const handleSearchSuggestion = async (req, res) => {
-
   try {
-    const q = req.query.q;
+    const q = req.query.q || '';
     const limit = parseInt(req.query.limit) || 15; // Optional limit for suggestions/pagination
     const type = req.query.type; // Optional: Filter by type ('course' or 'instructor')
-
-    if (!q || q.length < 2) {
-      res.status(405).json({
+    console.log(q);
+    if (q.length < 2) {
+      res.status(400).json({
         message: "Search query must not be less than two characters",
-        state: queryState.blocked,
+        state: queryState.error,
         data: undefined,
       });
       return
     }
 
-    let suggestions = [];
+    // db.users.find({...}).explain("executionStats")
+
+    const cacheKey = `suggestions:${q}:${type || "all"}`
+    // const cachedSuggestions = await cache.get(cacheKey)
+
+    // if (cachedSuggestions) {
+    //   return res.status(200).json(JSON.parse(cachedSuggestions))
+    // }
+
+    let suggestions = []
 
     // Get suggestions based on type or from all collections
-    if (type === 'course') {
-      suggestions = await getCourseSuggestions(q);
-    } else if (type === 'instructor') {
-      suggestions = await getInstructorSuggestions(q);
+    if (type === "course") {
+      suggestions = await getCourseSuggestions(q)
+    } else if (type === "instructor") {
+      suggestions = await getInstructorSuggestions(q)
     } else {
       // Get suggestions from all collections
       const [courseSuggestions, instructorSuggestions] = await Promise.all([
         getCourseSuggestions(q),
-        getInstructorSuggestions(q)
-      ]);
+        getInstructorSuggestions(q),
+      ])
 
       // Combine and deduplicate suggestions
-      suggestions = [...courseSuggestions, ...instructorSuggestions];
-      suggestions = [...new Set(suggestions)];
+      suggestions = [...courseSuggestions, ...instructorSuggestions]
+      suggestions = [...new Set(suggestions)]
 
       // Limit to top 10 suggestions
-      suggestions = suggestions.slice(0, limit);
+      suggestions = suggestions.slice(0, limit)
     }
+
+    // Cache the suggestions
+    // await cache.set(cacheKey, JSON.stringify(suggestions), 60 * 5) // Cache for 5 minutes
 
     console.log('SUGGESTION', suggestions);
     res.status(200).json({
@@ -180,7 +191,7 @@ const handleSearchSuggestion = async (req, res) => {
 /**
  * Search for courses
  */
-async function searchCourses(query, skip, limit = 10) {
+async function searchCourses(query, skip, limit=15) {
   // Use text search for courses
   const results = await Course.aggregate([
     {
@@ -243,7 +254,6 @@ async function searchCourses(query, skip, limit = 10) {
 
   return { results, count };
 }
-
 /**
  * Search for instructors (combining User and Instructor data)
  */
@@ -316,7 +326,7 @@ async function searchInstructors(query, skip, limit) {
         status: '$instructorDetails.status',
         courseCount: { $size: '$courses' },
         // Include a sample of courses (first 3)
-        sampleCourses: { $slice: ['$courses', 0, 3] }
+        sampleCourses: { $slice: ['$courses', 0, 7] }
       }
     }
   ]);
@@ -337,30 +347,62 @@ async function searchInstructors(query, skip, limit) {
 }
 
 const handleQuery = async (req, res) => {
-  const query = req.query.q;
-
-  console.log(query)
-  if (!query) {
-    return res.status(400).json({ error: 'Query parameter "q" is required.' });
-  }
-
   try {
-    // Build a case-insensitive regex for partial matches
-    const regex = new RegExp(query, 'i');
+    const {
+      q,
+      coursePage = 1,
+      instructorPage = 1,
+      courseLimit = 10,
+      instructorLimit = 10
+    } = req.query;
 
-    // Search across title, instructor, and category fields.
-    // For category, we use exact matching against the hard-coded list.
-    const searchResults = await Course.find({
-      $or: [
-        { title: { $regex: regex } },
-        { instructor: { $regex: regex } },
-        { category: { $regex: regex } }
-      ]
-    })
-      .limit(20)
-      .lean();
+    console.log(q,
+      coursePage,
+      instructorPage,
+      courseLimit,
+      instructorLimit)
 
-    res.json({ results: searchResults });
+    // if (!q || q.length < 2) {
+    //   res.status(400).json({
+    //     message: "Search query must not be less than two characters",
+    //     state: queryState.error,
+    //     data: undefined,
+    //   });
+    //   return
+    // }
+
+    // Calculate skip values for pagination
+    const courseSkip = (parseInt(coursePage) - 1) * parseInt(courseLimit);
+    const instructorSkip = (parseInt(instructorPage) - 1) * parseInt(instructorLimit);
+
+    // Perform searches in parallel
+    const [courseResults, instructorResults] = await Promise.all([
+      searchCourses(q, courseSkip, parseInt(courseLimit)),
+      searchInstructors(q, instructorSkip, parseInt(instructorLimit))
+    ]);
+
+    // Return structured response with separate pagination info
+    return res.status(200).json({
+      message: 'query successful',
+      state: queryState.success,
+      data: {
+        courses: {
+          results: courseResults.results,
+          totalPages: Math.ceil(courseResults.count / parseInt(courseLimit)),
+          currentPage: parseInt(coursePage),
+          totalResults: courseResults.count,
+          hasMore: courseResults.count > (courseSkip + courseResults.results.length)
+        },
+        instructors: {
+          results: instructorResults.results,
+          totalPages: Math.ceil(instructorResults.count / parseInt(instructorLimit)),
+          currentPage: parseInt(instructorPage),
+          totalResults: instructorResults.count,
+          hasMore: instructorResults.count > (instructorSkip + instructorResults.results.length)
+        }
+      },
+      query: q
+    });
   } catch (error) {
     console.error('Search error:', error);
     res.status(405).json({
@@ -372,7 +414,58 @@ const handleQuery = async (req, res) => {
   }
 }
 
+const loadMoreResults = async (req, res) => {
+  try {
+    const { q, category, page = 1, limit = 10 } = req.query;
+
+    if (!q || q.length < 2) {
+      res.status(400).json({
+        message: "Search query must not be less than two characters",
+        state: queryState.error,
+        data: undefined,
+      });
+      return
+    }
+
+    if (!category || !['courses', 'instructors'].includes(category)) {
+      res.status(400).json({
+        message: 'Valid category is required (courses or instructors)',
+        state: queryState.error,
+        data: undefined,
+      });
+      return
+    }
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    let results, count;
+
+    if (category === 'courses') {
+      const courseResults = await searchCourses(q, skip, parseInt(limit));
+      results = courseResults.results;
+      count = courseResults.count;
+    } else {
+      const instructorResults = await searchInstructors(q, skip, parseInt(limit));
+      results = instructorResults.results;
+      count = instructorResults.count;
+    }
+
+    return res.status(200).json({
+      message: 'query successful',
+      state: queryState.success,
+      data: results,
+      totalPages: Math.ceil(count / parseInt(limit)),
+      currentPage: parseInt(page),
+      totalResults: count,
+      hasMore: count > (skip + results.length)
+    });
+  } catch (error) {
+    console.error(`Error loading more ${req.query.category}:`, error);
+    return res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
 module.exports = {
   handleSearchSuggestion,
-  handleQuery
+  handleQuery,
+  loadMoreResults
 }
