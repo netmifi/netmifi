@@ -414,6 +414,16 @@ declare interface JumbotronProps {
   bodyClassName?: ClassValue;
   button?: JSX.Element;
 }
+declare interface RobotronProps {
+  className?: string;
+  image: string;
+  imageClassName?: ClassValue;
+  title: string;
+  titleClassName?: ClassValue;
+  subtitle?: string;
+  subtitleClassName?: ClassValue;
+  button?: JSX.Element;
+}
 
 // declare interface ReactPlayerProps extends {}
 declare interface VideoPlayerProps {

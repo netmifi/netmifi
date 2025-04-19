@@ -57,7 +57,7 @@ const CourseCard = ({
           <NavLink to={`/courses/course/${course.id}/`}>
             <img
               src={course.thumbnail}
-              className="h-[250px] w-full object-cover hover:scale-125 transition-transform"
+              className="h-[160px] md:h-[250px] w-full object-cover hover:scale-125 transition-transform"
               alt=""
             />
           </NavLink>
@@ -65,15 +65,20 @@ const CourseCard = ({
 
         <div className="flex flex-col">
           <NavLink to={`/courses/course/${course.id}/`}>
-            <CardTitle className="capitalize text-low-contrast text-base font-bold px-5 py-1 min-h-[4em]">
+            <CardTitle className="capitalize text-low-contrast text-sm md:text-base font-bold px-5 py-1 min-h-[4em]">
               {course.title.length > 40
                 ? course.title.slice(0, 60) + "..."
                 : course.title}
             </CardTitle>
           </NavLink>
           {page !== "dashboard" && (
+<<<<<<< HEAD
+            <CardDescription className="text-xs hidden md:block px-5 py-2 capitalize bg-secondary">
+              {course.subject}
+=======
             <CardDescription className="text-xs px-5 py-2 capitalize bg-secondary">
               {course.category}
+>>>>>>> 6db0ad61c33f5ae5c8224d1f8d58993a12838245
             </CardDescription>
           )}
         </div>

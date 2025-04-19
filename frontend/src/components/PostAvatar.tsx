@@ -31,7 +31,7 @@ const PostAvatar = ({
       </NavLink>
       {!onlyAvatar && (
         <div className="flex flex-col">
-          <NavLink to={profileURL} className="text-red text-sm capitalize">
+          <NavLink to={profileURL} className="text-red text-xs md:text-sm capitalize">
             {profileName}
           </NavLink>
           <p className="text-xs font-montserrat">{description}</p>
