@@ -89,7 +89,7 @@ const Home = () => {
             <div className="flex gap-2 items-end">
               <h3 className="text-lg md:text-xl font-bold">{greeting}</h3>
               <h4 className="text-base md:text-lg">
-                {user.firstName}, {user.lastName}
+                {user?.firstName}, {user?.lastName}
               </h4>
             </div>
           </section>
@@ -152,9 +152,9 @@ const Home = () => {
           <div className="flex items-start gap-3">
             <PostAvatar
               isVerified={false}
-              profileName={`${user.firstName} ${user.lastName}`}
+              profileName={`${user?.firstName} ${user?.lastName}`}
               profileURL=""
-              profileImage={user.profile ?? ""}
+              profileImage={user?.profile ?? ""}
               profileImageClassName="md:size-16 text-xl md:text-2xl"
               onlyAvatar
             />
@@ -162,7 +162,7 @@ const Home = () => {
             <div className="flex flex-col gap-px justify-center text-sm">
               <h4 className="text-lg font-bold flex items-center gap-1 ">
                 {" "}
-                {user.firstName}, {user.lastName}{" "}
+                {user?.firstName}, {user?.lastName}{" "}
                 <span className="font-thin text-sm">20h</span>
               </h4>
               <h6>Content Producer . 19k followers</h6>

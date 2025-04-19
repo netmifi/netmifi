@@ -28,9 +28,9 @@ const NavbarPopover = ({
 
   const counter =
     type === "cart"
-      ? cartItems.length
+      ? cartItems?.length
       : type === "notification"
-      ? notifications.length
+      ? notifications?.length
       : 0;
 
   const handleRemoveCartItem = async (course: Course) => {
@@ -75,7 +75,7 @@ const NavbarPopover = ({
         <ScrollArea className="">
           {/* CART CHILDREN */}
           {type === "cart" &&
-            ((cartItems.length > 0 && (
+            ((cartItems?.length > 0 && (
               <div className="flex flex-col max-h-[70dvh]">
                 <div className="flex flex-col">
                   {cartItems.map((item, index) => (
@@ -84,7 +84,7 @@ const NavbarPopover = ({
                         variant={"ghost"}
                         className="flex-grow hover:bg-secondary text-xs text-left justify-between rounded-none max-w-[90%] overflow-hidden flex-shrink-0"
                       >
-                        {item.title.length > 25
+                        {item?.title?.length > 25
                           ? item.title.slice(0, 25) + "..."
                           : item.title}
 

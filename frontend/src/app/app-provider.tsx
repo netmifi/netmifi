@@ -58,14 +58,9 @@ export function AppProvider({
   ...props
 }: {
   children: React.ReactNode;
-<<<<<<< HEAD
   }) {
   
   // 3. declare your state.
-=======
-}) {
-  // 3. declare you state.
->>>>>>> 6db0ad61c33f5ae5c8224d1f8d58993a12838245
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [user, setUser] = useState(() => {
     const cookieUser = Cookies.get("user");
@@ -75,7 +70,7 @@ export function AppProvider({
     user && Object.values(user).length > 0 ? true : false
   );
   const [cartItems, setCartItems] = useState<any[]>(
-    user && Object.values(user).length > 0 && user.cart.length > 0
+    user && Object.values(user).length > 0 && user?.cart?.length > 0
       ? user.cart
       : []
   );
@@ -85,7 +80,6 @@ export function AppProvider({
     rate: 0,
   });
 
-<<<<<<< HEAD
   const handleAddToCart = async (course: Course) => {
     try {
       const response = await fetch("/cart/add", {
@@ -115,8 +109,6 @@ export function AppProvider({
   };
   
 
-=======
->>>>>>> 6db0ad61c33f5ae5c8224d1f8d58993a12838245
   useEffect(() => {
     // this effect checks if there client is logged in by checking  cookies
     if (Cookies.get("user") && Cookies.get("jwt")) {
@@ -164,7 +156,7 @@ export function AppProvider({
     setIsAuth,
     cartItems,
     setCartItems,
-    // handleAddToCart,
+    handleAddToCart,
     courseUploadProgress,
     setCourseUploadProgress,
   };
