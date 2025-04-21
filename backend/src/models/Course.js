@@ -52,20 +52,26 @@ const courseSchema = new Schema(
 );
 
 // compound index for category and price filtering
-courseSchema.index({ category: 1, price: 1 });
+
 // Create text indexes for full-text search
 courseSchema.index({ 
     title: 'text', 
     category: 'text',
     description: 'text', 
     // tags: 'text'
-  }, {
-    weights: {
-      title: 10,
-      category: 5,
-      description: 3,
-    //   tags: 5,
-    }
-  });
+},
+//     {
+//     weights: {
+//       title: 10,
+//       category: 5,
+//       description: 3,
+//     //   tags: 5,
+//     }
+// }
+);
+courseSchema.index({ title: 1 })
+courseSchema.index({ description: 1 })
+courseSchema.index({ category: 1 })
+courseSchema.index({ status: 1 })
 // Create a Mongoose model for the course
 module.exports = mongoose.model('Course', courseSchema);

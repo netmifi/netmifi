@@ -4,6 +4,13 @@ declare interface userType {
   type: "guest" | "user" | "instructor" | "blogger" | "admin";
 }
 
+declare interface SearchParams {
+  q: string
+  type?: string
+  page?: number
+  limit?: number
+}
+
 declare interface Comments {
   count: number;
   comments?: {
