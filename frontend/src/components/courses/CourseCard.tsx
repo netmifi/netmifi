@@ -25,7 +25,7 @@ const CourseCard = ({
   course,
   page = "user",
 }: CoursesCardProps) => {
-  const { cartItems, setCartItems, handleAddToCart } = useApp();
+  const { handleAddToCart } = useApp();
   const mutation = useAddToCart();
 
   // const handleAddToCart = async (course: Course) => {
@@ -48,7 +48,7 @@ const CourseCard = ({
     <Card
       key={course.id}
       className={cn(
-        "min-h-full basis-full sm:basis-[45%] sm:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col",
+        "min-h-full min-w-80 flex flex-col",
         className
       )}
     >

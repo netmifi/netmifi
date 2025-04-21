@@ -3,7 +3,7 @@ const { queryState } = require('../constants/queryState');
 
 const handleAddToCart = async (req, res) => {
     try {
-        const { userId, productId, quantity } = req.body;
+        const { userId, productId, quantity,title, price } = req.body;
         const user = await User.findById(userId);
 
         if (!user) {
@@ -19,10 +19,11 @@ const handleAddToCart = async (req, res) => {
         if (productIndex > -1) {
             user.cart[productIndex].quantity += quantity;
         } else {
-            user.cart.push({ productId, quantity });
+            user.cart.push({ productId, quantity, title, price });
         }
-
+        
         const result = await user.save();
+
         res.status(200).json({
             message: 'Product added to cart',
             state: queryState.success,
@@ -39,8 +40,8 @@ const handleAddToCart = async (req, res) => {
 
 const handleRemoveFromCart = async (req, res) => {
     try {
-        const { userId, productId } = req.body;
-        const user = await User.findById(userId);
+        const { userId, productId, id } = req.body;
+        const user = await User.findById(id);
 
         if (!user) {
             res.status(404).json({
@@ -52,8 +53,9 @@ const handleRemoveFromCart = async (req, res) => {
         }
 
         user.cart = user.cart.filter(item => item.productId.toString() !== productId);
-
+        
         const result = await user.save();
+
         res.status(200).json({
             message: 'Product removed from cart',
             state: queryState.success,

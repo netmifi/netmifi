@@ -75,7 +75,7 @@ const AdCarousel = ({ ads, interval = 10000 }: Props) => {
             className="bg-popover transition-all duration-500"
             image={ads[currentIndex].image}
             title={ads[currentIndex].title}
-            titleClassName="md:text-xl text-white text-base"
+            titleClassName="md:text-base max-w-40 text-white text-sm"
             subtitle={ads[currentIndex].subtitle}
             subtitleClassName="text-gray-300 text-xs md:text-sm"
             button={

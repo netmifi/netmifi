@@ -22,9 +22,9 @@ const NavbarPopover = ({
 }: {
   type: "message" | "notification" | "cart";
 }) => {
-  const { cartItems } = useApp();
+  const { cartItems, handleRemoveFromCart } = useApp();
   const notifications = [];
-  const mutation = useRemoveFromCart();
+  // const mutation = useRemoveFromCart();
 
   const counter =
     type === "cart"
@@ -33,23 +33,23 @@ const NavbarPopover = ({
       ? notifications?.length
       : 0;
 
-  const handleRemoveCartItem = async (course: Course) => {
-    // const newCart = cartItems.filter((item) => course.id === item.id);
-    // setCartItems(newCart);
-    try {
-      // this function handles cart addition
-      console.log("course", course);
-      // if (cartItems.find((item) => item.id === course.id))
-      //   return toast.error(`${course.title} already in cart`); // is item already in cart
+  // const handleRemoveCartItem = async (course: Course) => {
+  //   // const newCart = cartItems.filter((item) => course.id === item.id);
+  //   // setCartItems(newCart);
+  //   try {
+  //     // this function handles cart addition
+  //     console.log("course", course);
+  //     // if (cartItems.find((item) => item.id === course.id))
+  //     //   return toast.error(`${course.title} already in cart`); // is item already in cart
 
-      const { data } = await mutation.mutateAsync(course);
-      // setCartItems([...cartItems, course]); // update cart
-      console.log(data);
-      toast.success(`${course.title} has been removed from your cart`);
-    } catch (error) {
-      mutationErrorHandler(error);
-    }
-  };
+  //     const { data } = await mutation.mutateAsync(course);
+  //     // setCartItems([...cartItems, course]); // update cart
+  //     console.log(data);
+  //     toast.success(`${course.title} has been removed from your cart`);
+  //   } catch (error) {
+  //     mutationErrorHandler(error);
+  //   }
+  // };
 
   return (
     <Popover>
@@ -93,16 +93,17 @@ const NavbarPopover = ({
                         </span>
                       </Button>
                       <Button
-                        disabled={mutation.isPending}
+                        // disabled={mutation.isPending}
                         variant="ghost"
-                        onClick={() => handleRemoveCartItem(item)}
+                        onClick={() => handleRemoveFromCart(item)}
                         className="hover:bg-primary/80 hover:text-popover"
                       >
-                        {mutation.isPending ? (
+                        {/* {mutation.isPending ? (
                           <Loader type="loader" />
                         ) : (
                           <TrashIcon />
-                        )}
+                        )} */}
+                        <TrashIcon/>
                       </Button>
                     </div>
                   ))}

@@ -11,9 +11,9 @@ const cartSchema = new Schema(
         instructorId: {
             type: Schema.Types.ObjectId,
             ref: 'User',
-            required: true
+            required: false
         },
-        instructorName: { type: String, required: true },
+        instructorName: { type: String, required: false },
         title: { type: String, required: true },
         price: { type: Number, required: true },
         oldPrice: { type: Number, required: false },

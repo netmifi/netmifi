@@ -14,8 +14,8 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
   const trimmedData = data.slice(0, 10);
 
   return (
-    <div className=" flex flex-col gap-5">
-      <h3 className="max-sm: px-2 text-lg md:text-xl font-bold capitalize">{title}</h3>
+    <div className="sm:padding-x flex flex-col gap-5">
+      <h3 className="max-sm:px-2 text-lg sm:text-xl font-bold capitalize">{title}</h3>
 
       <div className="flex justify-center items-center">
         <Carousel
@@ -26,18 +26,18 @@ const CourseCarousel = ({ title, link, data }: CourseCarouselProps) => {
             {trimmedData.map((datum) => (
               <CarouselItem
                 key={datum.id}
-                className="basis-[70%] md:basis-[30%] lg:basis-[35%] *:md:max-w-full *:lg:max-w-full *:mx-auto"
+                className="md:basis-1/2 lg:basis-1/3 *:md:max-w-full *:lg:max-w-full *:mx-auto"
               >
                 <CourseCard course={datum} />
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className=" left-0 md:border-0 md:rounded-none md:h-full md:w-16 sm:bg- secondary md:bg-gradient-to-r from-gray-200 via-gray-200/80 to-transparent rounded-r-full" />
-          <CarouselNext className="right-0 md:border-0 md:rounded-none md:h-full md:w-16 sm:bg- secondary md:bg-gradient-to-l from-gray-200 via-gray-200/80 to-transparent rounded-l-full" />
+          <CarouselPrevious className=" left-0" />
+          <CarouselNext className="right-0" />
         </Carousel>
       </div>
       {link && (
-        <Button size={'sm'} className="mx-auto mt- 5 rounded-full *:flex *:items-center">
+        <Button className="mx-auto mt-5 rounded-full *:flex *:items-center">
           <NavLink to={link}>
             <span>View more</span> <AiOutlineArrowRight />
           </NavLink>
