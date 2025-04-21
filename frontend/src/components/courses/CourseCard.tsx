@@ -72,13 +72,8 @@ const CourseCard = ({
             </CardTitle>
           </NavLink>
           {page !== "dashboard" && (
-<<<<<<< HEAD
-            <CardDescription className="text-xs hidden md:block px-5 py-2 capitalize bg-secondary">
-              {course.subject}
-=======
             <CardDescription className="text-xs px-5 py-2 capitalize bg-secondary">
               {course.category}
->>>>>>> 6db0ad61c33f5ae5c8224d1f8d58993a12838245
             </CardDescription>
           )}
         </div>

@@ -30,19 +30,21 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
     {
       label: "courses",
       icon: BookOpen,
-      count: instructor.courses,
+      count: instructor.courses || 0,
     },
     {
       label: "certificates",
       icon: FaCertificate,
-      count: instructor.certificates,
+      count: instructor.certificates || 0,
     },
     {
       label: "students",
       icon: FaUserGraduate,
-      count: instructor.students,
+      count: instructor.students  || 0,
     },
   ];
+
+  const instructorName = instructor.name || instructor.firstName + " " + instructor.lastName;
   return (
     <Card
       key={instructor.id}
@@ -56,27 +58,27 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
           <Avatar className="size-40 text-xl sm:text-2xl uppercase">
             <AvatarImage src={instructor.profile ?? ""} />
             <AvatarFallback className="size-36">
-              {getFirstLettersForProfile(instructor.name)}
+              {getFirstLettersForProfile(instructorName)}
             </AvatarFallback>
           </Avatar>
 
           <CardTitle className="capitalize md:font-normal font-bold text-lg md:text-2xl">
-            {instructor.name}
+            {instructorName}
           </CardTitle>
 
           <CardDescription className="text-red text-xs md:text-sm first-letter:uppercase">
-            {instructor.area}
+            {instructor.area || instructor.niche}
           </CardDescription>
         </CardHeader>
         <CardFooter className="p-2 xl:flex justify-end hidden items-baseline gap-px">
           <span className="text-sm font-montserrat font-semibold">
-            {instructor.averageRating}
+            {instructor.averageRating || 0}
           </span>
           <Rating
             start={0}
             stop={5}
             fractions={2}
-            initialRating={instructor.averageRating}
+            initialRating={instructor.averageRating || 0}
             emptySymbol={<Star size={14} />}
             fullSymbol={<Star size={14} className="fill-yellow-500" />}
             readonly={true}

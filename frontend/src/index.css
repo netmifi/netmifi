@@ -36,17 +36,10 @@
     --background: 0 0% 97.3%;
     --foreground: 222.2 84% 4.9%;
 
-<<<<<<< HEAD
     --red: 0, 100%, 31%;
     /*penn red*/
-    --red-foreground: 0, 0%, 100%;
-    
-=======
-    --red:0, 100%, 31% ;
-    /*penn red*/
-    --red-foreground:0, 100%, 45%;
+    --red-foreground: 0, 100%, 45%;
 
->>>>>>> 6db0ad61c33f5ae5c8224d1f8d58993a12838245
     --low-red: 15, 100%, 93%;
     --low-red-foreground: 15, 97%, 38%;
 
@@ -122,7 +115,7 @@
     --background: 222.2 84% 4.9%;
     --foreground: 0 0% 98.3%;
     /* 64 */
-    --red:0, 100%, 45%;
+    --red: 0, 100%, 45%;
     /*penn red*/
     --red-foreground: 0, 100%, 31%;
 
