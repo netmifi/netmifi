@@ -32,6 +32,7 @@ const parseSafeUserData = (user, withGeneratedCode) => {
         theme: user.theme,
         handles: { ...user.handles },
         cart: user.cart,
+        searchHistory: user.searchHistory,
         roles: user.roles,
         adSources: user.adSources,
         interests: user.interests,

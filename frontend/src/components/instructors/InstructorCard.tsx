@@ -47,7 +47,7 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
     <Card
       key={instructor.id}
       className={cn(
-        "p-0 overflow-hidden min-h-full basis-full sm:basis-[45%] sm:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col gap-7",
+        "p-0 overflow-hidden min-h-full basis-full sm:basis-[45%] sm:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col md:gap-7",
         className
       )}
     >
@@ -60,15 +60,15 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
             </AvatarFallback>
           </Avatar>
 
-          <CardTitle className="capitalize font-normal">
+          <CardTitle className="capitalize md:font-normal font-bold text-lg md:text-2xl">
             {instructor.name}
           </CardTitle>
 
-          <CardDescription className="text-red first-letter:uppercase">
+          <CardDescription className="text-red text-xs md:text-sm first-letter:uppercase">
             {instructor.area}
           </CardDescription>
         </CardHeader>
-        <CardFooter className="p-2 flex justify-end items-baseline gap-px">
+        <CardFooter className="p-2 xl:flex justify-end hidden items-baseline gap-px">
           <span className="text-sm font-montserrat font-semibold">
             {instructor.averageRating}
           </span>
@@ -84,10 +84,10 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
         </CardFooter>
 
         <div className="flex flex-col justify-evenly hover-item-container">
-          <div className="flex gap-3">
+          <div className="flex gap-2 md:gap-3 text-xs md:text-sm">
             {footerTooltips.map((item) => (
                 <Tooltip>
-                  <TooltipTrigger className="flex items-center gap-1">
+                  <TooltipTrigger className="flex p-0 items-center gap-1">
                     <span>
                       <item.icon size={20} />
                     </span>
@@ -102,7 +102,7 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
             ))}
           </div>
 
-          <Button className="mx-auto" asChild>
+          <Button size={'sm'} className="mx-auto text-xs md:text-sm" asChild>
             <NavLink to={instructorUrl}>View profile</NavLink>
           </Button>
         </div>

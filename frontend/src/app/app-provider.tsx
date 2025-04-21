@@ -58,8 +58,14 @@ export function AppProvider({
   ...props
 }: {
   children: React.ReactNode;
+<<<<<<< HEAD
+  }) {
+  
+  // 3. declare your state.
+=======
 }) {
   // 3. declare you state.
+>>>>>>> 6db0ad61c33f5ae5c8224d1f8d58993a12838245
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [user, setUser] = useState(() => {
     const cookieUser = Cookies.get("user");
@@ -79,6 +85,38 @@ export function AppProvider({
     rate: 0,
   });
 
+<<<<<<< HEAD
+  const handleAddToCart = async (course: Course) => {
+    try {
+      const response = await fetch("/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.id, // or wherever you’re storing the logged-in user ID
+          productId: course.id,
+          quantity: 1,
+        }),
+      });
+      const data = await response.json();
+      console.log(data)
+  
+      if (response.ok && data.state === "success") {
+        setCartItems(data.data); // Assuming backend returns full cart array
+        toast.success(`${course.title} added to cart`);
+      } else {
+        toast.error(data.message || "Something went wrong");
+      }
+    } catch (error) {
+      toast.error("Error adding to cart. Try again.");
+      console.error(error);
+    }
+  };
+  
+
+=======
+>>>>>>> 6db0ad61c33f5ae5c8224d1f8d58993a12838245
   useEffect(() => {
     // this effect checks if there client is logged in by checking  cookies
     if (Cookies.get("user") && Cookies.get("jwt")) {

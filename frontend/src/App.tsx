@@ -130,7 +130,7 @@ const App = () => {
               <Route path="/test" element={<TestPage />} />
               <Route path="/feedback" element={<Feedback />} />
               <Route path="about" element={<About />} />
-              <Route path="search-results" element={<SearchResults />} />
+              <Route path="search" element={<SearchResults />} />
               
               {/* Protected Routes */}
               <Route element={<RequireAuth />}>

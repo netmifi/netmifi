@@ -34,12 +34,12 @@ const Help = () => {
   return (
     <main className="flex flex-col gap-20">
       <Jumbotron
-        className="bg-blue"
+        className="bg-accent"
         image={HelpCenterSvg}
         title="Help center"
-              titleClassName="text-accent"
+              titleClassName="text-primary"
               body="We are always ready to help you on Netmifi. Search Frequently asked questions or ask a send us an email with your question"
-              bodyClassName="text-accent/50"
+              bodyClassName="text-primary/70"
       />
 
       <section className="padding-x flex flex-col gap-6">
