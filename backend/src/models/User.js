@@ -13,6 +13,7 @@ const cartSchema = new Schema(
             ref: 'User',
             required: false
         },
+        quantity: { type: Number, required: false, default: 1 },
         instructorName: { type: String, required: false },
         title: { type: String, required: true },
         price: { type: Number, required: true },

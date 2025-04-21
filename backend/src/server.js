@@ -25,7 +25,7 @@ const dbURI = process.env.DATABASE_URI || '';
 const stageEnv = process.env.NODE_ENV;
 
 app.use(cors(corsOptions));
-app.use(require('./middlewares/credentials'))
+app.use(require('./middlewares/credentials'));
 
 if (stageEnv === 'development') {
     app.use(
@@ -43,11 +43,12 @@ if (stageEnv === 'development') {
     app.use(helmet()); // Use default settings in production
 }
 
-app.use(express.json())
 app.use(express.urlencoded({
     extended: false
 }));
+app.use(express.json());
 app.use(cookieParser());
+
 app.use(
     session({
         secret: process.env.SECRET_KEY,
@@ -57,16 +58,15 @@ app.use(
 );
 
 app.use(passport.initialize());
-
-
 app.use('/uploads/profile/*', express.static(path.join(__dirname, 'uploads', 'profile')));
+
 app.use(limiter);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
-app.use('/instructor', verifyJwt, instructorRoutes);
-app.use('/services', verifyJwt, servicesRoutes);
 app.use('/search', searchRoutes);
-app.use('/cart', cartRoutes); // Add cart routes
+app.use('/instructor', verifyJwt, instructorRoutes);
+app.use('/cart', verifyJwt, cartRoutes);
+app.use('/services', verifyJwt, servicesRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {

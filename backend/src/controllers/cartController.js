@@ -1,11 +1,14 @@
 const User = require('../models/User');
 const { queryState } = require('../constants/queryState');
+const { authCookieService } = require('../services/cookieService');
+const { parseSafeUserData } = require('../utils');
 
 const handleAddToCart = async (req, res) => {
     try {
-        const { userId, productId, quantity,title, price } = req.body;
-        const user = await User.findById(userId);
+        const { id: productId, quantity = 1, instructorId, instructorName, title, price, oldPrice, category } = req.body;
+        const user = await User.findById(req.user.id || req.user._id);
 
+        // console.log(req.body, user.cart)
         if (!user) {
             res.status(404).json({
                 message: 'User not found',
@@ -15,19 +18,34 @@ const handleAddToCart = async (req, res) => {
             return;
         }
 
-        const productIndex = user.cart.findIndex(item => item.productId.toString() === productId);
-        if (productIndex > -1) {
-            user.cart[productIndex].quantity += quantity;
-        } else {
-            user.cart.push({ productId, quantity, title, price });
+        const existingProduct = user.cart.find(item => item.productId == productId);
+        console.log(user.cart)
+        console.log(existingProduct);
+        if (existingProduct) {
+            res.status(409).json({
+                message: 'Item already in cart',
+                state: queryState.error,
+                data: undefined,
+            });
+            return;
         }
-        
+
+        const newItem = {
+            productId,
+            quantity,
+            instructorId, instructorName, title, price, oldPrice, category
+        }
+
+        user.cart = [...user.cart, newItem]; // update existing cart with the  new item
         const result = await user.save();
 
+        authCookieService(res, result);
+
+        const safeUserData = parseSafeUserData(result);
         res.status(200).json({
             message: 'Product added to cart',
             state: queryState.success,
-            data: result.cart,
+            data: safeUserData,
         });
     } catch (error) {
         res.status(500).json({
@@ -40,9 +58,8 @@ const handleAddToCart = async (req, res) => {
 
 const handleRemoveFromCart = async (req, res) => {
     try {
-        const { userId, productId, id } = req.body;
-        const user = await User.findById(id);
-
+        const { productId } = req.body;
+        const user = await User.findById(req.user.id || req.user._id);
         if (!user) {
             res.status(404).json({
                 message: 'User not found',
@@ -53,7 +70,7 @@ const handleRemoveFromCart = async (req, res) => {
         }
 
         user.cart = user.cart.filter(item => item.productId.toString() !== productId);
-        
+
         const result = await user.save();
 
         res.status(200).json({
@@ -72,8 +89,7 @@ const handleRemoveFromCart = async (req, res) => {
 
 const handleViewCart = async (req, res) => {
     try {
-        const { userId } = req.params;
-        const user = await User.findById(userId);
+        const user = await User.findById(req.user.id || req.user._id);
 
         if (!user) {
             res.status(404).json({

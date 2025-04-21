@@ -12,10 +12,8 @@ const verifyJwt = (req, res, next) => {
     const token = cookies?.jwt;
 
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
-    // try {
     if (!token) {
-    // Checking if the token is not present.
-
+        // Checking if the token is not present.
         res.status(401).json({
             message: "You have to be signed in to access this feature",
             state: queryState.blocked,
@@ -29,11 +27,11 @@ const verifyJwt = (req, res, next) => {
         token,
         accessTokenSecret,
         async (err, decoded) => {
-        // Verifying the JWT token using the secret key. This is an asynchronous operation.
+            // Verifying the JWT token using the secret key. This is an asynchronous operation.
 
             try {
                 if (err) {
-                // If there is an error during verification (e.g., token is invalid or expired).
+                    // If there is an error during verification (e.g., token is invalid or expired).
 
                     console.log(err);
                     // Log the error to the console.
@@ -70,7 +68,6 @@ const verifyJwt = (req, res, next) => {
             } catch (error) {
                 console.log(err);
                 // Log any error that occurs during the process.
-
                 res.status(401).json({
                     message: error.message,
                     state: queryState.error,
