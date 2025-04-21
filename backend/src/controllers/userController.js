@@ -2,6 +2,7 @@
 
 const { queryState } = require('../constants/queryState');
 const User = require('../models/User');
+const Course = require('../models/Course');
 const jwt = require('jsonwebtoken');
 const { cookieOptions } = require('../constants/cookieOptions');
 const { parseSafeUserData } = require('../utils');
@@ -250,11 +251,44 @@ const changeTheme = async (req, res) => {
     }
 }
 
+// Enroll a user in a course
+const handleEnrollCourse = async (req, res) => {
+    try {
+        const userId = req.user.id; // Assuming user ID is available in the request object
+        const { courseId } = req.body;
+
+        // Check if the course exists
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        // Find the user and update their enrolled courses
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the user is already enrolled in the course
+        if (user.enrolledCourses.includes(courseId)) {
+            return res.status(400).json({ message: 'User is already enrolled in this course' });
+        }
+
+        user.enrolledCourses.push(courseId);
+        await user.save();
+
+        res.status(200).json({ message: 'Successfully enrolled in the course', enrolledCourses: user.enrolledCourses });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 
 module.exports = {
     handleFindUser,
     handleCheckUserAuth,
     updateProfile,
     updateNewPassword,
-    changeTheme
+    changeTheme,
+    handleEnrollCourse
 }

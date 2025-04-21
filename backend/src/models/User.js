@@ -151,6 +151,10 @@ const userSchema = new Schema({
         required: false,
         default: [],
     },
+    enrolledCourses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
+    }]
 }, {
         toJSON: {
           transform: function (doc, ret) {
