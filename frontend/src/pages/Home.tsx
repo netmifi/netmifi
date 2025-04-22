@@ -26,6 +26,7 @@ import { ChevronRight } from "lucide-react";
 import { FaPersonChalkboard } from "react-icons/fa6";
 import AnalyticsSidebar from "@/components/UserActivityPanel";
 import UserActivityPanel from "@/components/UserActivityPanel";
+import ClipsCarousel from "@/components/courses/ClipsCarousel";
 // import CountUp from "react-countup";
 
 const Home = () => {
@@ -84,8 +85,8 @@ const Home = () => {
   ];
 
   return (
-    <div className="md:grid md:grid-cols-12 flex flex-col">
-      <main className="md:gap-3 gap-2 px-4 md:col-span-9 flex flex-col">
+    <div className="flex">
+      <main className="md:gap-3 max-w-full gap-2 md:px-4 flex flex-col">
         {isAuth && (
           <section className="md:padding-x py-2 md: flex items-center gap-3">
             <div className="flex gap-2 items-end">
@@ -107,14 +108,14 @@ const Home = () => {
         >
           {isAuth && (
             <div className="">
-              <MyCourseCarousel data={purchasedCourses} />
+              <ClipsCarousel data={purchasedCourses} />
             </div>
           )}
 
           <TopCourses page="child" />
           <RecentCourses page="child" />
 
-          <div className="flex flex-col gap-7 ">
+          <div className="flex flex-col gap-7 md:hidden ">
             <div className="flex flex-col gap-2">
               <h3 className="font-semibold">Who you will learn from</h3>
               <p className="font-montserrat text-xs md:text-sm">
@@ -150,9 +151,9 @@ const Home = () => {
         </section>
       </main>
 
-      <aside className="hidden md:block col-span-3">
+      {/* <aside className="hidden md:block">
         <UserActivityPanel user={user} date={date} setDate={setDate} />
-      </aside>
+      </aside> */}
     </div>
   );
 };

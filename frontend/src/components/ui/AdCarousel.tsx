@@ -75,17 +75,16 @@ const AdCarousel = ({ ads, interval = 10000 }: Props) => {
             className="bg-popover transition-all duration-500"
             image={ads[currentIndex].image}
             title={ads[currentIndex].title}
-            titleClassName="md:text-base max-w-40 text-white text-sm"
+            titleClassName=""
             subtitle={ads[currentIndex].subtitle}
-            subtitleClassName="text-gray-300 text-xs md:text-sm"
+            subtitleClassName=""
             button={
-              <Button
-                size={'sm'}
-                className="rounded-full text-sm md:text-base bg-white text-red mr-auto"
+              <button
+                className="text-sm md:text-base bg-white text-red mr-auto rounded-full h-6 md:h-8 px-3"
                 onClick={() => console.log("Buy Now clicked")}
               >
                 Buy Now
-              </Button>
+              </button>
             }
           />
         </motion.div>

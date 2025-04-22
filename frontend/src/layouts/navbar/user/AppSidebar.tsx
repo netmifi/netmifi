@@ -59,12 +59,12 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
   }, [pathname]);
 
   return (
-    <Sidebar  className="flex-shrink-0 w-64 transition-all duration-300 ease-in-out">
+    <Sidebar  className="flex-shrink-0 w-52 transition-all duration-300 ease-in-out">
       <SidebarHeader className="p-5 flex items-center relative">
         <SidebarTrigger className="absolute top-0 right-1 md:hidden">
           <XIcon />
         </SidebarTrigger>
-        <CustomLogo className={"w-[10rem]"} />
+        <CustomLogo className={"w-[7rem]"} />
       </SidebarHeader>
 
       <SidebarContent>
@@ -82,7 +82,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                 {links.map((link) => (
                   <SidebarMenuItem
                     key={link.label}
-                    className="w-full flex justify-end *:w-[90%]  *:p-3 *:flex *:items-center *:gap-3"
+                    className="w-full flex justify-end *:w-[100%]  *:p-3 *:flex *:items-center *:gap-3"
                   >
                     <NavLink
                       to={link.href}
@@ -90,7 +90,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                         isPending
                           ? "pending"
                           : isActive
-                          ? "bg-red *:text-popover rounded-s-2xl"
+                          ? "bg-red *:text-popover p-2 rounded-s-2xl"
                           : ""
                       }
                     >
