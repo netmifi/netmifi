@@ -495,10 +495,18 @@ declare interface MyCourseCardProps {
   type: "on-page" | "self-page";
   course: PurchasedCourse;
 }
+declare interface ClipsCardProps {
+  className?: ClassValue;
+  clip: Clips;
+}
 
 declare interface MyCourseCarouselProps {
   className?: ClassValue;
   data: PurchasedCourse[];
+}
+declare interface ClipsCarouselProps {
+  className?: ClassValue;
+  data: Clips[];
 }
 declare interface InstructorCardProps {
   className?: ClassValue;
