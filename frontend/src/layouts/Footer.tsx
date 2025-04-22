@@ -6,9 +6,7 @@ import {
   AiOutlineWhatsApp,
   AiOutlineX,
 } from "react-icons/ai";
-import { FaEnvelope, FaTiktok, FaXTwitter, FaYoutube } from "react-icons/fa6";
 import { ChevronRight, LinkIcon, Mail } from "lucide-react";
-import { FaMobileAlt } from "react-icons/fa";
 import { CustomLogo } from "@/components/CustomLogo";
 
 const Footer = () => {

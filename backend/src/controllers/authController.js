@@ -615,6 +615,7 @@ const handleInstructorRegister = async (req, res) => {
     // #  update users and instructors db with relevant data 
     // #  send welcome email
     const bodyValues = req.body;
+    console.log(bodyValues)
     try {
         const { error, value } = instructorApplicationSchema.validate(bodyValues, { abortEarly: false });
         const foundUser = await User.findById(req.user.id);
@@ -654,15 +655,15 @@ const handleInstructorRegister = async (req, res) => {
         }
 
         // checks if full name has first and last name
-        const checkNameInclusion = value.fullName.toLowerCase().includes(foundUser.firstName.toLowerCase()) && value.fullName.toLowerCase().includes(foundUser.lastName.toLowerCase());
+        // const checkNameInclusion = value.fullName.toLowerCase().includes(foundUser.firstName.toLowerCase()) && value.fullName.toLowerCase().includes(foundUser.lastName.toLowerCase());
 
-        if (!checkNameInclusion) {
-            res.status(409).json({
-                message: 'Full name specified does not have already registered first and last name',
-                state: queryState.error,
-                data: value
-            }); return;
-        }
+        // if (!checkNameInclusion) {
+        //     res.status(409).json({
+        //         message: 'Full name specified does not have already registered first and last name',
+        //         state: queryState.error,
+        //         data: value
+        //     }); return;
+        // }
 
         const handles = {
             facebook: value.facebook || '',
