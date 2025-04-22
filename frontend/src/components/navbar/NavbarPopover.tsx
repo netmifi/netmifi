@@ -22,9 +22,9 @@ const NavbarPopover = ({
 }: {
   type: "message" | "notification" | "cart";
 }) => {
-  const { cartItems, handleRemoveFromCart } = useApp();
+  const { cartItems } = useApp();
   const notifications = [];
-  // const mutation = useRemoveFromCart();
+  const mutation = useRemoveFromCart();
 
   const counter =
     type === "cart"
@@ -33,24 +33,17 @@ const NavbarPopover = ({
       ? notifications?.length
       : 0;
 
-  // const handleRemoveCartItem = async (course: Course) => {
-  //   // const newCart = cartItems.filter((item) => course.id === item.id);
-  //   // setCartItems(newCart);
-  //   try {
-  //     // this function handles cart addition
-  //     console.log("course", course);
-  //     // if (cartItems.find((item) => item.id === course.id))
-  //     //   return toast.error(`${course.title} already in cart`); // is item already in cart
 
-  //     const { data } = await mutation.mutateAsync(course);
-  //     // setCartItems([...cartItems, course]); // update cart
-  //     console.log(data);
-  //     toast.success(`${course.title} has been removed from your cart`);
-  //   } catch (error) {
-  //     mutationErrorHandler(error);
-  //   }
-  // };
-
+  const handleRemoveCartItem = async (cartItem: {title: string}) => {
+    try {
+      console.log(cartItem)
+      const { data } = await mutation.mutateAsync(cartItem);
+      console.log(data);
+      toast.success(`${cartItem.title} has been removed from your cart`);
+    } catch (error) {
+      mutationErrorHandler(error);
+    }
+  };
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -95,15 +88,14 @@ const NavbarPopover = ({
                       <Button
                         // disabled={mutation.isPending}
                         variant="ghost"
-                        onClick={() => handleRemoveFromCart(item)}
+                        onClick={() => handleRemoveCartItem(item)}
                         className="hover:bg-primary/80 hover:text-popover"
                       >
-                        {/* {mutation.isPending ? (
+                         {mutation.isPending ? (
                           <Loader type="loader" />
                         ) : (
                           <TrashIcon />
-                        )} */}
-                        <TrashIcon/>
+                        )}
                       </Button>
                     </div>
                   ))}

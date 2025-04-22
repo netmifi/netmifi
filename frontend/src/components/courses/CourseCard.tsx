@@ -16,33 +16,35 @@ import { cn } from "@/lib/utils";
 import { useApp } from "@/app/app-provider";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { useAddToCart } from "@/api/hooks/cart/useAddToCart";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import Loader from "../Loader";
+import { useAddToCart } from "@/api/hooks/cart/useAddToCart";
 
 const CourseCard = ({
   className = "",
   course,
   page = "user",
 }: CoursesCardProps) => {
-  const { handleAddToCart } = useApp();
+  const { cartItems } = useApp();
   const mutation = useAddToCart();
 
-  // const handleAddToCart = async (course: Course) => {
-  //   try {
-  //     // this function handles cart addition
-  //     console.log("course", course);
-  //     if (cartItems.find((item) => item.id === course.id))
-  //       return toast.error(`${course.title} already in cart`); // is item already in cart
+  const handleAddToCart = async (course: Course) => {
+      console.log(course, cartItems)
 
-  //     const { data } = await mutation.mutateAsync(course);
-  //     // setCartItems([...cartItems, course]); // update cart
-  //     console.log(data);
-  //     toast.success(`${course.title} has been added to your cart`);
-  //   } catch (error) {
-  //     mutationErrorHandler(error);
-  //   }
-  // };
+    try {
+      // this function handles cart addition
+      console.log(course)
+      if (cartItems && cartItems.find((item) => item.id === course.id))
+        return toast.error(`${course.title} already in cart`); // is item already in cart
+
+      const { data } = await mutation.mutateAsync(course);
+      // setCartItems([...cartItems, course]); // update cart
+      console.log(data);
+      toast.success(`${course.title} has been added to your cart`);
+    } catch (error) {
+      mutationErrorHandler(error);
+    }
+  };
 
   return (
     <Card
