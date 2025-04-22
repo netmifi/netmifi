@@ -27,9 +27,8 @@ const About = () => {
         image={AboutUsSvg}
         title="About Us"
         body="We empower creators to discover their potentials"
-        titleClassName="font-montserrat font-bold text-muted"
-        bodyClassName="font-poppins text-lg text-muted"
-        className="bg-low-contrast"
+        titleClassName="font-montserrat"
+        bodyClassName="font-poppins text-base sm:text-lg"
       />
 
       {/* Intro section */}

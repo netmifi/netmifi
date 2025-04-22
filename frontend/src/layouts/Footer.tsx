@@ -1,219 +1,121 @@
-import { NavLink } from "react-router-dom";
-import { AiFillFacebook, AiOutlineInstagram } from "react-icons/ai";
+import { Link, NavLink } from "react-router-dom";
+import {
+  AiFillFacebook,
+  AiOutlineInstagram,
+  AiOutlineLinkedin,
+  AiOutlineWhatsApp,
+  AiOutlineX,
+} from "react-icons/ai";
 import { FaEnvelope, FaTiktok, FaXTwitter, FaYoutube } from "react-icons/fa6";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, LinkIcon, Mail } from "lucide-react";
 import { FaMobileAlt } from "react-icons/fa";
+import { CustomLogo } from "@/components/CustomLogo";
 
 const Footer = () => {
   const year = new Date().getFullYear().toString();
+
+  const quickLinks = [
+    {
+      label: "home",
+      href: "/",
+    },
+    {
+      label: "about us",
+      href: "/about",
+    },
+    {
+      label: "contact us",
+      href: "/contact",
+    },
+    {
+      label: "become an instructor",
+      href: "/auth/welcome/instructor-application",
+    },
+  ];
+
+  const socialLinks = [
+    {
+      icon: AiOutlineWhatsApp,
+      href: "https://chat.whatsapp.com/IYZvFhKf6YQ44Jamwm8NBi",
+    },
+    {
+      icon: AiOutlineLinkedin,
+      href: "https://www.linkedin.com/company/getnetmifi/",
+    },
+    {
+      icon: AiOutlineX,
+      href: "https://x.com/GetNetmifi_hq?t=Ikt-aAbTKvfX0FIS6ecE1A&s=09",
+    },
+  ];
+
   return (
     <footer>
       <div
-        className="padding-x padding-y bg-black/95 
-            flex flex-wrap sm:justify-evenly justify-between gap-4 
-            *:flex *:flex-col *:gap-4"
+        className="padding-x padding-y bg-accent/40 relative overflow-hidden
+      "
       >
-        <div>
-          <h3 className="text-2xl capitalize text-destructive">
-            about netmifi
-          </h3>
-          <div className="text-secondary flex flex-col gap-1">
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> About
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Courses
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Instructors
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Mentors
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Ebook
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Blogs
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Pricing
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Become an affiliate
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Become an instructor
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Privacy and Policy
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Terms of use
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Help
-            </NavLink>
+        <div className="w-full h-full flex flex-wrap gap-5 z-10">
+        <div className="flex flex-col ">
+          <CustomLogo className="w-[7rem]" />
+          <p className="py-5 text-sm sm:text-sm break-all">
+            <strong className="text-transform: uppercase">Netmifi,</strong> an
+            E-learning and social commerce platform that is set to revolutionize
+            how creators learn, produce, collaborate and sell their digital
+            products globally, with seamless payment solutions
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-3 w-full">
+          <h2 className="text-lg font-bold">Quick Links</h2>
+          <div className="flex flex-col">
+            {quickLinks.map((link, index) => (
+              <Link
+                key={index}
+                to={link.href}
+                className="capitalize text-primary/80 hover:text-primary hover:translate-x-1 transition-all flex gap-1 items-center"
+              >
+                {" "}
+                <LinkIcon className="size-5" /> {link.label}
+              </Link>
+            ))}
           </div>
         </div>
 
-        <div>
-          <h3 className="text-2xl capitalize text-destructive">
-            featured courses
-          </h3>
-          <div className="text-secondary flex flex-col gap-1">
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Content Production
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Digital Marketing
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Technical Writing
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Copy Writing
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Email copy-writing
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Video Editing
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Photo Editing
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> 2d Animation
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> 3d Animation
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Graphic Design
-            </NavLink>
-            <NavLink
-              to={""}
-              className="text-gray-400 flex gap-1 items-center hover:text-white hover:translate-x-1 transition-all"
-            >
-              <ChevronRight /> Photography
-            </NavLink>
-          </div>
-        </div>
-        <div>
-          <h3 className="text-2xl capitalize text-destructive">contact</h3>
-          <div className="flex flex-col text-secondary gap-2 ">
-            <p className="flex gap-1 items-center">
-              <FaEnvelope /> support@netmifi.com
-            </p>
-            <p className="flex gap-1 items-center">
-              <FaMobileAlt />
-              +234-8160-1746-68
-            </p>
+        <div className="flex flex-col gap-3 w-full">
+          <h2 className="text-lg font-bold">Get In Touch</h2>
 
-            <div className="handles flex gap-2 items-center justify-center text-xl mt-3">
-              <NavLink
-                to={"https://facebook.com/netmifi"}
-                className="hover:text-destructive"
-              >
-                <AiFillFacebook />
-              </NavLink>
-              <NavLink
-                to={"https://instagram.com/netmifi"}
-                className="hover:text-destructive"
-              >
-                <AiOutlineInstagram />
-              </NavLink>
-              <NavLink
-                to={"https://x.com/netmifi"}
-                className="hover:text-destructive"
-              >
-                <FaXTwitter />
-              </NavLink>
-              <NavLink
-                to={"https://tiktok.com/netmifi"}
-                className="hover:text-destructive"
-              >
-                <FaTiktok />
-              </NavLink>
-              <NavLink
-                to={"https://youtube.com/netmifi"}
-                className="hover:text-destructive"
-              >
-                <FaYoutube />
-              </NavLink>
+          <div className="flex flex-col space-y-3">
+            <div className="flex items-center gap-1">
+              <Mail />{" "}
+              <Link to={"mailto:get.netmifi@gmail.com"}>
+                {" "}
+                get.netmifi@gmail.com
+              </Link>
+            </div>
+            <div className="border-t-2 border-primary/10 w-[30%] h-1 p-[0.5px]"></div>
+
+            <div className="flex flex-wrap">
+              {socialLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.href}
+                  className="text-2xl rounded-lg shadow-lg size-fit p-3 transition-all transform hover:scale-y-110 hover:bg-primary hover:text-primary-foreground"
+                >
+                  <link.icon />
+                </Link>
+              ))}
             </div>
           </div>
         </div>
+        </div>
+
+        {/* <div className="footer-circle-container"> */}
+          <div className="absolute rounded-full size-20 bg-red opacity-20 -top-[2.3em] -left-[2.3em]"></div>
+          <div className="footer-circle footer-circle-2"></div>
+        {/* </div> */}
       </div>
 
-      <div className="bg-black text-gray-300 py-3 text-center text-xs sm:text">
+      <div className="bg-background py-3 text-center text-xs sm:text border-t-2">
         Copyright &copy; {year}, Netmifi Edutech Ltd. All rights reserved
       </div>
     </footer>

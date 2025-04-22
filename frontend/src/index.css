@@ -415,7 +415,7 @@
   .ProseMirror ol {
     list-style-type: decimal;
   }
-
+  
   @media (max-width: 640px) {
     .menubar {
       @apply flex-col items-start;
