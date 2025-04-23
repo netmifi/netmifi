@@ -251,46 +251,10 @@ const changeTheme = async (req, res) => {
     }
 }
 
-// Enroll a user in a course
-const handleEnrollCourse = async (req, res) => {
-    try {
-        const userId = req.user.id; // Assuming user ID is available in the request object
-        const { courseId } = req.body;
-
-        // Check if the course exists
-        const course = await Course.findById(courseId);
-        if (!course) {
-            return res.status(404).json({ message: 'Course not found' });
-        }
-
-        // Check if the user is already enrolled in the course
-        const isUserEnrolled = course.enrolledUsers.some(user => user.email === req.user.email);
-        if (isUserEnrolled) {
-            return res.status(400).json({ message: 'User is already enrolled in this course' });
-        }
-
-        // Add the user to the enrolledUsers array
-        course.enrolledUsers.push({
-            firstName: req.user.firstName,
-            lastName: req.user.lastName,
-            username: req.user.username,
-            email: req.user.email
-        });
-
-        await course.save();
-
-        res.status(200).json({ message: 'Successfully enrolled in the course', enrolledUsers: course.enrolledUsers });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-};
-
 module.exports = {
     handleFindUser,
     handleCheckUserAuth,
     updateProfile,
     updateNewPassword,
-    changeTheme,
-    handleEnrollCourse
-}
+    changeTheme
+};

@@ -1,4 +1,4 @@
-const { handleFindUser, handleCheckUserAuth, updateProfile, updateNewPassword, changeTheme, handleEnrollCourse } = require('@/controllers/userController');
+const { handleFindUser, handleCheckUserAuth, updateProfile, updateNewPassword, changeTheme, handleEnrollCourse, handleCancelEnrollment } = require('@/controllers/userController');
 const express = require('express');
 const verifyJwt = require('../middlewares/verifyJwt');
 const router = express.Router();
@@ -10,5 +10,6 @@ router.put('/update-profile', verifyJwt, updateProfile); // profile update
 router.put('/update-password', verifyJwt, updateNewPassword); // password update from current to new
 router.put('/change-theme', verifyJwt, changeTheme); // handling theming change
 router.post('/enroll', handleEnrollCourse); // Route for course enrollment
+router.post('/cancel-enrollment', verifyJwt, handleCancelEnrollment); // Route for canceling course enrollment
 
 module.exports = router;
