@@ -82,7 +82,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                 {links.map((link) => (
                   <SidebarMenuItem
                     key={link.label}
-                    className="w-full flex justify-end *:w-[100%]  *:p-3 *:flex *:items-center *:gap-3"
+                    className="w-full flex justify-end *:w-[100%]  *:p-2 *:flex *:items-center *:gap-3"
                   >
                     <NavLink
                       to={link.href}
@@ -90,7 +90,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                         isPending
                           ? "pending"
                           : isActive
-                          ? "bg-red *:text-popover p-2 rounded-s-2xl"
+                          ? "bg-red *:text-popover p-3 rounded-s-2xl"
                           : ""
                       }
                     >

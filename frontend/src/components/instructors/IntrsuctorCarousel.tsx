@@ -28,7 +28,7 @@ const InstructorCarousel = ({ title, link, data }: InstructorCarouselProps) => {
                 key={datum.id}
                 className="md:basis-1/2 lg:basis-1/3 *:md:max-w-full *:lg:max-w-full *:mx-auto"
               >
-                <InstructorCard instructor={datum} />
+                <InstructorCard key={datum.id} instructor={datum} />
               </CarouselItem>
             ))}
           </CarouselContent>

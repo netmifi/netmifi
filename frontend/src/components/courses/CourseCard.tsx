@@ -29,11 +29,11 @@ const CourseCard = ({
   const mutation = useAddToCart();
 
   const handleAddToCart = async (course: Course) => {
-      console.log(course, cartItems)
+    console.log(course, cartItems);
 
     try {
       // this function handles cart addition
-      console.log(course)
+      console.log(course);
       if (cartItems && cartItems.find((item) => item.id === course.id))
         return toast.error(`${course.title} already in cart`); // is item already in cart
 
@@ -49,68 +49,29 @@ const CourseCard = ({
   return (
     <Card
       key={course.id}
-      className={cn(
-        "min-h-full min-w-80 flex flex-col",
-        className
-      )}
+      className={cn("min-h-full md:min-w-[500px] min-w-[250px] gap-3 flex flex-col", className)}
     >
-      <CardHeader className="p-0 relative mb-auto">
+      <div className="p-0 relative mb-auto">
         <div className="overflow-hidden">
           <NavLink to={`/courses/course/${course.id}/`}>
             <img
               src={course.thumbnail}
-              className="h-[160px] md:h-[250px] w-full object-cover hover:scale-125 transition-transform"
+              className="h-[200px] md:h-[320px] w-full object-cover hover:scale-125 transition-transform"
               alt=""
             />
           </NavLink>
         </div>
-
-        <div className="flex flex-col">
-          <NavLink to={`/courses/course/${course.id}/`}>
-            <CardTitle className="capitalize text-low-contrast text-sm md:text-base font-bold px-5 py-1 min-h-[4em]">
-              {course.title.length > 40
-                ? course.title.slice(0, 60) + "..."
-                : course.title}
-            </CardTitle>
-          </NavLink>
-          {page !== "dashboard" && (
-            <CardDescription className="text-xs px-5 py-2 capitalize bg-secondary">
-              {course.category}
-            </CardDescription>
-          )}
-        </div>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-2">
-        <div className="flex justify-between gap-4">
-          <div className="flex items-center gap-1">
-            {/* <span className="font-bold text-xs">{course.rating}</span> */}
-            <Rating
-              start={0}
-              stop={5}
-              fractions={2}
-              initialRating={course.rating}
-              emptySymbol={<Star size={16} />}
-              fullSymbol={<Star size={16} className="fill-yellow-500" />}
-              readonly={true}
-            />
-            <div className="flex items-center"></div>
-          </div>
-
-          <p className="flex items-center text-xs sm:text-sm text-red">
-            {course.price || course.price !== 0 ? (
-              <>
-                <FaNairaSign size={12} /> {course.price?.toLocaleString()}
-              </>
-            ) : (
-              "Free"
-            )}
-          </p>
-        </div>
-
-        <CardFooter className="flex justify-between px-0 mt-auto">
-          <div className="flex items-center gap-2">
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between px-0 mt-auto">
+          <div className="flex items-center gap-2 px-2">
             <PostAvatar
               profileName={course.instructorName}
+              Title={
+                course.title.length > 40
+                  ? course.title.slice(0, 60) + "..."
+                  : course.title
+              }
               profileImage={course.instructorProfileImage}
               profileURL={course.instructorProfileURL}
               description={course.date}
@@ -137,8 +98,8 @@ const CourseCard = ({
               <TooltipContent>Add to cart</TooltipContent>
             </Tooltip>
           )}
-        </CardFooter>
-      </CardContent>
+        </div>
+      </div>
     </Card>
   );
 };

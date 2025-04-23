@@ -8,12 +8,13 @@ const PostAvatar = ({
   profileImageClassName,
   profileName,
   profileURL,
+  Title,
   description = "",
   isVerified,
   onlyAvatar = false,
 }: PostAvatarProps) => {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-start gap-2">
       <NavLink to={profileURL} className="relative w-fit rounded-full">
         <Avatar className={cn("relative", profileImageClassName)}>
           <AvatarImage src={profileImage} className="object-cover" />
@@ -31,7 +32,13 @@ const PostAvatar = ({
       </NavLink>
       {!onlyAvatar && (
         <div className="flex flex-col">
-          <NavLink to={profileURL} className="text-red text-xs md:text-sm capitalize">
+          <div className="capitalize text-low-contrast text-sm md:text-base font-bold">
+            {Title}
+          </div>
+          <NavLink
+            to={profileURL}
+            className="text-red text-xs md:text-sm capitalize"
+          >
             {profileName}
           </NavLink>
           <p className="text-xs font-montserrat">{description}</p>

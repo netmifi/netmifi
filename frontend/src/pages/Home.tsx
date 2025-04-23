@@ -3,16 +3,16 @@ import { useApp } from "@/app/app-provider";
 // import { HomeSvg } from "@/assets/svg";
 import RobotSVG from "@/assets/svg/robot-holding-coins.svg";
 import CourseCarousel from "@/components/courses/CourseCarousel";
-import MyCourseCarousel from "@/components/courses/my_courses/MyCourseCarousel";
+// import MyCourseCarousel from "@/components/courses/my_courses/MyCourseCarousel";
 import InstructorCard from "@/components/instructors/InstructorCard";
 // import Jumbotron from "@/components/Jumbotron";
 import Newsletter from "@/components/Newsletter";
-import PostAvatar from "@/components/PostAvatar";
+// import PostAvatar from "@/components/PostAvatar";
 // import Robotron from "@/components/Robotron";
 import { Button } from "@/components/ui/button";
 import {
-  tempPurchasedCourses as purchasedCourses,
   tempInstructors as instructors,
+  tempClips as clips,
   tempCourses as courses,
 } from "@/constants/temp";
 import RecentCourses from "@/layouts/courses/RecentCourses";
@@ -21,12 +21,13 @@ import TopCourses from "@/layouts/courses/TopCourses";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import AdCarousel from "@/components/ui/AdCarousel";
-import { Calendar } from "@/components/ui/calendar";
-import { ChevronRight } from "lucide-react";
-import { FaPersonChalkboard } from "react-icons/fa6";
-import AnalyticsSidebar from "@/components/UserActivityPanel";
-import UserActivityPanel from "@/components/UserActivityPanel";
+// import { Calendar } from "@/components/ui/calendar";
+// import { ChevronRight } from "lucide-react";
+// import { FaPersonChalkboard } from "react-icons/fa6";
+// import AnalyticsSidebar from "@/components/UserActivityPanel";
+// import UserActivityPanel from "@/components/UserActivityPanel";
 import ClipsCarousel from "@/components/courses/ClipsCarousel";
+import { getCoursesByUserNiches, getQuickAndEasyCourses } from "@/lib/utils";
 // import CountUp from "react-countup";
 
 const Home = () => {
@@ -40,9 +41,12 @@ const Home = () => {
     "Great to See You",
     "Welcome Back",
   ];
+  // const quickCourses = getQuickAndEasyCourses(tempCourses,3600);
+  const interests = Array.isArray(user?.interests) ? user?.interests : [];
+  const nicheCourses = getCoursesByUserNiches(courses, interests);
 
   const [greeting, setGreeting] = useState("");
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  // const [date, setDate] = useState<Date | undefined>(new Date());
 
   useEffect(() => {
     const rand = Math.floor(Math.random() * greetingPhrases.length);
@@ -86,7 +90,7 @@ const Home = () => {
 
   return (
     <div className="flex">
-      <main className="md:gap-3 max-w-full gap-2 md:px-4 flex flex-col">
+      <main className="md:gap-3 max-w-full gap-2 px-2 md:px-4 flex flex-col">
         {isAuth && (
           <section className="md:padding-x py-2 md: flex items-center gap-3">
             <div className="flex gap-2 items-end">
@@ -106,13 +110,10 @@ const Home = () => {
           className=" flex flex-col gap-6 md:gap-16"
           ref={exploreSectionRef}
         >
-          {isAuth && (
-            <div className="">
-              <ClipsCarousel data={purchasedCourses} />
-            </div>
-          )}
-
           <TopCourses page="child" />
+          <div>
+            <ClipsCarousel data={clips} />
+          </div>
           <RecentCourses page="child" />
 
           <div className="flex flex-col gap-7 md:hidden ">
@@ -139,7 +140,7 @@ const Home = () => {
           </div>
 
           {isAuth && (
-            <CourseCarousel title="top picks for you" data={courses} />
+            <CourseCarousel title="top picks for you" data={nicheCourses} />
           )}
 
           {isAuth && (

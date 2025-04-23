@@ -1,5 +1,5 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
-import { ArrowLeftSquareIcon, BookOpenText, Trophy, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, UsersIcon, UsersRoundIcon, Wallet2 } from "lucide-react";
+import { ArrowLeftSquareIcon, BookOpenText, Trophy, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, UsersIcon, UsersRoundIcon, Wallet2, Clapperboard } from "lucide-react";
 
 export const customButtonDefinitions = {
   // button variant custom definitions
@@ -62,7 +62,15 @@ export const navLinks: NavLinks[] = [
     onlyUser: false,
     onlyGuest: false,
     onlySmallScreen: false,
-  }, {
+  },
+  {
+    href: "/clips",
+    label: "clips",
+    icon: Clapperboard,
+    onlyUser: false,
+    onlyGuest: false,
+    onlySmallScreen: false,
+  },{
     href: "/account/leader-board",
     label: "Leader Board",
     icon: Trophy,
