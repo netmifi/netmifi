@@ -34,6 +34,13 @@ const courseSchema = new Schema(
             of: dynamicFieldSchema, // Each dynamic field is represented by the dynamicFieldSchema
             required: false,
         },
+        // Add a new field to store enrolled users
+        enrolledUsers: [{
+            firstName: { type: String, required: true },
+            lastName: { type: String, required: true },
+            username: { type: String, required: true },
+            email: { type: String, required: true }
+        }]
     },
     {
         toJSON: {

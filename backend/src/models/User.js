@@ -172,10 +172,6 @@ const userSchema = new Schema({
         required: false,
         default: [],
     },
-    enrolledCourses: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Course'
-    }],
     searchHistory: {
         type: Array,
         of: searchHistorySchema,
