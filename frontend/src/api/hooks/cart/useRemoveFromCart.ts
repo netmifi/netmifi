@@ -9,7 +9,6 @@ export const useRemoveFromCart = () => {
     return useMutation({
         mutationFn: removeFromCart,// **REF ../../cart**
         onSuccess: (data) => {
-            console.log(data.data);
             setUser(data.data);
             setIsAuth(true);
             queryClient.setQueryData(["currentUser"], data);

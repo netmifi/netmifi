@@ -15,7 +15,7 @@ export const useAddToCart = () => {
             queryClient.setQueryData(["currentUser"], data);
         },
         onError: (error) => {
-            console.error("Login Error:", error);
+            console.error("Add to cart error:", error);
         },
     });
 };

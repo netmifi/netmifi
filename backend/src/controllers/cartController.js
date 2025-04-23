@@ -60,6 +60,7 @@ const handleRemoveFromCart = async (req, res) => {
     try {
         const { productId } = req.body;
         const user = await User.findById(req.user.id || req.user._id);
+        console.log("BODY", req.body, "FILTERED CART", user.cart.filter(item => item.productId != productId))
         if (!user) {
             res.status(404).json({
                 message: 'User not found',
@@ -69,14 +70,15 @@ const handleRemoveFromCart = async (req, res) => {
             return;
         }
 
-        user.cart = user.cart.filter(item => item.productId.toString() !== productId);
+        user.cart = user.cart.filter(item => item.productId != productId);
 
         const result = await user.save();
-
+        authCookieService(res, result);
+        const safeUserData = parseSafeUserData(result);
         res.status(200).json({
             message: 'Product removed from cart',
             state: queryState.success,
-            data: result.cart,
+            data: safeUserData,
         });
     } catch (error) {
         res.status(500).json({
@@ -105,6 +107,7 @@ const handleViewCart = async (req, res) => {
             state: queryState.success,
             data: user.cart,
         });
+
     } catch (error) {
         res.status(500).json({
             message: error.message,

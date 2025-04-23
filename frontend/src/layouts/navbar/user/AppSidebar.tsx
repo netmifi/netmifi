@@ -43,7 +43,7 @@ export const NavSkeleton = () => {
 
 const AppSidebar = ({ state }: { state: userType["type"] }) => {
   const links = state === "instructor" ? instructorDashboardLinks : navLinks;
-  const { user } = useApp();
+  const { user, isAppLoading } = useApp();
 
   const fullName = user.firstName + " " + user.lastName;
 
@@ -59,7 +59,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
   }, [pathname]);
 
   return (
-    <Sidebar  className="flex-shrink-0 w-52 transition-all duration-300 ease-in-out">
+    <Sidebar className="flex-shrink-0 w-52 transition-all duration-300 ease-in-out">
       <SidebarHeader className="p-5 flex items-center relative">
         <SidebarTrigger className="absolute top-0 right-1 md:hidden">
           <XIcon />
@@ -77,7 +77,8 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupContent>
-            <React.Suspense fallback={<NavSkeleton />}>
+            
+            <React.Suspense  fallback={<NavSkeleton />}>
               <SidebarMenu className="">
                 {links.map((link) => (
                   <SidebarMenuItem

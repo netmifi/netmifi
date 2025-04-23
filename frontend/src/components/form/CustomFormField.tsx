@@ -13,7 +13,7 @@ import { Textarea } from "../ui/textarea";
 import { LinkIcon } from "lucide-react";
 import { FaAsterisk, FaNairaSign } from "react-icons/fa6";
 const CustomFormField = ({
-  // form,
+  form,
   control,
   name,
   type = "input", // textarea
@@ -24,7 +24,7 @@ const CustomFormField = ({
   label = "",
   isNotLabeled = false,
   defaultValue = "",
-  // value = "",
+  value = "",
   disabled = false,
   hidden = false,
   readOnly = false,
@@ -63,7 +63,7 @@ const CustomFormField = ({
             {!isNotLabeled && (
               <FormLabel className="capitalize flex gap-1">
                 {label || splitCamelCaseToWords(name)}
-                {isOptional && <FaAsterisk className="text-green-500" />}
+                {isOptional && <FaAsterisk className="text-destructive" />}
               </FormLabel>
             )}
 
