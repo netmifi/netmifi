@@ -263,21 +263,23 @@ const handleEnrollCourse = async (req, res) => {
             return res.status(404).json({ message: 'Course not found' });
         }
 
-        // Find the user and update their enrolled courses
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
         // Check if the user is already enrolled in the course
-        if (user.enrolledCourses.includes(courseId)) {
+        const isUserEnrolled = course.enrolledUsers.some(user => user.email === req.user.email);
+        if (isUserEnrolled) {
             return res.status(400).json({ message: 'User is already enrolled in this course' });
         }
 
-        user.enrolledCourses.push(courseId);
-        await user.save();
+        // Add the user to the enrolledUsers array
+        course.enrolledUsers.push({
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            username: req.user.username,
+            email: req.user.email
+        });
 
-        res.status(200).json({ message: 'Successfully enrolled in the course', enrolledCourses: user.enrolledCourses });
+        await course.save();
+
+        res.status(200).json({ message: 'Successfully enrolled in the course', enrolledUsers: course.enrolledUsers });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
