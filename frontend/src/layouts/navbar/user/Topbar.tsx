@@ -8,7 +8,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { PlusCircleIcon, ShoppingCart } from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavSearch from "@/components/navbar/NavSearch";
 

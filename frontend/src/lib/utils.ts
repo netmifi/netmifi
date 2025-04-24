@@ -309,21 +309,20 @@ export const contactUsEmailFormSchema = () =>
 
 export const instructorFormSchema = () =>
   z.object({
-    fullName: z.string({ required_error: "Please input your full name" }),
     country: z.object({
       name: z.string().optional(),
       code: z.string(),
       flag: z.string().optional(),
       dialCode: z.string(),
     }),
-    phone: z.string({ message: 'Contact is required' }).regex(/^\d+$/, { message: "Only numbers are allowed" }),
+    phone: z.string().refine(value => !value || value.match(/^\d+$/), { message: "Only numbers are allowed" }), // Make phone optional
     residentialAddress: z.string().optional(),
     facebook: z.string().optional().nullable(),
     instagram: z.string().optional().nullable(),
     tiktok: z.string().optional(),
     youtube: z.string().optional(),
     website: z.string().optional(),
-    niche: z.string({ required_error: "Must select an area of expertise" }),
+    niche: z.string().min(1, { message: "Must select an area of expertise" }),
     whyInterest: z.string().optional(),
     taughtBefore: z.enum(["yes", "no"], {
       required_error: "Please select an option",

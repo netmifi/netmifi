@@ -170,8 +170,8 @@ const App = () => {
               </Route>
             </Route>
           </Routes>
-        </ResetScroll>
-        <Toaster richColors duration={15000} closeButton={true} expand />
+          </ResetScroll>
+          <Toaster richColors duration={1500} closeButton={true} expand />
       </Router>
     </ThemeProvider>
   );

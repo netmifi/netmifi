@@ -1,5 +1,4 @@
 // this is a reusable function for setting up authentication cookies
-
 require('dotenv/config')
 const cookieOptions = require('../constants/cookieOptions');
 const { parseSafeUserData } = require("../utils");
@@ -28,4 +27,4 @@ const authCookieService = (res, user) => {
     });
 }
 
-module.exports = { authCookieService }
+module.exports = { authCookieService };

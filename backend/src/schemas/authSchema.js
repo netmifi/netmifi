@@ -27,12 +27,6 @@ module.exports.welcomeFormSchema = Joi.object({
 
 // instructor application validation schema
 module.exports.instructorApplicationSchema = Joi.object({
-    fullName: Joi.string().min(3).max(100).trim().required()
-        .messages({
-            'string.min': 'Full name must be at least 3 characters long',
-            'string.max': 'Full name cannot exceed 100 characters',
-            'any.required': 'Full name is required'
-        }),
     phone: Joi.string().required().pattern(/^\+?[1-9]\d{1,14}$/)
         .messages({
             'string.pattern.base': 'Phone number must be a valid international format',
@@ -46,11 +40,10 @@ module.exports.instructorApplicationSchema = Joi.object({
     }).required().messages({
         'any.required': 'Country information is required'
     }),
-    residentialAddress: Joi.string().min(3).max(200).trim().required()
+    residentialAddress: Joi.string().allow('').optional().min(3).max(200).trim()
         .messages({
             'string.min': 'Residential address must be at least 3 characters long',
             'string.max': 'Residential address cannot exceed 200 characters',
-            'any.required': 'Residential address is required'
         }),
     facebook: Joi.string()
         .uri({ scheme: ['http', 'https'] })
@@ -102,7 +95,7 @@ module.exports.instructorApplicationSchema = Joi.object({
         .messages({
             'any.required': 'Niche is required'
         }),
-    whyInterest: Joi.string().optional(),
+    whyInterest: Joi.string().allow('').optional(),
     taughtBefore: Joi.string().valid('yes', 'no').required()
         .messages({
             'any.only': 'Taught before must be either "yes" or "no"',

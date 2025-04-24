@@ -14,6 +14,7 @@ import { categories } from "@/constants";
 import { instructorFormSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import { parsePhoneNumber } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -28,25 +29,35 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const SignInstructor = () => {
-  const { setUser } = useApp();
+  const { user, setUser } = useApp();
   const { state } = useLocation();
   // const { countries } = useCountries();
   const instructorRegisterMutation = useInstructorRegister();
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
   // const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
-  const [country, setCountry] = useState<Country | undefined>({
-    name: "Nigeria",
-    dialCode: "+234",
-    code: "NG",
-    flag: "🇳🇬",
-  });
+  const [country, setCountry] = useState<Country | undefined>(
+    user.country || {
+      name: "Nigeria",
+      dialCode: "+234",
+      code: "NG",
+      flag: "🇳🇬",
+    }
+  );
   const [, setDialCode] = useState(country?.dialCode || "+234");
 
   const formSchema = instructorFormSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      country: { name: "Nigeria", dialCode: "+234", code: "NG", flag: "🇳🇬" },
+      country: user.country || {
+        name: "Nigeria",
+        dialCode: "+234",
+        code: "NG",
+        flag: "🇳🇬",
+      },
+      phone: user.phone ? parsePhoneNumber(user.phone).nationalNumber : "",
+      ...user.handles,
+      about: user.about,
     },
   });
   const navigate = useNavigate();
@@ -63,11 +74,8 @@ const SignInstructor = () => {
   ];
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    // console.log(values);
+    console.log(values)
     try {
-      // if (form.formState.errors.country) {
-      //   return;
-      // }
       const { data } = await instructorRegisterMutation.mutateAsync({
         ...values,
       });
@@ -89,6 +97,7 @@ const SignInstructor = () => {
   };
 
   useEffect(() => {
+    // console.log(user);
     form.setValue("country", country as Country);
   }, [country, form]);
 
@@ -107,8 +116,7 @@ const SignInstructor = () => {
       </div>
 
       <p className="text-xs flex items-center gap-1">
-        Optional fields are marked as{" "}
-        <FaAsterisk className="text-destructive" />
+        Optional fields are marked as <FaAsterisk className="text-green-500" />
       </p>
       <Form {...form}>
         <form
@@ -116,34 +124,6 @@ const SignInstructor = () => {
           onSubmit={form.handleSubmit(handleSubmit)}
           className="w-full flex flex-wrap justify between gap-6 *:flex-grow *:min-w-[45%]"
         >
-          {/* {console.log(form.formState.errors)}{" "} */}
-          <CustomFormField
-            name="fullName"
-            control={form.control}
-            placeholder="Enter your full name"
-            label="full name"
-          />
-          {/* <CustomFormField
-            name="email"
-            control={form.control}
-            placeholder="Enter your email address"
-            label="email address"
-          /> */}
-          {/* <CustomFormField
-            name="username"
-            control={form.control}
-            placeholder="Enter your unique username"
-            label="username"
-          /> */}
-          {/* <CountryFormSelect
-            form={form}
-            control={form.control}
-            countries={countries}
-            name={"country"}
-            label="country"
-            // dialCode={dialCode}
-            // setDialCode={setDialCode}
-          /> */}
           <CustomContactField
             form={form}
             name="phone"

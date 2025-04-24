@@ -7,11 +7,11 @@ const instructorSchema = new Schema({
         ref: 'User',
         required: true
     },
-    fullName: {
-        type: String,
-        required: true,
-        trim: true
-    },
+    // fullName: {
+    //     type: String,
+    //     required: true,
+    //     trim: true
+    // },
     status: {
         type: String,
         default: 'pending',
