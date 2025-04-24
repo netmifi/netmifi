@@ -113,50 +113,42 @@ export const parseRelativeDate = (relativeDate: string): number => {
   }
 };
 
-const getVideoDuration = (videoUrl: string) => {
-  return new Promise((resolve, reject) => {
-    const videoElement = document.createElement('video');
-    videoElement.src = videoUrl;
-
-    videoElement.onloadedmetadata = () => {
-      if (videoElement.duration) {
-        resolve(videoElement.duration);  // Duration in seconds
-      } else {
-        reject('Video duration not found.');
-      }
-    };
-
-    videoElement.onerror = (e) => {
+const getVideoDuration = (url: string): Promise<number> => {
+  return new Promise((resolve) => {
+    const video = document.createElement("video");
+    video.src = url;
+    video.addEventListener("loadedmetadata", () => {
+      resolve(video.duration);
+    });
+    video.onerror = (e) => {
       console.error('Video error event:', e);
-      reject('Error loading video metadata');
     };
 
     // Add timeout to prevent hanging in case the video doesn't load
     setTimeout(() => {
-      reject('Video metadata load timed out');
+      console.error('Video metadata load timed out');
     }, 5000); // 5 seconds timeout
   });
 };
 
 // TODO
-// export const getQuickAndEasyCourses = async (courses: Course[], maxDuration: number): Promise<Course[]> => {
-//   const filteredCourses: Course[] = [];
-//   for (const course of courses) {
-//     if (course.videoURL) {
-//       try {
-//         const duration = await getVideoDuration(course.videoURL);
-//         // const duration = useGetVideoDuration()
-//         if (duration <= maxDuration) {
-//           filteredCourses.push({ ...course, category: course.category });  // Add course to filtered array
-//         }
-//       } catch (error) {
-//         console.error('Error fetching video duration:', error);
-//       }
-//     }
-//   }
+export const getQuickAndEasyCourses = async (courses: Clip[], maxDuration = 3600) => {
+  const filteredCourses: Clip[] = [];
+  for (const course of courses) {
+    if (course.videoUrl) {
+      try {
+        const duration = await getVideoDuration(course.videoUrl);
+        if (duration <= maxDuration) {
+          filteredCourses.push({ ...course, collection: course.category });  // Add course to filtered array
+        }
+      } catch (error) {
+        console.error('Error fetching video duration:', error);
+      }
+    }
+  }
 
-//   return filteredCourses;  // Return courses as an array
-// };
+  return filteredCourses;  // Return courses as an array
+};
 export const getCoursesByUserNiches = (courses: Course[], niches: string[]): Course[] => {
   if (!Array.isArray(niches)) niches = [niches];
   const fuse = new Fuse(courses, {
@@ -186,6 +178,22 @@ export const getRecentCourses = (courses: Array<any>) => {
     }))
     .sort((a, b) => b.parsedDate - a.parsedDate);
 };
+
+export const handleShare = (course: ClipsCardProps) => {
+  const shareData = {
+    title: course.title,
+    text: `Check out this course: ${course.title}`,
+    url: window.location.href + "?course=" + course.id,
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData).catch((err) => console.error("Share failed:", err));
+  } else {
+    navigator.clipboard.writeText(shareData.url);
+    alert("Link copied to clipboard!");
+  }
+};
+
 
 // function checkFileType(file: File, types: string[]) {
 //   if (file?.name) {

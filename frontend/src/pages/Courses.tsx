@@ -46,8 +46,8 @@ const Courses = () => {
           >
             <div className="flex flex-col gap-5">
               <h2 className="text-xl text-low-contrast font-bold font-montserrat text-center">
-                Pick over 50+ online video course with new addition published
-                every month.
+                Pick over 50+ online courses with new addition published
+                every day.
               </h2>
               {/* <div className="flex  justify-center items-center">
             <Input
@@ -74,7 +74,7 @@ const Courses = () => {
             </div>
           </section>
 
-          <section className="flex flex-wrap gap-5 justify-between items-center padding-x py-24 bg-blue">
+          {/* <section className="flex flex-wrap gap-5 justify-between items-center padding-x py-24 bg-blue">
             <div className="sm:basis-[40%] flex items-center justify-center">
               <img src={CoursesSvg} className="size-3/4" alt="" />
             </div>
@@ -105,7 +105,7 @@ const Courses = () => {
 
               <Button className="mx-auto px-16">Download PDF</Button>
             </div>
-          </section>
+          </section> */}
 
           <Newsletter />
         </main>

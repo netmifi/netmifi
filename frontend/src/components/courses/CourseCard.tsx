@@ -56,7 +56,7 @@ const CourseCard = ({
           <NavLink to={`/courses/course/${course.id}/`}>
             <img
               src={course.thumbnail}
-              className="h-[200px] md:h-[320px] w-full object-cover hover:scale-125 transition-transform"
+              className="h-[200px] md:h-[320px] w-full md:w-[500px] object-cover hover:scale-125 transition-transform"
               alt=""
             />
           </NavLink>

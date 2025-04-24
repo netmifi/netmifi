@@ -35,11 +35,28 @@ import { tempCourses } from "@/constants/temp";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import ShareComponent from "@/components/ShareComponent";
-import { useApp } from "@/app/app-provider";
+import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
+import { toast } from "sonner";
+import { useAddToCart } from "@/api/hooks/cart/useAddToCart";
 
 const CoursePreview = () => {
   // TODO: Fetch Course and set state for course
-  const { handleAddToCart } = useApp();
+  const mutation = useAddToCart();
+
+  const handleAddToCart = async (course: Course) => {
+    try {
+      // this function handles cart addition
+      console.log(course);
+      if (cartItems && cartItems.find((item) => item.id === course.id))
+        return toast.error(`${course.title} already in cart`); // is item already in cart
+
+      const { data } = await mutation.mutateAsync(course);
+      console.log(data);
+      toast.success(`${course.title} has been added to your cart`);
+    } catch (error) {
+      mutationErrorHandler(error);
+    }
+  };  
 
   return (
     <main>

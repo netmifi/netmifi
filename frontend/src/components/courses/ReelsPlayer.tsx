@@ -1,7 +1,8 @@
 // @/components/ReelsPlayer.tsx
 import { useEffect, useRef, useState } from "react";
-import { Music, Heart, MessageCircle, Send } from "lucide-react";
+import { Music, Heart, MessageCircle, Send, UserCheck, UserPlus } from "lucide-react";
 import { AiOutlineMuted, AiOutlineSound } from "react-icons/ai";
+import { handleShare } from "@/lib/utils";
 
 type ReelsPlayerProps = {
   clip: {
@@ -13,6 +14,8 @@ type ReelsPlayerProps = {
     caption?: string;
     audioName?: string;
     profileImage?: string;
+    isFavourite?: boolean;
+    isFollowing?: boolean;
   };
   isActive: boolean;
 };
@@ -21,6 +24,8 @@ const ReelsPlayer = ({ clip, isActive }: ReelsPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(clip.isFavourite);
+  const [isFollowing, setIsFollowing] = useState(clip.isFollowing);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -75,21 +80,45 @@ const ReelsPlayer = ({ clip, isActive }: ReelsPlayerProps) => {
         </div>
       </div>
       {/* Right-side actions */}
-      <div className="absolute right-4 bottom-[10%] z-10 flex flex-col items-end gap-4 text-white">
-        <p className="text-xs flex text-gray-400 gap-1">
-          120 <Heart size={25} />
-        </p>
-        <p className="text-xs flex text-gray-400 gap-1">
-          123k <MessageCircle size={25} />
-        </p>
-        <p className="text-xs flex text-gray-400 gap-1">
-          20m <Send size={25} />
-        </p>
+      <div className="absolute right-4 bottom-[10%] z-10 md:w-20 flex flex-col items-center gap-4 text-white">
+        {/* Likes */}
+        <button
+          onClick={() => setIsFavourite((prev) => !prev)}
+          className="flex flex-col items-center text-xs text-white"
+        >
+          {isFavourite ? <Heart fill="red" size={25} /> : <Heart size={25} />}
+          <span>120</span>
+        </button>
+
+        {/* Shares */}
+        <button
+          onClick={() => handleShare(clip)}
+          className="flex flex-col items-center text-xs text-white"
+        >
+          <Send size={25} />
+          <span>20m</span>
+        </button>
+
+        {/* Mute/Unmute */}
         <button
           onClick={() => setIsMuted((prev) => !prev)}
-          className="mt-2 text-xs"
+          className="flex flex-col items-center text-xs text-white"
         >
-          {isMuted ? <AiOutlineMuted size={25}/>: <AiOutlineSound size={25}/>}
+          {isMuted ? (
+            <AiOutlineMuted size={25} />
+          ) : (
+            <AiOutlineSound size={25} />
+          )}
+          <span>{isMuted ? "Muted" : "Sound"}</span>
+        </button>
+
+        {/* Follow/Unfollow */}
+        <button
+          onClick={() => setIsFollowing((prev) => !prev)}
+          className="flex flex-col items-center text-xs text-white"
+        >
+          {isFollowing ? <UserCheck size={25} /> : <UserPlus size={25} />}
+          <span>{isFollowing ? "Following" : "Follow"}</span>
         </button>
       </div>
     </div>

@@ -103,44 +103,6 @@ const ClipsCard = ({
               controls={false}
             />
           </NavLink>
-
-          {!isYouTube && (
-            <>
-              {/* Overlay Elements */}
-              <div className="absolute bottom-3 left-3 text-white z-10 w-[80%]">
-                <div className="flex items-center mb-1">
-                  {clip.profileImage && (
-                    <img
-                      src={clip.profileImage}
-                      alt="profile"
-                      className="w-6 h-6 rounded-full mr-2"
-                    />
-                  )}
-                  <span className="text-sm font-semibold">{clip.username}</span>
-                </div>
-                <p className="text-sm line-clamp-2 break-words max-w-full">
-                  {clip.caption}
-                </p>
-                <div className="flex items-center mt-1 text-xs text-gray-300">
-                  <Music size={14} className="mr-1" />
-                  <span className="truncate">{clip.audioName}</span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="absolute right-2 bottom-3 z-10 flex flex-col items-center gap-4 text-white">
-                <p className="text-xs flex text-gray-400 gap-1">
-                  120 <Heart size={20} />
-                </p>
-                <p className="text-xs flex text-gray-400 gap-1">
-                  123k <MessageCircle size={20} />
-                </p>
-                <p className="text-xs flex text-gray-400 gap-1">
-                  20m <Send size={20} />
-                </p>
-              </div>
-            </>
-          )}
         </div>
 
         {isYouTube && (

@@ -41,7 +41,7 @@ const Home = () => {
     "Great to See You",
     "Welcome Back",
   ];
-  // const quickCourses = getQuickAndEasyCourses(tempCourses,3600);
+  const quickCourses = getQuickAndEasyCourses(clips);
   const interests = Array.isArray(user?.interests) ? user?.interests : [];
   const nicheCourses = getCoursesByUserNiches(courses, interests);
 
