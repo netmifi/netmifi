@@ -1,15 +1,17 @@
 import CourseCarousel from "@/components/courses/CourseCarousel"
-import { tempCourses } from "@/constants/temp"
+import { tempCourses as courses } from "@/constants/temp"
 import SelfPageLayout from "../SelfPageLayout"
+import { getRecentCourses } from "@/lib/utils"
 
 const RecentCourses = ({ className, page }: LayoutPageProps) => {
+  const recentCourses = getRecentCourses(courses)
   return (
     page === "self"
       ? (
-        <SelfPageLayout className={className} data={tempCourses} title="recent courses" type="course" />
+        <SelfPageLayout className={className} data={recentCourses} title="recent courses" type="course" />
       )
       : (
-        <CourseCarousel title="recent courses" link="/courses/recent" data={tempCourses} />
+        <CourseCarousel title="recent courses" link="/courses/recent" data={recentCourses} />
       )
   )
 }

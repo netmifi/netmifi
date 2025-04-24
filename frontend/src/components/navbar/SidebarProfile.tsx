@@ -28,8 +28,8 @@ const SidebarProfile = ({
             <AccordionTrigger className="size-fit p-0 bg-transparent [&_svg]:bg-primary/40 [&_svg]:absolute [&_svg]:right-[0%] [&_svg]:bottom-[10%]  [&[data-state=open]]:bg-transparent [&_svg]:text-popover">
               {" "}
               <Avatar className="size-fit">
-                <AvatarImage src={profile} className="size-[5rem]" />
-                <AvatarFallback className="size-[5rem] text-5xl">
+                <AvatarImage src={profile} className="size-[4rem] md:size-[5rem]" />
+                <AvatarFallback className="size-[4rem] md:size-[5rem] text-4xl">
                   {username.charAt(0)}
                 </AvatarFallback>
               </Avatar>
@@ -44,16 +44,16 @@ const SidebarProfile = ({
           </div>
         </div>
 
-        <AccordionContent className="flex flex-col gap-2 pt-3 pb-0">
+        <AccordionContent className="flex flex-col gap-2 pt-2 pb-0">
           <NavLink
             to={"/account/profile"}
             className={({ isActive }: { isActive?: boolean }) =>
-              isActive ? "w-full *:border-red *:bg-destructive/40" : ""
+              isActive ? "w-full *:border-red p-2 *:bg-destructive/40" : ""
             }
           >
             <Button
               variant={"secondary"}
-              className=" w-full flex gap-3 px-10 border border-secondary hover:border-red hover:bg-destructive/40"
+              className=" w-full flex gap-3 px-8 border border-secondary hover:border-red hover:bg-destructive/40"
             >
               <UserIcon /> Profile
             </Button>
@@ -62,12 +62,12 @@ const SidebarProfile = ({
           <NavLink
             to={"/account/settings"}
             className={({ isActive }: { isActive?: boolean }) =>
-              isActive ? "w-full *:border-red *:bg-destructive/40" : ""
+              isActive ? "w-full *:border-red p-2 *:bg-destructive/40" : ""
             }
           >
             <Button
               variant={"secondary"}
-              className=" w-full flex gap-3 px-10 border border-secondary hover:border-red hover:bg-destructive/40"
+              className=" w-full flex gap-3 px-8 border border-secondary hover:border-red hover:bg-destructive/40"
             >
               <SettingsIcon />
               Settings
@@ -77,7 +77,7 @@ const SidebarProfile = ({
             triggerChild={
               <Button
                 variant={"secondary"}
-                className="px-10 flex gap-3 border border-secondary hover:border-red hover:bg-destructive/40"
+                className="px-8 flex gap-3 border border-secondary hover:border-red hover:bg-destructive/40"
               >
                 <LogOutIcon />
                 Logout

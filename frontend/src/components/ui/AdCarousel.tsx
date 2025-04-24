@@ -57,7 +57,7 @@ const AdCarousel = ({ ads, interval = 10000 }: Props) => {
   });
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden mx-auto lg:max-w-[90rem]">
       <AnimatePresence custom={direction}>
         <motion.div
           key={currentIndex}
@@ -80,7 +80,7 @@ const AdCarousel = ({ ads, interval = 10000 }: Props) => {
             subtitleClassName=""
             button={
               <button
-                className="text-sm md:text-base bg-white text-red mr-auto rounded-full h-6 md:h-8 px-3"
+                className="text-xs md:text-base bg-white text-red mr-auto rounded-full h-6 md:h-10 px-3"
                 onClick={() => console.log("Buy Now clicked")}
               >
                 Buy Now

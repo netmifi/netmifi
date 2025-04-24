@@ -1,9 +1,11 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import Fuse from "fuse.js";
 import { z } from "zod";
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 // import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
+import useGetVideoDuration from "@/hooks/useGetVideoDuration";
 
 // const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/; // time regular expression
 
@@ -80,14 +82,110 @@ export const convertToReadableTime = (timeInSeconds: number) => {
 }
 
 export const getFirstLettersForProfile = (name: string) => {
-  // get first letters for first and last name
-  const nameArray = name.split(' ');
-  const firstLetterOfFirstName = nameArray[0].charAt(0);
-  const firstLetterOfLastName = nameArray[1].charAt(0);
+  if (!name) return "";
 
-  return (firstLetterOfFirstName + firstLetterOfLastName)
-}
+  const nameArray = name.trim().split(" ");
+  const firstLetterOfFirstName = nameArray[0]?.charAt(0) || "";
+  const firstLetterOfLastName = nameArray[1]?.charAt(0) || "";
 
+  return (firstLetterOfFirstName + firstLetterOfLastName).toUpperCase();
+};
+export const parseRelativeDate = (relativeDate: string): number => {
+  const now = new Date();
+  const [value, unit] = relativeDate.split(" ");
+
+  const count = parseInt(value);
+  switch (unit) {
+    case "day":
+    case "days":
+      return new Date(now.getTime() - count * 24 * 60 * 60 * 1000).getTime();
+    case "week":
+    case "weeks":
+      return new Date(now.getTime() - count * 7 * 24 * 60 * 60 * 1000).getTime();
+    case "month":
+    case "months":
+      return new Date(now.setMonth(now.getMonth() - count)).getTime();
+    case "year":
+    case "years":
+      return new Date(now.setFullYear(now.getFullYear() - count)).getTime();
+    default:
+      return now.getTime(); // fallback: treat unknown as now
+  }
+};
+
+const getVideoDuration = (videoUrl: string) => {
+  return new Promise((resolve, reject) => {
+    const videoElement = document.createElement('video');
+    videoElement.src = videoUrl;
+
+    videoElement.onloadedmetadata = () => {
+      if (videoElement.duration) {
+        resolve(videoElement.duration);  // Duration in seconds
+      } else {
+        reject('Video duration not found.');
+      }
+    };
+
+    videoElement.onerror = (e) => {
+      console.error('Video error event:', e);
+      reject('Error loading video metadata');
+    };
+
+    // Add timeout to prevent hanging in case the video doesn't load
+    setTimeout(() => {
+      reject('Video metadata load timed out');
+    }, 5000); // 5 seconds timeout
+  });
+};
+
+// TODO
+// export const getQuickAndEasyCourses = async (courses: Course[], maxDuration: number): Promise<Course[]> => {
+//   const filteredCourses: Course[] = [];
+//   for (const course of courses) {
+//     if (course.videoURL) {
+//       try {
+//         const duration = await getVideoDuration(course.videoURL);
+//         // const duration = useGetVideoDuration()
+//         if (duration <= maxDuration) {
+//           filteredCourses.push({ ...course, category: course.category });  // Add course to filtered array
+//         }
+//       } catch (error) {
+//         console.error('Error fetching video duration:', error);
+//       }
+//     }
+//   }
+
+//   return filteredCourses;  // Return courses as an array
+// };
+export const getCoursesByUserNiches = (courses: Course[], niches: string[]): Course[] => {
+  if (!Array.isArray(niches)) niches = [niches];
+  const fuse = new Fuse(courses, {
+    keys: ["category"],
+    threshold: 0.4, 
+    includeScore: true, 
+  });
+  const matched = niches.flatMap(niche =>
+    fuse.search(niche.trim().toLowerCase())
+  );
+  const seen = new Set();
+  const uniqueSorted = matched
+    .sort((a, b) => a.score - b.score)
+    .filter(item => {
+      if (seen.has(item.item.id)) return false;
+      seen.add(item.item.id);
+      return true;
+    })
+    .map(item => item.item);
+  return uniqueSorted;
+};
+export const getRecentCourses = (courses: Array<any>) => {
+  return courses
+    .map(course => ({
+      ...course,
+      parsedDate: parseRelativeDate(course.date),
+    }))
+    .sort((a, b) => b.parsedDate - a.parsedDate);
+};
 
 // function checkFileType(file: File, types: string[]) {
 //   if (file?.name) {

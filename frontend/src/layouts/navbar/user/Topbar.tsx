@@ -26,7 +26,7 @@ const TopBar = ({
         <Link to="">
           <CustomLogo
             className={cn(
-              "w-[8rem] max-sm:w-[2rem] transition-all duration-1000 ease-in-out",
+              "w-[7rem] max-sm:w-[2rem] transition-all duration-1000 ease-in-out",
               {
                 hidden: open,
               }

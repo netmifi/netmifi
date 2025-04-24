@@ -45,6 +45,7 @@ import AppLoading from "./components/AppLoading";
 import { PageProgressStart } from "./layouts/RouterProgress";
 import LayoutWithProgress from "./layouts/LayoutWithProgress";
 import SearchResults from "./pages/SearchResults";
+import ClipPlayer from "./components/courses/ClipsPlayer";
 
 const App = () => {
   //   const location = useLocation();
@@ -97,7 +98,11 @@ const App = () => {
                   <Route path="course/:slug" element={<CoursePreview />} />
                   <Route path="my-courses" element={<MyCourses />} />
                   <Route path="my-courses/:slug" element={<LearnPlay />} />
+                  {/* You can keep course clips separate */}
+                  <Route path="clips/:slug" element={<ClipPlayer />} />
                 </Route>
+                <Route path="clips" element={<ClipPlayer />} />
+                <Route path="clips/:slug" element={<ClipPlayer />} />
 
                 {/* !!! PRICING ROUTE HAS BEEN SUSPENDED !!! */}
                 {/* <Route path="pricing" element={<h1>Pricing</h1>} /> */}
@@ -113,54 +118,57 @@ const App = () => {
                 <Route path="blog/:slug" element={<Blog />} />
               </Route> */}
 
-              {/* INSTRUCTORS ROUTE */}
-              <Route path="instructors" element={<Instructors />}>
-                <Route path="instructor/:slug" element={<Instructor />} />
-              </Route>
-
-              {/* USER ROUTES */}
-              <Route path="/user/:slug" element={<h1>User</h1>} />
-              <Route
-                path="/user/:slug/courses"
-                element={<h1>Recent Courses</h1>}
-              />
-
-              <Route path="/help" element={<Help />} />
-              <Route path="/t&c" element={<TestPage />} />
-              <Route path="/test" element={<TestPage />} />
-              <Route path="/feedback" element={<Feedback />} />
-              <Route path="about" element={<About />} />
-              <Route path="search" element={<SearchResults />} />
-              
-              {/* Protected Routes */}
-              <Route element={<RequireAuth />}>
-                <Route path="/account/profile" element={<Profile />} />
-                <Route path="/account/settings" element={<Settings />} />
-                <Route path="/account/cart" element={<Cart />} />
-                <Route path="/account/leader-board" element={<LeaderBoard />} />
-                {/* INSTRUCTOR DASHBOARD ROUTES */}
-                <Route
-                  path="dashboard"
-                  element={<InstructorDashboardOutletLayout />}
-                >
-                  <Route path="home" element={<InstructorDashboard />} />
-                  <Route path="home/students" element={<Students />} />
-                  <Route
-                    path="home/certified-students"
-                    element={<CertifiedStudents />}
-                  />
-                  <Route path="home/followers" element={<Followers />} />
-                  <Route path="home/courses" element={<DashboardCourses />} />
-                  <Route path="my-earnings" element={<MyEarnings />} />
-                  <Route path="create" element={<CreateCourse />} />
+                {/* INSTRUCTORS ROUTE */}
+                <Route path="instructors" element={<Instructors />}>
+                  <Route path="instructor/:slug" element={<Instructor />} />
                 </Route>
-              </Route>
 
-              {/* 404 page ROUTES */}
-              <Route path="*" element={<NotFound />} />
-              <Route path="404" element={<NotFound />} />
+                {/* USER ROUTES */}
+                <Route path="/user/:slug" element={<h1>User</h1>} />
+                <Route
+                  path="/user/:slug/courses"
+                  element={<h1>Recent Courses</h1>}
+                />
+
+                <Route path="/help" element={<Help />} />
+                <Route path="/t&c" element={<TestPage />} />
+                <Route path="/test" element={<TestPage />} />
+                <Route path="/feedback" element={<Feedback />} />
+                <Route path="about" element={<About />} />
+                <Route path="search" element={<SearchResults />} />
+
+                {/* Protected Routes */}
+                <Route element={<RequireAuth />}>
+                  <Route path="/account/profile" element={<Profile />} />
+                  <Route path="/account/settings" element={<Settings />} />
+                  <Route path="/account/cart" element={<Cart />} />
+                  <Route
+                    path="/account/leader-board"
+                    element={<LeaderBoard />}
+                  />
+                  {/* INSTRUCTOR DASHBOARD ROUTES */}
+                  <Route
+                    path="dashboard"
+                    element={<InstructorDashboardOutletLayout />}
+                  >
+                    <Route path="home" element={<InstructorDashboard />} />
+                    <Route path="home/students" element={<Students />} />
+                    <Route
+                      path="home/certified-students"
+                      element={<CertifiedStudents />}
+                    />
+                    <Route path="home/followers" element={<Followers />} />
+                    <Route path="home/courses" element={<DashboardCourses />} />
+                    <Route path="my-earnings" element={<MyEarnings />} />
+                    <Route path="create" element={<CreateCourse />} />
+                  </Route>
+                </Route>
+
+                {/* 404 page ROUTES */}
+                <Route path="*" element={<NotFound />} />
+                <Route path="404" element={<NotFound />} />
+              </Route>
             </Route>
-          </Route>
           </Routes>
           </ResetScroll>
           <Toaster richColors duration={1500} closeButton={true} expand />

@@ -110,6 +110,31 @@ declare interface PurchasedCourse {
   collection?: never[] | string[];
   date: string;
 }
+declare interface Clip {
+  readonly id: string;
+  title: string;
+  subject?: string;
+  thumbnail: string; // Poster image or thumbnail of the clip
+  videoUrl: string;  // Actual video source file
+  duration: number;  // in seconds
+
+  progress: number; // How much the user has watched (0–100)
+  date: string; // e.g., "2 weeks ago", or an ISO date
+
+  instructorName: string;
+  instructorProfileImage: string;
+  instructorProfileURL: string;
+
+  rating: number;     // Average community rating
+  userRating: number; // Logged-in user’s rating
+
+  isVerified: boolean;
+  isFollowing: boolean;
+  isFavorite: boolean;
+
+  collection?: string[]; // Tags or categories like ["marketing", "shorts"]
+}
+
 
 declare interface Instructor {
   readonly id: string;
@@ -122,7 +147,7 @@ declare interface Instructor {
   averageRating: number;
   isFollowing: boolean;
   isVerified: boolean;
-  date: "3 months ago";
+  date: string;
 }
 
 declare interface MemberCardProp {
@@ -199,6 +224,7 @@ declare interface PostAvatarProps {
   profileImageClassName?: ClassValue;
   profileName: string;
   profileURL: string;
+  Title: string;
   description?: string;
   isVerified: boolean;
   onlyAvatar?: boolean;
