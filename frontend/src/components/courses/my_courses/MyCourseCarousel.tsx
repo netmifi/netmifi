@@ -1,18 +1,25 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import MyCourseCard from "./MyCourseCard";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useCourseProcessor } from '@/hooks/useCourseProcessor';
 
 const MyCourseCarousel = ({ className, data }: MyCourseCarouselProps) => {
   const trimmedData = data.slice(0, 10);
+  const { processCourse, isProcessing, error, processedCourse } = useCourseProcessor();
+
+  const handleProcessCourse = async () => {
+    try {
+      const course = await processCourse(
+        'https://example.com/video.mp4',
+        'interactive'
+      );
+      console.log('Processed course:', course);
+    } catch (err) {
+      console.error('Failed to process course:', err);
+    }
+  };
 
   return (
     <div className={cn("flex flex-col gap-5 ", className)}>
@@ -33,25 +40,24 @@ const MyCourseCarousel = ({ className, data }: MyCourseCarouselProps) => {
         </Button>
       </div>
 
-      <div className="flex justify-center items-center">
-        <Carousel
-          opts={{ align: "center" }}
-          className="w-full flex justify-center"
-        >
-          <CarouselContent>
-            {trimmedData.map((datum) => (
-              <CarouselItem
-                key={datum.id}
-                className="basis-[60%] md:basis-[30%] lg:basis-[35%] *:md:max-w-full *:lg:max-w-full *:mx-auto"
-              >
-                <MyCourseCard course={datum} type="on-page" />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className=" left-0 md:border-0 md:rounded-none md:h-full md:w-16 sm:bg- secondary md:bg-gradient-to-r from-gray-200 via-gray-200/80 to-transparent rounded-r-full" />
-          <CarouselNext className="right-0 md:border-0 md:rounded-none md:h-full md:w-16 sm:bg- secondary md:bg-gradient-to-l from-gray-200 via-gray-200/80 to-transparent rounded-l-full" />
-        </Carousel>
+      <div className="w-full overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory">
+        <div className="flex gap-2 w-max">
+          {trimmedData.map((datum) => (
+            <MyCourseCard key={datum.id} type="on-page" course={datum} className="snap-start" />
+          ))}
+        </div>
       </div>
+
+      <button onClick={handleProcessCourse} disabled={isProcessing}>
+        {isProcessing ? 'Processing...' : 'Process Course'}
+      </button>
+      {error && <div className="error">{error}</div>}
+      {processedCourse && (
+        <div>
+          <h1>{processedCourse.title}</h1>
+          {/* Render course content */}
+        </div>
+      )}
     </div>
   );
 };

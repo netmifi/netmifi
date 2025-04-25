@@ -1,7 +1,7 @@
 import { useApp } from "@/app/app-provider";
 // import { motion, AnimatePresence } from "framer-motion";
 // import { HomeSvg } from "@/assets/svg";
-import RobotSVG from "@/assets/svg/robot-holding-coins.svg";
+import NetmifiMascot from "@/assets/images/netmifi-mascot.png";
 import CourseCarousel from "@/components/courses/CourseCarousel";
 // import MyCourseCarousel from "@/components/courses/my_courses/MyCourseCarousel";
 import InstructorCard from "@/components/instructors/InstructorCard";
@@ -20,7 +20,6 @@ import TopCourses from "@/layouts/courses/TopCourses";
 // import { ArrowDownIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import AdCarousel from "@/components/ui/AdCarousel";
 // import { Calendar } from "@/components/ui/calendar";
 // import { ChevronRight } from "lucide-react";
 // import { FaPersonChalkboard } from "react-icons/fa6";
@@ -28,6 +27,7 @@ import AdCarousel from "@/components/ui/AdCarousel";
 // import UserActivityPanel from "@/components/UserActivityPanel";
 import ClipsCarousel from "@/components/courses/ClipsCarousel";
 import { getCoursesByUserNiches, getQuickAndEasyCourses } from "@/lib/utils";
+import { AdCarousel } from "@/components/ui/AdCarousel";
 // import CountUp from "react-countup";
 
 const Home = () => {
@@ -77,15 +77,25 @@ const Home = () => {
 
   const ads = [
     {
-      image: RobotSVG,
-      title: "Elevate Your Skills to Transform Your Career",
-      subtitle: "Enjoy 30% discount on your first purchase.",
+      image: NetmifiMascot,
+      title: "Learn at Your Own Pace",
+      subtitle: "Access high-quality courses anytime, anywhere. Start your learning journey today!",
     },
     {
-      image: RobotSVG,
-      title: "Unlock Exclusive Content with One Click",
-      subtitle: "Your tech journey starts with this offer.",
+      image: NetmifiMascot,
+      title: "Interactive Learning Experience",
+      subtitle: "Engage with dynamic content, quizzes, and hands-on projects to master new skills.",
     },
+    {
+      image: NetmifiMascot,
+      title: "Track Your Progress",
+      subtitle: "Monitor your learning journey with detailed progress tracking and achievements.",
+    },
+    {
+      image: NetmifiMascot,
+      title: "Join Our Learning Community",
+      subtitle: "Connect with fellow learners, share insights, and grow together.",
+    }
   ];
 
   return (
@@ -111,9 +121,12 @@ const Home = () => {
           ref={exploreSectionRef}
         >
           <TopCourses page="child" />
-          <div>
+          
+          {/* TODO uncomment this line when clips feature is ready */}
+          {/* <div>
             <ClipsCarousel data={clips} />
-          </div>
+          </div> */}
+
           <RecentCourses page="child" />
 
           <div className="flex flex-col gap-7 md:hidden ">

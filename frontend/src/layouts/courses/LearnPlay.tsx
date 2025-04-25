@@ -1,119 +1,34 @@
-import { profile } from "@/assets/images";
-import { AboutUsSvg, CoursesSvg } from "@/assets/svg";
 import { testVid, testVid2, testVid3 } from "@/assets/videos";
-import PostAvatar from "@/components/PostAvatar";
-import VideoPlayer from "@/components/VideoPlayer";
 import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Dot,
-  Languages,
-  MegaphoneOffIcon,
-  MessageCircleOff,
-  PenBoxIcon,
-  Share2Icon,
-  TimerReset,
-} from "lucide-react";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-import { FaLink, FaLinkedinIn, FaTv } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Video, Headphones, Book, Gamepad2 } from "lucide-react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Course, URLDurationData } from "@/types/index";
+import { tempCourses, currentUserEntry, updateCurrentUserXP } from "@/constants/temp";
+import { useApp } from "@/app/app-provider";
+import { toast } from "sonner";
+import { LearningPreference } from "@/types/index";
+import ComingSoon from "@/components/ui/ComingSoon";
 import ReactPlayer from "react-player";
-import { convertToReadableTime } from "@/lib/utils";
-import { CircleProgress } from "@/components/ui/progress";
-import WriteReviewDialog from "@/components/WriteReviewDialog";
-import CommentBox from "@/components/comment/CommentBox";
-import Comment from "@/components/comment/Comment";
-import ReviewCard from "@/components/ReviewCard";
+import VideoPlayer from "@/components/VideoPlayer";
 
 const LearnPlay = () => {
-  const announcements = [
-    {
-      id: "189-189880e-tb5e7",
-      announcement: "I made a change on this course on section 2: being better",
-      date: "5 minutes ago",
-    },
-    {
-      id: "2129-189880e-tb5e7",
-      announcement:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos sequi fugiat ipsa mollitia? Repellendus aspernatur, modi eveniet est ipsa quos?",
-      date: "2 months ago",
-    },
-  ];
-
-  const comments = [
-    {
-      id: "13245-tu672-91890-u1h721gew7",
-      comment: "This is a very nice course",
-      isLiked: true,
-      commenter: {
-        id: "178gbd3-4094nyu-teb53b3",
-        username: "marvis travail",
-        profile: profile,
-        isVerified: true,
-      },
-      likes: 7,
-      date: "7 hours ago",
-      replies: {
-        count: 4,
-        replies: [
-          {
-            id: "158793-ifujuds-6784-euyvw",
-            reply: "Thanks, hope you enjoyed it",
-            commentId: "13415-gt83rghwriuoes-574289",
-            isLiked: true,
-            likes: 400,
-            date: "8 minutes ago",
-            replier: {
-              id: "31267fdgvx-71tsyewew-7239b1",
-              username: "Rick Tochukwu",
-              profile: AboutUsSvg,
-              isVerified: true,
-            },
-            replyTo: {
-              id: "13245-tu672-91890-u1h721gew7",
-              username: "marvis travail",
-              profile: profile,
-            },
-          },
-        ],
-      },
-    },
-  ];
-
-  const reviews = [
-    {
-      id: "1671-901919-010",
-      name: "eric bishchoff",
-      profileUrl: "/users/user/eric-bischoff",
-      profile: profile,
-      review: "This course was actually nice.",
-      isVerified: false,
-      rating: 4.5,
-    },
-    {
-      id: "1461-901919-010",
-      name: "kenneth okonkwo",
-      profileUrl: "/users/user/kenneth-okonkwo",
-      review:
-        "The course was bad, no updates for a long while and the accent is not really conceivable.",
-      isVerified: true,
-      rating: 4.5,
-    },
-  ];
+  // All hooks must be called at the top level, unconditionally
+  const { slug } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { cartItems } = useApp();
+  const [currentSection, setCurrentSection] = useState(0);
+  const [sectionXp, setSectionXp] = useState(0);
+  const [courseData, setCourseData] = useState<Course | null>(null);
+  const [learningPreference, setLearningPreference] = useState<LearningPreference | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const courseContents = [
     {
       id: "1",
       title: "section 1: getting started",
-
       courses: [
         {
           id: "1",
@@ -130,18 +45,12 @@ const LearnPlay = () => {
     {
       id: "2",
       title: "section 2: being better",
-
       courses: [
         {
           id: "3",
           title: "Introduction",
           videoUrl: testVid3,
         },
-        // {
-        //   id: "4",
-        //   title: "getting started",
-        //   videoUrl: testVid2,
-        // },
       ],
     },
   ];
@@ -156,67 +65,14 @@ const LearnPlay = () => {
     ),
   ]);
 
-  // Subtitle mapping for each video
-  const subtitleMapping = {
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4":
-      [
-        {
-          src: "https://gist.githubusercontent.com/samdutton/ca37f3adaf4e23679957b8083e061177/raw/e19399fbccbc069a2af4266e5120ae6bad62699a/sample.vtt",
-          label: "English",
-          language: "en",
-        },
-        {
-          src: "https://gist.githubusercontent.com/samdutton/ca37f3adaf4e23679957b8083e061177/raw/e19399fbccbc069a2af4266e5120ae6bad62699a/sample.vtt",
-          label: "Spanish",
-          language: "es",
-        },
-      ],
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4":
-      [
-        {
-          src: "https://gist.githubusercontent.com/samdutton/ca37f3adaf4e23679957b8083e061177/raw/e19399fbccbc069a2af4266e5120ae6bad62699a/sample.vtt",
-          label: "English",
-          language: "en",
-        },
-      ],
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4":
-      [
-        {
-          src: "https://gist.githubusercontent.com/samdutton/ca37f3adaf4e23679957b8083e061177/raw/e19399fbccbc069a2af4266e5120ae6bad62699a/sample.vtt",
-          label: "English",
-          language: "en",
-        },
-        {
-          src: "https://gist.githubusercontent.com/samdutton/ca37f3adaf4e23679957b8083e061177/raw/e19399fbccbc069a2af4266e5120ae6bad62699a/sample.vtt",
-          label: "French",
-          language: "fr",
-        },
-      ],
-  };
-
-  // Get current subtitles based on selected video
-
   const [currentCourseVideo, setCurrentCourseVideo] = useState<string>(
     totalVideos[0]
   );
-
   const [currentCourseCollection, setCurrentCourseCollection] = useState(
     courseContents.find((content) =>
       content.courses.find((course) => course.videoUrl === currentCourseVideo)
     )
   );
-
-  const getCurrentSubtitles = () => {
-    const videoUrl = currentCourseVideo || totalVideos[0];
-    return subtitleMapping[videoUrl] || [];
-  };
-  useEffect(() => {
-    return setCurrentCourseCollection(
-      courseContents.find((content) =>
-        content.courses.find((course) => course.videoUrl === currentCourseVideo)
-      )
-    );
-  }, [courseContents, currentCourseVideo]);
 
   const getVideoDuration = (url: string): Promise<number> => {
     return new Promise((resolve) => {
@@ -228,14 +84,13 @@ const LearnPlay = () => {
     });
   };
 
-  const handleCourseComplete = () => {
-    alert("Congratulations! You've completed the course.");
-  };
-
-  interface URLDurationData {
-    url: string;
-    duration: number;
-  }
+  useEffect(() => {
+    return setCurrentCourseCollection(
+      courseContents.find((content) =>
+        content.courses.find((course) => course.videoUrl === currentCourseVideo)
+      )
+    );
+  }, [courseContents, currentCourseVideo]);
 
   const [urlDuration, setUrlDuration] = useState<URLDurationData[]>([
     { url: "", duration: 0 },
@@ -256,332 +111,288 @@ const LearnPlay = () => {
     fetchVideoData();
   }, [totalVideos]);
 
-  return (
-    <main className="flex flex-col w-full ">
-      <div className="w-full bg-primary padding-x py-3 flex flex-wrap justify-between gap-5">
-        <div className="flex gap-2 items-center">
-          <CircleProgress value={90} />
+  // First useEffect to handle course data loading
+  useEffect(() => {
+    const loadCourseData = () => {
+      const stateCourse = location.state?.course as Course;
+      const statePreference = location.state
+        ?.learningPreference as LearningPreference;
 
-          <h2 className="text-primary-foreground font-montserrat capitalize text-sm md:text-lg">
-            Course title the course title of this course will be here.
-          </h2>
-        </div>
+      if (stateCourse && statePreference) {
+        setCourseData(stateCourse);
+        setLearningPreference(statePreference);
+      } else {
+        const foundCourse = tempCourses.find((c) => c.slug === slug);
+        if (!foundCourse) {
+          toast.error("Course not found");
+          navigate("/courses");
+          return;
+        }
+        setCourseData(foundCourse);
+        setLearningPreference("video");
+      }
 
-        <div className="flex gap-3">
-          <Button>
-            <Share2Icon />
-          </Button>
+      setIsLoading(false); // Ensure it's called for all code paths
+    };
 
-          <WriteReviewDialog
-            child={
-              <Button variant={"outline"} className="text-primary-foreground">
-                Write a review
-              </Button>
-            }
-          />
-        </div>
-      </div>
+    loadCourseData();
+  }, [location.state, slug, navigate]);
 
-      <VideoPlayer
-        thumbnail={CoursesSvg}
-        currentCourseVideo={currentCourseVideo}
-        setCurrentCourseVideo={setCurrentCourseVideo}
-        videoCollection={totalVideos}
-        onCourseComplete={handleCourseComplete}
-        subtitles={getCurrentSubtitles()}
-      />
+  // Second useEffect to handle access control
+  useEffect(() => {
+    if (
+      courseData?.type === "paid" &&
+      (!cartItems || !cartItems.find((item) => item.id === courseData.id))
+    ) {
+      toast.error("Please purchase the course first");
+      navigate(`/courses/${courseData.slug}`);
+    }
+  }, [courseData, cartItems, navigate]);
 
-      <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="w-full items-start justify-start">
-          <ScrollArea className="pb-2">
-            <ScrollBar orientation="horizontal" />
+  const handleCompleteSection = () => {
+    if (!courseData) return;
 
-            <div className="flex w-full">
-              <TabsTrigger
-                className="data-[state=active]:bg-high-contrast data-[state=active]:text-high-contrast-foreground"
-                value="overview"
-              >
-                Overview
-              </TabsTrigger>
-              <TabsTrigger
-                className="data-[state=active]:bg-high-contrast data-[state=active]:text-high-contrast-foreground"
-                value="course-content"
-              >
-                Course content
-              </TabsTrigger>
-              <TabsTrigger
-                className="data-[state=active]:bg-high-contrast data-[state=active]:text-high-contrast-foreground"
-                value="announcements"
-              >
-                Announcements
-              </TabsTrigger>
-              <TabsTrigger
-                className="data-[state=active]:bg-high-contrast data-[state=active]:text-high-contrast-foreground"
-                value="comments"
-              >
-                Comments
-              </TabsTrigger>
-              <TabsTrigger
-                className="data-[state=active]:bg-high-contrast data-[state=active]:text-high-contrast-foreground"
-                value="reviews"
-              >
-                Reviews
-              </TabsTrigger>
+    const xpGained = 10;
+    setSectionXp((prev) => prev + xpGained);
+    
+    // Update the leaderboard with the new XP
+    const updatedUser = updateCurrentUserXP(xpGained);
+    toast.success(`You earned ${xpGained} XP! Total XP: ${updatedUser.xp}`);
+
+    if (currentSection < courseData?.sections?.length - 1) {
+      setCurrentSection((prev) => prev + 1);
+    } else {
+      toast.success("Congratulations! You have completed the course!");
+      // Add completion bonus XP
+      const completionBonus = 50;
+      const finalUpdate = updateCurrentUserXP(completionBonus);
+      toast.success(`Course completion bonus: ${completionBonus} XP! Total XP: ${finalUpdate.xp}`);
+    }
+  };
+
+  const renderContent = () => {
+    if (!courseData || !learningPreference) return null;
+
+    // Add null check for sections and provide default empty array
+    const sections = courseData.sections || [];
+    const section = sections[currentSection] || {
+      title: "No section available",
+      videoUrl: "",
+      audioUrl: "",
+      content: "",
+      quizQuestions: [],
+    };
+
+    switch (learningPreference) {
+      case "video":
+        return (
+          <div className="aspect-video bg-black rounded-lg">
+            {section.videoUrl ? (
+              <VideoPlayer videoUrl={section.videoUrl} className={"w-full h-full"} />
+            ) : (
+              <div className="flex items-center justify-center h-full text-white">
+                <p>No video available for this section</p>
+              </div>
+            )}
+          </div>
+        );
+      case "audio":
+        return (
+          <div className="p-6 bg-gray-100 rounded-lg dark:bg-gray-800">
+            <div className="flex items-center gap-4 mb-4">
+              <Headphones className="w-6 h-6" />
+              <h3 className="text-lg font-medium">{section.title}</h3>
             </div>
-          </ScrollArea>
-        </TabsList>
-
-        <div className="px-4">
-          <TabsContent value="overview">
-            <div className="flex flex-col  gap-5">
-              <div className="flex flex-col *:capitalize">
-                <h2 className="text-xl sm:text-2xl text-high-contrast">
-                  {currentCourseCollection?.title}
-                </h2>
-                <p>
-                  {
-                    currentCourseCollection?.courses.find(
-                      (course) => course.videoUrl === currentCourseVideo
-                    )?.title
-                  }
-                </p>
+            {section.audioUrl ? (
+              <audio src={section.audioUrl} controls className="w-full" />
+            ) : (
+              <div className="text-center py-4">
+                <p>No audio available for this section</p>
               </div>
-
-              <div className="flex flex-wrap items-center gap-10">
-                <div className="flex flex-col items-center  *:font-montserrat">
-                  <h4 className="font-semibold">2 hours</h4>
-                  <hr className="w-full" />
-                  <span className="text-sm text-red">Total</span>
-                </div>
-                <div className="flex flex-col items-center *:font-montserrat">
-                  <h4 className="font-semibold">20,234</h4>
-                  <hr className="w-full" />
-                  <span className="text-sm text-red">Students</span>
-                </div>
-                <div className="flex flex-col items-center *:font-montserrat">
-                  <h4 className="font-semibold">4.6</h4>
-                  <hr className="w-full" />
-                  <span className="text-sm text-red">Rating</span>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-10">
-                <div className="flex items-center gap-1">
-                  <TimerReset className="bg-low-contrast text-low-contrast-foreground p-1" />{" "}
-                  Update 3 months ago
-                </div>
-                <div className="flex items-center gap-1">
-                  <Languages className="bg-low-contrast text-low-contrast-foreground p-1" />{" "}
-                  English
-                </div>
-              </div>
-              <hr />
-
-              <div className="flex flex-col gap-5">
-                <h2 className="text-2xl text-high-contrast">Description</h2>
-
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Accusamus, saepe? Quam necessitatibus rem laboriosam saepe
-                  aut, mollitia ex iste sed quos molestias, illum doloremque.
-                  Velit facere nulla animi aperiam, dicta beatae consequatur
-                  laudantium nam magni enim a unde id. Ea veniam atque animi
-                  natus temporibus aliquid corporis nisi, optio saepe.
-                </p>
-              </div>
-
-              <hr />
-
-              <div className="flex flex-col gap-5">
-                <h2 className="text-2xl text-high-contrast">Instructor</h2>
-
-                <div className="flex flex-col gap-5">
-                  <PostAvatar
-                    isVerified={true}
-                    profileName="Maxmilian Junior"
-                    profileURL={profile}
-                    description="facebook certified content management professional"
-                  />
-
-                  <div className="flex flex-col gap-3">
-                    <div className="flex flex-wrap gap-3">
-                      <Link to={"https://facebook"}>
+            )}
+          </div>
+        );
+      case "storytelling":
+        return (
+          <div className="prose max-w-none dark:prose-invert">
+            <h2>{section.title}</h2>
+            {section.content ? (
+              <div dangerouslySetInnerHTML={{ __html: section.content }} />
+            ) : (
+              <p>No content available for this section</p>
+            )}
+          </div>
+        );
+      case "interactive":
+        return (
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium">{section.title}</h3>
+            {section.quizQuestions && section.quizQuestions.length > 0 ? (
+              <div className="space-y-4">
+                {section.quizQuestions.map((question, index) => (
+                  <div
+                    key={index}
+                    className="p-4 bg-gray-100 rounded-lg dark:bg-gray-800"
+                  >
+                    <p className="font-medium mb-2">{question.question}</p>
+                    <div className="space-y-2">
+                      {question.options.map((option, optIndex) => (
                         <Button
-                          variant={"primary"}
-                          className="text-lg sm:text-xl"
+                          key={optIndex}
+                          variant="outline"
+                          className="w-full justify-start"
+                          onClick={() => {
+                            if (option === question.correctAnswer) {
+                              const quizXp = 5;
+                              setSectionXp((prev) => prev + quizXp);
+                              const updatedUser = updateCurrentUserXP(quizXp);
+                              toast.success(`Correct! +${quizXp} XP! Total XP: ${updatedUser.xp}`);
+                            }
+                          }}
                         >
-                          <FaFacebook />
+                          {option}
                         </Button>
-                      </Link>
-                      <Link to={"https://instagram"}>
-                        <Button
-                          variant={"primary"}
-                          className="text-lg sm:text-xl"
-                        >
-                          <FaInstagram />
-                        </Button>
-                      </Link>
-                      <Link to={"https://linkedin"}>
-                        <Button
-                          variant={"primary"}
-                          className="text-lg sm:text-xl"
-                        >
-                          <FaLinkedinIn />
-                        </Button>
-                      </Link>
-                      <Link to={"https://linkedin"}>
-                        <Button
-                          variant={"primary"}
-                          className="text-lg sm:text-xl"
-                        >
-                          <FaLink />
-                        </Button>
-                      </Link>
+                      ))}
                     </div>
-                    <h2 className="font-bold">About Maxmilian Junior</h2>
-                    <p>
-                      Maxmilian Junior is an experienced content producer with
-                      25 years of experience. Lorem ipsum dolor sit amet,
-                      consectetur adipisicing elit. Molestiae, sint magni
-                      eligendi sit eaque quasi delectus possimus. Reprehenderit
-                      eius libero distinctio dicta cupiditate possimus,
-                      molestias, assumenda voluptatum deserunt odio animi.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="course-content">
-            <div className="flex flex-col items-start gap-5 border-b pb-8">
-              <h3 className="text-high-contrast font-bold font-montserrat text-2xl">
-                Course Content
-              </h3>
-
-              <div className="flex flex-col w-full *:w-full *:bg-transparent *:border">
-                {courseContents.map((content) => (
-                  <Accordion key={content.id} type="single" collapsible>
-                    <AccordionItem value="item-1">
-                      <AccordionTrigger className="bg-secondary px-3 hover:no-underline">
-                        <div className="flex items-center gap-3">
-                          <h4 className="max-sm:text-sm capitalize">
-                            {content.title}
-                          </h4>
-
-                          <p className="text-low-contrast text-xs flex items-center">
-                            4 lectures <Dot /> 2:08:03
-                          </p>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="p-5 flex flex-col gap-3">
-                        {content.courses.map((course) => {
-                          const correspondingUrlDuration = urlDuration.find(
-                            (item) => item.url === course.videoUrl
-                          );
-                          return (
-                            <Button
-                              variant={
-                                currentCourseVideo === course.videoUrl
-                                  ? "secondary"
-                                  : "transparent"
-                              }
-                              className="flex justify-between"
-                              key={course.id}
-                              onClick={() =>
-                                setCurrentCourseVideo(course.videoUrl)
-                              }
-                            >
-                              <div className="flex gap-2 items-center">
-                                <FaTv />
-                                <h6 className="text-[14px] capitalize">
-                                  {course.title}
-                                </h6>
-                              </div>
-                              <span>
-                                {convertToReadableTime(
-                                  correspondingUrlDuration?.duration || 0
-                                )}
-                              </span>
-                            </Button>
-                          );
-                        })}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                ))}
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="announcements">
-            {announcements.length > 0 ? (
-              <div className="flex flex-col gap-4">
-                {announcements.map((announcement) => (
-                  <div key={announcement.id} className="flex flex-col">
-                    <p className="text-xs text-primary opacity-70">
-                      {announcement.date}
-                    </p>
-
-                    <p className="text-primary text-base">
-                      {announcement.announcement}
-                    </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-low-contrast text-lg items-center opacity-80 flex gap-3">
-                <MegaphoneOffIcon className="fill-primary" /> No announcement
-                from this instructor
-              </p>
+              <div className="text-center py-4">
+                <p>No interactive content available for this section</p>
+              </div>
             )}
-          </TabsContent>
+          </div>
+        );
+      default:
+        return <div>Select a learning preference to continue</div>;
+    }
+  };
 
-          <TabsContent value="comments">
-            <div className="flex flex-col gap-4">
-              <CommentBox page="course" postId="" state="comment" />
-
-              {comments.length > 0 ? (
-                <div className="flex flex-col gap-4">
-                  {comments.map((comment) => (
-                    <Comment comment={comment} page="course" postId="" />
-                  ))}
-                </div>
-              ) : (
-                <p className="text-low-contrast text-lg items-center opacity-80 flex gap-3">
-                  <MessageCircleOff className="fill-primary" /> No comments yet,
-                  be the first to comment
-                </p>
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="reviews">
-            <div className="flex flex-col gap-4">
-              {reviews.length > 0 ? (
-                <div className="flex flex-col gap-4">
-                  {reviews.map((review) => (
-                    // <Comment comment={comment} page="course" postId="" />
-                    <ReviewCard
-                      isVerified={review.isVerified}
-                      name={review.name}
-                      profile={review?.profile || ''}
-                      profileUrl={review.profileUrl}
-                      rating={review.rating}
-                      review={review.review}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className="text-low-contrast text-lg items-center opacity-80 flex gap-3">
-                  <PenBoxIcon className="fill-primary" /> No reviews yet
-                </p>
-              )}
-            </div>
-          </TabsContent>
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">Loading course...</h2>
+          <p>Please wait while we prepare your learning experience.</p>
         </div>
+      </div>
+    );
+  }
+
+  if (!courseData || !learningPreference) {
+    return null;
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold">
+            {courseData?.title || "Loading..."}
+          </h1>
+          <p className="text-gray-600">
+            Section {currentSection + 1} of {courseData?.sections?.length || 0}
+          </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-right flex items-center h-full justify-center gap-1">
+            <p className="text-2xl font-bold text-red-600">{sectionXp}</p>
+            <span className="text-sm text-gray-500">/ {currentUserEntry.xp} XP</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {learningPreference === "video" && <Video className="w-5 h-5" />}
+            {learningPreference === "audio" && <Headphones className="w-5 h-5" />}
+            {learningPreference === "storytelling" && <Book className="w-5 h-5" />}
+            {learningPreference === "interactive" && <Gamepad2 className="w-5 h-5" />}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="lg:col-span-3">{renderContent()}</div>
+        <div className="space-y-4">
+          <div className="bg-gray-900 p-4 rounded-md">
+            <h3 className="font-medium mb-2">Course Progress</h3>
+            <div className="space-y-2">
+              {courseData?.sections?.map((section, index) => (
+                <div
+                  key={index}
+                  className={`p-1 text-sm ${
+                    index === currentSection
+                      ? "text-md text-gray-300 border-red rounded-500"
+                      : index < currentSection
+                      ? "text-gray-100 border-red-500 rounded border"
+                      : "bg-gray-600"
+                  }`}
+                >
+                  {section.title}
+                </div>
+              )) || (
+                <div className="p-2 rounded bg-gray-200">
+                  No sections available
+                </div>
+              )}
+            </div>
+          </div>
+          <Button
+            onClick={handleCompleteSection}
+            className="w-full"
+            disabled={!courseData?.sections?.length}
+          >
+            {currentSection < (courseData?.sections?.length || 0) - 1
+              ? "Next Section"
+              : "Complete Course"}
+          </Button>
+        </div>
+      </div>
+
+      <Tabs defaultValue="overview" className="w-full mt-8">
+        <TabsList className="w-full">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="announcements">Announcements</TabsTrigger>
+          <TabsTrigger value="comments">Comments</TabsTrigger>
+          <TabsTrigger value="reviews">Reviews</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview">
+          <div className="prose max-w-none space-y-4">
+            <h2>Course Description</h2>
+            <p className="text-sm text-gray-400">{courseData.description}</p>
+
+            <h3>What You'll Learn</h3>
+            <ul>
+              {courseData.learningObjectives?.map((objective, index) => (
+                <li className="text-sm text-gray-400" key={index}>
+                  {objective}
+                </li>
+              ))}
+            </ul>
+
+            <h3>Requirements</h3>
+            <ul>
+              {courseData.requirements?.map((requirement, index) => (
+                <li className="text-sm text-gray-400" key={index}>
+                  {requirement}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="announcements">
+          <ComingSoon />
+        </TabsContent>
+
+        <TabsContent value="comments">
+          <ComingSoon />
+        </TabsContent>
+
+        <TabsContent value="reviews">
+          <ComingSoon />
+        </TabsContent>
       </Tabs>
-    </main>
+    </div>
   );
 };
 

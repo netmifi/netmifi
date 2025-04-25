@@ -13,6 +13,7 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const { authCookieService } = require('../services/cookieService');
 const SALT_ROUNDS = 12;
+const Leaderboard = require('../models/Leaderboard');
 
 const storage = multer.diskStorage({
     // multer storage for user profile photo and cover photo
@@ -251,10 +252,370 @@ const changeTheme = async (req, res) => {
     }
 }
 
+// User Profile Management
+const getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+            .select('-password')
+            .populate('enrolledCourses.courseId', 'title thumbnail progress');
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const updateProfileHandler = async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            { $set: req.body },
+            { new: true }
+        ).select('-password');
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const updatePassword = async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const user = await User.findById(req.user.id);
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Current password is incorrect' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        res.json({ message: 'Password updated successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const updateTheme = async (req, res) => {
+    try {
+        const { theme } = req.body;
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            { theme },
+            { new: true }
+        ).select('-password');
+        res.json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// User Progress Management
+const getProgress = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+            .populate('enrolledCourses.courseId', 'title thumbnail sections');
+        res.json(user.enrolledCourses);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getCourseProgress = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        const courseProgress = user.enrolledCourses.find(
+            course => course.courseId.toString() === req.params.courseId
+        );
+        if (!courseProgress) {
+            return res.status(404).json({ message: 'Course progress not found' });
+        }
+        res.json(courseProgress);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const repeatCourse = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        const courseProgressIndex = user.enrolledCourses.findIndex(
+            course => course.courseId.toString() === req.params.courseId
+        );
+
+        if (courseProgressIndex === -1) {
+            return res.status(404).json({ message: 'Course progress not found' });
+        }
+
+        // Reset progress
+        user.enrolledCourses[courseProgressIndex] = {
+            ...user.enrolledCourses[courseProgressIndex],
+            currentSection: 0,
+            completedSections: [],
+            quizScores: [],
+            lastAccessed: new Date()
+        };
+
+        await user.save();
+        res.json(user.enrolledCourses[courseProgressIndex]);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// User Level Management
+const promoteUser = async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update level and rank based on XP
+        const newLevel = Math.min(user.level + 1, 100);
+        const newRank = calculateRank(newLevel);
+        
+        user.level = newLevel;
+        user.rank = newRank;
+        await user.save();
+
+        // Update leaderboard
+        await updateLeaderboard(user);
+
+        res.json({ message: 'User promoted successfully', user });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const demoteUser = async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Update level and rank based on XP
+        const newLevel = Math.max(user.level - 1, 1);
+        const newRank = calculateRank(newLevel);
+        
+        user.level = newLevel;
+        user.rank = newRank;
+        await user.save();
+
+        // Update leaderboard
+        await updateLeaderboard(user);
+
+        res.json({ message: 'User demoted successfully', user });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// User Search and Discovery
+const searchUsers = async (req, res) => {
+    try {
+        const { query } = req.query;
+        const users = await User.find(
+            { $text: { $search: query } },
+            { score: { $meta: 'textScore' } }
+        )
+            .select('-password')
+            .sort({ score: { $meta: 'textScore' } });
+        res.json(users);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getLeaderboard = async (req, res) => {
+    try {
+        const { type = 'global', courseId } = req.query;
+        const leaderboard = await Leaderboard.findOne({
+            type,
+            courseId,
+            status: 'active'
+        }).sort('-createdAt');
+        res.json(leaderboard);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+const getAchievements = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+            .populate('enrolledCourses.courseId', 'title thumbnail');
+        
+        const achievements = calculateAchievements(user);
+        res.json(achievements);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
+// Helper Functions
+function calculateRank(level) {
+    if (level >= 90) return 'master';
+    if (level >= 70) return 'expert';
+    if (level >= 50) return 'advanced';
+    if (level >= 30) return 'intermediate';
+    if (level >= 10) return 'apprentice';
+    return 'novice';
+}
+
+async function updateLeaderboard(user) {
+    const leaderboard = await Leaderboard.findOne({
+        type: 'global',
+        status: 'active'
+    });
+
+    if (leaderboard) {
+        const entryIndex = leaderboard.entries.findIndex(
+            entry => entry.userId.toString() === user._id.toString()
+        );
+
+        const updatedEntry = {
+            userId: user._id,
+            username: user.username,
+            profileImage: user.profile,
+            score: user.xp,
+            level: user.level,
+            rank: user.rank,
+            xp: user.xp,
+            completedCourses: user.enrolledCourses.filter(course => course.progress === 100).length,
+            quizAccuracy: calculateQuizAccuracy(user),
+            streak: calculateStreak(user),
+            lastActive: new Date()
+        };
+
+        if (entryIndex !== -1) {
+            leaderboard.entries[entryIndex] = updatedEntry;
+        } else {
+            leaderboard.entries.push(updatedEntry);
+        }
+
+        await leaderboard.save();
+    }
+}
+
+function calculateQuizAccuracy(user) {
+    let totalQuizzes = 0;
+    let totalScore = 0;
+
+    user.enrolledCourses.forEach(course => {
+        course.quizScores.forEach(quiz => {
+            totalQuizzes++;
+            totalScore += quiz.score;
+        });
+    });
+
+    return totalQuizzes > 0 ? totalScore / totalQuizzes : 0;
+}
+
+function calculateStreak(user) {
+    // Implement streak calculation logic based on user's activity
+    return 0; // Placeholder
+}
+
+function calculateAchievements(user) {
+    const achievements = [];
+
+    // Course completion achievements
+    const completedCourses = user.enrolledCourses.filter(course => course.progress === 100).length;
+    if (completedCourses >= 1) achievements.push({ type: 'course_completion', level: 'bronze', count: completedCourses });
+    if (completedCourses >= 5) achievements.push({ type: 'course_completion', level: 'silver', count: completedCourses });
+    if (completedCourses >= 10) achievements.push({ type: 'course_completion', level: 'gold', count: completedCourses });
+
+    // Level achievements
+    if (user.level >= 10) achievements.push({ type: 'level', level: 'bronze', value: user.level });
+    if (user.level >= 25) achievements.push({ type: 'level', level: 'silver', value: user.level });
+    if (user.level >= 50) achievements.push({ type: 'level', level: 'gold', value: user.level });
+
+    // Quiz accuracy achievements
+    const quizAccuracy = calculateQuizAccuracy(user);
+    if (quizAccuracy >= 70) achievements.push({ type: 'quiz_accuracy', level: 'bronze', value: quizAccuracy });
+    if (quizAccuracy >= 85) achievements.push({ type: 'quiz_accuracy', level: 'silver', value: quizAccuracy });
+    if (quizAccuracy >= 95) achievements.push({ type: 'quiz_accuracy', level: 'gold', value: quizAccuracy });
+
+    return achievements;
+}
+
+// Update user XP and handle course completion
+const updateUserXP = async (req, res) => {
+    try {
+        const { xp, courseId } = req.body;
+        const user = await User.findById(req.user.id);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if course is already completed
+        const courseProgress = user.enrolledCourses.find(
+            course => course.courseId.toString() === courseId
+        );
+
+        if (!courseProgress) {
+            return res.status(404).json({ message: 'Course progress not found' });
+        }
+
+        if (courseProgress.completedAt) {
+            return res.status(400).json({ message: 'Course already completed' });
+        }
+
+        // Update XP and mark course as completed
+        user.xp += xp;
+        courseProgress.completedAt = new Date();
+        courseProgress.progress = 100;
+
+        // Check for level up
+        const oldLevel = user.level;
+        const newLevel = Math.floor(user.xp / 1000) + 1; // Example: 1000 XP per level
+        if (newLevel > oldLevel) {
+            user.level = Math.min(newLevel, 100);
+            user.rank = calculateRank(user.level);
+        }
+
+        await user.save();
+
+        // Update leaderboard
+        await updateLeaderboard(user);
+
+        res.json({
+            message: 'XP updated successfully',
+            user: {
+                xp: user.xp,
+                level: user.level,
+                rank: user.rank,
+                courseProgress
+            }
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 module.exports = {
     handleFindUser,
     handleCheckUserAuth,
     updateProfile,
     updateNewPassword,
-    changeTheme
+    changeTheme,
+    getProfile,
+    updateProfileHandler,
+    updatePassword,
+    updateTheme,
+    getProgress,
+    getCourseProgress,
+    repeatCourse,
+    promoteUser,
+    demoteUser,
+    searchUsers,
+    getLeaderboard,
+    getAchievements,
+    updateUserXP
 };

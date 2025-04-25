@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/popover";
 import { FaEllipsis } from "react-icons/fa6";
 import CourseCard from "@/components/courses/CourseCard";
-import { TechnicalWriterSvg } from "@/assets/svg";
-import { testVid } from "@/assets/videos";
 import { NavLink } from "react-router-dom";
 import { AiOutlineArrowRight, AiOutlineWarning } from "react-icons/ai";
 import { useState } from "react";
@@ -22,8 +20,6 @@ import { tempCourses } from "@/constants/temp";
 
 const Recommendations = () => {
   const [data, setData] = useState<Course[]>([
-    ...tempCourses,
-    ...tempCourses,
     ...tempCourses,
   ]);
   const [currentSubject, setCurrentSubject] = useState<string>("for you");
@@ -136,7 +132,7 @@ const Recommendations = () => {
 
       <div className="flex flex-wrap gap-5 max-md:justify-center">
         {data.length > 0 ? (
-          data.map((datum) => <CourseCard course={datum} />)
+          data.map((datum) => <CourseCard key={datum.id} course={datum} />)
         ) : (
           <div className="text-lg w-full flex flex-col items-center">
             <AiOutlineWarning className="text-6xl" />

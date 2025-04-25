@@ -78,7 +78,7 @@ export function AppProvider({
     elapsedTime: 0,
     rate: 0,
   });
-
+  const updateUserXP = async ()=>{}
   const handleAddToCart = async (course: Course) => {
     try {
       const response = await fetch("http://localhost:3000/cart/add", {
@@ -108,6 +108,7 @@ export function AppProvider({
       console.error(error);
     }
   };
+
   const handleRemoveFromCart = async (course: Course) => {
     try {
       const response = await fetch("http://localhost:3000/cart/remove", {
@@ -206,6 +207,7 @@ export function AppProvider({
     handleViewCart,
     courseUploadProgress,
     setCourseUploadProgress,
+    updateUserXP,
   };
 
   return (

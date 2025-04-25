@@ -14,7 +14,7 @@ const Robotron = ({
   return (
     <section
       className={cn(
-        "max-h-32 md:min-h-full md:max-h-full py-4 flex flex-col md:padding-x items-start h-full bg-gradient-to-r from-black to-red ",
+        "max-h-32 md:max-h-48 py-4 flex flex-col md:padding-x items-start h-full bg-gradient-to-r from-black to-red ",
         className
       )}
     >
@@ -32,7 +32,7 @@ const Robotron = ({
             {subtitle}
           </p>
 
-          {button && <div className="mt-">{button}</div>}
+          {/* {button && <div className="mt-">{button}</div>} */}
         </div>
 
         <div className="md:basis-[40%]">

@@ -65,7 +65,7 @@ export const navLinks: NavLinks[] = [
   },
   {
     href: "/clips",
-    label: "clips",
+    label: "Clips",
     icon: Clapperboard,
     onlyUser: false,
     onlyGuest: false,
@@ -125,22 +125,22 @@ export const navLinks: NavLinks[] = [
 export const instructorDashboardLinks = [
   {
     href: "/dashboard/home",
-    label: "Home",
+    label: "Dashboard",
     icon: HomeIcon,
   },
   {
     href: "/dashboard/my-courses",
-    label: "My Courses",
+    label: "Courses",
     icon: BookOpenText,
   },
   {
     href: "/dashboard/my-earnings",
-    label: "My Earnings",
+    label: "Analytics",
     icon: CreditCardIcon,
   },
   {
     href: "/dashboard/quiz",
-    label: "Quiz Attempts",
+    label: "Quiz",
     icon: SheetIcon,
   },
   {

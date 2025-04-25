@@ -155,346 +155,6 @@ const tempInstructors: Instructor[] = [
 
 const tempCourses: Course[] = [
   {
-    id: "6528fe75a49e4d8f7c1a1001",
-    slug: "free-affiliate-marketing-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.7,
-    reviews: 2200,
-    category: "affiliate marketing",
-    thumbnail: "https://img.youtube.com/vi/lSaIN0UHuZc/maxresdefault.jpg",
-    title: "FREE Affiliate Marketing Course for Beginners",
-    videoURL: "https://www.youtube.com/watch?v=lSaIN0UHuZc",
-    instructorId: "6528fe75a49e4d8f7c1a9001",
-    instructorName: "Ciaran Doyle",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLR3K1gK1gK1gK1gK1gK1gK1gK1gK1gK1gK1g=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.udemy.com/user/ciaran-doyle/",
-    isVerified: true,
-    isFollowing: true,
-    date: "2 years ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1002",
-    slug: "email-marketing-certification-hubspot",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.8,
-    reviews: 3500,
-    category: "email marketing",
-    thumbnail: "https://img.youtube.com/vi/B8Z4LCe4BsA/maxresdefault.jpg",
-    title: "Email Marketing Certification Course",
-    videoURL: "https://www.youtube.com/watch?v=B8Z4LCe4BsA",
-    instructorId: "6528fe75a49e4d8f7c1a9002",
-    instructorName: "HubSpot Academy",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQ3K1gK1gK1gK1gK1gK1gK1gK1gK1gK1gK1g=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://academy.hubspot.com/",
-    isVerified: true,
-    isFollowing: true,
-    date: "3 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1003",
-    slug: "free-ux-design-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.6,
-    reviews: 1800,
-    category: "ui/ux design",
-    thumbnail: "https://img.youtube.com/vi/1hHMwLxN6EM/maxresdefault.jpg",
-    title: "Introduction to UX Design",
-    videoURL: "https://www.youtube.com/watch?v=1hHMwLxN6EM",
-    instructorId: "6528fe75a49e4d8f7c1a9003",
-    instructorName: "UX Design Institute",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLR3K1gK1gK1gK1gK1gK1gK1gK1gK1gK1gK1g=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.uxdesigninstitute.com/",
-    isVerified: true,
-    isFollowing: true,
-    date: "1 year ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1004",
-    slug: "content-marketing-certification-hubspot",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.9,
-    reviews: 4000,
-    category: "content creation",
-    thumbnail: "https://img.youtube.com/vi/3b0cYpE9bds/maxresdefault.jpg",
-    title: "Content Marketing Certification Course",
-    videoURL: "https://www.youtube.com/watch?v=3b0cYpE9bds",
-    instructorId: "6528fe75a49e4d8f7c1a9004",
-    instructorName: "HubSpot Academy",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQ3K1gK1gK1gK1gK1gK1gK1gK1gK1gK1gK1g=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://academy.hubspot.com/",
-    isVerified: true,
-    isFollowing: true,
-    date: "6 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1005",
-    slug: "graphic-design-basics",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.5,
-    reviews: 2700,
-    category: "graphic design",
-    thumbnail: "https://img.youtube.com/vi/1l0aE2pHkz0/maxresdefault.jpg",
-    title: "Graphic Design Basics: Core Principles for Visual Design",
-    videoURL: "https://www.youtube.com/watch?v=1l0aE2pHkz0",
-    instructorId: "6528fe75a49e4d8f7c1a9005",
-    instructorName: "Canva",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLR3K1gK1gK1gK1gK1gK1gK1gK1gK1gK1gK1g=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.canva.com/learn/",
-    isVerified: true,
-    isFollowing: true,
-    date: "10 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1006",
-    slug: "introduction-to-computer-science",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.8,
-    reviews: 12000,
-    category: "computer science",
-    thumbnail: "https://img.youtube.com/vi/8mAITcNt710/maxresdefault.jpg",
-    title: "Introduction to Computer Science - Harvard's CS50",
-    videoURL: "https://www.youtube.com/watch?v=8mAITcNt710",
-    instructorId: "6528fe75a49e4d8f7c1a9001",
-    instructorName: "David J Malan",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://cs50.harvard.edu",
-    isVerified: true,
-    isFollowing: true,
-    date: "2 years ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1007",
-    slug: "python-for-everybody",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.7,
-    reviews: 9500,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/8DvywoWv6fI/maxresdefault.jpg",
-    title: "Python for Everybody - University of Michigan",
-    videoURL: "https://www.youtube.com/watch?v=8DvywoWv6fI",
-    instructorId: "6528fe75a49e4d8f7c1a9002",
-    instructorName: "Charles Severance",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://www.dr-chuck.com",
-    isVerified: true,
-    isFollowing: true,
-    date: "3 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1008",
-    slug: "machine-learning-stanford",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.9,
-    reviews: 15000,
-    category: "data science",
-    thumbnail: "https://img.youtube.com/vi/GwIo3gDZCVQ/maxresdefault.jpg",
-    title: "Machine Learning - Stanford University",
-    videoURL: "https://www.youtube.com/watch?v=GwIo3gDZCVQ",
-    instructorId: "6528fe75a49e4d8f7c1a9003",
-    instructorName: "Andrew Ng",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://www.andrewng.org",
-    isVerified: true,
-    isFollowing: true,
-    date: "1 year ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1009",
-    slug: "introduction-to-philosophy",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.6,
-    reviews: 8000,
-    category: "philosophy",
-    thumbnail: "https://img.youtube.com/vi/1A_CAkYt3GY/maxresdefault.jpg",
-    title: "Introduction to Philosophy - MIT OpenCourseWare",
-    videoURL: "https://www.youtube.com/watch?v=1A_CAkYt3GY",
-    instructorId: "6528fe75a49e4d8f7c1a9004",
-    instructorName: "Caspar Hare",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://ocw.mit.edu",
-    isVerified: true,
-    isFollowing: true,
-    date: "6 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1010",
-    slug: "the-science-of-well-being",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.9,
-    reviews: 20000,
-    category: "psychology",
-    thumbnail: "https://img.youtube.com/vi/92tuvHkzY7k/maxresdefault.jpg",
-    title: "The Science of Well-Being - Yale University",
-    videoURL: "https://www.youtube.com/watch?v=92tuvHkzY7k",
-    instructorId: "6528fe75a49e4d8f7c1a9005",
-    instructorName: "Laurie Santos",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://psychology.yale.edu",
-    isVerified: true,
-    isFollowing: true,
-    date: "10 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1011",
-    slug: "financial-markets-yale",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.8,
-    reviews: 11000,
-    category: "finance",
-    thumbnail: "https://img.youtube.com/vi/3z0d1gZz0x8/maxresdefault.jpg",
-    title: "Financial Markets - Yale University",
-    videoURL: "https://www.youtube.com/watch?v=3z0d1gZz0x8",
-    instructorId: "6528fe75a49e4d8f7c1a9006",
-    instructorName: "Robert Shiller",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://som.yale.edu",
-    isVerified: true,
-    isFollowing: true,
-    date: "4 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1012",
-    slug: "free-affiliate-marketing-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.5,
-    reviews: 254,
-    category: "affiliate marketing",
-    thumbnail: "https://img.youtube.com/vi/lSaIN0UHuZc/hqdefault.jpg",
-    title: "FREE Affiliate Marketing Course for Beginners",
-    videoURL: "https://www.youtube.com/watch?v=lSaIN0UHuZc",
-    instructorId: "6528fe75a49e4d8f7c1a9001",
-    instructorName: "Ciaran Doyle",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://www.udemy.com/user/ciaran-doyle/",
-    isVerified: true,
-    isFollowing: true,
-    date: "2 years ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1013",
-    slug: "email-marketing-certification-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.7,
-    reviews: 5000,
-    category: "email marketing",
-    thumbnail: "https://img.youtube.com/vi/B8Z4LCe4BsA/hqdefault.jpg",
-    title: "Email Marketing FULL COURSE",
-    videoURL: "https://www.youtube.com/watch?v=B8Z4LCe4BsA",
-    instructorId: "6528fe75a49e4d8f7c1a9002",
-    instructorName: "Klaviyo",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://www.klaviyo.com/",
-    isVerified: true,
-    isFollowing: true,
-    date: "3 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1014",
-    slug: "free-ux-design-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.8,
-    reviews: 3200,
-    category: "ui/ux design",
-    thumbnail: "https://img.youtube.com/vi/2Yt6raj-S1M/hqdefault.jpg",
-    title: "Introduction to UX Design",
-    videoURL: "https://www.youtube.com/watch?v=2Yt6raj-S1M",
-    instructorId: "6528fe75a49e4d8f7c1a9003",
-    instructorName: "UX Design Institute",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://www.uxdesigninstitute.com/",
-    isVerified: true,
-    isFollowing: true,
-    date: "1 year ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1015",
-    slug: "content-marketing-certification",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.6,
-    reviews: 4500,
-    category: "content creation",
-    thumbnail: "https://img.youtube.com/vi/3b0c3k3eLhI/hqdefault.jpg",
-    title: "Content Marketing Certification Course",
-    videoURL: "https://www.youtube.com/watch?v=3b0c3k3eLhI",
-    instructorId: "6528fe75a49e4d8f7c1a9004",
-    instructorName: "HubSpot Academy",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://academy.hubspot.com/",
-    isVerified: true,
-    isFollowing: true,
-    date: "6 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1016",
-    slug: "introduction-to-ui-ux-design",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.4,
-    reviews: 2800,
-    category: "ui/ux design",
-    thumbnail: "https://img.youtube.com/vi/9B1nM3iY3xg/hqdefault.jpg",
-    title: "Introduction to UI/UX Design",
-    videoURL: "https://www.youtube.com/watch?v=9B1nM3iY3xg",
-    instructorId: "6528fe75a49e4d8f7c1a9005",
-    instructorName: "Alison",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://alison.com/",
-    isVerified: true,
-    isFollowing: true,
-    date: "10 months ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1017",
-    slug: "basics-of-technical-writing",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.5,
-    reviews: 3100,
-    category: "technical writing",
-    thumbnail: "https://img.youtube.com/vi/1WvN3vZ6j6M/hqdefault.jpg",
-    title: "Basics of Technical Writing",
-    videoURL: "https://www.youtube.com/watch?v=1WvN3vZ6j6M",
-    instructorId: "6528fe75a49e4d8f7c1a9006",
-    instructorName: "Alison",
-    instructorProfileImage: "https://via.placeholder.com/100x100",
-    instructorProfileURL: "https://alison.com/",
-    isVerified: true,
-    isFollowing: true,
-    date: "4 months ago",
-  },
-  {
     id: "6528fe75a49e4d8f7c1a1018",
     slug: "react-for-beginners",
     type: "free",
@@ -513,66 +173,167 @@ const tempCourses: Course[] = [
     isVerified: true,
     isFollowing: true,
     date: "1 year ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1019",
-    slug: "python-data-science-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.9,
-    reviews: 200000,
-    category: "data science",
-    thumbnail: "https://img.youtube.com/vi/rfscVS0vtbw/maxresdefault.jpg",
-    title: "Python for Data Science - freeCodeCamp",
-    videoURL: "https://www.youtube.com/watch?v=rfscVS0vtbw",
-    instructorId: "6528fe75a49e4d8f7c1a9003",
-    instructorName: "Free CodeCamp",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQGx1K8g3Xjv3Z5U1z9Q3z5U1z9Q3z5U1z9Q3z5=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: true,
-    date: "3 years ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1020",
-    slug: "git-and-github-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.6,
-    reviews: 80000,
-    category: "version control",
-    thumbnail: "https://img.youtube.com/vi/RGOj5yH7evk/maxresdefault.jpg",
-    title: "Git and GitHub for Beginners - freeCodeCamp",
-    videoURL: "https://www.youtube.com/watch?v=RGOj5yH7evk",
-    instructorId: "6528fe75a49e4d8f7c1a9004",
-    instructorName: "Free CodeCamp",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQGx1K8g3Xjv3Z5U1z9Q3z5U1z9Q3z5U1z9Q3z5=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: true,
-    date: "2 years ago",
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1021",
-    slug: "web-developer-bootcamp",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.8,
-    reviews: 250000,
-    category: "web development",
-    thumbnail: "https://img.youtube.com/vi/pKd0Rpw7O48/maxresdefault.jpg",
-    title: "The Web Developer Bootcamp - freeCodeCamp",
-    videoURL: "https://www.youtube.com/watch?v=pKd0Rpw7O48",
-    instructorId: "6528fe75a49e4d8f7c1a9005",
-    instructorName: "Free CodeCamp",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQGx1K8g3Xjv3Z5U1z9Q3z5U1z9Q3z5U1z9Q3z5=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: true,
-    date: "1 year ago",
+    description: "Learn React from scratch in this comprehensive course. Perfect for beginners looking to master modern frontend development.",
+    learningPatterns: ["video", "interactive", "written", "gamification"],
+    learningObjectives: [
+      "Understand React fundamentals and component-based architecture",
+      "Master state management and hooks in React applications",
+      "Build real-world applications with React and modern tooling",
+      "Learn best practices for React development and deployment"
+    ],
+    requirements: [
+      "Basic knowledge of HTML, CSS, and JavaScript",
+      "Familiarity with ES6+ syntax",
+      "Node.js and npm installed on your computer",
+      "A code editor (VS Code recommended)"
+    ],
+    sections: [
+      {
+        id: "section-1",
+        title: "Introduction to React",
+        learningObjectives: [
+          "Understand what React is and why it's popular",
+          "Set up your development environment",
+          "Create your first React component"
+        ],
+        summary: {
+          textbook: "React is a JavaScript library for building user interfaces. It was developed by Facebook and has become one of the most popular frontend frameworks. In this section, we'll set up our development environment and create our first React component.",
+          storytelling: "Imagine you're building a house. Just as you need a solid foundation and building blocks, React provides the foundation and components to build modern web applications. Let's start by laying our foundation.",
+          narrationScript: "Welcome to React! In this section, we'll explore what makes React special and why it has revolutionized web development. Think of React components as LEGO blocks - they're reusable, modular, and can be combined to create complex structures."
+        },
+        videoTimestamp: {
+          start: 0,
+          end: 1200
+        },
+        videoUrl: "https://www.youtube.com/watch?v=bMknfKXIFA8",
+        audioUrl: "https://example.com/react-intro-audio.mp3",
+        interactiveElements: [
+          {
+            type: "quiz",
+            content: {
+              question: "What is React primarily used for?",
+              options: [
+                "Building user interfaces",
+                "Database management",
+                "Server configuration",
+                "Mobile app development"
+              ],
+              correctAnswer: "Building user interfaces",
+              explanation: "React is primarily a JavaScript library for building user interfaces. While it can be used in mobile development through React Native, its main purpose is UI development."
+            }
+          },
+          {
+            type: "drag-and-drop",
+            content: {
+              question: "Match the React concepts with their descriptions",
+              options: [
+                "Component",
+                "Props",
+                "State",
+                "JSX"
+              ],
+              correctAnswer: "Component:Reusable UI piece,Props:Data passed to components,State:Internal component data,JSX:HTML-like syntax in JavaScript",
+              explanation: "These are the fundamental concepts in React that you'll use throughout your development journey."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What is a React component?",
+            options: [
+              "A reusable piece of UI",
+              "A database table",
+              "A CSS file",
+              "A JavaScript variable"
+            ],
+            correctAnswer: "A reusable piece of UI",
+            explanation: "Components are the building blocks of React applications. They are reusable pieces of UI that can contain their own content, logic, and styling."
+          },
+          {
+            question: "Which tool is commonly used to create a new React project?",
+            options: [
+              "create-react-app",
+              "new-react-project",
+              "start-react",
+              "init-react"
+            ],
+            correctAnswer: "create-react-app",
+            explanation: "create-react-app is the official tool for creating new React projects with a pre-configured build setup."
+          }
+        ],
+        xpReward: 100
+      },
+      {
+        id: "section-2",
+        title: "Components and Props",
+        learningObjectives: [
+          "Understand component composition",
+          "Learn how to pass and use props",
+          "Master component reusability"
+        ],
+        summary: {
+          textbook: "Components are the core building blocks of React applications. They accept inputs called props and return React elements that describe what should appear on the screen. Props allow you to pass data from parent to child components.",
+          storytelling: "Think of components as different departments in a company. Just like departments communicate and share resources, components communicate through props to build a complete application.",
+          narrationScript: "Components are like LEGO blocks that we can customize and reuse. Props are like instructions that come with each block, telling it how to look and behave."
+        },
+        videoTimestamp: {
+          start: 1201,
+          end: 2400
+        },
+        videoUrl: "https://www.youtube.com/watch?v=bMknfKXIFA8",
+        audioUrl: "https://example.com/react-components-audio.mp3",
+        interactiveElements: [
+          {
+            type: "click-to-reveal",
+            content: {
+              question: "Component Lifecycle",
+              options: [
+                "Mounting",
+                "Updating",
+                "Unmounting"
+              ],
+              explanation: "Click each phase to learn more about the component lifecycle."
+            }
+          },
+          {
+            type: "flashcards",
+            content: {
+              question: "Props vs State",
+              options: [
+                "Props: Read-only data passed to components",
+                "State: Mutable data managed within a component"
+              ],
+              explanation: "Understanding the difference between props and state is crucial for React development."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What is the correct way to pass a prop to a component?",
+            options: [
+              "<Component propName={value} />",
+              "<Component {propName=value} />",
+              "<Component propName='value' />",
+              "All of the above"
+            ],
+            correctAnswer: "<Component propName={value} />",
+            explanation: "Props are passed to components using JSX attributes. For JavaScript values, use curly braces {}."
+          },
+          {
+            question: "Can you modify props inside a component?",
+            options: [
+              "Yes, anytime",
+              "No, props are read-only",
+              "Only in class components",
+              "Only with special permissions"
+            ],
+            correctAnswer: "No, props are read-only",
+            explanation: "Props are read-only in React. If you need mutable state, use the useState hook or state in class components."
+          }
+        ],
+        xpReward: 150
+      }
+    ]
   },
 ];
 
@@ -1348,7 +1109,7 @@ const tempClips: Clip[] = [
   },
   {
     id: "clip-005",
-    title: "What’s New in React 19",
+    title: "What's New in React 19",
     videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
     thumbnail: "https://placehold.co/300x500",
     duration: 50,
@@ -1577,5 +1338,219 @@ const tempPurchasedCourses: PurchasedCourse[] = [
     date: "7 months ago",
   },
 ];
+
+// Temporary leaderboard data
+export const tempLeaderboard = {
+  id: "leaderboard-001",
+  type: "global",
+  title: "Global Learning Leaderboard",
+  entries: [
+    {
+      userId: "user-001",
+      username: "Alex Johnson",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=alex",
+      score: 1250,
+      level: 5,
+      rank: "Pro",
+      xp: 1250,
+      completedCourses: 8,
+      quizAccuracy: 92,
+      streak: 7,
+      lastActive: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+    },
+    {
+      userId: "user-002",
+      username: "Sarah Williams",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah",
+      score: 980,
+      level: 4,
+      rank: "Ace",
+      xp: 980,
+      completedCourses: 6,
+      quizAccuracy: 88,
+      streak: 5,
+      lastActive: new Date(Date.now() - 1000 * 60 * 60), // 1 hour ago
+    },
+    {
+      userId: "user-003",
+      username: "Michael Brown",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=michael",
+      score: 750,
+      level: 3,
+      rank: "Star",
+      xp: 750,
+      completedCourses: 4,
+      quizAccuracy: 85,
+      streak: 3,
+      lastActive: new Date(Date.now() - 1000 * 60 * 120), // 2 hours ago
+    },
+    {
+      userId: "user-004",
+      username: "Emily Davis",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=emily",
+      score: 620,
+      level: 3,
+      rank: "Star",
+      xp: 620,
+      completedCourses: 3,
+      quizAccuracy: 82,
+      streak: 2,
+      lastActive: new Date(Date.now() - 1000 * 60 * 180), // 3 hours ago
+    },
+    {
+      userId: "user-005",
+      username: "David Wilson",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=david",
+      score: 450,
+      level: 2,
+      rank: "Elite",
+      xp: 450,
+      completedCourses: 2,
+      quizAccuracy: 78,
+      streak: 1,
+      lastActive: new Date(Date.now() - 1000 * 60 * 240), // 4 hours ago
+    },
+    {
+      userId: "user-006",
+      username: "Jessica Taylor",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=jessica",
+      score: 320,
+      level: 2,
+      rank: "Elite",
+      xp: 320,
+      completedCourses: 2,
+      quizAccuracy: 75,
+      streak: 1,
+      lastActive: new Date(Date.now() - 1000 * 60 * 300), // 5 hours ago
+    },
+    {
+      userId: "user-007",
+      username: "Robert Martinez",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=robert",
+      score: 180,
+      level: 1,
+      rank: "Unstoppable",
+      xp: 180,
+      completedCourses: 1,
+      quizAccuracy: 70,
+      streak: 1,
+      lastActive: new Date(Date.now() - 1000 * 60 * 360), // 6 hours ago
+    },
+    {
+      userId: "user-008",
+      username: "Lisa Anderson",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=lisa",
+      score: 100,
+      level: 1,
+      rank: "Unstoppable",
+      xp: 100,
+      completedCourses: 1,
+      quizAccuracy: 65,
+      streak: 1,
+      lastActive: new Date(Date.now() - 1000 * 60 * 420), // 7 hours ago
+    },
+    {
+      userId: "user-009",
+      username: "James Thompson",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=james",
+      score: 50,
+      level: 1,
+      rank: "Champion",
+      xp: 50,
+      completedCourses: 0,
+      quizAccuracy: 0,
+      streak: 0,
+      lastActive: new Date(Date.now() - 1000 * 60 * 480), // 8 hours ago
+    },
+    {
+      userId: "user-010",
+      username: "Patricia Garcia",
+      profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=patricia",
+      score: 20,
+      level: 1,
+      rank: "Titan",
+      xp: 20,
+      completedCourses: 0,
+      quizAccuracy: 0,
+      streak: 0,
+      lastActive: new Date(Date.now() - 1000 * 60 * 540), // 9 hours ago
+    },
+  ],
+  status: "active",
+  startDate: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7), // 7 days ago
+  endDate: new Date(Date.now() + 1000 * 60 * 60 * 24 * 3), // 3 days from now
+};
+
+// Current user entry that will be updated during the course learning process
+export const currentUserEntry = {
+  userId: "current-user",
+  username: "You",
+  profileImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=current",
+  score: 150,
+  level: 1,
+  rank: "Rookie",
+  xp: 150,
+  completedCourses: 0,
+  quizAccuracy: 0,
+  streak: 0,
+  lastActive: new Date(),
+};
+
+// Function to update the current user's XP and other stats
+export const updateCurrentUserXP = (xpToAdd: number) => {
+  currentUserEntry.xp += xpToAdd;
+  currentUserEntry.score = currentUserEntry.xp;
+  currentUserEntry.lastActive = new Date();
+  
+  // Update level based on XP
+  if (currentUserEntry.xp >= 1000) {
+    currentUserEntry.level = 5;
+    currentUserEntry.rank = "Pro";
+  } else if (currentUserEntry.xp >= 800) {
+    currentUserEntry.level = 4;
+    currentUserEntry.rank = "Ace";
+  } else if (currentUserEntry.xp >= 600) {
+    currentUserEntry.level = 3;
+    currentUserEntry.rank = "Star";
+  } else if (currentUserEntry.xp >= 400) {
+    currentUserEntry.level = 2;
+    currentUserEntry.rank = "Elite";
+  } else if (currentUserEntry.xp >= 200) {
+    currentUserEntry.level = 1;
+    currentUserEntry.rank = "Unstoppable";
+  } else if (currentUserEntry.xp >= 100) {
+    currentUserEntry.level = 1;
+    currentUserEntry.rank = "Champion";
+  } else {
+    currentUserEntry.level = 1;
+    currentUserEntry.rank = "Titan";
+  }
+  
+  // Update completed courses if XP is high enough
+  if (currentUserEntry.xp >= 300) {
+    currentUserEntry.completedCourses = Math.floor(currentUserEntry.xp / 300);
+  }
+  
+  // Update quiz accuracy based on XP
+  if (currentUserEntry.xp > 0) {
+    currentUserEntry.quizAccuracy = Math.min(95, Math.floor(60 + (currentUserEntry.xp / 20)));
+  }
+  
+  // Update streak
+  currentUserEntry.streak = Math.min(10, Math.floor(currentUserEntry.xp / 100));
+  
+  // Add the current user to the leaderboard if not already there
+  const existingIndex = tempLeaderboard.entries.findIndex(entry => entry.userId === currentUserEntry.userId);
+  if (existingIndex >= 0) {
+    tempLeaderboard.entries[existingIndex] = {...currentUserEntry};
+  } else {
+    tempLeaderboard.entries.push({...currentUserEntry});
+  }
+  
+  // Sort entries by score
+  tempLeaderboard.entries.sort((a, b) => b.score - a.score);
+  
+  return currentUserEntry;
+};
 
 export { tempCourses, tempBlogs, tempPurchasedCourses, tempInstructors, tempClips };
