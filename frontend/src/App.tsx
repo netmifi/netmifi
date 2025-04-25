@@ -31,14 +31,14 @@ import Profile from "./pages/account/Profile";
 import Settings from "./pages/account/Settings";
 import SignInstructor from "./pages/auth/welcome/SignInstructor";
 import TestPage from "./pages/TestPage";
-import InstructorDashboard from "./pages/instructor_dashboard/Dashboard";
+import InstructorDashboard from "./pages/dashboard/Dashboard";
 import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
-import MyEarnings from "./pages/instructor_dashboard/MyEarnings";
-import Students from "./pages/instructor_dashboard/Students";
-import CertifiedStudents from "./pages/instructor_dashboard/CertifiedStudents";
-import Followers from "./pages/instructor_dashboard/Followers";
-import DashboardCourses from "./pages/instructor_dashboard/Courses";
-import CreateCourse from "./pages/instructor_dashboard/CreateCourse";
+import Analytics from "./pages/dashboard/Analytics";
+import Students from "./pages/dashboard/Students";
+import CertifiedStudents from "./pages/dashboard/CertifiedStudents";
+import Followers from "./pages/dashboard/Followers";
+import DashboardCourses from "./pages/dashboard/Courses";
+import CreateCourse from "./pages/dashboard/CreateCourse";
 import ResetScroll from "./components/ResetScroll";
 import RequireAuth from "./components/RequireAuth";
 import AppLoading from "./components/AppLoading";
@@ -158,8 +158,8 @@ const App = () => {
                       element={<CertifiedStudents />}
                     />
                     <Route path="home/followers" element={<Followers />} />
-                    <Route path="home/courses" element={<DashboardCourses />} />
-                    <Route path="my-earnings" element={<MyEarnings />} />
+                    <Route path="my-courses" element={<DashboardCourses />} />
+                    <Route path="analytics" element={<Analytics />} />
                     <Route path="create" element={<CreateCourse />} />
                   </Route>
                 </Route>

@@ -52,6 +52,12 @@ declare interface Comments {
   }[];
 }
 
+declare interface SearchHistory {
+  readonly id: string; // MongoDB ObjectId
+  query: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
 declare interface Course {
   readonly id: string; // MongoDB ObjectId
   slug: string;

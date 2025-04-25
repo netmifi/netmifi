@@ -57,7 +57,7 @@ const earnings = [
   },
 ];
 
-const MyEarnings = () => {
+const Analytics = () => {
   const [display, setDisplay] = useState<"list" | "grid">("list");
   return (
     <main className="w-full px-2 sm:px-4">
@@ -170,4 +170,4 @@ const MyEarnings = () => {
   );
 };
 
-export default MyEarnings;
+export default Analytics;

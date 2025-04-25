@@ -16,7 +16,7 @@ const Dashboard = () => {
       icon: Book,
       label: "total courses",
       total: 200,
-      link: "/dashboard/home/courses",
+      link: "/dashboard/my-courses",
     },
     {
       icon: FaBookReader,
@@ -71,7 +71,7 @@ const Dashboard = () => {
                 id={course.id}
                 type={course.type}
                 price={course.price}
-                subject={course.category}
+                category={course.category}
                 thumbnail={course.thumbnail}
                 title={course.title}
                 videoURL={course.videoURL}

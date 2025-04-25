@@ -19,7 +19,8 @@ interface AppProviderProps {
   setIsAuth: (state: boolean) => void;
   cartItems: Course[] | any[];
   setCartItems: (state: Course[] | any[]) => void;
-  handleAddToCart: (course: Course) => void;
+  searchHistory: SearchHistory[] |  any[];
+  setSearchHistory: (state: SearchHistory[] | any[]) => void;
   courseUploadProgress: {
     progress: number;
     elapsedTime: number;
@@ -42,7 +43,8 @@ const initialState = {
   setIsAuth: () => {},
   cartItems: [],
   setCartItems: () => {},
-  handleAddToCart: () => {},
+  searchHistory: [],
+  setSearchHistory: () => {},
   courseUploadProgress: {
     progress: 0,
     elapsedTime: 0,
@@ -73,86 +75,91 @@ export function AppProvider({
       ? user.cart
       : []
   );
+  const [searchHistory, setSearchHistory] = useState<any[]>(
+    user && Object.values(user).length > 0 && user?.searchHistory?.length > 0
+      ? user.searchHistory
+      : []
+  );
   const [courseUploadProgress, setCourseUploadProgress] = useState({
     progress: 0,
     elapsedTime: 0,
     rate: 0,
   });
 
-  const handleAddToCart = async (course: Course) => {
-    try {
-      const response = await fetch("http://localhost:3000/cart/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user.id, // or wherever you’re storing the logged-in user ID
-          productId: course.id,
-          quantity: 1,
-          title: course.title,
-          price: course.price,
-        }),
-      });
-      const data = await response.json();
-      console.log('data:',data);
-      console.log('data:',data.data);
-      if (response.ok && data.state === "success") {
-        setCartItems(data.data); // Assuming backend returns full cart array
-        toast.success(`${course.title} added to cart`);
-      } else {
-        toast.error(data.message || "Something went wrong");
-      }
-    } catch (error) {
-      toast.error("Error adding to cart. Try again.");
-      console.error(error);
-    }
-  };
-  const handleRemoveFromCart = async (course: Course) => {
-    try {
-      const response = await fetch("http://localhost:3000/cart/remove", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user.id, // or wherever you’re storing the logged-in user ID
-          productId: course.id,
-          title: course.title,
-          price: course.price,
-        }),
-      });
-      const data = await response.json();
-      console.log('data:',data);
-      console.log('data:',data.data);
-      if (response.ok && data.state === "success") {
-        setCartItems(data.data); // Assuming backend returns full cart array
-        toast.success(`${course.title} removed from cart`);
-      } else {
-        toast.error(data.message || "Something went wrong");
-      }
-    } catch (error) {
-      toast.error("Error adding to cart. Try again.");
-      console.error(error);
-    }
-  };
+  // const handleAddToCart = async (course: Course) => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/cart/add", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         userId: user.id, // or wherever you’re storing the logged-in user ID
+  //         productId: course.id,
+  //         quantity: 1,
+  //         title: course.title,
+  //         price: course.price,
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     console.log('data:',data);
+  //     console.log('data:',data.data);
+  //     if (response.ok && data.state === "success") {
+  //       setCartItems(data.data); // Assuming backend returns full cart array
+  //       toast.success(`${course.title} added to cart`);
+  //     } else {
+  //       toast.error(data.message || "Something went wrong");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Error adding to cart. Try again.");
+  //     console.error(error);
+  //   }
+  // };
+  // const handleRemoveFromCart = async (course: Course) => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/cart/remove", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         userId: user.id, // or wherever you’re storing the logged-in user ID
+  //         productId: course.id,
+  //         title: course.title,
+  //         price: course.price,
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     console.log('data:',data);
+  //     console.log('data:',data.data);
+  //     if (response.ok && data.state === "success") {
+  //       setCartItems(data.data); // Assuming backend returns full cart array
+  //       toast.success(`${course.title} removed from cart`);
+  //     } else {
+  //       toast.error(data.message || "Something went wrong");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Error adding to cart. Try again.");
+  //     console.error(error);
+  //   }
+  // };
 
-  const handleViewCart = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/cart/view", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      console.log(data);
+  // const handleViewCart = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/cart/view", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     const data = await response.json();
+  //     console.log(data);
 
-    } catch (error) {
-      toast.error("Error adding to cart. Try again.");
-      console.error(error);
-    }
-  };
+  //   } catch (error) {
+  //     toast.error("Error adding to cart. Try again.");
+  //     console.error(error);
+  //   }
+  // };
 
   useEffect(() => {
     // this effect checks if there client is logged in by checking  cookies
@@ -177,6 +184,7 @@ export function AppProvider({
       setIsAuth(true);
       localStorage.setItem("user", JSON.stringify(user));
       setCartItems(user ? user.cart : []);
+      setSearchHistory(user ? user.searchHistory : []);
     } else {
       setIsAuth(false);
     }
@@ -201,9 +209,8 @@ export function AppProvider({
     setIsAuth,
     cartItems,
     setCartItems,
-    handleAddToCart,
-    handleRemoveFromCart,
-    handleViewCart,
+    searchHistory,
+    setSearchHistory,
     courseUploadProgress,
     setCourseUploadProgress,
   };

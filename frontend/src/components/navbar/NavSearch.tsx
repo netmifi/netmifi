@@ -26,6 +26,7 @@ import { useSearchSuggestion } from "@/api/hooks/search/useSearchSuggestion";
 import { useNavigate } from "react-router-dom";
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { toast } from "sonner";
+import { useApp } from "@/app/app-provider";
 
 // Define the search form schema
 const searchFormSchema = z.object({
@@ -183,11 +184,13 @@ const NavSearch = ({
   }, []);
 
   // Fetch search history
-  const { data: searchHistory, isLoading: historyLoading } = useQuery({
-    queryKey: ["searchHistory"],
-    queryFn: fetchSearchHistory,
-    staleTime: 300000, // 5 minutes
-  });
+  // const { data: searchHistory, isLoading: historyLoading } = useQuery({
+  //   queryKey: ["searchHistory"],
+  //   queryFn: fetchSearchHistory,
+  //   staleTime: 300000, // 5 minutes
+  // });
+
+  const {searchHistory, setSearchHistory} = useApp();
 
   const { data: suggestionsData, isLoading: suggestionsLoading } =
     useSearchSuggestion(debouncedSearchTerm);
@@ -204,20 +207,13 @@ const NavSearch = ({
   const handleSubmit = async (data: SearchFormValues) => {
     try {
       const searchQuery = data.search.trim() || ''
-      // if (searchQuery.length < 2)
-      //   return toast.error('Search cannot be less than 2 characters')
-
+      if (searchQuery.length < 2)
+        return toast.error('Search cannot be less than 2 characters')
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`)
     console.log("Searching for:", data.search);
     } catch (error) {
       mutationErrorHandler(error);
     }
-    // const
-
-    // Here you would typically:
-    // 1. Navigate to search results page
-    // 2. Add the search term to history via API (to be handled by backend while searching)
-    // 3. Reset the form or keep the value as needed
   };
 
   const handleDeleteHistoryItem = (e: React.MouseEvent, id: string) => {
@@ -231,7 +227,7 @@ const NavSearch = ({
   const showHistory =
     inputFocused &&
     !searchValue.length &&
-    (searchHistory?.length > 0 || historyLoading);
+    (searchHistory?.length > 0);
 
   const mdWidth = width && width < 768;
   const smWidth = width && width < 640;
