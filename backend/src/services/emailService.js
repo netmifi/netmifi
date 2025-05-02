@@ -97,11 +97,13 @@ function emailBody(title, templateType, code) {
 
 async function sendEmail({ to, subject, templateType }) {
     try {
+        // console.log('Sending email to:', to);
+        //error on the sending logic. fix it this night
         const info = await transporter.sendMail({
             from: process.env.SMTP_USER,
             to: to,
             subject: subject,
-            html: emailBody(subject, templateType)
+            text: emailBody(subject, templateType, code),
         });
         console.log('Message sent: %s', info.messageId);
         return info;
@@ -115,6 +117,6 @@ module.exports = {
     sendEmail
 };
 // Example usage
-// sendEmail('okenwavictor003@gmail.com', 'Test Subject', 'Hello from Nodemailer!')
+// sendEmail('demiurgerene@gmail.com', 'Test Subject', 'Hello from Nodemailer!')
 //   .then(() => console.log('Email sent successfully'))
 //   .catch((error) => console.error('Failed to send email:', error));
