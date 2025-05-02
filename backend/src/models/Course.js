@@ -1,13 +1,27 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+// Quiz Question Schema
+const quizQuestionSchema = new Schema({
+  id: { type: String, required: true },
+  text: { type: String, required: true },
+  type: { 
+    type: String, 
+    required: true,
+    enum: ['MULTIPLE_CHOICE', 'TRUE_FALSE']
+  },
+  options: [{ type: String, required: true }],
+  correctAnswer: { type: Number, required: true },
+  explanation: { type: String }
+}, { _id: false });
+
 // Quiz Schema
 const quizSchema = new Schema({
-  question: { type: String, required: true },
-  options: [{ type: String, required: true }],
-  correctAnswer: { type: String, required: true },
-  explanation: { type: String, required: true },
-  points: { type: Number, default: 10 }
+  id: { type: String, required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  passingScore: { type: Number, required: true, default: 70 },
+  questions: [quizQuestionSchema]
 }, { _id: false });
 
 // Section Schema
@@ -17,90 +31,59 @@ const sectionSchema = new Schema({
   type: { 
     type: String, 
     required: true,
-    enum: ['video', 'audio', 'interactive', 'storytelling']
+    enum: ['video', 'audio', 'interactive', 'storytelling', 'quiz']
   },
-  contentUrl: { type: String, required: true },
+  contentUrl: { type: String },
   description: { type: String, required: true },
   duration: { type: Number, required: true }, // in minutes
-  quizzes: [quizSchema],
+  quiz: quizSchema,
   xpReward: { type: Number, default: 0 },
   order: { type: Number, required: true }
 }, { _id: false });
 
 // Course Schema
-const courseSchema = new Schema(
-  {
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    title: { type: String, required: true },
-    category: { type: String, required: true },
-    description: { type: String, required: true },
-    price: { type: Number, required: true },
-    oldPrice: { type: Number, required: false },
-    thumbnail: { type: String, required: true },
-    slugUrl: { type: String, required: true, unique: true },
-    sections: [sectionSchema],
-    tags: [{ type: String }],
-    difficulty: { 
-      type: String, 
-      required: true,
-      enum: ['beginner', 'intermediate', 'advanced']
-    },
-    totalXp: { type: Number, default: 0 },
-    estimatedDuration: { type: Number, required: true }, // in minutes
-    status: { 
-      type: String, 
-      default: 'draft',
-      enum: ['draft', 'published', 'archived']
-    },
-    enrolledUsers: [{
-      userId: { type: Schema.Types.ObjectId, ref: 'User' },
-      progress: { type: Number, default: 0 },
-      currentSection: { type: Number, default: 0 },
-      completedSections: [{ type: Number }],
-      quizScores: [{
-        sectionId: String,
-        score: Number,
-        attempts: Number,
-        lastAttempt: Date
-      }],
-      enrolledAt: { type: Date, default: Date.now }
+const courseSchema = new Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  instructor: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  thumbnail: { type: String },
+  price: { type: Number, required: true },
+  sections: [sectionSchema],
+  enrolledUsers: [{
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    enrolledAt: { type: Date, default: Date.now },
+    progress: { type: Number, default: 0 },
+    currentSection: { type: Number, default: 0 },
+    completedSections: [{ type: String }],
+    quizScores: [{
+      sectionId: { type: String },
+      score: { type: Number },
+      attempts: { type: Number, default: 0 },
+      lastAttempt: { type: Date }
     }]
-  },
-  {
-    toJSON: {
-      transform: function (doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
-      }
-    },
-    toObject: {
-      transform: function (doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
-      }
-    },
-    timestamps: true
-  }
-);
+  }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
+
+// Update timestamps on save
+courseSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
+});
 
 // Indexes
 courseSchema.index({ 
   title: 'text', 
-  category: 'text',
-  description: 'text',
-  tags: 'text'
+  description: 'text'
 }, {
   weights: {
     title: 10,
-    category: 5,
-    description: 3,
-    tags: 5
+    description: 3
   }
 });
 
 courseSchema.index({ title: 1 });
-courseSchema.index({ category: 1 });
-courseSchema.index({ status: 1 });
-courseSchema.index({ slugUrl: 1 }, { unique: true });
+courseSchema.index({ price: 1 });
 
 module.exports = mongoose.model('Course', courseSchema);

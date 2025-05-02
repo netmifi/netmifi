@@ -14,7 +14,7 @@ const Jumbotron = ({
   return (
     <section
       className={cn(
-        " min-h-fit flex md:justify-between items-center max-sm:flex-wrap max-sm:flex-col gap-3 padding-x padding-y",
+        " min-h-fit flex md:justify-between items-center max-sm:flex-wrap max-sm:flex-col gap-3 padding-x",
         className
       )}
     >
@@ -33,7 +33,7 @@ const Jumbotron = ({
         <img
           src={image}
           className={cn(
-            "object-contain size-[30rem] md:ml-auto",
+            "object-contain size-[20rem] md:ml-auto",
             imageClassName
           )}
           alt=""

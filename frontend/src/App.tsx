@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/app/theme-provider";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Courses from "./pages/Courses";
@@ -38,7 +38,7 @@ import Students from "./pages/instructor_dashboard/Students";
 import CertifiedStudents from "./pages/instructor_dashboard/CertifiedStudents";
 import Followers from "./pages/instructor_dashboard/Followers";
 import DashboardCourses from "./pages/instructor_dashboard/Courses";
-import CreateCourse from "./pages/instructor_dashboard/CreateCourse";
+import CreateCourse from "./pages/instructor_dashboard/Courses/CreateCourse";
 import ResetScroll from "./components/ResetScroll";
 import RequireAuth from "./components/RequireAuth";
 import AppLoading from "./components/AppLoading";
@@ -47,6 +47,7 @@ import LayoutWithProgress from "./layouts/LayoutWithProgress";
 import SearchResults from "./pages/SearchResults";
 import ClipPlayer from "./components/courses/ClipsPlayer";
 import { CourseProcessor } from "./services/courseProcessor";
+import { useLayoutEffect } from "react";
 
 const App = () => {
   //   const location = useLocation();
@@ -56,6 +57,7 @@ const App = () => {
   //     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   //   }, [location.pathname]);
   // };
+  
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <Router>
@@ -151,17 +153,18 @@ const App = () => {
                     path="dashboard"
                     element={<InstructorDashboardOutletLayout />}
                   >
+                    <Route index element={<Navigate to="home" replace />} />
                     <Route path="home" element={<InstructorDashboard />} />
-                    <Route path="students" element={<Students />} >
-                    <Route
-                      path="certified-students"
-                      element={<CertifiedStudents />}
-                    />
+                    <Route path="courses">
+                      <Route index element={<DashboardCourses />} />
+                      <Route path="create" element={<CreateCourse />} />
                     </Route>
-                    <Route path="followers" element={<Followers />} />
-                    <Route path="courses" element={<DashboardCourses />} />
+                    <Route path="students">
+                      <Route index element={<Students />} />
+                      <Route path="certified" element={<CertifiedStudents />} />
+                    </Route>
                     <Route path="analytics" element={<MyEarnings />} />
-                    <Route path="create" element={<CreateCourse />} />
+                    <Route path="followers" element={<Followers />} />
                   </Route>
                 </Route>
 

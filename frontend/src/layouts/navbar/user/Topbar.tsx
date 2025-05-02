@@ -53,7 +53,7 @@ const TopBar = ({
         {state === "instructor" && (
           <Tooltip>
             <TooltipTrigger>
-              <Link to="/dashboard/create">
+              <Link to="/dashboard/courses/create">
                 <PlusCircleIcon className="fill-red text-secondary size-5 sm:size-7" />
               </Link>
             </TooltipTrigger>

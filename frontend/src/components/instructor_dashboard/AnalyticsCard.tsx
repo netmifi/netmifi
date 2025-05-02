@@ -2,20 +2,30 @@ import { cn, convertToReadableNumber } from "@/lib/utils";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
 import { Button } from "../ui/button";
 import {
-  AsteriskIcon,
   ChevronRightCircleIcon,
   EyeIcon,
   EyeOffIcon,
+  TrendingUp,
+  TrendingDown,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import WithdrawDialog from "./WithdrawDialog";
 import { useState } from "react";
+
+interface DashboardCardProps {
+  count: number;
+  label: string;
+  link: string;
+  icon: React.ReactNode;
+  isMoney?: boolean;
+  isWithdrawal?: boolean;
+  description?: string;
+  trend?: string;
+}
 
 const AnalyticsCard = ({
   count,
@@ -24,21 +34,28 @@ const AnalyticsCard = ({
   icon,
   isMoney,
   isWithdrawal,
-  date,
+  description,
+  trend,
 }: DashboardCardProps) => {
   const [_visible, _setVisible] = useState(false);
+  const isPositiveTrend = trend?.includes("+");
+
   return (
-    <Card className="bg-dashboard-card p-0 rounded-2xl border-none">
-      <CardContent className="p-6 flex flex-col gap-8 items-start">
+    <Card className="bg-white p-0 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+      <CardContent className="p-4 flex flex-col gap-4">
         <CardHeader className="flex flex-row p-0 gap-3 items-center justify-between w-full">
           <div className="flex gap-2 items-center">
-            <div className="bg-popover size-fit rounded-md text-red p-2 text-lg *:size-5 *:sm:size-7">
+            <div className="bg-red-50 size-fit rounded-md text-red p-2 text-lg *:size-5 *:sm:size-6">
               {icon}
             </div>
-
-            <CardTitle className="capitalize text-lg font-medium">
-              {label}
-            </CardTitle>
+            <div className="flex flex-col">
+              <CardTitle className="capitalize text-base font-medium">
+                {label}
+              </CardTitle>
+              {description && (
+                <p className="text-xs text-gray-500">{description}</p>
+              )}
+            </div>
           </div>
 
           {isMoney && (
@@ -51,44 +68,35 @@ const AnalyticsCard = ({
             </Button>
           )}
         </CardHeader>
-        <CardFooter
-          className={cn("p-0 flex flex-row justify-between w-full items-end", {
-            "items-center": isWithdrawal,
-          })}
-        >
-          <div className="flex flex-col gap-1 sm:gap-2">
-            <h3 className="text-3xl sm:text-4xl font-semibold">
-              {isMoney && !_visible ? (
-                <div className="flex gap-px">
-                  {[1, 2, 3, 4, 5].map((_, index) => (
-                    <AsteriskIcon key={index} className="text-red size-8" />
-                  ))}
-                </div>
-              ) : (
-                <>
-                  {isMoney && "$"}
-                  {count > 10000
-                    ? convertToReadableNumber(count)
-                    : count.toLocaleString()}
-                </>
-              )}
-            </h3>
 
-            <p className="text-xs sm:text-sm">Updated {date?.toDateString()}</p>
-          </div>
-          <div className="flex flex-col gap-3">
-            {isWithdrawal && (
-              <WithdrawDialog
-                trigger={<Button className="rounded-full">Withdraw</Button>}
-              />
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
+            <p className="text-2xl font-bold">
+              {isMoney ? "$" : ""}
+              {_visible ? convertToReadableNumber(count) : "****"}
+            </p>
+            {trend && (
+              <div className="flex items-center gap-1 text-sm mt-1">
+                {isPositiveTrend ? (
+                  <TrendingUp className="text-green-500 size-4" />
+                ) : (
+                  <TrendingDown className="text-red-500 size-4" />
+                )}
+                <span className={cn(
+                  "font-medium",
+                  isPositiveTrend ? "text-green-500" : "text-red-500"
+                )}>
+                  {trend}
+                </span>
+              </div>
             )}
-            {link && (
-              <Link to={link}>
-                <ChevronRightCircleIcon className="fill-popover md:size-[2rem]" />
-              </Link>
-            )}
           </div>
-        </CardFooter>
+          <Link to={link}>
+            <Button variant="ghost" size="icon">
+              <ChevronRightCircleIcon className="size-5" />
+            </Button>
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );

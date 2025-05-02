@@ -207,7 +207,71 @@ exports.completeSection = async (req, res) => {
 
 exports.submitQuiz = async (req, res) => {
   try {
+    const { id, sectionId } = req.params;
     const { answers } = req.body;
+    const userId = req.user.id;
+
+    // Get course and section
+    const course = await Course.findById(id);
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    const section = course.sections.id(sectionId);
+    if (!section) {
+      return res.status(404).json({ message: 'Section not found' });
+    }
+
+    // Check if section has a quiz
+    if (!section.quiz) {
+      return res.status(400).json({ message: 'Section does not have a quiz' });
+    }
+
+    // Calculate score
+    let score = 0;
+    const totalQuestions = section.quiz.questions.length;
+
+    for (let i = 0; i < totalQuestions; i++) {
+      const question = section.quiz.questions[i];
+      const userAnswer = answers[i];
+
+      if (question.type === 'MULTIPLE_CHOICE') {
+        if (userAnswer === question.correctAnswer) {
+          score++;
+        }
+      } else if (question.type === 'TRUE_FALSE') {
+        if (userAnswer === question.correctAnswer) {
+          score++;
+        }
+      }
+    }
+
+    const percentageScore = (score / totalQuestions) * 100;
+    const passed = percentageScore >= section.quiz.passingScore;
+
+    // Update section progress
+    if (passed) {
+      section.completed = true;
+      section.progress = 100;
+      await course.save();
+    }
+
+    // Return results
+    res.json({
+      score: percentageScore,
+      passed,
+      correctAnswers: score,
+      totalQuestions
+    });
+
+  } catch (error) {
+    console.error('Error submitting quiz:', error);
+    res.status(500).json({ message: 'Error submitting quiz' });
+  }
+};
+
+exports.updateQuiz = async (req, res) => {
+  try {
     const course = await Course.findById(req.params.id);
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
@@ -218,42 +282,15 @@ exports.submitQuiz = async (req, res) => {
       return res.status(404).json({ message: 'Section not found' });
     }
 
-    let score = 0;
-    let totalPoints = 0;
-
-    section.quizzes.forEach((quiz, index) => {
-      totalPoints += quiz.points;
-      if (answers[index] === quiz.correctAnswer) {
-        score += quiz.points;
-      }
-    });
-
-    const userProgress = course.enrolledUsers.find(
-      enrolled => enrolled.userId.toString() === req.user.id
-    );
-    if (!userProgress) {
-      return res.status(404).json({ message: 'Not enrolled in this course' });
+    // Verify instructor
+    if (course.instructor.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized to update this course' });
     }
 
-    const quizScore = {
-      sectionId: req.params.sectionId,
-      score: (score / totalPoints) * 100,
-      attempts: (userProgress.quizScores.find(qs => qs.sectionId === req.params.sectionId)?.attempts || 0) + 1,
-      lastAttempt: new Date()
-    };
-
-    const existingScoreIndex = userProgress.quizScores.findIndex(
-      qs => qs.sectionId === req.params.sectionId
-    );
-
-    if (existingScoreIndex !== -1) {
-      userProgress.quizScores[existingScoreIndex] = quizScore;
-    } else {
-      userProgress.quizScores.push(quizScore);
-    }
-
+    section.quiz = req.body;
     await course.save();
-    res.json(quizScore);
+
+    res.json(section.quiz);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -322,5 +359,41 @@ exports.getProgress = async (req, res) => {
     res.json(userProgress);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+// Course Completion
+exports.completeCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    // Get course
+    const course = await Course.findById(id);
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    // Check if all sections are completed
+    const allSectionsCompleted = course.sections.every(section => section.completed);
+    if (!allSectionsCompleted) {
+      return res.status(400).json({ message: 'All sections must be completed before marking course as complete' });
+    }
+
+    // Update course completion status
+    course.completed = true;
+    course.completedAt = new Date();
+    await course.save();
+
+    // Return success response
+    res.json({
+      message: 'Course completed successfully',
+      courseId: course._id,
+      completedAt: course.completedAt
+    });
+
+  } catch (error) {
+    console.error('Error completing course:', error);
+    res.status(500).json({ message: 'Error completing course' });
   }
 };

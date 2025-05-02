@@ -7,7 +7,7 @@
 /* eslint-disable no-unused-vars */
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 
 // 1. provide the state type to obey typescript linting rule
 interface AppProviderProps {
@@ -87,7 +87,7 @@ export function AppProvider({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user.id, // or wherever you’re storing the logged-in user ID
+          userId: user.id, // or wherever you're storing the logged-in user ID
           productId: course.id,
           quantity: 1,
           title: course.title,
@@ -117,7 +117,7 @@ export function AppProvider({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user.id, // or wherever you’re storing the logged-in user ID
+          userId: user.id, // or wherever you're storing the logged-in user ID
           productId: course.id,
           title: course.title,
           price: course.price,
@@ -211,9 +211,22 @@ export function AppProvider({
   };
 
   return (
-    <AppProviderContext.Provider {...props} value={value}>
-      {children}
-    </AppProviderContext.Provider>
+    <>
+      <AppProviderContext.Provider {...props} value={value}>
+        {children}
+      </AppProviderContext.Provider>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          className: "toast",
+          style: {
+            background: "var(--background)",
+            color: "var(--foreground)",
+            border: "1px solid var(--border)",
+          },
+        }}
+      />
+    </>
   );
 }
 

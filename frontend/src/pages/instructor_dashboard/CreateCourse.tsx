@@ -1,5 +1,5 @@
 import { convertToReadableTime, createCourseSchema } from "@/lib/utils";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem } from "@/components/ui/form";
@@ -35,6 +35,10 @@ import {
 import { AlertDescription } from "@/components/ui/alert";
 import CustomFormSelect from "@/components/form/CustomFormSelect";
 import { categories } from "@/constants";
+import { VideoProcessor, VideoSection } from '@/services/videoProcessor';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 const CreateCourse = () => {
   const { courseUploadProgress } = useApp();
@@ -51,6 +55,18 @@ const CreateCourse = () => {
   });
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
   const [isAvailableForMentorship, setIsAvailableForMentorship] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [processingProgress, setProcessingProgress] = useState(0);
+  const [videoSections, setVideoSections] = useState<VideoSection[]>([]);
+  const [processingStatus, setProcessingStatus] = useState<{
+    stage: 'idle' | 'validating' | 'processing' | 'complete';
+    progress: number;
+    message: string;
+  }>({
+    stage: 'idle',
+    progress: 0,
+    message: ''
+  });
 
   const formSchema = createCourseSchema;
   const form = useForm<z.infer<typeof formSchema>>({
@@ -95,12 +111,76 @@ const CreateCourse = () => {
     setSectionsCount(sectionsCount - 1);
   };
 
+  const handleVideoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    try {
+      setProcessingStatus({
+        stage: 'validating',
+        progress: 0,
+        message: 'Validating video file...'
+      });
+      
+      // Create video processor
+      const processor = new VideoProcessor(URL.createObjectURL(file));
+      
+      // Process video with progress updates
+      const processedVideo = await processor.processVideo(
+        file,
+        form.getValues('title'),
+        (progress) => {
+          setProcessingStatus({
+            stage: progress.stage,
+            progress: progress.progress,
+            message: progress.message
+          });
+        }
+      );
+      
+      // Update form with video file
+      form.setValue('introVideo', file);
+      
+      // Update sections
+      setVideoSections(processedVideo.sections);
+      
+      // Add sections to form
+      processedVideo.sections.forEach(section => {
+        form.setValue(`dynamicFields[${section.id}][title]`, section.title);
+        form.setValue(`dynamicFields[${section.id}][description]`, section.description);
+        form.setValue(`dynamicFields[${section.id}][video]`, file);
+      });
+      
+      toast.success('Video processed successfully');
+    } catch (error) {
+      console.error('Error processing video:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to process video');
+      setProcessingStatus({
+        stage: 'idle',
+        progress: 0,
+        message: ''
+      });
+    }
+  };
+
+  const handleSectionUpdate = (index: number, field: string, value: string) => {
+    const updatedSections = [...videoSections];
+    updatedSections[index] = {
+      ...updatedSections[index],
+      [field]: value
+    };
+    setVideoSections(updatedSections);
+    
+    // Update form field
+    form.setValue(`dynamicFields[${updatedSections[index].id}][${field}]`, value);
+  };
+
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("description", values.description);
-      formData.append("price", values.price);
+      formData.append("price", values.price.toString());
       formData.append("mentorshipAvailability", values.mentorshipAvailability);
       formData.append(
         "mentorshipAvailabilityDays",
@@ -125,7 +205,8 @@ const CreateCourse = () => {
         }
       });
 
-      // console.log(formData.entries());
+      // Add sections data
+      formData.append('sections', JSON.stringify(videoSections));
 
       // Use the mutation function to send FormData
       await createCourseMutation.mutateAsync(formData);
@@ -138,16 +219,16 @@ const CreateCourse = () => {
 
       console.log(createCourseMutation);
 
-      // console.log("formdata:" + formData);
-      // TODO: Find the best route to navigate
-      // navigate("/");
+      // Reset form and navigate
+      form.reset();
+      setVideoSections([]);
     } catch (error) {
       mutationErrorHandler(error);
     }
   };
 
   return (
-    <div className="w-full px-2 sm:px-4 bg-popover rounded-lg shadow-sm">
+    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 bg-popover rounded-lg shadow-sm">
       <AlertDialog open={createCourseMutation.isPending || false}>
         <AlertDialogContent>
           <AlertDialogHeader className="items-center">
@@ -179,7 +260,6 @@ const CreateCourse = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      {/* FIXME: FIND THE SOURCE OF THE DOUBLE SCROLL BAR */}
       <header className="w-full py-3 text-base sm:text-md flex justify-between gap-2 items-center">
         Create New Course
         <div className="relative">
@@ -191,7 +271,6 @@ const CreateCourse = () => {
           <form
             className="overflow-y-hidden"
             onSubmit={form.handleSubmit(handleSubmit)}
-            // encType="multipart/form-data"
           >
             <section className="flex flex-wrap gap-3 mb-[10em] ">
               <div className="flex flex-col gap-10 flex-grow">
@@ -239,14 +318,85 @@ const CreateCourse = () => {
                   placeholder="Input none if no requirements"
                 />
 
-                <CustomFileField
-                  name="introVideo"
-                  control={form.control}
-                  label="introduction video"
-                  placeholder="Select a (.mp4) file (Max: 15mb)"
-                  fileRef={introVideoRef}
-                  fileType=".mp4, .mpeg"
-                />
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Course Video</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Label htmlFor="video">Upload Video</Label>
+                      <Input
+                        id="video"
+                        type="file"
+                        accept="video/mp4,video/webm,video/quicktime"
+                        onChange={handleVideoUpload}
+                        disabled={processingStatus.stage !== 'idle'}
+                      />
+                      <p className="text-sm text-gray-500 mt-1">
+                        Supported formats: MP4, WebM, QuickTime (Max: 500MB)
+                      </p>
+                    </div>
+                    
+                    {processingStatus.stage !== 'idle' && (
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <Label>{processingStatus.message}</Label>
+                          <span className="text-sm text-gray-500">
+                            {processingStatus.progress}%
+                          </span>
+                        </div>
+                        <Progress value={processingStatus.progress} />
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {videoSections.length > 0 && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Course Sections</CardTitle>
+                      <p className="text-sm text-gray-500">
+                        {videoSections.length} sections created automatically
+                      </p>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                      {videoSections.map((section, index) => (
+                        <div key={section.id} className="space-y-4 p-4 border rounded-lg">
+                          <div>
+                            <Label>Section Title</Label>
+                            <Input
+                              value={section.title}
+                              onChange={(e) => handleSectionUpdate(index, 'title', e.target.value)}
+                            />
+                          </div>
+                          
+                          <div>
+                            <Label>Description</Label>
+                            <Textarea
+                              value={section.description}
+                              onChange={(e) => handleSectionUpdate(index, 'description', e.target.value)}
+                            />
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label>Duration</Label>
+                              <p className="text-sm text-gray-500">
+                                {Math.round(section.duration)} minutes
+                              </p>
+                            </div>
+                            <div>
+                              <Label>XP Reward</Label>
+                              <p className="text-sm text-gray-500">
+                                {section.xpReward} XP
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                )}
               </div>
 
               <div className="flex flex-col gap-7 flex-grow">

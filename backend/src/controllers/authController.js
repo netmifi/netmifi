@@ -13,6 +13,8 @@ const ACCESS_LEVELS = require('../constants/accessLevels');
 const { authCookieService } = require('../services/cookieService');
 const { OAuth2Client } = require('google-auth-library');
 const { fetchGoogleUserInfo, createGoogleUser } = require('../services/googleAuthService');
+const { emailSubjects, instructorAcceptedTemplate } = require('../constants/emailTemplates');
+const { emailBody } = require('../services/emailService');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
@@ -607,63 +609,44 @@ const handleChangePassword = async (req, res) => {
 }
 
 const handleInstructorRegister = async (req, res) => {
-    // this handles become and instructor request from client
-    // # validate values with joi 
-    // # checks if user is signed in and is part of our ecosystem 
-    // # checks if phone number exists in db 
-    // # checks if the fullname of the user has at least their first and last name  
-    // #  update users and instructors db with relevant data 
-    // #  send welcome email
     const bodyValues = req.body;
-    console.log(bodyValues)
+    console.log("Received instructor registration data:", bodyValues);
+    
     try {
         const { error, value } = instructorApplicationSchema.validate(bodyValues, { abortEarly: false });
         const foundUser = await User.findById(req.user.id);
         const foundInstructor = await Instructor.findOne({ userId: foundUser._id });
-        const existingPhoneNumber = await User.findOne({ phone: value.phone })
+        const existingPhoneNumber = await User.findOne({ phone: value.phone });
 
         if (error) {
-            console.log(error);
-            res.status(403).json({
-                message: 'validation error',
-                state: queryState.error,
-                data: undefined,
-                errors: error
-            }); return;
+            console.log("Validation error:", error);
+            return res.status(400).json({
+                message: 'Validation error',
+                state: 'error',
+                errors: error.details
+            });
         }
 
         if (!foundUser) {
-            res.status(404).json({
-                message: 'account not found',
-                state: queryState.error,
-                data: undefined
-            }); return;
+            return res.status(404).json({
+                message: 'User not found',
+                state: 'error'
+            });
         }
+
         if (foundInstructor) {
-            res.status(409).json({
-                message: 'account already found to be an instructor',
-                state: queryState.error,
-                data: undefined
-            }); return;
-        }
-        if (existingPhoneNumber) {
-            res.status(409).json({
-                message: 'phone number already exists',
-                state: queryState.error,
-                data: undefined
-            }); return;
+            return res.status(409).json({
+                message: 'You are already registered as an instructor',
+                state: 'error'
+            });
         }
 
-        // checks if full name has first and last name
-        // const checkNameInclusion = value.fullName.toLowerCase().includes(foundUser.firstName.toLowerCase()) && value.fullName.toLowerCase().includes(foundUser.lastName.toLowerCase());
-
-        // if (!checkNameInclusion) {
-        //     res.status(409).json({
-        //         message: 'Full name specified does not have already registered first and last name',
-        //         state: queryState.error,
-        //         data: value
-        //     }); return;
-        // }
+        if (existingPhoneNumber && existingPhoneNumber._id.toString() !== foundUser._id.toString()) {
+            return res.status(409).json({
+                message: 'Phone number already in use',
+                state: 'error'
+            });
+        }
 
         const handles = {
             facebook: value.facebook || '',
@@ -671,47 +654,53 @@ const handleInstructorRegister = async (req, res) => {
             tiktok: value.tiktok || '',
             youtube: value.youtube || '',
             website: value.website || '',
-        }
+        };
 
+        // Update user profile
         foundUser.handles = handles;
         foundUser.residentialAddress = value.residentialAddress;
-        foundUser.country = value.country || '';
-        foundUser.phone = value.phone || '';
+        foundUser.country = value.country;
+        foundUser.phone = value.phone;
+        foundUser.about = value.about || '';
         foundUser.roles = { ...foundUser.roles, Instructor: ACCESS_LEVELS.Instructor };
-        foundUser.about || '';
 
+        // Create instructor profile
         const instructor = await Instructor.create({
             userId: foundUser._id,
-            fullName: value.fullName,
             niche: value.niche,
             whyInterest: value.whyInterest,
             taughtBefore: value.taughtBefore,
             mentoredPreviously: value.mentoredPreviously,
-            status: 'accepted', // status should be pending but for now every instructor is accepted without any admin checks
+            status: 'pending'
         });
 
         const user = await foundUser.save();
         const safeUserData = parseSafeUserData(user);
 
-        authCookieService(res, user);
-        res.status(202).json({
-            message: 'req received',
-            state: queryState.success,
+        // Send welcome email
+        await sendEmail({
+            to: user.email,
+            subject: emailSubjects.instructor_accepted,
+            templateType: 'instructor_accepted'
+        });
+
+        return res.status(200).json({
+            message: 'Instructor registration successful',
+            state: 'success',
             data: {
                 user: safeUserData,
                 instructor
-            },
+            }
         });
-        await sendEmail(foundUser.email, 'instructor_accepted');
+
     } catch (error) {
-        res.status(405).json({
-            message: error.message,
-            state: queryState.error,
-            data: undefined,
+        console.error("Instructor registration error:", error);
+        return res.status(500).json({
+            message: error.message || 'Failed to process instructor registration',
+            state: 'error'
         });
-        return
     }
-}
+};
 
 module.exports = {
     handleFindVerificationCode,

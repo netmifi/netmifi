@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
     tls: {
         ciphers: 'SSLv3', 
         rejectUnauthorized: false // Use with caution in production, only for testing
-      }
+    }
 });
 
 // For the template type use the exempt the template but use the template name in snake case e.g verificationCodeTemplate as verification_code
@@ -95,14 +95,13 @@ function emailBody(title, templateType, code) {
     </html>
 `}
 
-async function sendEmail(to, templateType, code) {
-    const subject = templateType === 'verification_code' ? emailSubjects.verification_code : templateType === 'email_verified' ? emailSubjects.email_verified : templateType === 'instructor_accepted' ? emailSubjects.instructor_accepted : emailSubjects.registration_successful;
+async function sendEmail({ to, subject, templateType }) {
     try {
         const info = await transporter.sendMail({
             from: process.env.SMTP_USER,
             to: to,
             subject: subject,
-            html: emailBody(subject, templateType, code),
+            html: emailBody(subject, templateType)
         });
         console.log('Message sent: %s', info.messageId);
         return info;
@@ -112,7 +111,9 @@ async function sendEmail(to, templateType, code) {
     }
 }
 
-module.exports = { sendEmail }
+module.exports = {
+    sendEmail
+};
 // Example usage
 // sendEmail('okenwavictor003@gmail.com', 'Test Subject', 'Hello from Nodemailer!')
 //   .then(() => console.log('Email sent successfully'))

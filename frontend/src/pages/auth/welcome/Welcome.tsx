@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, Undo2 } from "lucide-react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CustomLogo } from "@/components/CustomLogo";
 
@@ -27,7 +27,7 @@ const Welcome = () => {
               className="border border-red bg-low-red py-6 "
               onClick={() => navigate(-1)}
             >
-              <ArrowLeftIcon size={20} /> Back
+              <Undo2 size={20} /> 
             </Button>
           </CardHeader>
 

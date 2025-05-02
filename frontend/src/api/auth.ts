@@ -84,9 +84,30 @@ export const interestAdSource = async (credentials: { interests: string[]; adSou
     return response.data;
 };
 
-export const registerInstructor = async (credentials: unknown) => {
-    const response = await instance.post("/auth/register-instructor", credentials, {
-        timeout,
-    });
-    return response.data;
+export const instructorRegister = async (data: {
+    phone: string;
+    country: {
+        name: string;
+        dialCode: string;
+        code: string;
+        flag: string;
+    };
+    residentialAddress: string;
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    youtube?: string;
+    website?: string;
+    niche: string;
+    whyInterest: string;
+    taughtBefore: string;
+    mentoredPreviously: string;
+    about: string;
+}) => {
+    try {
+        const response = await instance.post('/auth/register-instructor', data);
+        return response.data;
+    } catch (error: any) {
+        throw error.response?.data || error;
+    }
 };

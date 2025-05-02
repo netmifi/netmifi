@@ -599,6 +599,37 @@ const updateUserXP = async (req, res) => {
     }
 };
 
+// see user XP
+const viewUserXP = async (req, res) => {
+    try {
+        const {userId } = req.body;
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check for level up
+        const oldLevel = user.level;
+        const newLevel = Math.floor(user.xp / 1000) + 1; // Example: 1000 XP per level
+        if (newLevel > oldLevel) {
+            user.level = Math.min(newLevel, 100);
+            user.rank = calculateRank(user.level);
+        }
+
+        res.json({
+            message: 'XP view',
+            user: {
+                xp: user.xp,
+                level: user.level,
+                rank: user.rank
+            }
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 module.exports = {
     handleFindUser,
     handleCheckUserAuth,
@@ -617,5 +648,6 @@ module.exports = {
     searchUsers,
     getLeaderboard,
     getAchievements,
-    updateUserXP
+    updateUserXP,
+    viewUserXP
 };

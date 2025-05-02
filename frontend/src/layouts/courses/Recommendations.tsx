@@ -109,21 +109,21 @@ const Recommendations = () => {
             </Button>
           </CarouselItem>
 
-          {courseSubjects.map((subject) => (
+          {courseSubjects.map((subject, index) => (
             <CarouselItem
-              key={subject.label}
+              key={index}
               className="basis-3/12 sm:basis-[20%] md:basis-[11%] min-w-fit "
             >
               <Button
-                key={subject.label}
-                onClick={() => handleCurrentSubject(subject.label)}
-                disabled={currentSubject === subject.label}
+                // key={subject.label}
+                onClick={() => handleCurrentSubject(subject?.label?.label)}
+                disabled={currentSubject === subject?.label?.label}
                 className={cn(
                   "bg-transparent border-2 border-red text-red font-montserrat hover:bg-red hover:text-secondary capitalize w-full rounded-full",
-                  { "bg-red text-secondary": currentSubject === subject.label }
+                  { "bg-red text-secondary": currentSubject === subject?.label?.label }
                 )}
               >
-                {subject.label}
+                {subject?.label?.label}
               </Button>
             </CarouselItem>
           ))}
