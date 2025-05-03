@@ -227,7 +227,7 @@ const handleSignUp = async (req, res) => {
         }
 
         const generatedCode = generateOtp('verify'); // generate code for user with state verify (which indicates user wants to verify email)
-        sendEmail(bodyValues.email, 'verification_code', generatedCode.code) // send email (send to email, template we want to use, then code tosnd)
+        sendEmail(bodyValues.email, 'verification_code', generatedCode.code) // send email (send to email, template we want to use, then code to send)
             .then(async () => {
                 console.log("emailed");
                 const user = await User.create({ ...value, password: hashedPassword, generatedCode });
@@ -611,7 +611,7 @@ const handleChangePassword = async (req, res) => {
 const handleInstructorRegister = async (req, res) => {
     const bodyValues = req.body;
     console.log("Received instructor registration data:", bodyValues);
-    
+
     try {
         const { error, value } = instructorApplicationSchema.validate(bodyValues, { abortEarly: false });
         const foundUser = await User.findById(req.user.id);

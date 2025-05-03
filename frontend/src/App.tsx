@@ -1,5 +1,11 @@
 import { ThemeProvider } from "@/app/theme-provider";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Courses from "./pages/Courses";
@@ -57,7 +63,7 @@ const App = () => {
   //     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   //   }, [location.pathname]);
   // };
-  
+
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <Router>
@@ -94,7 +100,10 @@ const App = () => {
                 {/* COURSES ROUTE */}
                 <Route path="courses" element={<Courses />}>
                   <Route path="top" element={<TopCourses page="self" />} />
-                  <Route path="recent" element={<RecentCourses page="self" />} />
+                  <Route
+                    path="recent"
+                    element={<RecentCourses page="self" />}
+                  />
                   <Route path="course/:slug" element={<CoursePreview />} />
                   <Route path="my-courses" element={<MyCourses />} />
                   <Route path="my-courses/:slug" element={<LearnPlay />} />
@@ -163,7 +172,7 @@ const App = () => {
                       <Route index element={<Students />} />
                       <Route path="certified" element={<CertifiedStudents />} />
                     </Route>
-                    <Route path="analytics" element={<MyEarnings />} />
+                    <Route path="analytics" element={<Analytics />} />
                     <Route path="followers" element={<Followers />} />
                   </Route>
                 </Route>
@@ -173,10 +182,9 @@ const App = () => {
                 <Route path="404" element={<NotFound />} />
               </Route>
             </Route>
-            </Route>
           </Routes>
-          </ResetScroll>
-          <Toaster richColors duration={1500} closeButton={true} expand />
+        </ResetScroll>
+        <Toaster richColors duration={1500} closeButton={true} expand />
       </Router>
     </ThemeProvider>
   );

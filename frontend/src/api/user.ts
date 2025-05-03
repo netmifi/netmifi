@@ -34,7 +34,7 @@ export const updatePassword = async (credentials: unknown) => {
 };
 
 export const changeTheme = async (credentials: unknown) => {
-    const response = await instance.put("/user/change-theme", credentials, {
+    const response = await instance.post("/user/change-theme", credentials, {
         timeout,
     });
     return response.data;

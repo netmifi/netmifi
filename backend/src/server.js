@@ -62,13 +62,13 @@ app.use(
 app.use(passport.initialize());
 app.use('/uploads/profile/*', express.static(path.join(__dirname, 'uploads', 'profile')));
 
-app.use(limiter);
+// app.use(limiter);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/search', searchRoutes);
-app.use('/instructor', verifyJwt, instructorRoutes);
-app.use('/cart', verifyJwt, cartRoutes);
-app.use('/services', verifyJwt, servicesRoutes);
+app.use('/instructor', verifyJwt('strict'), instructorRoutes);
+app.use('/cart', verifyJwt('strict'), cartRoutes);
+app.use('/services', verifyJwt('strict'), servicesRoutes);
 app.use('/courses', courseRoutes);
 app.use('/payments', paymentRoutes);
 

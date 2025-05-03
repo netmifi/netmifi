@@ -61,6 +61,7 @@ const ProfileSection = () => {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const cleanedValues = Object.fromEntries(
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
         Object.entries(values).filter(([_, v]) => v != null && v != "") // Filters out null and undefined
       );
 
@@ -88,7 +89,7 @@ const ProfileSection = () => {
   return (
     <section>
       <img
-        src={`http://localhost:3000/uploads/profile/${user.profile}`}
+        // src={`http://localhost:3000/uploads/profile/${user.profile}`}
         alt="no image"
       />
       <Form {...form}>

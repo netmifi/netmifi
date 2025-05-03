@@ -1,31 +1,84 @@
 const express = require('express');
 const router = express.Router();
-const leaderboardController = require('../controllers/leaderboardController');
-const { protect, restrictTo } = require('../middleware/authMiddleware');
+
+// Validation Middlewares
 const {
   validateLeaderboardCreate,
   validateLeaderboardUpdate,
   validateLeaderboardEntry,
   validateLeaderboardParams,
   validateLeaderboardQuery
-} = require('../middleware/leaderboardValidation');
+} = require('../middlewares/leaderboardValidation');
+
+// Destructure controller methods
+const {
+  getLeaderboards,
+  getLeaderboard,
+  getEntries,
+  getUserEntry,
+  createLeaderboard,
+  updateLeaderboard,
+  deleteLeaderboard,
+  addEntry,
+  deleteEntry
+} = require('../controllers/leaderboardController');
+const verifyRoles = require('../middlewares/verifyRole');
 
 // Public routes
-router.get('/', validateLeaderboardQuery, leaderboardController.getLeaderboards);
-router.get('/:leaderboardId', validateLeaderboardParams, leaderboardController.getLeaderboard);
-router.get('/:leaderboardId/entries', validateLeaderboardParams, validateLeaderboardQuery, leaderboardController.getEntries);
-router.get('/:leaderboardId/entries/:userId', validateLeaderboardParams, leaderboardController.getUserEntry);
+router.get(
+  '/',
+  validateLeaderboardQuery,
+  getLeaderboards
+);
+router.get(
+  '/:leaderboardId',
+  validateLeaderboardParams,
+  getLeaderboard
+);
+router.get(
+  '/:leaderboardId/entries',
+  validateLeaderboardParams,
+  validateLeaderboardQuery,
+  getEntries
+);
+router.get(
+  '/:leaderboardId/entries/:userId',
+  validateLeaderboardParams,
+  getUserEntry
+);
 
-// Protected routes
-router.use(protect); // Apply authentication middleware to all routes below
-
-// Leaderboard management routes (admin and instructor only)
-router.post('/', restrictTo('admin', 'instructor'), validateLeaderboardCreate, leaderboardController.createLeaderboard);
-router.patch('/:leaderboardId', restrictTo('admin', 'instructor'), validateLeaderboardParams, validateLeaderboardUpdate, leaderboardController.updateLeaderboard);
-router.delete('/:leaderboardId', restrictTo('admin', 'instructor'), validateLeaderboardParams, leaderboardController.deleteLeaderboard);
+// Leaderboard management (admin & instructor)
+router.post(
+  '/',
+  verifyRoles(['instructor', 'admin']),
+  validateLeaderboardCreate,
+  createLeaderboard
+);
+router.patch(
+  '/:leaderboardId',
+  verifyRoles(['instructor', 'admin']),
+  validateLeaderboardParams,
+  validateLeaderboardUpdate,
+  updateLeaderboard
+);
+router.delete(
+  '/:leaderboardId',
+  verifyRoles(['instructor', 'admin']),
+  validateLeaderboardParams,
+  deleteLeaderboard
+);
 
 // Entry management routes
-router.post('/:leaderboardId/entries', validateLeaderboardParams, validateLeaderboardEntry, leaderboardController.addEntry);
-router.delete('/:leaderboardId/entries/:userId', validateLeaderboardParams, leaderboardController.deleteEntry);
+router.post(
+  '/:leaderboardId/entries',
+  validateLeaderboardParams,
+  validateLeaderboardEntry,
+  addEntry
+);
+router.delete(
+  '/:leaderboardId/entries/:userId',
+  validateLeaderboardParams,
+  deleteEntry
+);
 
-module.exports = router; 
+module.exports = router;

@@ -1,5 +1,5 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
-import { ArrowLeftSquareIcon, BookOpenText, Trophy, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, UsersIcon, UsersRoundIcon, Wallet2, Clapperboard, BarChart2, Calendar, MessageSquare } from "lucide-react";
+import { ArrowLeftSquareIcon, BookOpenText, Trophy, BookUserIcon, HomeIcon, LayoutDashboard, PhoneIcon, Settings, UsersIcon, UsersRoundIcon, Clapperboard, BarChart2, Calendar, MessageSquare } from "lucide-react";
 
 export const customButtonDefinitions = {
   // button variant custom definitions
