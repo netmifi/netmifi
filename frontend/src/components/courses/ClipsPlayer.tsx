@@ -33,23 +33,23 @@ const ClipPlayer = () => {
   }, []);
 
   return (
-    <ComingSoon />
-    // <div
-    //   ref={containerRef}
-    //   className="flex flex-col items-center scrollbar-hide gap-3 w-full h-screen overflow-y-scroll snap-y snap-mandatory bg-black"
-    // >
-    //   {tempClips.map((clip, index) => (
-    //     <div
-    //       key={clip.id}
-    //       data-index={index}
-    //       className="snap-start w-full h-screen"
-    //     >
+    // <ComingSoon />
+    <div
+      ref={containerRef}
+      className="flex flex-col items-center scrollbar-hide gap-3 w-full h-screen overflow-y-scroll snap-y snap-mandatory bg-black"
+    >
+      {tempClips.map((clip, index) => (
+        <div
+          key={clip.id}
+          data-index={index}
+          className="snap-start w-full h-screen"
+        >
           
           
-    //       <ReelsPlayer clip={clip} isActive={index === activeIndex} />
-    //     </div>
-    //   ))}
-    // </div>
+          <ReelsPlayer clip={clip} isActive={index === activeIndex} />
+        </div>
+      ))}
+    </div>
   );
 };
 

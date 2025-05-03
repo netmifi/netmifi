@@ -123,9 +123,9 @@ const Home = () => {
           <TopCourses page="child" />
           
           {/* TODO uncomment this line when clips feature is ready */}
-          {/* <div>
+          <div>
             <ClipsCarousel data={clips} />
-          </div> */}
+          </div>
 
           <RecentCourses page="child" />
 

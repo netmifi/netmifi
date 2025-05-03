@@ -46,7 +46,7 @@ import { PageProgressStart } from "./layouts/RouterProgress";
 import LayoutWithProgress from "./layouts/LayoutWithProgress";
 import SearchResults from "./pages/SearchResults";
 import ClipPlayer from "./components/courses/ClipsPlayer";
-import { CourseProcessor } from "./services/courseProcessor";
+// import { CourseProcessor } from "./services/courseProcessor";
 
 const App = () => {
   //   const location = useLocation();
@@ -97,7 +97,7 @@ const App = () => {
                   <Route path="my-courses" element={<MyCourses />} />
                   <Route path="my-courses/:slug" element={<LearnPlay />} />
                   <Route path="learn/:slug" element={<LearnPlay />} />
-                  <Route path="process/:slug" element={<CourseProcessor />} />
+                  {/* <Route path="process/:slug" element={<CourseProcessor />} /> */}
                   {/* You can keep course clips separate */}
                   <Route path="clips/:slug" element={<ClipPlayer />} />
                 </Route>
@@ -152,7 +152,7 @@ const App = () => {
                     element={<InstructorDashboardOutletLayout />}
                   >
                     <Route path="home" element={<InstructorDashboard />} />
-                    <Route path="students" element={<Students />} >
+                    <Route path="students" element={<Students />} />
                     <Route
                       path="certified-students"
                       element={<CertifiedStudents />}
@@ -161,13 +161,13 @@ const App = () => {
                     <Route path="my-courses" element={<DashboardCourses />} />
                     <Route path="analytics" element={<Analytics />} />
                     <Route path="create" element={<CreateCourse />} />
-                  </Route>
                 </Route>
 
                 {/* 404 page ROUTES */}
                 <Route path="*" element={<NotFound />} />
                 <Route path="404" element={<NotFound />} />
               </Route>
+            </Route>
             </Route>
           </Routes>
           </ResetScroll>

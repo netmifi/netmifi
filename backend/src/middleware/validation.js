@@ -10,7 +10,7 @@ const validate = (req, res, next) => {
   next();
 };
 
-// Leaderboard validation rules
+// Leaderboard validation rules6
 const validateLeaderboard = {
   create: (req, res, next) => {
     const { title, type, status } = req.body;
