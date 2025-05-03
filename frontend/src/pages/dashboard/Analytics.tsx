@@ -1,7 +1,7 @@
-import AnalyticsCard from "@/components/instructor_dashboard/AnalyticsCard";
-import PayoutSetupDialog from "@/components/instructor_dashboard/PayoutSetupDialog";
-import RevenuePerCourse from "@/components/instructor_dashboard/RevenuePerCourse";
-import StudentsChartDonut from "@/components/instructor_dashboard/StudentsChartDonut";
+import AnalyticsCard from "@/components/dashboard/AnalyticsCard";
+import PayoutSetupDialog from "@/components/dashboard/PayoutSetupDialog";
+import RevenuePerCourse from "@/components/dashboard/RevenuePerCourse";
+import StudentsChartDonut from "@/components/dashboard/StudentsChartDonut";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,10 +12,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { CoinsIcon, Wallet2Icon } from "lucide-react";
-import DataDisplayToggle from "../../components/instructor_dashboard/DataDisplayToggle";
+import DataDisplayToggle from "../../components/dashboard/DataDisplayToggle";
 import { SetStateAction, useState } from "react";
 import CustomTable from "@/components/CustomTable";
-import ViewTransaction from "@/components/instructor_dashboard/ViewTransaction";
+import ViewTransaction from "@/components/dashboard/ViewTransaction";
 
 const earnings = [
   {

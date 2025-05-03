@@ -1,4 +1,4 @@
-import AnalyticsCard from "@/components/instructor_dashboard/AnalyticsCard";
+import AnalyticsCard from "@/components/dashboard/AnalyticsCard";
 import {
   Book,
   CoinsIcon,

@@ -1,5 +1,5 @@
 import CustomTable from "@/components/CustomTable";
-import ViewStudent from "@/components/instructor_dashboard/ViewStudent";
+import ViewStudent from "@/components/dashboard/ViewStudent";
 
 const students = [
   {

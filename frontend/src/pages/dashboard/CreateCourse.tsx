@@ -17,7 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { CheckedState } from "@radix-ui/react-checkbox";
-import CourseVideoSection from "@/components/instructor_dashboard/CourseVideoSection";
+import CourseVideoSection from "@/components/dashboard/CourseVideoSection";
 import { PlusSquareIcon } from "lucide-react";
 import { logo } from "@/assets/logo";
 import { useCreateCourse } from "@/api/hooks/instructor/useCreateCourse";
@@ -35,10 +35,10 @@ import {
 import { AlertDescription } from "@/components/ui/alert";
 import CustomFormSelect from "@/components/form/CustomFormSelect";
 import { categories } from "@/constants";
-import { VideoProcessor, VideoSection } from '@/services/videoProcessor';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { VideoProcessor, VideoSection } from "@/services/videoProcessor";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const CreateCourse = () => {
   const { courseUploadProgress } = useApp();
@@ -59,13 +59,13 @@ const CreateCourse = () => {
   const [processingProgress, setProcessingProgress] = useState(0);
   const [videoSections, setVideoSections] = useState<VideoSection[]>([]);
   const [processingStatus, setProcessingStatus] = useState<{
-    stage: 'idle' | 'validating' | 'processing' | 'complete';
+    stage: "idle" | "validating" | "processing" | "complete";
     progress: number;
     message: string;
   }>({
-    stage: 'idle',
+    stage: "idle",
     progress: 0,
-    message: ''
+    message: "",
   });
 
   const formSchema = createCourseSchema;
@@ -111,54 +111,61 @@ const CreateCourse = () => {
     setSectionsCount(sectionsCount - 1);
   };
 
-  const handleVideoUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVideoUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
-    
+
     try {
       setProcessingStatus({
-        stage: 'validating',
+        stage: "validating",
         progress: 0,
-        message: 'Validating video file...'
+        message: "Validating video file...",
       });
-      
+
       // Create video processor
       const processor = new VideoProcessor(URL.createObjectURL(file));
-      
+
       // Process video with progress updates
       const processedVideo = await processor.processVideo(
         file,
-        form.getValues('title'),
+        form.getValues("title"),
         (progress) => {
           setProcessingStatus({
             stage: progress.stage,
             progress: progress.progress,
-            message: progress.message
+            message: progress.message,
           });
         }
       );
-      
+
       // Update form with video file
-      form.setValue('introVideo', file);
-      
+      form.setValue("introVideo", file);
+
       // Update sections
       setVideoSections(processedVideo.sections);
-      
+
       // Add sections to form
-      processedVideo.sections.forEach(section => {
+      processedVideo.sections.forEach((section) => {
         form.setValue(`dynamicFields[${section.id}][title]`, section.title);
-        form.setValue(`dynamicFields[${section.id}][description]`, section.description);
+        form.setValue(
+          `dynamicFields[${section.id}][description]`,
+          section.description
+        );
         form.setValue(`dynamicFields[${section.id}][video]`, file);
       });
-      
-      toast.success('Video processed successfully');
+
+      toast.success("Video processed successfully");
     } catch (error) {
-      console.error('Error processing video:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to process video');
+      console.error("Error processing video:", error);
+      toast.error(
+        error instanceof Error ? error.message : "Failed to process video"
+      );
       setProcessingStatus({
-        stage: 'idle',
+        stage: "idle",
         progress: 0,
-        message: ''
+        message: "",
       });
     }
   };
@@ -167,12 +174,15 @@ const CreateCourse = () => {
     const updatedSections = [...videoSections];
     updatedSections[index] = {
       ...updatedSections[index],
-      [field]: value
+      [field]: value,
     };
     setVideoSections(updatedSections);
-    
+
     // Update form field
-    form.setValue(`dynamicFields[${updatedSections[index].id}][${field}]`, value);
+    form.setValue(
+      `dynamicFields[${updatedSections[index].id}][${field}]`,
+      value
+    );
   };
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -206,7 +216,7 @@ const CreateCourse = () => {
       });
 
       // Add sections data
-      formData.append('sections', JSON.stringify(videoSections));
+      formData.append("sections", JSON.stringify(videoSections));
 
       // Use the mutation function to send FormData
       await createCourseMutation.mutateAsync(formData);
@@ -330,14 +340,14 @@ const CreateCourse = () => {
                         type="file"
                         accept="video/mp4,video/webm,video/quicktime"
                         onChange={handleVideoUpload}
-                        disabled={processingStatus.stage !== 'idle'}
+                        disabled={processingStatus.stage !== "idle"}
                       />
                       <p className="text-sm text-gray-500 mt-1">
                         Supported formats: MP4, WebM, QuickTime (Max: 500MB)
                       </p>
                     </div>
-                    
-                    {processingStatus.stage !== 'idle' && (
+
+                    {processingStatus.stage !== "idle" && (
                       <div className="space-y-2">
                         <div className="flex justify-between items-center">
                           <Label>{processingStatus.message}</Label>
@@ -361,23 +371,38 @@ const CreateCourse = () => {
                     </CardHeader>
                     <CardContent className="space-y-6">
                       {videoSections.map((section, index) => (
-                        <div key={section.id} className="space-y-4 p-4 border rounded-lg">
+                        <div
+                          key={section.id}
+                          className="space-y-4 p-4 border rounded-lg"
+                        >
                           <div>
                             <Label>Section Title</Label>
                             <Input
                               value={section.title}
-                              onChange={(e) => handleSectionUpdate(index, 'title', e.target.value)}
+                              onChange={(e) =>
+                                handleSectionUpdate(
+                                  index,
+                                  "title",
+                                  e.target.value
+                                )
+                              }
                             />
                           </div>
-                          
+
                           <div>
                             <Label>Description</Label>
                             <Textarea
                               value={section.description}
-                              onChange={(e) => handleSectionUpdate(index, 'description', e.target.value)}
+                              onChange={(e) =>
+                                handleSectionUpdate(
+                                  index,
+                                  "description",
+                                  e.target.value
+                                )
+                              }
                             />
                           </div>
-                          
+
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <Label>Duration</Label>
