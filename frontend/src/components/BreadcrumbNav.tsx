@@ -6,7 +6,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const BreadcrumbNav = () => {
   const { pathname } = useLocation();
@@ -19,8 +19,8 @@ const BreadcrumbNav = () => {
         {withoutLast.map((path, index) => (
           <>
             <BreadcrumbItem key={index}>
-              <BreadcrumbLink
-                href={`/${
+              <Link
+                to={`/${
                   paths.indexOf(path) !== 0
                     ? `${paths.slice(0, paths.indexOf(path)).join("/")}/${path}`
                     : "dashboard"
@@ -28,7 +28,7 @@ const BreadcrumbNav = () => {
                 className="capitalize"
               >
                 {path}
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
           </>

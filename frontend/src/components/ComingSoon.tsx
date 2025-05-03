@@ -31,7 +31,7 @@ export default function ComingSoon() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="text-white text-3xl md:text-4xl font-bold"
-          >Coming Soon</motion.p>
+          >Coming Soon...</motion.p>
 
           {/* <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
             <Input

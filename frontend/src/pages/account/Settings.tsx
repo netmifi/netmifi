@@ -28,6 +28,7 @@ import { useUpdatePassword } from "@/api/hooks/user/useNewPassword";
 import { themeFormSchema } from "../../lib/utils";
 import { useChangeTheme } from "@/api/hooks/user/useChangeTheme";
 import CustomRadioGroup from "@/components/form/CustomRadioGroup";
+import ComingSoon from "@/components/ComingSoon";
 
 const ProfileSection = () => {
   const { user } = useApp();
@@ -40,7 +41,7 @@ const ProfileSection = () => {
       flag: "🇳🇬",
     }
   );
-  const [, setDialCode] = useState(country?.dialCode || '');
+  const [, setDialCode] = useState(country?.dialCode || "");
   const formSchema = updateProfileSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,7 +49,7 @@ const ProfileSection = () => {
       profile: null,
       cover: null,
       country: user.country,
-      phone: user.phone? parsePhoneNumber(user.phone).nationalNumber : '',
+      phone: user.phone ? parsePhoneNumber(user.phone).nationalNumber : "",
       residentialAddress: user.residentialAddress,
       ...user.handles,
       about: user.about,
@@ -392,7 +393,7 @@ const Settings = () => {
           </TabsContent>
 
           <TabsContent value="payment">
-            Payment setup not supported yet
+            <ComingSoon />
           </TabsContent>
           <TabsContent value="password">
             <PasswordChangeSection />
@@ -402,7 +403,7 @@ const Settings = () => {
           </TabsContent>
         </Tabs>
       </div>
-
+{/* 
       <div className="md:hidden flex flex-col w-full *:w-full *:bg-transparent *:border-none">
         <Accordion type="single" collapsible>
           <AccordionItem value="profile">
@@ -424,7 +425,9 @@ const Settings = () => {
                 <CreditCard /> Payment
               </div>
             </AccordionTrigger>
-            <AccordionContent className="p-5 flex flex-col gap-3"></AccordionContent>
+            <AccordionContent className="p-5 flex flex-col gap-3">
+              <ComingSoon />
+            </AccordionContent>
           </AccordionItem>
         </Accordion>
 
@@ -453,7 +456,7 @@ const Settings = () => {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </div>
+      </div> */}
     </main>
   );
 };

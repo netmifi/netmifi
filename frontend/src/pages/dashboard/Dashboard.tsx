@@ -129,8 +129,10 @@ const Dashboard = () => {
     <div className="flex flex-col gap-6 p-6">
       {/* Welcome Section */}
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold">Welcome back, {user.firstName}!</h1>
-        <p className="text-gray-600">{formattedDate}</p>
+        <h1 className="text-base sm:text-xl lg:text-2xl font-bold">
+          Welcome back, {user.firstName}!
+        </h1>
+        <p className="opacity-70">{formattedDate}</p>
       </div>
 
       {/* Quick Stats */}
@@ -156,39 +158,43 @@ const Dashboard = () => {
 
       {/* Performance Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-sidebar p-4 rounded-lg shadow">
           <div className="flex items-center gap-2">
             <TrendingUp className="text-green-500" />
-            <h3 className="font-semibold">Completion Rate</h3>
+            <h3 className="text-lg lg:text-xl font-semibold">
+              Completion Rate
+            </h3>
           </div>
-          <p className="text-2xl font-bold mt-2">
+          <p className="text-base lg:text-lg font-bold mt-2">
             {stats?.completionRate || 0}%
           </p>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm opacity-70">
             of students complete your courses
           </p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-sidebar p-4 rounded-lg shadow">
           <div className="flex items-center gap-2">
             <Star className="text-yellow-500" />
-            <h3 className="font-semibold">Student Satisfaction</h3>
+            <h3 className="text-lg lg:text-xl font-semibold">
+              Student Satisfaction
+            </h3>
           </div>
-          <p className="text-2xl font-bold mt-2">
+          <p className="text-base lg:text-lg font-bold mt-2">
             {stats?.studentSatisfaction?.toFixed(1) || 0}/5
           </p>
-          <p className="text-sm text-gray-500">average rating from students</p>
+          <p className="text-sm opacity-70">average rating from students</p>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
+        <div className="bg-sidebar p-4 rounded-lg shadow">
           <div className="flex items-center gap-2">
             <Clock className="text-blue-500" />
-            <h3 className="font-semibold">Engagement Rate</h3>
+            <h3 className="text-base lg:text-lg font-semibold">
+              Engagement Rate
+            </h3>
           </div>
-          <p className="text-2xl font-bold mt-2">
+          <p className="text-base sm:text-xl lg:text-2xl font-bold mt-2">
             {stats?.engagementRate || 0}%
           </p>
-          <p className="text-sm text-gray-500">
-            active participation in courses
-          </p>
+          <p className="text-sm opacity-70">active participation in courses</p>
         </div>
       </div>
 

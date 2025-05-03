@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { tempClips } from "@/constants/temp";
 import ReelsPlayer from "./ReelsPlayer";
-import ComingSoon from "../ui/ComingSoon";
+import ComingSoon from "../ComingSoon";
 
 const ClipPlayer = () => {
   const { clipId } = useParams();
@@ -44,8 +44,6 @@ const ClipPlayer = () => {
           data-index={index}
           className="snap-start w-full h-screen"
         >
-          
-          
           <ReelsPlayer clip={clip} isActive={index === activeIndex} />
         </div>
       ))}

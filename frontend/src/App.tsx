@@ -54,6 +54,7 @@ import SearchResults from "./pages/SearchResults";
 import ClipPlayer from "./components/courses/ClipsPlayer";
 import { CourseProcessor } from "./services/courseProcessor";
 import { useLayoutEffect } from "react";
+import ComingSoon from "./components/ComingSoon";
 
 const App = () => {
   //   const location = useLocation();
@@ -173,7 +174,9 @@ const App = () => {
                       <Route path="certified" element={<CertifiedStudents />} />
                     </Route>
                     <Route path="analytics" element={<Analytics />} />
-                    <Route path="followers" element={<Followers />} />
+                    <Route path="followers" element={<ComingSoon />} />
+                    <Route path="schedule" element={<ComingSoon />} />
+                    <Route path="reviews" element={<ComingSoon />} />
                   </Route>
                 </Route>
 

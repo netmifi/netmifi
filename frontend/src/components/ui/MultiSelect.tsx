@@ -1,1 +1,0 @@
-className="flex items-center gap-2 p-2 hover:bg-accent cursor-pointer" 

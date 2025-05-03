@@ -682,3 +682,15 @@ declare interface DataDisplayToggleProps {
   display: "grid" | "list";
   setDisplay: React.Dispatch<React.SetStateAction<"list" | "grid">>;
 }
+
+
+declare interface DashboardCardProps {
+  count: number;
+  label: string;
+  link: string;
+  icon: React.ReactNode;
+  isMoney?: boolean;
+  isWithdrawal?: boolean;
+  description?: string;
+  trend?: string;
+}
