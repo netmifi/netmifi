@@ -403,7 +403,7 @@ const Settings = () => {
           </TabsContent>
         </Tabs>
       </div>
-{/* 
+
       <div className="md:hidden flex flex-col w-full *:w-full *:bg-transparent *:border-none">
         <Accordion type="single" collapsible>
           <AccordionItem value="profile">
@@ -456,7 +456,7 @@ const Settings = () => {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </div> */}
+      </div>
     </main>
   );
 };
