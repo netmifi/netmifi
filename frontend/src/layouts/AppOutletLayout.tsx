@@ -23,7 +23,7 @@ export const MainContent = ({ state }: { state: userType["type"] }) => {
         <TopBar state={state} open={open} />
       )}
       <main className=" ">
-        <div className="flex flex-col gap-28 h-[90%] mb-32">
+        <div className="flex flex-col gap-28 h-[90%] mb- 32">
           <Outlet />
         </div>
         <Footer />

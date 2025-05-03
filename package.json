@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/netmifi/netmifi/issues"
   },
-  "homepage": "https://github.com/netmifi/netmifi#readme"
+  "homepage": "https://github.com/netmifi/netmifi#readme",
+  "dependencies": {
+    "uuid": "^11.1.0"
+  }
 }

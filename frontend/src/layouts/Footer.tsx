@@ -97,7 +97,7 @@ const Footer = () => {
                 <Link
                   key={index}
                   to={link.href}
-                  className="text-2xl rounded-lg shadow-lg size-fit p-3 transition-all transform hover:scale-y-110 hover:bg-primary hover:text-primary-foreground"
+                  className="text-2xl rounded-lg shadow-lg size-fit p-3 transition-all hover:bg-primary hover:text-primary-foreground"
                 >
                   <link.icon />
                 </Link>

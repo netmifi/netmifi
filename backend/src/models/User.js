@@ -55,6 +55,20 @@ const searchHistorySchema = new Schema(
 }
 );
 
+const userProgressSchema = new Schema({
+    courseId: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    currentSection: { type: Number, default: 0 },
+    completedSections: [{ type: Number }],
+    quizScores: [{
+        sectionId: String,
+        score: Number,
+        attempts: Number,
+        lastAttempt: Date
+    }],
+    lastAccessed: { type: Date, default: Date.now },
+    completedAt: { type: Date },
+    certificateIssued: { type: Boolean, default: false }
+}, { _id: false });
 
 const userSchema = new Schema({
     firstName: {
@@ -70,7 +84,8 @@ const userSchema = new Schema({
     username: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true
     },
     profile: {
         type: String,
@@ -104,30 +119,43 @@ const userSchema = new Schema({
         type: String,
         default: 'system',
     },
-    roles: {
-        User: {
-            type: Number,
-            default: 2001
-        },
-        Blogger: Number,
-        Instructor: Number,
-        Admin: Number,
-        SuperAdmin: Number,
-        Overseer: Number,
+    role: {
+        type: String,
+        enum: ['student', 'instructor', 'admin'],
+        default: 'student'
+    },
+    level: {
+        type: Number,
+        default: 1,
+        min: 1,
+        max: 100
+    },
+    xp: {
+        type: Number,
+        default: 0
+    },
+    rank: {
+        type: String,
+        enum: ['novice', 'apprentice', 'intermediate', 'advanced', 'expert', 'master'],
+        default: 'novice'
     },
     interests: {
         type: [String],
         default: [],
         required: true,
     },
-    adSources: {
-        type: [String],
+    enrolledCourses: [userProgressSchema],
+    cart: {
+        type: Array,
+        of: cartSchema,
+        required: false,
         default: [],
-        required: true,
     },
-    residentialAddress: {
-        type: String,
-        trim: true,
+    searchHistory: {
+        type: Array,
+        of: searchHistorySchema,
+        required: false,
+        default: [],
     },
     isEmailVerified: {
         type: Boolean,
@@ -165,18 +193,6 @@ const userSchema = new Schema({
             code: Number,
             expiresIn: Date,
         },
-    },
-    cart: {
-        type: Array,
-        of: cartSchema,
-        required: false,
-        default: [],
-    },
-    searchHistory: {
-        type: Array,
-        of: searchHistorySchema,
-        required: false,
-        default: [],
     },
 }, {
     toJSON: {
@@ -218,6 +234,8 @@ userSchema.index({ firstName: 1 })
 userSchema.index({ lastName: 1 })
 userSchema.index({ username: 1 })
 userSchema.index({ email: 1 })
-userSchema.index({ "roles.Instructor": 1 })
+userSchema.index({ role: 1 })
+userSchema.index({ level: 1 })
+userSchema.index({ rank: 1 })
 
 module.exports = mongoose.model('User', userSchema);

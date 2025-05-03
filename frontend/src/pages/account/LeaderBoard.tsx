@@ -1,324 +1,217 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Modal } from "@/components/ui/checkoutmodal";
-import { ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
-import ChampionsCup from "../../assets/svg/image 67leader-board.svg";
-import Conffeti from "../../assets/svg/image 68leader-board.svg";
-import { convertToReadableTime } from "@/lib/utils";
-import { Link } from "react-router-dom";
-import { boolean } from "zod";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { tempLeaderboard, currentUserEntry } from "@/constants/temp";
 
-// Function to generate random learners
-const generateLearner = (serialNumber, rank) => {
-  const randomPoints = Math.floor(Math.random() * (100 - 0 + 1)) + 0; // Random points between 25 and 5000
+interface LeaderboardEntry {
+  userId: string;
+  username: string;
+  profileImage: string;
+  score: number;
+  level: number;
+  rank: string;
+  xp: number;
+  completedCourses: number;
+  quizAccuracy: number;
+  streak: number;
+  lastActive: Date;
+}
 
-  // List of sample first names and last names for more variety
-  const firstNames = [
-    "John",
-    "Jane",
-    "Alice",
-    "Bob",
-    "Charlie",
-    "Eva",
-    "Sophia",
-    "Max",
-    "Liam",
-    "Olivia",
-  ];
-  const lastNames = [
-    "Smith",
-    "Johnson",
-    "Brown",
-    "Williams",
-    "Jones",
-    "Miller",
-    "Davis",
-    "García",
-    "Martínez",
-  ];
+interface Leaderboard {
+  id: string;
+  type: string;
+  title: string;
+  entries: LeaderboardEntry[];
+  status: string;
+  startDate: Date;
+  endDate: Date;
+}
 
-  // Function to generate random names
-  const randomFirstName =
-    firstNames[Math.floor(Math.random() * firstNames.length)];
-  const randomLastName =
-    lastNames[Math.floor(Math.random() * lastNames.length)];
-
-  // Generating random username
-  const randomUsername = `${randomFirstName} ${randomLastName}`;
-
-  // Randomly generating isActive state (50% chance of being true or false)
-  const isActive = Math.random() > 0.8;
-
-  return {
-    serialNumber,
-    username: randomUsername, // Randomized username
-    rank,
-    points: randomPoints,
-    zone: "", // Zone will be assigned later
-    isActive: false,
-  };
-};
-
-const LeaderBoard = () => {
-  const [learners, setLearners] = useState([]);
-  const [timeRemaining, setTimeRemaining] = useState("");
-  const [activeRank, setActiveRank] = useState("Rookie");
-  const [showModal, setShowModal] = useState(true);
-  const buttonLabels = [
-    "Rookie",
-    "Pro",
-    "Ace",
-    "Star",
-    "Elite",
-    "Unstoppable",
-    "Champion",
-    "Titan",
-  ];
-
-  // Check if there's an existing countdown in localStorage
-  let targetDate = localStorage.getItem("targetDate");
-
-  if (!targetDate) {
-    // If there's no target date in localStorage, set it to 3 days ahead
-    const currentDate = new Date();
-    targetDate = new Date(currentDate);
-    targetDate?.setDate(currentDate.getDate() + 3);
-    localStorage.setItem("targetDate", targetDate);
-  } else {
-    // If target date exists in localStorage, convert it to a Date object
-    targetDate = new Date(targetDate);
-  }
+const LeaderBoard: React.FC = () => {
+  const navigate = useNavigate();
+  const [selectedRank, setSelectedRank] = useState<string>("all");
+  const [leaderboard, setLeaderboard] = useState<Leaderboard>(tempLeaderboard);
+  const [currentUser, setCurrentUser] = useState<LeaderboardEntry>(currentUserEntry);
+  const [timeLeft, setTimeLeft] = useState<string>("");
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
-    const updateCountdown = () => {
+    // Calculate time left until leaderboard ends
+    const calculateTimeLeft = () => {
+      const endDate = new Date(leaderboard.endDate);
       const now = new Date();
-      const timeDifference = targetDate - now;
-      if (timeDifference <= 0) {
-        setTimeRemaining("The event has ended!");
-        clearInterval(countdownInterval);
-      } else {
-        setTimeRemaining(convertToReadableTime(timeDifference));
-      }
-    };
-    const countdownInterval = setInterval(updateCountdown, 1000);
-    return () => clearInterval(countdownInterval); // Cleanup on component unmount
-  }, [targetDate]);
+      const difference = endDate.getTime() - now.getTime();
 
-  const handleRankClick = (rank) => {
-    if (rank !== activeRank) {
-      setActiveRank(rank);
+      if (difference <= 0) {
+        return "Leaderboard ended";
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+      return `${days}d ${hours}h ${minutes}m`;
+    };
+
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [leaderboard.endDate]);
+
+  const filteredEntries = leaderboard.entries.filter((entry) => {
+    if (selectedRank === "all") return true;
+    return entry.rank.toLowerCase() === selectedRank.toLowerCase();
+  });
+
+  const getRankColor = (rank: string) => {
+    switch (rank.toLowerCase()) {
+      case "pro":
+        return "bg-purple-500";
+      case "ace":
+        return "bg-blue-500";
+      case "star":
+        return "bg-green-500";
+      case "elite":
+        return "bg-yellow-500";
+      case "unstoppable":
+        return "bg-orange-500";
+      case "champion":
+        return "bg-red-500";
+      case "titan":
+        return "bg-gray-500";
+      default:
+        return "bg-gray-500";
     }
   };
 
-  useEffect(() => {
-    const allLearners = [];
-    buttonLabels.forEach((rank, index) => {
-      for (let i = 0; i < 10; i++) {
-        allLearners.push(generateLearner(i + 1 + index * 10, rank));
-      }
-    });
-
-    // Get the highest and lowest points to calculate thresholds
-    const highestPoints = Math.max(
-      ...allLearners.map((learner) => learner.points)
-    );
-    const lowestPoints = Math.min(
-      ...allLearners.map((learner) => learner.points)
-    );
-
-    // Calculate thresholds based on points
-    const demotionThreshold =
-      lowestPoints + (highestPoints - lowestPoints) * 0.3;
-    const promotionThreshold =
-      lowestPoints + (highestPoints - lowestPoints) * 0.7;
-
-    // Assign zones based on points
-    allLearners.forEach((learner) => {
-      if (learner.points >= promotionThreshold) {
-        learner.zone = "promotion";
-      } else if (learner.points >= demotionThreshold) {
-        learner.zone = "repetition";
-      } else {
-        learner.zone = "demotion";
-      }
-    });
-
-    // Assign random active state to each learner
-    allLearners.forEach((learner) => {
-      learner.isActive = Math.random() > 0.5; // Randomly set true or false
-    });
-
-    setLearners(allLearners);
-  }, []);
-
-  // Filter learners based on the selected rank
-  const filteredLearners = learners.filter(
-    (learner) => learner.rank === activeRank
-  );
-
-  const closeModal = (open: boolean) => {
-    setShowModal(open);
+  const getLevelProgress = (xp: number) => {
+    const levelThresholds = [0, 200, 400, 600, 800, 1000];
+    const currentLevel = levelThresholds.findIndex((threshold) => xp < threshold) - 1;
+    const nextLevelXP = levelThresholds[currentLevel + 1];
+    const currentLevelXP = levelThresholds[currentLevel];
+    return ((xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
   };
 
-  // Automatically trigger modal for number 1 spot after the countdown
-  useEffect(() => {
-    const calculateTimeRemaining = () => {
+  const formatLastActive = (date: Date) => {
       const now = new Date();
-      const timeDifference = targetDate - now;
-      return timeDifference;
-    };
+    const diff = now.getTime() - new Date(date).getTime();
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
 
-    const timer = setTimeout(() => {
-      const topLearner = learners.sort((a, b) => b.points - a.points)[0];
-      if (topLearner) {
-        setShowModal(true);
-      }
-    }, calculateTimeRemaining()); // Use the time remaining until the target date
-
-    return () => clearTimeout(timer); // Cleanup on component unmount
-  }, [learners, targetDate]);
+    if (days > 0) return `${days}d ago`;
+    if (hours > 0) return `${hours}h ago`;
+    if (minutes > 0) return `${minutes}m ago`;
+    return "Just now";
+  };
 
   return (
-    <div className="flex flex-col gap-6 justify-center items-center w-full">
-      <Card className="px-0 rounded-none bg-inherit border-0 w-full min-w-full lg:min-w-[70%] md:min-w-[90%] lg:w-[70%] md:w-[90%]">
-        <CardContent className="px-0">
-          <CardHeader className="items-start flex">
-            <div className="flex text-lg justify-between w-full gap-3">
-              <h3 className="flex font-bold">Leaderboard</h3>
-              <h5 className="flex font-bold text-red">
-                Ends in {timeRemaining}
-              </h5>
+    <div className="container mx-auto py-8">
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <span>{leaderboard.title}</span>
+            <Badge variant="outline" className="text-sm">
+              {timeLeft} left
+            </Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div className="bg-background p-4 rounded-lg shadow">
+              <h3 className="text-lg font-semibold mb-2">Your Rank</h3>
+              <p className="text-2xl font-bold">{currentUser.rank}</p>
             </div>
-          </CardHeader>
-          <CardContent className="space-y-3 items-center flex flex-col">
-            <Link
-              to="/courses"
-              className=" px-4 py-2 w-full text-black bg-gray-100 text-sm rounded-lg ring-2 ring-gray-200 flex items-center justify-between"
-            >
-              <p>Explore more courses</p>
-              <ArrowRight className="w-4" />
-            </Link>
-            {/* Conditionally render the modal for the winner */}
-            {showModal && (
-              <Modal
-                trigger={null}
-                isOpen={showModal}
-                onClose={closeModal}
-                header={
-                  <div className="relative w-full">
-                    <img src={Conffeti} alt="" />
-                    <img
-                      src={ChampionsCup}
-                      alt=""
-                      className="absolute top-6 w-full h-24"
-                    />
-                    <p className="text-red text-lg font-thin">
-                      HUGE Congratulations!
-                    </p>
+            <div className="bg-background p-4 rounded-lg shadow">
+              <h3 className="text-lg font-semibold mb-2">Your Level</h3>
+              <p className="text-2xl font-bold">{currentUser.level}</p>
+              <Progress value={getLevelProgress(currentUser.xp)} className="mt-2" />
+            </div>
+            <div className="bg-background p-4 rounded-lg shadow">
+              <h3 className="text-lg font-semibold mb-2">XP</h3>
+              <p className="text-2xl font-bold">{currentUser.xp}</p>
                   </div>
-                }
-                description={
-                  <p>
-                    You’ve reached the top of the leaderboard and won a 70%
-                    Discount on your next course purchase. Your hard work and
-                    dedication have paid off, and we’re thrilled to recognize
-                    your achievement.
-                  </p>
-                }
-                body={
-                  <Button className="mt-4" onClick={() => onClose && onClose()}>
-                    Claim <ArrowRight />
-                  </Button>
-                }
-              />
-            )}
-
-            {/* Rank Selection Buttons */}
-            <div className="flex gap-2 w-full overflow-x-auto items-start rounded-lg relative scrollbar-hide">
-              {buttonLabels.map((rank) => (
-                <button
-                  key={rank}
-                  onClick={() => handleRankClick(rank)}
-                  // disabled={activeRank !== rank} // Disable the button for other ranks
-                  className={`px-4 py-2 rounded-md font-semibold ${
-                    activeRank !== rank
-                      ? "bg-gray-100 text-gray-400 " // Disabled style for current rank
-                      : "bg-red text-white"
-                  }`}
-                >
-                  {rank}
-                </button>
-              ))}
+            <div className="bg-background p-4 rounded-lg shadow">
+              <h3 className="text-lg font-semibold mb-2">Streak</h3>
+              <p className="text-2xl font-bold">{currentUser.streak} days</p>
             </div>
-
-            {/* Displaying learners based on selected rank */}
-            <div className="w-full flex flex-col gap-3 items- center">
-              {/* Group learners by zone */}
-              {["promotion", "repetition", "demotion"].map((zone) => {
-                const learnersInZone = filteredLearners.filter(
-                  (learner) => learner.zone === zone
-                );
-
-                if (learnersInZone.length === 0) return null; // Don't render if there are no learners in this zone
-
-                return (
-                  <div key={zone}>
-                    <h5
-                      className={`flex items-start font-normal justify-center ${
-                        zone === "promotion"
-                          ? "text-green-600"
-                          : zone === "repetition"
-                          ? "text-gray-500"
-                          : "text-red-600"
-                      } font-black`}
-                    >
-                      {zone === "promotion"
-                        ? "Promotion Zone"
-                        : zone === "repetition"
-                        ? "Repetition Zone"
-                        : "Demotion Zone"}
-                    </h5>
-
-                    {learnersInZone.map((learner, index) => (
-                      <div
-                        key={learner.serialNumber}
-                        className={`w-full flex mt-1 border rounded-xl py-2 px-5 relative ${
-                          zone === "promotion"
-                            ? "bg-green-200/10 border-green-300" // Green for promotion zone
-                            : zone === "repetition"
-                            ? "bg-gray-200/10 border-gray-300" // Gray for repetition zone
-                            : "bg-red-200/10 border-red-300" // Red for demotion zone
-                        }`}
-                      >
-                        <div className="flex flex-col w-full ">
-                          <div className="flex justify-between text-xs md:text-base">
-                            <div className="flex items-center gap-3">
-                              <p>{index + 1}</p>
-                              <p className="relative flex px-[10px] items-start">
-                                {learner.username}{" "}
-                                {learner.isActive && (
-                                  <div className="w-2 h-2 top-0 right-0 absolute rounded-full bg-green-600"></div>
-                                )}
-                              </p>
                             </div>
-                            <p className="text-gray-700 font-bold text-base items-center md:text-2xl flex gap-1">
-                              {learner.points}{" "}
-                              <span className="text-sm font-normal text-gray-400">
-                                Points
-                              </span>
+        </CardContent>
+      </Card>
+
+      <Tabs defaultValue="all" className="w-full">
+        <TabsList className="grid grid-cols-7 mb-4">
+          <TabsTrigger value="all" onClick={() => setSelectedRank("all")}>
+            All
+          </TabsTrigger>
+          <TabsTrigger value="pro" onClick={() => setSelectedRank("pro")}>
+            Pro
+          </TabsTrigger>
+          <TabsTrigger value="ace" onClick={() => setSelectedRank("ace")}>
+            Ace
+          </TabsTrigger>
+          <TabsTrigger value="star" onClick={() => setSelectedRank("star")}>
+            Star
+          </TabsTrigger>
+          <TabsTrigger value="elite" onClick={() => setSelectedRank("elite")}>
+            Elite
+          </TabsTrigger>
+          <TabsTrigger value="unstoppable" onClick={() => setSelectedRank("unstoppable")}>
+            Unstoppable
+          </TabsTrigger>
+          <TabsTrigger value="champion" onClick={() => setSelectedRank("champion")}>
+            Champion
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value={selectedRank}>
+          <div className="space-y-4">
+            {filteredEntries.map((entry, index) => (
+              <Card key={entry.userId} className={entry.userId === currentUser.userId ? "border-primary" : ""}>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <span className="text-lg font-bold w-8">{index + 1}</span>
+                      <Avatar>
+                        <AvatarImage src={entry.profileImage} alt={entry.username} />
+                        <AvatarFallback>{entry.username[0]}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-semibold">{entry.username}</p>
+                        <p className="text-sm text-muted-foreground">
+                          Level {entry.level} • {entry.completedCourses} courses completed
                             </p>
                           </div>
                         </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="text-right">
+                        <p className="font-bold">{entry.score} XP</p>
+                        <p className="text-sm text-muted-foreground">
+                          {entry.quizAccuracy}% quiz accuracy
+                        </p>
                       </div>
-                    ))}
+                      <Badge className={getRankColor(entry.rank)}>{entry.rank}</Badge>
+                    </div>
                   </div>
-                );
-              })}
+                  <div className="mt-2">
+                    <Progress value={getLevelProgress(entry.xp)} className="h-2" />
             </div>
-          </CardContent>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Last active: {formatLastActive(entry.lastActive)}
+                  </p>
         </CardContent>
       </Card>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

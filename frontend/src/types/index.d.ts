@@ -5,10 +5,10 @@ declare interface userType {
 }
 
 declare interface SearchParams {
-  q: string
-  type?: string
-  page?: number
-  limit?: number
+  q: string;
+  type?: string;
+  page?: number;
+  limit?: number;
 }
 
 declare interface Comments {
@@ -77,8 +77,15 @@ declare interface Course {
   isVerified: boolean;
   isFollowing: boolean;
   date: string;
+  description?: string;
+  learningPatterns?: LearningPattern[];
+  progress?: number;
+  collection?: string[];
+  isFavorite?: boolean;
+  sections?: LearningSection[];
+  learningObjectives?: string[];
+  requirements?: string[];
 }
-
 
 declare interface Blog {
   readonly id: string;
@@ -121,8 +128,8 @@ declare interface Clip {
   title: string;
   subject?: string;
   thumbnail: string; // Poster image or thumbnail of the clip
-  videoUrl: string;  // Actual video source file
-  duration: number;  // in seconds
+  videoUrl: string; // Actual video source file
+  duration: number; // in seconds
 
   progress: number; // How much the user has watched (0–100)
   date: string; // e.g., "2 weeks ago", or an ISO date
@@ -131,7 +138,7 @@ declare interface Clip {
   instructorProfileImage: string;
   instructorProfileURL: string;
 
-  rating: number;     // Average community rating
+  rating: number; // Average community rating
   userRating: number; // Logged-in user’s rating
 
   isVerified: boolean;
@@ -140,7 +147,6 @@ declare interface Clip {
 
   collection?: string[]; // Tags or categories like ["marketing", "shorts"]
 }
-
 
 declare interface Instructor {
   readonly id: string;
@@ -262,7 +268,7 @@ declare interface CourseVideoSectionProps {
   isMoreThanOne: boolean;
   readonly index: number;
   readonly id: string;
-  removeField: (key: string) => void
+  removeField: (key: string) => void;
 }
 declare interface CustomFormFieldProps {
   form?: UseFormReturn<z.infer<typeof form>>;
@@ -296,12 +302,12 @@ declare interface CustomMultiSelectProps
   extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   options: string[];
   variant?:
-  | "default"
-  | "secondary"
-  | "destructive"
-  | "inverted"
-  | null
-  | undefined;
+    | "default"
+    | "secondary"
+    | "destructive"
+    | "inverted"
+    | null
+    | undefined;
   maxCount?: number;
   animation?: number;
   modalPopover?: boolean;
@@ -466,26 +472,26 @@ declare interface RobotronProps {
 
 // declare interface ReactPlayerProps extends {}
 declare interface VideoPlayerProps {
-  className?: string
-  thumbnail?: string
-  videoUrl?: string
-  videoCollection?: string[]
-  currentCourseVideo?: string
-  setCurrentCourseVideo?: (url: string) => void
-  onCourseComplete?: () => void
-  title?: string
+  className?: string;
+  thumbnail?: string;
+  videoUrl?: string;
+  videoCollection?: string[];
+  currentCourseVideo?: string;
+  setCurrentCourseVideo?: (url: string) => void;
+  onCourseComplete?: () => void;
+  title?: string;
   subtitles?: {
-    src: string
-    label: string
-    language: string
-  }[]
+    src: string;
+    label: string;
+    language: string;
+  }[];
 }
 
 declare interface PlayerTooltipProps {
-  onClick: () => void
-  children: React.ReactNode
-  hoverLabel: string
-  disabled?: boolean
+  onClick: () => void;
+  children: React.ReactNode;
+  hoverLabel: string;
+  disabled?: boolean;
 }
 
 declare interface CustomElementClickProps {
@@ -588,6 +594,82 @@ declare interface CustomTableTooltipProps {
   hoverLabel: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
+}
+export type LearningPreference =
+  | "storytelling"
+  | "audio"
+  | "video"
+  | "interactive";
+
+export type LearningPattern = "video" | "audio" | "written" | "gamification";
+
+export type InteractiveElementType =
+  | "drag-and-drop"
+  | "flashcards"
+  | "click-to-reveal"
+  | "quiz";
+
+declare interface InteractiveElement {
+  type: InteractiveElementType;
+  content: {
+    question?: string;
+    options?: string[];
+    correctAnswer?: string;
+    explanation?: string;
+    content?: string;
+  };
+}
+declare interface URLDurationData {
+  url: string;
+  duration: number;
+}
+
+declare interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: string;
+  explanation: string;
+}
+
+declare interface LearningSection {
+  id: string;
+  title: string;
+  learningObjectives: string[];
+  summary: {
+    textbook: string;
+    storytelling: string;
+    narrationScript?: string;
+  };
+  videoTimestamp: {
+    start: number;
+    end: number;
+  };
+  videoUrl?: string;
+  audioUrl?: string;
+  content?: string;
+  interactiveElements: InteractiveElement[];
+  quizQuestions: QuizQuestion[];
+  xpReward: number;
+}
+declare interface learningObjective {
+  objective: string;
+}
+declare interface requirement {
+  requirement: string;
+}
+
+declare interface ProcessedCourse {
+  id: string;
+  title: string;
+  videoUrl: string;
+  learningPreference: LearningPreference;
+  sections: LearningSection[];
+  totalXp: number;
+  estimatedDuration: number;
+  difficulty: "beginner" | "intermediate" | "advanced";
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 declare interface HasId {

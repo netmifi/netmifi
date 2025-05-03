@@ -28,6 +28,7 @@ import { CustomLogo } from "@/components/CustomLogo";
 import SidebarProfile from "@/components/navbar/SidebarProfile";
 import { aboutHero } from "@/assets/images";
 import { useApp } from "@/app/app-provider";
+import { toast } from "sonner";
 
 export const NavSkeleton = () => {
   return (
@@ -50,6 +51,11 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
   const { pathname } = useLocation();
 
   const { isMobile, setOpenMobile } = useSidebar();
+
+  const handleExtraClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toast.success("Coming Soon! This feature is currently under development.");
+  };
 
   useEffect(() => {
     if (pathname) {
@@ -141,6 +147,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                   <SidebarMenuItem>
                     <NavLink
                       to={"/account/settings"}
+                      onClick={handleExtraClick}
                       className={({ isActive, isPending }) =>
                         isPending
                           ? "pending"
@@ -158,6 +165,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                   <SidebarMenuItem>
                     <NavLink
                       to={"/help"}
+                      onClick={handleExtraClick}
                       className={({ isActive, isPending }) =>
                         isPending
                           ? "pending"
@@ -176,6 +184,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                   <SidebarMenuItem>
                     <NavLink
                       to={"/feedback"}
+                      onClick={handleExtraClick}
                       className={({ isActive, isPending }) =>
                         isPending
                           ? "pending"
@@ -193,6 +202,7 @@ const AppSidebar = ({ state }: { state: userType["type"] }) => {
                   <SidebarMenuItem>
                     <NavLink
                       to={"/policy"}
+                      onClick={handleExtraClick}
                       className={({ isActive, isPending }) =>
                         isPending
                           ? "pending"

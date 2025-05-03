@@ -51,7 +51,7 @@ const ReelsPlayer = ({ clip, isActive }: ReelsPlayerProps) => {
   };
 
   return (
-    <div className="relative w-full xl:w-[40%] lg:w-1/2 md:w-3/4 rounded-xl mx-auto h-screen overflow-hidden bg-black">
+    <div className="relative w-full xl:w-[40%] md:w-3/ lg:w-1/ rounded-xl mx-auto h-screen overflow-hidden bg-black">
       <video
         ref={videoRef}
         src={clip.videoUrl}
@@ -80,7 +80,7 @@ const ReelsPlayer = ({ clip, isActive }: ReelsPlayerProps) => {
         </div>
       </div>
       {/* Right-side actions */}
-      <div className="absolute right-4 bottom-[10%] z-10 md:w-20 flex flex-col items-center gap-4 text-white">
+      <div className="absolute right-4 bottom-[10%] z-10 flex flex-col items-center gap-4 text-white">
         {/* Likes */}
         <button
           onClick={() => setIsFavourite((prev) => !prev)}

@@ -29,19 +29,19 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
     <Card
       key={course.id}
       className={cn(
-        "min-h-full basis-full md:basis-[45%] md:max-w-[45%] lg:basis-[30%] lg:max-w-[30%] flex flex-col md:gap-7",
+        "flex flex-col w-full max-w-[400px] min-w-[280px] gap-3",
         className
       )}
     >
       <CardHeader className="p-0 relative mb-auto">
-        <div className="overflow-hidden">
+        <div className="overflow-hidden aspect-video">
           <NavLink to={`/courses/my-courses/${course.id}/`}>
             <img
               src={course.thumbnail}
-              className="h-[190px] w-full object-cover hover:scale-125 transition-transform"
-              alt=""
+              className="w-full h-full object-cover"
+              alt={course.title}
             />
-            <FaPlayCircle className="size-10 absolute top-[30%] left-[40%] opacity-80 fill-popover " />
+            <FaPlayCircle className="size-10 absolute top-[30%] left-[40%] opacity-80 fill-popover" />
           </NavLink>
         </div>
 
@@ -54,7 +54,7 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
         </NavLink>
       </CardHeader>
 
-      <CardContent className="flex flex-col md:gap-2 mt-1 gap-2 mt- auto">
+      <CardContent className="flex flex-col gap-4 p-4">
         <div className="flex justify-between">
           <PostAvatar
             isVerified={course.isVerified}
@@ -68,13 +68,13 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
               <PopoverTrigger>
                 <EllipsisVertical />
               </PopoverTrigger>
-              <PopoverContent className="flex flex-col p-0 min-w-fit overflow-hidden ">
+              <PopoverContent className="flex flex-col p-0 min-w-fit overflow-hidden">
                 <div className="flex flex-col p-3">
                   <h4 className="font-montserrat font-semibold text-sm">
                     Collections
                   </h4>
 
-                  {collections.length > 0 ? (
+                  {course.collection?.length ? (
                     <div className="flex flex-col gap-2">
                       <h6 className="font-montserrat text-sm mb-1">
                         Click to add to list
@@ -83,6 +83,7 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
                         <div className="flex flex-wrap gap-2">
                           {collections.map((collection) => (
                             <Button
+                              key={collection}
                               variant={"transparent"}
                               className={cn(
                                 "p-2 text-[12px] capitalize border-2 border-primary rounded-full hover:bg-primary hover:text-primary-foreground",
@@ -107,7 +108,7 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
                 </div>
                 <hr />
 
-                <div className="*:flex *:gap-3 *:justify-start">
+                <div className="flex flex-col">
                   <Button
                     variant={"transparent"}
                     className="hover:bg-primary hover:text-primary-foreground rounded-none w-full"
@@ -146,7 +147,6 @@ const MyCourseCard = ({ className, type, course }: MyCourseCardProps) => {
 
         <div className="flex flex-col">
           <Progress value={course.progress} className="h-0.5" />
-
           <span className="text-xs hidden md:block">{course.progress}% Completed</span>
         </div>
       </CardContent>

@@ -8,33 +8,33 @@ const Dashboard = () => {
   const cardInformation = [
     {
       icon: CoinsIcon,
-      label: "total earnings",
+      label: "Analytics",
       total: 75312,
-      link: "/dashboard/my-earnings",
+      link: "/dashboard/analytics",
     },
     {
       icon: Book,
-      label: "total courses",
+      label: "Courses",
       total: 200,
       link: "/dashboard/my-courses",
     },
     {
-      icon: FaBookReader,
-      label: "total students",
+      icon: UsersRoundIcon,
+      label: "Students",
       total: 3000,
-      link: "/dashboard/home/students",
+      link: "/dashboard/students",
     },
     {
       icon: UsersRoundIcon,
-      label: "net followers",
+      label: "Followers",
       total: 290000,
-      link: "/dashboard/home/followers",
+      link: "/dashboard/followers",
     },
     {
-      icon: UsersRoundIcon,
-      label: "certified students",
+      icon: FaBookReader,
+      label: "Quiz",
       total: 3140,
-      link: "/dashboard/home/certified-students",
+      link: "/dashboard/quiz",
     },
   ];
   return (
@@ -42,28 +42,28 @@ const Dashboard = () => {
       <p className="text-xs sm:text-sm px-4 capitalize">
         Hi <b>Victony Darey</b>, welcome back
       </p>
-      <main className="w-full flex flex-col mt-5 gap-10 justify-center">
+      <main className="w-full flex flex-col mt-5 gap-4 justify-center">
         <h1 className="sm:my-4 text-center text-xl md:text-2xl lg:text-3xl ">
           What Will You Publish Today
         </h1>
-        <section className="w-full md:mx-auto flex flex-wrap gap-5 *:flex-auto  *:min-w-[30%] *:max-w-full px-2 sm:px-4">
+        <section className="w-full md:mx-auto flex flex-wrap gap-4 *:flex-auto  *:min-w-[30%] *:max-w-full px-2 sm:px-4">
           {cardInformation.map((card) => (
             <AnalyticsCard
               count={card.total}
               label={card.label}
               icon={<card.icon />}
               link={card.link}
-              isMoney={card.label.includes("earning")}
+              isMoney={card.label.includes("analytics")}
               date={new Date()}
             />
           ))}
         </section>
 
-        <section className="block mt-32 mx-auto py-4 px-2 sm:px-4 bg-popover">
+        <section className="block mt-32 mx-auto py- px-2 sm:px-4 bg-popover">
           <h3 className="mb-3 font-bold text-xl sm:text-2xl">
             Recently Published Courses
           </h3>
-          <div className="flex flex-wrap gap-5 w-full items-start ">
+          <div className="flex flex-wrap gap-5 w-full overflow-y-auto scrollbar-hide h-[400px] items-start ">
             {recentPublish.map((course) => (
               <CourseCard
                 course={course}
@@ -83,6 +83,7 @@ const Dashboard = () => {
                 isVerified={course.isVerified}
                 isFollowing={course.isFollowing}
                 date={course.date}
+                viewMode = "list"
               />
             ))}
           </div>

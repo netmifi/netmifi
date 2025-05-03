@@ -1,109 +1,59 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import Robotron from "../Robotron"; 
+import { useState, useEffect } from "react";
+import Robotron from "../Robotron";
 
-type Ad = {
+interface Ad {
   image: string;
   title: string;
   subtitle: string;
-};
+}
 
-interface Props {
+interface AdCarouselProps {
   ads: Ad[];
   interval?: number;
 }
 
-const variants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 300 : -300,
-    opacity: 0,
-    position: "absolute",
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    position: "relative",
-  },
-  exit: (direction: number) => ({
-    x: direction < 0 ? 300 : -300,
-    opacity: 0,
-    position: "absolute",
-  }),
-};
+export const AdCarousel = ({ ads, interval = 60000 }: AdCarouselProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-// const swipeConfidenceThreshold = 10000;
-
-const AdCarousel = ({ ads, interval = 10000 }: Props) => {
-  const [[currentIndex, direction], setIndex] = useState<[number, number]>([0, 0]);
-
-  const paginate = (newIndex: number) => {
-    const dir = newIndex > currentIndex ? 1 : -1;
-    setIndex([newIndex, dir]);
-  };
-
-  const swipeHandler = (offsetX: number) => {
-    if (Math.abs(offsetX) > 100) {
-      paginate((currentIndex + (offsetX < 0 ? 1 : -1) + ads.length) % ads.length);
-    }
-  };
-
-  // Auto-slide
-  useState(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
-      paginate((currentIndex + 1) % ads.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % ads.length);
     }, interval);
+
     return () => clearInterval(timer);
-  });
+  }, [ads.length, interval]);
 
   return (
-    <section className="relative overflow-hidden mx-auto lg:max-w-[90rem]">
-      <AnimatePresence custom={direction}>
+    <div className="relative w-full mx-auto lg:max-w-7xl h-[200px] overflow-hidden">
+      <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.6 }}
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          onDragEnd={(e, { offset }) => swipeHandler(offset.x)}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.5 }}
+          className="absolute inset-0"
         >
           <Robotron
-            className="bg-popover transition-all duration-500"
             image={ads[currentIndex].image}
             title={ads[currentIndex].title}
-            titleClassName=""
             subtitle={ads[currentIndex].subtitle}
-            subtitleClassName=""
-            button={
-              <button
-                className="text-xs md:text-base bg-white text-red mr-auto rounded-full h-6 md:h-10 px-3"
-                onClick={() => console.log("Buy Now clicked")}
-              >
-                Buy Now
-              </button>
-            }
+            showButton={false}
           />
         </motion.div>
       </AnimatePresence>
-
-      {/* Dots indicator */}
-      <div className="flex justify-center mt-4 space-x-2 z-10 relative">
-        {ads.map((_, idx) => (
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        {ads.map((_, index) => (
           <button
-            key={idx}
-            onClick={() => paginate(idx)}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              idx === currentIndex ? "bg-white" : "bg-gray-400"
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-2 h-2 rounded-full transition-all ${
+              index === currentIndex ? "bg-primary scale-125" : "bg-gray-300"
             }`}
           />
         ))}
       </div>
-    </section>
+    </div>
   );
 };
-
-export default AdCarousel;

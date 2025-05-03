@@ -46,6 +46,7 @@ import { PageProgressStart } from "./layouts/RouterProgress";
 import LayoutWithProgress from "./layouts/LayoutWithProgress";
 import SearchResults from "./pages/SearchResults";
 import ClipPlayer from "./components/courses/ClipsPlayer";
+import { CourseProcessor } from "./services/courseProcessor";
 
 const App = () => {
   //   const location = useLocation();
@@ -91,13 +92,12 @@ const App = () => {
                 {/* COURSES ROUTE */}
                 <Route path="courses" element={<Courses />}>
                   <Route path="top" element={<TopCourses page="self" />} />
-                  <Route
-                    path="recent"
-                    element={<RecentCourses page="self" />}
-                  />
+                  <Route path="recent" element={<RecentCourses page="self" />} />
                   <Route path="course/:slug" element={<CoursePreview />} />
                   <Route path="my-courses" element={<MyCourses />} />
                   <Route path="my-courses/:slug" element={<LearnPlay />} />
+                  <Route path="learn/:slug" element={<LearnPlay />} />
+                  <Route path="process/:slug" element={<CourseProcessor />} />
                   {/* You can keep course clips separate */}
                   <Route path="clips/:slug" element={<ClipPlayer />} />
                 </Route>
@@ -152,9 +152,9 @@ const App = () => {
                     element={<InstructorDashboardOutletLayout />}
                   >
                     <Route path="home" element={<InstructorDashboard />} />
-                    <Route path="home/students" element={<Students />} />
+                    <Route path="students" element={<Students />} >
                     <Route
-                      path="home/certified-students"
+                      path="certified-students"
                       element={<CertifiedStudents />}
                     />
                     <Route path="home/followers" element={<Followers />} />
