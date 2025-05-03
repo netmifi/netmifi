@@ -16,8 +16,8 @@ export default function ComingSoon() {
   };
 
   return (
-    <main className="min-h-svh bg-gradient-to-br from-black via-gray-900 to-slate-800 flex items-center justify-center px-4">
-      <Card className="max-w-lg w-full rounded-2xl shadow-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6 text-center text-red">
+    <main className="min-h-[30vh] flex items-top justify-center px-4">
+      <Card className="max-w-lg w-full bg-inherit border-0 p-6 text-center text-red">
         <CardContent className="space-y-6">
           <motion.h1
             initial={{ opacity: 0, y: -10 }}

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const verifyJwt = require('../middlewares/verifyJwt');
 const verifyRoles = require('../middlewares/verifyRole');
-const authMiddleware = require('../middlewares/authMiddleware');
+// const authMiddleware = require('../middlewares/authMiddleware');
 
 // User profile routes
 router.get('/profile', verifyJwt, require('../controllers/userController').getProfile);
@@ -25,7 +25,7 @@ router.get('/leaderboard', require('../controllers/userController').getLeaderboa
 router.get('/achievements', verifyJwt, require('../controllers/userController').getAchievements);
 
 // Protected routes
-router.use(authMiddleware);
+// router.use(authMiddleware);
 
 // Update user XP
 router.post('/xp', require('../controllers/userController').updateUserXP);

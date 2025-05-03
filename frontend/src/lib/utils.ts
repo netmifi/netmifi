@@ -6,6 +6,7 @@ import { parsePhoneNumberFromString } from 'libphonenumber-js';
 // import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { toast } from "sonner";
 import useGetVideoDuration from "@/hooks/useGetVideoDuration";
+import { categories } from "@/constants";
 
 // const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/; // time regular expression
 
@@ -121,12 +122,12 @@ const getVideoDuration = (url: string): Promise<number> => {
       resolve(video.duration);
     });
     video.onerror = (e) => {
-      console.error('Video error event:', e);
+      // console.error('Video error event:', e);
     };
 
     // Add timeout to prevent hanging in case the video doesn't load
     setTimeout(() => {
-      console.error('Video metadata load timed out');
+      // console.error('Video metadata load timed out');
     }, 5000); // 5 seconds timeout
   });
 };
@@ -307,53 +308,117 @@ export const contactUsEmailFormSchema = () =>
     message: z.string().min(5, { message: 'Message cannot be less than 5 characters' }),
   });
 
-export const instructorFormSchema = () =>
-  z.object({
-    country: z.object({
-      name: z.string().optional(),
-      code: z.string(),
-      flag: z.string().optional(),
-      dialCode: z.string(),
-    }),
-    phone: z.string().refine(value => !value || value.match(/^\d+$/), { message: "Only numbers are allowed" }), // Make phone optional
-    residentialAddress: z.string().optional(),
-    facebook: z.string().optional().nullable(),
-    instagram: z.string().optional().nullable(),
-    tiktok: z.string().optional(),
-    youtube: z.string().optional(),
-    website: z.string().optional(),
-    niche: z.string().min(1, { message: "Must select an area of expertise" }),
-    whyInterest: z.string().optional(),
-    taughtBefore: z.enum(["yes", "no"], {
-      required_error: "Please select an option",
-    }),
-    mentoredPreviously: z.enum(["yes", "no"], {
-      required_error: "Please select an option",
-    }),
-    about: z.string().optional()
-  })
-    .refine((data) => {
-      return data.country.code !== '' && data.country.dialCode !== '';
+export const instructorFormSchema = () => {
+    return z.object({
+        phone: z.string()
+            .min(1, "Phone number is required")
+            .transform((val) => {
+                // Remove any non-digit characters
+                return val.replace(/\D/g, '');
+            })
+            .refine((val) => val.length >= 7 && val.length <= 15, {
+                message: "Phone number must be between 7 and 15 digits"
+            }),
+        country: z.object({
+            name: z.string().min(1, "Country name is required"),
+            dialCode: z.string().min(1, "Country dial code is required"),
+            code: z.string().min(1, "Country code is required"),
+            flag: z.string().min(1, "Country flag is required")
+        }).required(),
+        residentialAddress: z.string()
+            .min(3, "Address must be at least 3 characters long")
+            .max(200, "Address must not exceed 200 characters")
+            .optional(),
+        facebook: z.string()
+            .url("Invalid Facebook URL")
+            .refine((val) => val.includes('facebook.com'), {
+                message: "Must be a valid Facebook URL"
+            })
+            .optional()
+            .or(z.literal("")),
+        instagram: z.string()
+            .url("Invalid Instagram URL")
+            .refine((val) => val.includes('instagram.com'), {
+                message: "Must be a valid Instagram URL"
+            })
+            .optional()
+            .or(z.literal("")),
+        tiktok: z.string()
+            .url("Invalid TikTok URL")
+            .refine((val) => val.includes('tiktok.com'), {
+                message: "Must be a valid TikTok URL"
+            })
+            .optional()
+            .or(z.literal("")),
+        youtube: z.string()
+            .url("Invalid YouTube URL")
+            .refine((val) => val.includes('youtube.com'), {
+                message: "Must be a valid YouTube URL"
+            })
+            .optional()
+            .or(z.literal("")),
+        website: z.string()
+            .url("Invalid website URL")
+            .optional()
+            .or(z.literal("")),
+        niche: z.string()
+            .min(1, "Please select your area of expertise")
+            .refine(
+              (value) => categories.some(category => category.value === value),
+              "Please select a valid area of expertise"
+            ),
+        whyInterest: z.string()
+            .min(20, "Please provide a more detailed explanation (min 20 characters)")
+            .max(500, "Response must not exceed 500 characters"),
+        taughtBefore: z.enum(["yes", "no"], {
+            required_error: "Please select if you have taught online before"
+        }),
+        mentoredPreviously: z.enum(["yes", "no"], {
+            required_error: "Please select if you have been a mentor before"
+        }),
+        about: z.string()
+            .min(50, "Please provide more information about yourself (minimum 50 characters)")
+            .max(1000, "About section must not exceed 1000 characters"),
+        teachingExperience: z.string()
+            .min(0)
+            .max(500, "Teaching experience must not exceed 500 characters")
+            .optional(),
+        preferredTeachingStyle: z.enum([
+            "lecture",
+            "interactive",
+            "hands-on",
+            "discussion",
+            "project-based"
+        ], {
+            required_error: "Please select your preferred teaching style"
+        }),
+        availability: z.object({
+            days: z.array(z.string()).min(1, "Please select at least one day"),
+            timeZone: z.string().min(1, "Please select your time zone"),
+            preferredHours: z.string().min(1, "Please select your preferred teaching hours")
+        }),
+        certifications: z.array(z.string()).optional(),
+        languages: z.array(z.string()).min(1, "Please select at least one language"),
+        terms: z.boolean().refine((val) => val === true, {
+            message: "You must accept the terms and conditions"
+        })
+    }).refine((data) => {
+        // At least one social media handle is required
+        return data.facebook || data.instagram || data.tiktok || data.youtube || data.website;
     }, {
-      message: 'Please select your country dial code',
-      path: ['phone'],
-    })
-    .refine((data) => {
-      const phoneNumberString = `${data.country.dialCode}${data.phone}`;
-      const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
-      return parsedPhoneNumber?.isValid() ?? false;
+        message: "At least one social media handle or website is required",
+        path: ["facebook"]
+    }).refine((data) => {
+        // If user has taught before, require more details
+        if (data.taughtBefore === "yes") {
+            return data.teachingExperience && data.teachingExperience.length >= 50;
+        }
+        return true;
     }, {
-      message: 'Not a valid phone number',
-      path: ['phone'],
-    })
-    .transform((data) => {
-      const phoneNumberString = `${data.country.dialCode}${data.phone}`;
-      const parsedPhoneNumber = parsePhoneNumberFromString(phoneNumberString);
-      return {
-        ...data,
-        phone: parsedPhoneNumber?.number,
-      };
+        message: "Please provide more details about your teaching experience",
+        path: ["teachingExperience"]
     });
+};
 
 // Base schema
 const baseCourseSchema = z.object({
@@ -507,3 +572,50 @@ export const updateProfileSchema = () => z.object({
       phone: parsedPhoneNumber?.number,
     };
   });
+
+export const getUserLocation = async (): Promise<{
+  country: string;
+  countryCode: string;
+  timezone: string;
+}> => {
+  try {
+    // First try to get location from browser
+    const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+
+    // Use a geocoding service to get country info from coordinates
+    const response = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`
+    );
+    
+    const data = await response.json();
+    
+    return {
+      country: data.countryName,
+      countryCode: data.countryCode,
+      timezone: data.timezone,
+    };
+  } catch (error) {
+    console.error("Error getting user location:", error);
+    // Fallback to IP-based location
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      
+      return {
+        country: data.country_name,
+        countryCode: data.country_code,
+        timezone: data.timezone,
+      };
+    } catch (ipError) {
+      console.error("Error getting IP-based location:", ipError);
+      // Final fallback to default values
+      return {
+        country: "Nigeria",
+        countryCode: "NG",
+        timezone: "Africa/Lagos",
+      };
+    }
+  }
+};

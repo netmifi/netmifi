@@ -35,10 +35,9 @@ async function fetchGoogleUserInfo(accessToken) {
     // Split name into first/last names
     const [firstName, ...lastNameParts] = name.split(" ")
     const lastName = lastNameParts.join(" ") || "User"
-    await sendEmail(email, 'registration_successful', firstName);
 
-    // Create and return the new user
-    return await User.create({
+    // Create the new user
+    const user = await User.create({
       googleId,
       email,
       firstName,
@@ -47,6 +46,15 @@ async function fetchGoogleUserInfo(accessToken) {
       profile: picture || undefined,
       isEmailVerified: true, // Google accounts have verified emails
     })
+
+    // Send welcome email after user creation
+    await sendEmail({
+      to: email,
+      subject: 'Welcome To Netmifi',
+      templateType: 'registration_successful'
+    });
+
+    return user;
   }
 
 module.exports = {

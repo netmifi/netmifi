@@ -111,13 +111,13 @@ module.exports.instructorApplicationSchema = Joi.object({
     const socialMediaHandles = ['facebook', 'twitter', 'instagram', 'tiktok', 'youtube'];
     const filledHandles = socialMediaHandles.filter(handle => obj[handle]);
 
-    if (filledHandles.length < 2) {
+    if (filledHandles.length < 1) {
         return helpers.error('custom.socialMedia', {
-            message: 'At least 2 social media handles must be filled.'
+            message: 'At least 1 social media handle must be filled.'
         });
     }
 
     return obj;
 }, 'Social Media Handles Check').messages({
-    'custom.socialMedia': 'At least 2 social media handles must be filled.'
+    'custom.socialMedia': 'At least 1 social media handle must be filled.'
 });

@@ -13,6 +13,7 @@ const servicesRoutes = require('./routes/servicesRoutes');
 const searchRoutes = require('./routes/searchRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const courseRoutes = require('./routes/courseRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 const limiter = require('./middlewares/limiter');
 const corsOptions = require('./config/corsOptions');
 const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
@@ -69,6 +70,7 @@ app.use('/instructor', verifyJwt, instructorRoutes);
 app.use('/cart', verifyJwt, cartRoutes);
 app.use('/services', verifyJwt, servicesRoutes);
 app.use('/courses', courseRoutes);
+app.use('/payments', paymentRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {

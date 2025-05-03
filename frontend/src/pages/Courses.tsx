@@ -24,32 +24,23 @@ const Courses = () => {
       {rootCourses.some((route) => pathname === route) ? (
         <main>
           <Jumbotron
-            // className="bg-secondary text-primary"
+            // className="bg-secondary text-primary h-[30vh]"
             title={"courses"}
             image={CoursesSvg}
             body="Unleash your inner craftsman, dive into our enriching courses. Because your journey to crafts mastery starts here."
-            button={
-              <Button
-                onClick={handleHandleExplore}
-                className="rounded-full hover:bg-secondary hover:text-red flex items-center px-7"
-              >
-                Explore
-                <ArrowDown />
-              </Button>
-            }
+            button={false}
           />
-          {/* <Jumbotron title={'courses'} exploreSectionRef={exploreSectionRef} thumbnail={AboutUsSvg} /> */}
 
           <section
             ref={exploreSectionRef}
-            className="flex flex-col gap-7 padding-x py-24"
+            className="flex flex-col gap-5 padding-x py-12"
           >
-            <div className="flex flex-col gap-5">
+            {/* <div className="flex flex-col gap-5">
               <h2 className="text-xl text-low-contrast font-bold font-montserrat text-center">
                 Pick over 50+ online courses with new addition published
                 every day.
               </h2>
-              {/* <div className="flex  justify-center items-center">
+              <div className="flex  justify-center items-center">
             <Input
               className=" w-2/5 p-6 rounded-e-none focus-visible:outline-none text-lg font-bold"
               value={search}
@@ -59,11 +50,11 @@ const Courses = () => {
             <Button className="p-6  rounded-s-none">
               <FaSearch />
             </Button>
-          </div> */}
+          </div>
             </div>
-            <hr />
+            <hr /> */}
 
-            <div className="flex flex-col gap-20 w-full">
+            <div className="flex flex-col gap-10 w-full">
               <h2 className="text-red sm:text-3xl text-2xl text-center mb-7">
                 Explore Our Diverse Learning Landscape
               </h2>
@@ -107,7 +98,7 @@ const Courses = () => {
             </div>
           </section> */}
 
-          <Newsletter />
+          {/* <Newsletter /> */}
         </main>
       ) : (
         <Outlet />

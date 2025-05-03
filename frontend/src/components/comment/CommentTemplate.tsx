@@ -2,7 +2,22 @@ import { useState } from "react";
 import PostAvatar from "../PostAvatar";
 import { Button } from "../ui/button";
 
+interface CommentTemplateProps {
+    page: string;
+    comment: string;
+    date: string;
+    user: {
+        id: string;
+        username: string;
+        profile: string;
+        isVerified: boolean;
+    };
+    isReply?: boolean;
+}
+
 const CommentTemplate = ({ page, comment, date, user, isReply }: CommentTemplateProps) => {
+    const [isShorten, setIsShorten] = useState(true);
+
     return (
         <div className="flex gap-2 items-start">
             <PostAvatar onlyAvatar={true} profileName={user.username} profileURL={`/user/${user.id}`} profileImage={user.profile} isVerified={user.isVerified} />
@@ -19,9 +34,7 @@ const CommentTemplate = ({ page, comment, date, user, isReply }: CommentTemplate
                 </div>
             </div>
         </div>
-    )
-}
-  )
-}
+    );
+};
 
-export default CommentTemplate
+export default CommentTemplate;

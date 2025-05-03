@@ -1,5 +1,5 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
-import { ArrowLeftSquareIcon, BookOpenText, Trophy, BookUserIcon, HomeIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, UsersIcon, UsersRoundIcon, Clapperboard, PieChart } from "lucide-react";
+import { ArrowLeftSquareIcon, BookOpenText, Trophy, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, UsersIcon, UsersRoundIcon, Wallet2, Clapperboard, BarChart2, Calendar, MessageSquare } from "lucide-react";
 
 export const customButtonDefinitions = {
   // button variant custom definitions
@@ -70,7 +70,7 @@ export const navLinks: NavLinks[] = [
     onlyUser: false,
     onlyGuest: false,
     onlySmallScreen: false,
-  },{
+  }, {
     href: "/account/leader-board",
     label: "Leader Board",
     icon: Trophy,
@@ -129,19 +129,34 @@ export const instructorDashboardLinks = [
     icon: HomeIcon,
   },
   {
-    href: "/dashboard/my-courses",
+    href: "/dashboard/courses",
     label: "Courses",
     icon: BookOpenText,
   },
   {
-    href: "/dashboard/analytics",
-    label: "Analytics",
-    icon: PieChart,
+    href: "/dashboard/students",
+    label: "Students",
+    icon: UsersRoundIcon,
   },
   {
-    href: "/dashboard/quiz",
-    label: "Quiz",
-    icon: SheetIcon,
+    href: "/dashboard/analytics",
+    label: "Analytics",
+    icon: BarChart2,
+  },
+  {
+    href: "/dashboard/schedule",
+    label: "Schedule",
+    icon: Calendar,
+  },
+  {
+    href: "/dashboard/reviews",
+    label: "Reviews",
+    icon: MessageSquare,
+  },
+  {
+    href: "/dashboard/followers",
+    label: "Followers",
+    icon: UsersIcon,
   },
   {
     href: "/dashboard/settings",
@@ -153,24 +168,84 @@ export const instructorDashboardLinks = [
     label: "Back Home",
     icon: ArrowLeftSquareIcon,
   },
-
 ];
 
 export const categories = [
-  "article writing",
-  "content creation",
-  "copywriting",
-  "graphics design",
-  "digital marketing",
-  "digital photography",
-  "email marketing",
-  "video editing",
-  "technical writing",
-  "content marketing strategy",
-  "sound editing",
-  "UI/UX design",
-  "videography",
-  "voiceover work",
+  { label: "Web Development", value: "web-development" },
+  { label: "Mobile Development", value: "mobile-development" },
+  { label: "Data Science", value: "data-science" },
+  { label: "Machine Learning", value: "machine-learning" },
+  { label: "Artificial Intelligence", value: "artificial-intelligence" },
+  { label: "Cloud Computing", value: "cloud-computing" },
+  { label: "DevOps", value: "devops" },
+  { label: "Cybersecurity", value: "cybersecurity" },
+  { label: "UI/UX Design", value: "ui-ux-design" },
+  { label: "Digital Marketing", value: "digital-marketing" },
+  { label: "Business", value: "business" },
+  { label: "Finance", value: "finance" },
+  { label: "Language", value: "language" },
+  { label: "Music", value: "music" },
+  { label: "Photography", value: "photography" },
+  { label: "Other", value: "other" }
+];
+
+export const timeZones = [
+  { label: "UTC−12:00 – Baker Island", value: "Etc/GMT+12" },
+  { label: "UTC−11:00 – Niue, American Samoa", value: "Pacific/Niue" },
+  { label: "UTC−10:00 – Hawaii", value: "Pacific/Honolulu" },
+  { label: "UTC−09:00 – Alaska", value: "America/Anchorage" },
+  { label: "UTC−08:00 – Pacific Time (US & Canada)", value: "America/Los_Angeles" },
+  { label: "UTC−07:00 – Mountain Time (US & Canada)", value: "America/Denver" },
+  { label: "UTC−06:00 – Central Time (US & Canada)", value: "America/Chicago" },
+  { label: "UTC−05:00 – Eastern Time (US & Canada)", value: "America/New_York" },
+  { label: "UTC−04:00 – Atlantic Time (Canada), Caracas", value: "America/Halifax" },
+  { label: "UTC−03:00 – Buenos Aires, Greenland", value: "America/Argentina/Buenos_Aires" },
+  { label: "UTC−02:00 – South Georgia/Sandwich Is.", value: "Atlantic/South_Georgia" },
+  { label: "UTC−01:00 – Azores", value: "Atlantic/Azores" },
+  { label: "UTC±00:00 – GMT, London", value: "Europe/London" },
+  { label: "UTC+01:00 – Berlin, Lagos, Paris", value: "Europe/Berlin" },
+  { label: "UTC+02:00 – Johannesburg, Cairo, Kyiv", value: "Africa/Johannesburg" },
+  { label: "UTC+03:00 – Moscow, Nairobi, Riyadh", value: "Europe/Moscow" },
+  { label: "UTC+04:00 – Dubai, Baku", value: "Asia/Dubai" },
+  { label: "UTC+05:00 – Pakistan, Yekaterinburg", value: "Asia/Karachi" },
+  { label: "UTC+06:00 – Bangladesh, Kazakhstan", value: "Asia/Dhaka" },
+  { label: "UTC+07:00 – Bangkok, Jakarta", value: "Asia/Bangkok" },
+  { label: "UTC+08:00 – Beijing, Singapore, Perth", value: "Asia/Shanghai" },
+  { label: "UTC+09:00 – Tokyo, Seoul", value: "Asia/Tokyo" },
+  { label: "UTC+10:00 – Sydney, Vladivostok", value: "Australia/Sydney" },
+  { label: "UTC+11:00 – Solomon Islands, New Caledonia", value: "Pacific/Guadalcanal" },
+  { label: "UTC+12:00 – Fiji, Auckland", value: "Pacific/Auckland" }
+];
+
+export const languages = [
+  { label: "English", value: "english" },
+  { label: "Spanish", value: "spanish" },
+  { label: "French", value: "french" },
+  { label: "German", value: "german" },
+  { label: "Chinese", value: "chinese" },
+  { label: "Japanese", value: "japanese" },
+  { label: "Korean", value: "korean" },
+  { label: "Arabic", value: "arabic" },
+  { label: "Hindi", value: "hindi" },
+  { label: "Portuguese", value: "portuguese" },
+  { label: "Russian", value: "russian" },
+  { label: "Italian", value: "italian" },
+  { label: "Dutch", value: "dutch" },
+  { label: "Other", value: "other" }
+];
+
+export const certifications = [
+  { label: "Google Certified Educator", value: "google-certified-educator" },
+  { label: "Microsoft Certified Trainer", value: "microsoft-certified-trainer" },
+  { label: "AWS Certified Instructor", value: "aws-certified-instructor" },
+  { label: "Adobe Certified Instructor", value: "adobe-certified-instructor" },
+  { label: "Cisco Certified Instructor", value: "cisco-certified-instructor" },
+  { label: "Other", value: "other" }
+];
+
+export const radioGroupData = [
+  { label: "Yes", value: "yes" },
+  { label: "No", value: "no" }
 ];
 
 // TODO: Add a map to check categories and show in 

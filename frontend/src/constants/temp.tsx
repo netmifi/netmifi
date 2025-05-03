@@ -205,7 +205,7 @@ const tempCourses: Course[] = [
           start: 0,
           end: 1200
         },
-        videoUrl: "https://www.youtube.com/watch?v=bMknfKXIFA8",
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
         audioUrl: "https://example.com/react-intro-audio.mp3",
         interactiveElements: [
           {
@@ -280,7 +280,7 @@ const tempCourses: Course[] = [
           start: 1201,
           end: 2400
         },
-        videoUrl: "https://www.youtube.com/watch?v=bMknfKXIFA8",
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
         audioUrl: "https://example.com/react-components-audio.mp3",
         interactiveElements: [
           {

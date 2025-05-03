@@ -1,20 +1,35 @@
-import { testVid, testVid2, testVid3 } from "@/assets/videos";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Video, Headphones, Book, Gamepad2 } from "lucide-react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Course, URLDurationData } from "@/types/index";
-import { tempCourses, currentUserEntry, updateCurrentUserXP } from "@/constants/temp";
+import { Course, LearningPreference } from "@/types/index";
+import { tempCourses, updateCurrentUserXP } from "@/constants/temp";
 import { useApp } from "@/app/app-provider";
 import { toast } from "sonner";
-import { LearningPreference } from "@/types/index";
+import ContentRenderer from "@/components/courses/ContentRenderer";
+import CourseCompletion from "@/components/courses/CourseCompletion";
+import CourseProgress from "@/components/courses/CourseProgress";
+import CourseHeader from "@/components/courses/CourseHeader";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComingSoon from "@/components/ui/ComingSoon";
-import ReactPlayer from "react-player";
-import VideoPlayer from "@/components/VideoPlayer";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+interface Section {
+  id: string;
+  title: string;
+  videoUrl?: string;
+  audioUrl?: string;
+  content?: string;
+  quizQuestions?: Array<{
+    question: string;
+    options: string[];
+    correctAnswer: string;
+  }>;
+}
 
 const LearnPlay = () => {
-  // All hooks must be called at the top level, unconditionally
   const { slug } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,96 +37,51 @@ const LearnPlay = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [sectionXp, setSectionXp] = useState(0);
   const [courseData, setCourseData] = useState<Course | null>(null);
-  const [learningPreference, setLearningPreference] = useState<LearningPreference | null>(null);
+  const [
+    learningPreference,
+    setLearningPreference,
+  ] = useState<LearningPreference | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [completedSections, setCompletedSections] = useState<number[]>([]);
+  const [showCompletionScreen, setShowCompletionScreen] = useState(false);
+  const [totalCourseXp, setTotalCourseXp] = useState(0);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [rating, setRating] = useState("");
 
-  const courseContents = [
-    {
-      id: "1",
-      title: "section 1: getting started",
-      courses: [
-        {
-          id: "1",
-          title: "Introduction",
-          videoUrl: testVid,
-        },
-        {
-          id: "2",
-          title: "getting started",
-          videoUrl: testVid2,
-        },
-      ],
-    },
-    {
-      id: "2",
-      title: "section 2: being better",
-      courses: [
-        {
-          id: "3",
-          title: "Introduction",
-          videoUrl: testVid3,
-        },
-      ],
-    },
-  ];
+  // const [totalVideos] = useState<string[]>([
+  //   "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  //   "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+  //   "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+  //   "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+  //   ...courseContents.flatMap((content) =>
+  //     content.courses.flatMap((course) => course.videoUrl)
+  //   ),
+  // ]);
 
-  const [totalVideos] = useState<string[]>([
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    ...courseContents.flatMap((content) =>
-      content.courses.flatMap((course) => course.videoUrl)
-    ),
-  ]);
-
-  const [currentCourseVideo, setCurrentCourseVideo] = useState<string>(
-    totalVideos[0]
-  );
-  const [currentCourseCollection, setCurrentCourseCollection] = useState(
-    courseContents.find((content) =>
-      content.courses.find((course) => course.videoUrl === currentCourseVideo)
-    )
-  );
-
-  const getVideoDuration = (url: string): Promise<number> => {
-    return new Promise((resolve) => {
-      const video = document.createElement("video");
-      video.src = url;
-      video.addEventListener("loadedmetadata", () => {
-        resolve(video.duration);
-      });
-    });
+  // Calculate XP based on section type and engagement
+  const calculateSectionXp = () => {
+    let baseXp = 10;
+    switch (learningPreference) {
+      case "video":
+        baseXp = 15;
+        break;
+      case "interactive":
+        baseXp = 20;
+        break;
+      case "audio":
+        baseXp = 12;
+        break;
+      case "storytelling":
+        baseXp = 10;
+        break;
+    }
+    return baseXp;
   };
 
-  useEffect(() => {
-    return setCurrentCourseCollection(
-      courseContents.find((content) =>
-        content.courses.find((course) => course.videoUrl === currentCourseVideo)
-      )
-    );
-  }, [courseContents, currentCourseVideo]);
-
-  const [urlDuration, setUrlDuration] = useState<URLDurationData[]>([
-    { url: "", duration: 0 },
-  ]);
-
-  useEffect(() => {
-    // Fetch video durations and update state
-    const fetchVideoData = async () => {
-      const data = await Promise.all(
-        totalVideos.map(async (url) => {
-          const duration = await getVideoDuration(url);
-          return { url, duration };
-        })
-      );
-      setUrlDuration(data);
-    };
-
-    fetchVideoData();
-  }, [totalVideos]);
-
-  // First useEffect to handle course data loading
+  // Load course data
   useEffect(() => {
     const loadCourseData = () => {
       const stateCourse = location.state?.course as Course;
@@ -132,13 +102,13 @@ const LearnPlay = () => {
         setLearningPreference("video");
       }
 
-      setIsLoading(false); // Ensure it's called for all code paths
+      setIsLoading(false);
     };
 
     loadCourseData();
   }, [location.state, slug, navigate]);
 
-  // Second useEffect to handle access control
+  // Handle access control
   useEffect(() => {
     if (
       courseData?.type === "paid" &&
@@ -149,124 +119,133 @@ const LearnPlay = () => {
     }
   }, [courseData, cartItems, navigate]);
 
-  const handleCompleteSection = () => {
-    if (!courseData) return;
+  const handleNextSection = () => {
+    if (!courseData?.sections) return;
 
-    const xpGained = 10;
+    if (completedSections.includes(currentSection)) {
+      toast.info("You've already completed this section!");
+      return;
+    }
+
+    const xpGained = calculateSectionXp();
     setSectionXp((prev) => prev + xpGained);
-    
+    setTotalCourseXp((prev) => prev + xpGained);
+
+    const updatedUser = updateCurrentUserXP(xpGained);
+    toast.success(`You earned ${xpGained} XP! Total XP: ${updatedUser.xp}`);
+
+    setCompletedSections((prev) => [...prev, currentSection]);
+
+    if (currentSection < courseData.sections.length - 1) {
+      setCurrentSection((prev) => prev + 1);
+      setSectionXp(0);
+    } else {
+      setShowCompletionScreen(true);
+      const completionBonus = 50;
+      const finalUpdate = updateCurrentUserXP(completionBonus);
+      setTotalCourseXp((prev) => prev + completionBonus);
+      toast.success(
+        `Course completion bonus: ${completionBonus} XP! Total XP: ${finalUpdate.xp}`
+      );
+    }
+  };
+
+  const handleSectionComplete = () => {
+    if (!courseData?.sections) return;
+
+    // Check if section is already completed
+    if (completedSections.includes(currentSection)) {
+      toast.info("You've already completed this section!");
+      return;
+    }
+
+    const xpGained = calculateSectionXp();
+    setSectionXp((prev) => prev + xpGained);
+    setTotalCourseXp((prev) => prev + xpGained);
+
     // Update the leaderboard with the new XP
     const updatedUser = updateCurrentUserXP(xpGained);
     toast.success(`You earned ${xpGained} XP! Total XP: ${updatedUser.xp}`);
 
-    if (currentSection < courseData?.sections?.length - 1) {
+    // Mark section as completed
+    setCompletedSections((prev) => [...prev, currentSection]);
+
+    // Move to next section or show completion screen
+    if (currentSection < courseData.sections.length - 1) {
       setCurrentSection((prev) => prev + 1);
+      setSectionXp(0); // Reset section XP for the new section
     } else {
-      toast.success("Congratulations! You have completed the course!");
+      setShowCompletionScreen(true);
       // Add completion bonus XP
       const completionBonus = 50;
       const finalUpdate = updateCurrentUserXP(completionBonus);
-      toast.success(`Course completion bonus: ${completionBonus} XP! Total XP: ${finalUpdate.xp}`);
+      setTotalCourseXp((prev) => prev + completionBonus);
+      toast.success(
+        `Course completion bonus: ${completionBonus} XP! Total XP: ${finalUpdate.xp}`
+      );
     }
   };
 
-  const renderContent = () => {
-    if (!courseData || !learningPreference) return null;
+  const handleCloseCompletion = () => {
+    setShowCompletionScreen(false);
+  };
 
-    // Add null check for sections and provide default empty array
-    const sections = courseData.sections || [];
-    const section = sections[currentSection] || {
-      title: "No section available",
-      videoUrl: "",
-      audioUrl: "",
-      content: "",
-      quizQuestions: [],
-    };
+  const handleRestartCourse = () => {
+    setShowCompletionScreen(false);
+    setCurrentSection(0);
+    setCompletedSections([]);
+    setSectionXp(0);
+    setTotalCourseXp(0);
+  };
 
-    switch (learningPreference) {
-      case "video":
-        return (
-          <div className="aspect-video bg-black rounded-lg">
-            {section.videoUrl ? (
-              <VideoPlayer videoUrl={section.videoUrl} className={"w-full h-full"} />
-            ) : (
-              <div className="flex items-center justify-center h-full text-white">
-                <p>No video available for this section</p>
-              </div>
-            )}
-          </div>
-        );
-      case "audio":
-        return (
-          <div className="p-6 bg-gray-100 rounded-lg dark:bg-gray-800">
-            <div className="flex items-center gap-4 mb-4">
-              <Headphones className="w-6 h-6" />
-              <h3 className="text-lg font-medium">{section.title}</h3>
-            </div>
-            {section.audioUrl ? (
-              <audio src={section.audioUrl} controls className="w-full" />
-            ) : (
-              <div className="text-center py-4">
-                <p>No audio available for this section</p>
-              </div>
-            )}
-          </div>
-        );
-      case "storytelling":
-        return (
-          <div className="prose max-w-none dark:prose-invert">
-            <h2>{section.title}</h2>
-            {section.content ? (
-              <div dangerouslySetInnerHTML={{ __html: section.content }} />
-            ) : (
-              <p>No content available for this section</p>
-            )}
-          </div>
-        );
-      case "interactive":
-        return (
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium">{section.title}</h3>
-            {section.quizQuestions && section.quizQuestions.length > 0 ? (
-              <div className="space-y-4">
-                {section.quizQuestions.map((question, index) => (
-                  <div
-                    key={index}
-                    className="p-4 bg-gray-100 rounded-lg dark:bg-gray-800"
-                  >
-                    <p className="font-medium mb-2">{question.question}</p>
-                    <div className="space-y-2">
-                      {question.options.map((option, optIndex) => (
-                        <Button
-                          key={optIndex}
-                          variant="outline"
-                          className="w-full justify-start"
-                          onClick={() => {
-                            if (option === question.correctAnswer) {
-                              const quizXp = 5;
-                              setSectionXp((prev) => prev + quizXp);
-                              const updatedUser = updateCurrentUserXP(quizXp);
-                              toast.success(`Correct! +${quizXp} XP! Total XP: ${updatedUser.xp}`);
-                            }
-                          }}
-                        >
-                          {option}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-4">
-                <p>No interactive content available for this section</p>
-              </div>
-            )}
-          </div>
-        );
-      default:
-        return <div>Select a learning preference to continue</div>;
+  const handleSectionClick = (index: number) => {
+    if (!courseData?.sections) return;
+
+    // Don't allow navigating to sections beyond the current section unless they're completed
+    if (index > currentSection && !completedSections.includes(currentSection)) {
+      toast.info("Please complete the current section first!");
+      return;
     }
+
+    setCurrentSection(index);
+    // Reset section XP when navigating to a new section
+    setSectionXp(0);
+  };
+
+  const handleQuizSubmit = () => {
+    if (!courseData?.sections[currentSection].quizQuestions) return;
+
+    const questions = courseData.sections[currentSection].quizQuestions;
+    let correctAnswers = 0;
+
+    questions.forEach((question, index) => {
+      if (quizAnswers[`question-${index}`] === question.correctAnswer) {
+        correctAnswers++;
+      }
+    });
+
+    const score = (correctAnswers / questions.length) * 100;
+    if (score >= 70) {
+      toast.success(`Quiz passed! Score: ${score.toFixed(0)}%`);
+      setQuizSubmitted(true);
+      handleSectionComplete();
+    } else {
+      toast.error(
+        `Quiz failed. Score: ${score.toFixed(0)}%. Please try again.`
+      );
+      setQuizAnswers({});
+    }
+  };
+
+  const handleFeedbackSubmit = () => {
+    if (!feedback || !rating) {
+      toast.error("Please provide both feedback and rating");
+      return;
+    }
+
+    // Here you would typically send the feedback to your backend
+    toast.success("Thank you for your feedback!");
+    handleCloseCompletion();
   };
 
   if (isLoading) {
@@ -280,72 +259,115 @@ const LearnPlay = () => {
     );
   }
 
-  if (!courseData || !learningPreference) {
+  if (!courseData || !learningPreference || !courseData.sections) {
     return null;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold">
-            {courseData?.title || "Loading..."}
-          </h1>
-          <p className="text-gray-600">
-            Section {currentSection + 1} of {courseData?.sections?.length || 0}
-          </p>
+      <CourseHeader
+        courseTitle={courseData.title}
+        currentSection={currentSection}
+        totalSections={courseData.sections.length}
+        sectionXp={sectionXp}
+        totalXp={totalCourseXp}
+        learningPreference={learningPreference}
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="lg:col-span-3">
+          {showQuiz && courseData.sections[currentSection].quizQuestions ? (
+            <Card>
+              <CardHeader>
+                <CardTitle>Course Quiz</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  {courseData.sections[currentSection].quizQuestions.map(
+                    (question, index) => (
+                      <div key={index} className="space-y-2">
+                        <Label className="text-lg">{question.question}</Label>
+                        <RadioGroup
+                          value={quizAnswers[`question-${index}`]}
+                          onValueChange={(value) => {
+                            setQuizAnswers((prev) => ({
+                              ...prev,
+                              [`question-${index}`]: value,
+                            }));
+                          }}
+                        >
+                          {question.options.map((option, optIndex) => (
+                            <div
+                              key={optIndex}
+                              className="flex items-center space-x-2"
+                            >
+                              <RadioGroupItem
+                                value={option}
+                                id={`option-${index}-${optIndex}`}
+                              />
+                              <Label htmlFor={`option-${index}-${optIndex}`}>
+                                {option}
+                              </Label>
+                            </div>
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    )
+                  )}
+                  <Button
+                    onClick={handleQuizSubmit}
+                    disabled={
+                      Object.keys(quizAnswers).length !==
+                      courseData.sections[currentSection].quizQuestions?.length
+                    }
+                  >
+                    Submit Quiz
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <ContentRenderer
+              key={courseData.sections[currentSection].id}
+              section={courseData.sections[currentSection]}
+              sections={courseData.sections}
+              learningPreference={learningPreference}
+              isCompleted={completedSections.includes(currentSection)}
+              onComplete={() => {
+                if (courseData.sections[currentSection].quizQuestions) {
+                  setShowQuiz(true);
+                } else {
+                  handleSectionComplete();
+                }
+              }}
+            />
+          )}
         </div>
-        <div className="flex items-center gap-4">
-          <div className="text-right flex items-center h-full justify-center gap-1">
-            <p className="text-2xl font-bold text-red-600">{sectionXp}</p>
-            <span className="text-sm text-gray-500">/ {currentUserEntry.xp} XP</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {learningPreference === "video" && <Video className="w-5 h-5" />}
-            {learningPreference === "audio" && <Headphones className="w-5 h-5" />}
-            {learningPreference === "storytelling" && <Book className="w-5 h-5" />}
-            {learningPreference === "interactive" && <Gamepad2 className="w-5 h-5" />}
-          </div>
+        <div className="space-y-4">
+          <CourseProgress
+            sections={courseData.sections}
+            currentSection={currentSection}
+            completedSections={completedSections}
+            onNextSection={handleNextSection}
+            isLastSection={currentSection === courseData.sections.length - 1}
+            onSectionClick={handleSectionClick}
+          />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="lg:col-span-3">{renderContent()}</div>
-        <div className="space-y-4">
-          <div className="bg-gray-900 p-4 rounded-md">
-            <h3 className="font-medium mb-2">Course Progress</h3>
-            <div className="space-y-2">
-              {courseData?.sections?.map((section, index) => (
-                <div
-                  key={index}
-                  className={`p-1 text-sm ${
-                    index === currentSection
-                      ? "text-md text-gray-300 border-red rounded-500"
-                      : index < currentSection
-                      ? "text-gray-100 border-red-500 rounded border"
-                      : "bg-gray-600"
-                  }`}
-                >
-                  {section.title}
-                </div>
-              )) || (
-                <div className="p-2 rounded bg-gray-200">
-                  No sections available
-                </div>
-              )}
-            </div>
-          </div>
-          <Button
-            onClick={handleCompleteSection}
-            className="w-full"
-            disabled={!courseData?.sections?.length}
-          >
-            {currentSection < (courseData?.sections?.length || 0) - 1
-              ? "Next Section"
-              : "Complete Course"}
-          </Button>
-        </div>
-      </div>
+      <CourseCompletion
+        courseTitle={courseData.title}
+        totalXp={totalCourseXp}
+        onBackToCourses={() => navigate("/account/leaderboard")}
+        onRestartCourse={handleRestartCourse}
+        isOpen={showCompletionScreen}
+        onClose={handleCloseCompletion}
+        onFeedbackSubmit={handleFeedbackSubmit}
+        feedback={feedback}
+        setFeedback={setFeedback}
+        rating={rating}
+        setRating={setRating}
+      />
 
       <Tabs defaultValue="overview" className="w-full mt-8">
         <TabsList className="w-full">

@@ -20,6 +20,10 @@ router.post('/:id/unenroll', verifyJwt, require('../controllers/courseController
 // Course progress routes
 router.post('/:id/sections/:sectionId/complete', verifyJwt, require('../controllers/courseController').completeSection);
 router.post('/:id/sections/:sectionId/quiz/submit', verifyJwt, require('../controllers/courseController').submitQuiz);
+router.post('/:id/complete', verifyJwt, require('../controllers/courseController').completeCourse);
+
+// Quiz routes
+router.put('/:id/sections/:sectionId/quiz', verifyJwt, require('../controllers/courseController').updateQuiz);
 
 // Course retrieval routes
 router.get('/', require('../controllers/courseController').getCourses);

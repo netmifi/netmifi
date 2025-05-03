@@ -45,7 +45,6 @@ const CustomFormSelect = ({
             <Select
               onValueChange={field.onChange}
               value={field.value || defaultValue || defaultOption}
-
             >
               <SelectTrigger className="py-5 text-gray-500 bg-transparent border-none p-0 h-auto focus:ring-0 focus:ring-offset-0">
                 <SelectValue placeholder={placeholder} />
@@ -53,9 +52,9 @@ const CustomFormSelect = ({
 
               <SelectContent>
                 {options.map((option, index) => (
-                  <SelectItem key={index} value={option}>
+                  <SelectItem key={index} value={typeof option === 'object' ? option.value : option}>
                     <span className="flex items-center capitalize">
-                      {option}
+                      {typeof option === 'object' ? option.label : option}
                     </span>
                   </SelectItem>
                 ))}
