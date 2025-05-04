@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@/app/theme-provider";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Courses from "./pages/Courses";
@@ -46,18 +46,9 @@ import { PageProgressStart } from "./layouts/RouterProgress";
 import LayoutWithProgress from "./layouts/LayoutWithProgress";
 import SearchResults from "./pages/SearchResults";
 import ClipPlayer from "./components/courses/ClipsPlayer";
-import { CourseProcessor } from "./services/courseProcessor";
-import { useLayoutEffect } from "react";
+import CourseProcessorPage from "./pages/CourseProcessorPage";
 
 const App = () => {
-  //   const location = useLocation();
-
-  //   useLayoutEffect(() => {
-  //     // Scroll to the top of the page when the route changes
-  //     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  //   }, [location.pathname]);
-  // };
-  
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <Router>
@@ -99,8 +90,7 @@ const App = () => {
                   <Route path="my-courses" element={<MyCourses />} />
                   <Route path="my-courses/:slug" element={<LearnPlay />} />
                   <Route path="learn/:slug" element={<LearnPlay />} />
-                  <Route path="process/:slug" element={<CourseProcessor />} />
-                  {/* You can keep course clips separate */}
+                  <Route path="process/:slug" element={<CourseProcessorPage />} />
                   <Route path="clips/:slug" element={<ClipPlayer />} />
                 </Route>
                 <Route path="clips" element={<ClipPlayer />} />
@@ -174,8 +164,8 @@ const App = () => {
               </Route>
             </Route>
           </Routes>
-          </ResetScroll>
-          <Toaster richColors duration={1500} closeButton={true} expand />
+        </ResetScroll>
+        <Toaster richColors duration={1500} closeButton={true} expand />
       </Router>
     </ThemeProvider>
   );
