@@ -15,10 +15,11 @@ const Instructors = () => {
       {rootCourses.some((route) => pathname === route) ? (
         <main>
           <Jumbotron
-            className="bg-accent-foreground text-secondary"
+            className="bg-sidebar"
             image={InstructorsSvg}
             title={"Instructors"}
             body="Meet your experienced and elite instructors; always willing to tutor and mentor you through your chosen course path."
+       bodyClassName={'opacity-70'}
           />
           <section className="padding-x padding-y flex flex-col gap-16">
             <InstructorCarousel

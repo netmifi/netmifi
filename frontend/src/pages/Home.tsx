@@ -107,10 +107,10 @@ const Home = () => {
       <main className="md:gap-3 max-w-full gap-2 px-2 md:px-4 flex flex-col">
         {isAuth && (
           <section className="md:padding-x py-2 md: flex items-center gap-3">
-            <div className="flex gap-2 items-end">
-              <h3 className="text-lg md:text-xl font-bold">{greeting}</h3>
-              <h4 className="text-base md:text-lg">
-                {user?.firstName}, {user?.lastName}
+            <div className="flex gap-2 items-center">
+              <h3 className="text-lg md:text-xl font-montserrat">{greeting}, </h3>
+              <h4 className="text-base md:text-lg font-semibold">
+                {user?.firstName} {user?.lastName}
               </h4>
             </div>
           </section>
@@ -145,7 +145,7 @@ const Home = () => {
             <div className="grid md:flex md:flex-wrap grid-cols-2 md:justify-around gap-2">
               {instructors.slice(0, 4).map((instructor) => (
                 <InstructorCard
-                  className="md:min-h-40 col-span- full"
+                  className="md:min-h-40 col-span-full"
                   key={instructor.id}
                   instructor={instructor}
                 />
@@ -155,10 +155,10 @@ const Home = () => {
               <NavLink to="/instructors">See more</NavLink>
             </Button>
           </div>
-
+{/* 
           {isAuth && (
             <CourseCarousel title="top picks for you" data={nicheCourses} />
-          )}
+          )} */}
 
           {isAuth && (
             <div className="flex flex-col gap-7">

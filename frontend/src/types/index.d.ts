@@ -259,7 +259,7 @@ declare interface LayoutPageProps {
 declare interface SelfPageLayoutProps {
   className: string | undefined;
   title: string;
-  data: (Blog & Course)[];
+  data: Course[];
   type: "blog" | "course";
 }
 

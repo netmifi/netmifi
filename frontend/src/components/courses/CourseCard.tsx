@@ -1,7 +1,14 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "../ui/button";
 import PostAvatar from "../PostAvatar";
-import { PlusCircle, Video, Headphones, BookOpen, Gamepad2, PlayCircle } from "lucide-react";
+import {
+  PlusCircle,
+  Video,
+  Headphones,
+  BookOpen,
+  Gamepad2,
+  PlayCircle,
+} from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useApp } from "@/app/app-provider";
@@ -11,13 +18,12 @@ import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import Loader from "../Loader";
 import { useAddToCart } from "@/api/hooks/cart/useAddToCart";
 import { Badge } from "../ui/badge";
-import { Course, LearningPattern } from "@/types";
 
 interface CoursesCardProps {
   className?: string;
   course: Course;
-  page?: 'user' | 'dashboard';
-  viewMode?: 'card' | 'list';
+  page?: "user" | "dashboard";
+  viewMode?: "card" | "list";
   learningPatterns?: LearningPattern[];
 }
 
@@ -26,7 +32,7 @@ const LearningPatternIcon = ({ type }: { type: LearningPattern }) => {
     video: <Video className="w-4 h-4" />,
     audio: <Headphones className="w-4 h-4" />,
     written: <BookOpen className="w-4 h-4" />,
-    gamification: <Gamepad2 className="w-4 h-4" />
+    gamification: <Gamepad2 className="w-4 h-4" />,
   };
   return icons[type];
 };
@@ -55,7 +61,7 @@ const CourseCard = ({
   };
 
   const handleStartLearning = () => {
-    if (course.type === 'free') {
+    if (course.type === "free") {
       navigate(`/courses/learn/${course.slug}`);
     } else {
       navigate(`/courses/course/${course.slug}`);
@@ -68,7 +74,11 @@ const CourseCard = ({
         <div className="flex items-center gap-4">
           <PostAvatar
             profileName={course.instructorName}
-            Title={course.title.length > 40 ? course.title.slice(0, 60) + "..." : course.title}
+            Title={
+              course.title.length > 40
+                ? course.title.slice(0, 60) + "..."
+                : course.title
+            }
             profileImage={course.instructorProfileImage}
             profileURL={course.instructorProfileURL}
             description={course.date}
@@ -76,7 +86,11 @@ const CourseCard = ({
           />
           <div className="flex gap-2">
             {learningPatterns.map((pattern) => (
-              <Badge key={pattern} variant="secondary" className="flex items-center gap-1">
+              <Badge
+                key={pattern}
+                variant="secondary"
+                className="flex items-center gap-1"
+              >
                 <LearningPatternIcon type={pattern} />
                 {pattern}
               </Badge>
@@ -86,7 +100,7 @@ const CourseCard = ({
         <div className="flex items-center gap-2">
           {page !== "dashboard" && (
             <>
-              {course.type !== 'free' && (
+              {course.type !== "paid" && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -126,14 +140,23 @@ const CourseCard = ({
   return (
     <Card
       key={course.id}
-      className={cn("flex flex-col w-full max-w-[400px] min-w-[280px] gap-3", className)}
+      className={cn(
+        "flex flex-col w-full max-w-[400px] min-w-[280px] gap-3",
+        className
+      )}
     >
       <div className="p-0 relative mb-auto">
         <div className="overflow-hidden aspect-video">
-          <NavLink to={course.type === 'free' ? `/courses/learn/${course.slug}/` : `/courses/course/${course.slug}/`}>
+          <NavLink
+            to={
+              course.type === "free"
+                ? `/courses/learn/${course.slug}/`
+                : `/courses/course/${course.slug}/`
+            }
+          >
             <img
               src={course.thumbnail}
-              className="w-full h-full object-cover hover:s cale-105 transition-transform duration-300"
+              className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
               alt={course.title}
             />
           </NavLink>
@@ -144,7 +167,11 @@ const CourseCard = ({
           <div className="flex items-start gap-2 flex-1 min-w-0">
             <PostAvatar
               profileName={course.instructorName}
-              Title={course.title.length > 40 ? course.title.slice(0, 60) + "..." : course.title}
+              Title={
+                course.title.length > 40
+                  ? course.title.slice(0, 60) + "..."
+                  : course.title
+              }
               profileImage={course.instructorProfileImage}
               profileURL={course.instructorProfileURL}
               description={course.date}
@@ -154,7 +181,7 @@ const CourseCard = ({
 
           {page !== "dashboard" && (
             <div className="flex items-center gap-2 ml-2">
-              {course.type !== 'free' && (
+              {/* {course.type !== "free" && ( */}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -165,13 +192,13 @@ const CourseCard = ({
                       {mutation.isPending ? (
                         <Loader type="loader" />
                       ) : (
-                        <PlusCircle className="fill-red text-primary-foreground drop-shadow-md" />
+                        <PlusCircle className="fill-sidebar-primary-foreground/80 text-primary-foreground drop-shadow-md" />
                       )}
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>Add to cart</TooltipContent>
                 </Tooltip>
-              )}
+              {/* )} */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -189,7 +216,11 @@ const CourseCard = ({
         </div>
         <div className="flex gap-2 flex-wrap">
           {learningPatterns.map((pattern) => (
-            <Badge key={pattern} variant="secondary" className="flex items-center gap-1">
+            <Badge
+              key={pattern}
+              variant="secondary"
+              className="flex items-center gap-1"
+            >
               <LearningPatternIcon type={pattern} />
               {pattern}
             </Badge>

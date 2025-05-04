@@ -8,10 +8,10 @@ const RecentCourses = ({ className, page }: LayoutPageProps) => {
   return (
     page === "self"
       ? (
-        <SelfPageLayout className={className} data={recentCourses} title="recent courses" type="course" />
+        <SelfPageLayout className={className} data={recentCourses} title="Recent courses" type="course" />
       )
       : (
-        <CourseCarousel title="recent courses" link="/courses/recent" data={recentCourses} />
+        <CourseCarousel title="Recent courses" link="/courses/recent" data={recentCourses} />
       )
   )
 }
