@@ -181,7 +181,7 @@ const CourseCard = ({
 
           {page !== "dashboard" && (
             <div className="flex items-center gap-2 ml-2">
-              {/* {course.type !== "free" && ( */}
+              {course.type !== "free" && (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -198,7 +198,7 @@ const CourseCard = ({
                   </TooltipTrigger>
                   <TooltipContent>Add to cart</TooltipContent>
                 </Tooltip>
-              {/* )} */}
+               )}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button

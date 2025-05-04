@@ -53,8 +53,8 @@ const CourseCarousel = ({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute z-10 shadow-2xl bg-secondary/50 hover:bg-secondary/80 backdrop-blur-[1.1px] size-[3em] [&_svg]:size-6 h-full rounded-none left-0" />
-        <CarouselNext className="absolute z-10 shadow-2xl bg-secondary/50 hover:bg-secondary/80 backdrop-blur-[1.1px] size-[3em] [&_svg]:size-6 h-full rounded-none right-0" />
+        <CarouselPrevious className="absolute z-10 border-none shadow-2xl bg-secondary/50 hover:bg-secondary/80 backdrop-blur-[1.1px] size-[3em] [&_svg]:size-6 sm:h-full rounded-none left-0" />
+        <CarouselNext className="absolute z-10 border-none shadow-2xl bg-secondary/50 hover:bg-secondary/80 backdrop-blur-[1.1px] size-[3em] [&_svg]:size-6 sm:h-full rounded-none right-0" />
       </Carousel>
       {/* </div> */}
     </div>
