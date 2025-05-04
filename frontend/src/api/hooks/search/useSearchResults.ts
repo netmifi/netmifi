@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { searchQuery } from "../../search"
+import { useApp } from "@/app/app-provider"
+import { useEffect } from "react";
 
 export const useSearchResults = (params: SearchParams) => {
   const { data, isLoading, error, refetch, isFetching } = useQuery({
@@ -8,8 +10,15 @@ export const useSearchResults = (params: SearchParams) => {
     enabled: params.q.length > 1,
     staleTime: 60000, // 1 minute
     // keepPreviousData: true, // Keep previous results while loading new ones
-  })
-console.log("DATA", data)
+  });
+
+  // const { setUser } = useApp();
+
+  // useEffect(() => {
+  //   const user = data?.data?.user || [];
+  //   if (user) setUser(user);
+  // }, [data, setUser]);
+
   return {
     results: data?.data?.results || [],
     totalPages: data?.data?.totalPages || 0,

@@ -75,7 +75,7 @@ const NavbarPopover = ({
                     <div key={index} className="flex">
                       <Button
                         variant={"ghost"}
-                        className="flex-grow hover:bg-secondary text-xs text-left justify-between rounded-none max-w-[90%] overflow-hidden flex-shrink-0"
+                        className="flex-grow bg-secondary/60 hover:bg-secondary text-xs text-left justify-between rounded-none max-w-[90%] overflow-hidden flex-shrink-0"
                       >
                         {item?.title?.length > 25
                           ? item.title.slice(0, 25) + "..."

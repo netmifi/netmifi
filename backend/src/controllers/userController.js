@@ -222,7 +222,7 @@ const changeTheme = async (req, res) => {
     try {
         const { theme } = req.body;
         const foundUser = await User.findById(req.user.id);
-
+        console.log(theme);
         if (!foundUser) {
             res.status(404).json({
                 message: 'account not found please signin',
@@ -300,11 +300,18 @@ const updatePassword = async (req, res) => {
 const updateTheme = async (req, res) => {
     try {
         const { theme } = req.body;
-        const user = await User.findByIdAndUpdate(
-            req.user.id,
-            { theme },
-            { new: true }
-        ).select('-password');
+        // alert(theme)
+        console.log(theme)
+        res.status(400).json({
+            message: 'user creation successful',
+            state: queryState.error,
+            // data: safeUserData,
+        });
+        // const user = await User.findByIdAndUpdate(
+        //     req.user.id,
+        //     { theme },
+        //     { new: true }
+        // ).select('-password');
         res.json(user);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -376,7 +383,7 @@ const promoteUser = async (req, res) => {
         // Update level and rank based on XP
         const newLevel = Math.min(user.level + 1, 100);
         const newRank = calculateRank(newLevel);
-        
+
         user.level = newLevel;
         user.rank = newRank;
         await user.save();
@@ -401,7 +408,7 @@ const demoteUser = async (req, res) => {
         // Update level and rank based on XP
         const newLevel = Math.max(user.level - 1, 1);
         const newRank = calculateRank(newLevel);
-        
+
         user.level = newLevel;
         user.rank = newRank;
         await user.save();
@@ -449,7 +456,7 @@ const getAchievements = async (req, res) => {
     try {
         const user = await User.findById(req.user.id)
             .populate('enrolledCourses.courseId', 'title thumbnail');
-        
+
         const achievements = calculateAchievements(user);
         res.json(achievements);
     } catch (error) {
@@ -549,7 +556,7 @@ const updateUserXP = async (req, res) => {
     try {
         const { xp, courseId } = req.body;
         const user = await User.findById(req.user.id);
-        
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -602,9 +609,9 @@ const updateUserXP = async (req, res) => {
 // see user XP
 const viewUserXP = async (req, res) => {
     try {
-        const {userId } = req.body;
+        const { userId } = req.body;
         const user = await User.findById(userId);
-        
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }

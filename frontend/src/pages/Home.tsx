@@ -27,7 +27,7 @@ import { NavLink } from "react-router-dom";
 // import UserActivityPanel from "@/components/UserActivityPanel";
 import ClipsCarousel from "@/components/courses/ClipsCarousel";
 import { getCoursesByUserNiches, getQuickAndEasyCourses } from "@/lib/utils";
-import { AdCarousel } from "@/components/ui/AdCarousel";
+import { AdCarousel } from "@/components/AdCarousel";
 // import CountUp from "react-countup";
 
 const Home = () => {
@@ -79,23 +79,27 @@ const Home = () => {
     {
       image: NetmifiMascot,
       title: "Learn at Your Own Pace",
-      subtitle: "Access high-quality courses anytime, anywhere. Start your learning journey today!",
+      subtitle:
+        "Access high-quality courses anytime, anywhere. Start your learning journey today!",
     },
     {
       image: NetmifiMascot,
       title: "Interactive Learning Experience",
-      subtitle: "Engage with dynamic content, quizzes, and hands-on projects to master new skills.",
+      subtitle:
+        "Engage with dynamic content, quizzes, and hands-on projects to master new skills.",
     },
     {
       image: NetmifiMascot,
       title: "Track Your Progress",
-      subtitle: "Monitor your learning journey with detailed progress tracking and achievements.",
+      subtitle:
+        "Monitor your learning journey with detailed progress tracking and achievements.",
     },
     {
       image: NetmifiMascot,
       title: "Join Our Learning Community",
-      subtitle: "Connect with fellow learners, share insights, and grow together.",
-    }
+      subtitle:
+        "Connect with fellow learners, share insights, and grow together.",
+    },
   ];
 
   return (
@@ -103,10 +107,10 @@ const Home = () => {
       <main className="md:gap-3 max-w-full gap-2 px-2 md:px-4 flex flex-col">
         {isAuth && (
           <section className="md:padding-x py-2 md: flex items-center gap-3">
-            <div className="flex gap-2 items-end">
-              <h3 className="text-lg md:text-xl font-bold">{greeting}</h3>
-              <h4 className="text-base md:text-lg">
-                {user?.firstName}, {user?.lastName}
+            <div className="flex gap-2 items-center">
+              <h3 className="text-lg md:text-xl font-montserrat">{greeting}, </h3>
+              <h4 className="text-base md:text-lg font-semibold">
+                {user?.firstName} {user?.lastName}
               </h4>
             </div>
           </section>
@@ -121,11 +125,11 @@ const Home = () => {
           ref={exploreSectionRef}
         >
           <TopCourses page="child" />
-          
+
           {/* TODO uncomment this line when clips feature is ready */}
-          {/* <div>
+          <div>
             <ClipsCarousel data={clips} />
-          </div> */}
+          </div>
 
           <RecentCourses page="child" />
 
@@ -141,7 +145,7 @@ const Home = () => {
             <div className="grid md:flex md:flex-wrap grid-cols-2 md:justify-around gap-2">
               {instructors.slice(0, 4).map((instructor) => (
                 <InstructorCard
-                  className="md:min-h-40 col-span- full"
+                  className="md:min-h-40 col-span-full"
                   key={instructor.id}
                   instructor={instructor}
                 />
@@ -151,10 +155,10 @@ const Home = () => {
               <NavLink to="/instructors">See more</NavLink>
             </Button>
           </div>
-
+{/* 
           {isAuth && (
             <CourseCarousel title="top picks for you" data={nicheCourses} />
-          )}
+          )} */}
 
           {isAuth && (
             <div className="flex flex-col gap-7">

@@ -4,6 +4,9 @@ const User = require("../models/User");
 const Course = require("../models/Course");
 const Instructor = require("../models/Instructor");
 const ACCESS_LEVELS = require("../constants/accessLevels");
+const { default: mongoose } = require("mongoose");
+const { authCookieService } = require("../services/cookieService");
+const { parseSafeUserData } = require("../utils");
 
 const INSTRUCTOR_ROLE = ACCESS_LEVELS.Instructor;
 
@@ -613,22 +616,22 @@ async function searchInstructors(query, skip, limit) {
 
 const handleQuery = async (req, res) => {
   try {
-    const { q, type, page = 1, limit = 10 } = req.query
-
+    const { q, type, page = 1, limit = 10 } = req.query;
+    const user = req.user ? await User.findById(req.user.id || req.user._id) : null;
     if (!q) {
       return res.status(400).json({ message: "Search query is required" })
     }
 
     console.log(`Performing search for "${q}" with type=${type || "all"}, page=${page}, limit=${limit}`)
 
-    // if (!q || q.length < 2) {
-    //   res.status(400).json({
-    //     message: "Search query must not be less than two characters",
-    //     state: queryState.error,
-    //     data: undefined,
-    //   });
-    //   return
-    // }
+    if (!q || q.length < 2) {
+      res.status(400).json({
+        message: "Search query must not be less than two characters",
+        state: queryState.error,
+        data: undefined,
+      });
+      return
+    }
 
     // Calculate skip values for pagination
     const skip = (Number.parseInt(page) - 1) * Number.parseInt(limit)
@@ -678,12 +681,24 @@ const handleQuery = async (req, res) => {
       results = results.slice(skip, skip + Number.parseInt(limit))
       count = courseResults.count + instructorResults.count
     }
+    let safeUser = null;
+    if (count > 0 && user) {
+      if (!user?.searchHistory.find((history) => history.query == q)) {
+        user.searchHistory = [...user.searchHistory, { query: q }]
+        const result = await user.save();
+        authCookieService(res, result);
+        safeUser = parseSafeUserData(result);
+
+        console.log('THIS GUY IS A USER', safeUser);
+      }
+    }
 
     const response = {
       results,
       totalPages: Math.ceil(count / Number.parseInt(limit)),
       currentPage: Number.parseInt(page),
       totalResults: count,
+      user: safeUser
     }
 
     console.log(`Returning ${results.length} results (${count} total) for "${q}"`)
@@ -753,8 +768,13 @@ const loadMoreResults = async (req, res) => {
   }
 };
 
+const handleDeleteHistory = async (req, res) => {
+
+}
+
 module.exports = {
   handleSearchSuggestion,
   handleQuery,
-  loadMoreResults
+  loadMoreResults,
+  handleDeleteHistory
 }

@@ -229,6 +229,11 @@ const CourseCard = ({
                   ? course.title.slice(0, 60) + "..."
                   : course.title
               }
+              Title={
+                course.title.length > 40
+                  ? course.title.slice(0, 60) + "..."
+                  : course.title
+              }
               profileImage={course.instructorProfileImage}
               profileURL={course.instructorProfileURL}
               // description={course.date}

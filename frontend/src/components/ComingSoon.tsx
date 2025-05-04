@@ -1,8 +1,4 @@
-"use client";
-
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 
@@ -31,7 +27,7 @@ export default function ComingSoon() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="text-white text-3xl md:text-4xl font-bold"
-          >Coming Soon</motion.p>
+          >Coming Soon...</motion.p>
 
           {/* <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
             <Input

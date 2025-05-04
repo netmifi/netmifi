@@ -32,8 +32,8 @@ const InstructorCarousel = ({ title, link, data }: InstructorCarouselProps) => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className=" left-0" />
-          <CarouselNext className="right-0" />
+          <CarouselPrevious className="size-10 [&_svg]:size-6 left-0" />
+          <CarouselNext className="size-10 [&_svg]:size-6 right-0" />
         </Carousel>
       </div>
       {link && (

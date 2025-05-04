@@ -1,5 +1,6 @@
 import CustomTable from "@/components/CustomTable";
-import ViewStudent from "@/components/instructor_dashboard/ViewStudent";
+import ViewStudent from "@/components/dashboard/ViewStudent";
+import React from "react";
 
 const students = [
   {
@@ -8,7 +9,6 @@ const students = [
     amount: 89200,
     email: "ugochukwu956@example.com",
     course: "product design for pros",
-    certifiedOn: new Date(),
     date: new Date(),
   },
   {
@@ -17,7 +17,6 @@ const students = [
     amount: 89200,
     email: "ugochukwu956@example.com",
     course: "product design for pros",
-    certifiedOn: new Date(),
     date: new Date(),
   },
   {
@@ -26,7 +25,6 @@ const students = [
     amount: 89200,
     email: "ugochukwu956@example.com",
     course: "product design for pros",
-    certifiedOn: new Date(),
     date: new Date(),
   },
   {
@@ -35,7 +33,6 @@ const students = [
     amount: 89200,
     email: "ugochukwu956@example.com",
     course: "product design for pros",
-    certifiedOn: new Date(),
     date: new Date(),
   },
   {
@@ -44,16 +41,16 @@ const students = [
     amount: 89200,
     email: "ugochukwu956@example.com",
     course: "product design for pros",
-    certifiedOn: new Date(),
     date: new Date(),
   },
 ];
-const CertifiedStudents = () => {
+
+const Students = () => {
   return (
     <main>
       <CustomTable
         data={[...students]}
-        keys={["name", "course", "email", "certifiedOn", "date"]}
+        keys={["name", "course", "email", "date"]}
         pageSize={50}
         promptLabel={"name"}
         isDialog={true}
@@ -80,4 +77,4 @@ const CertifiedStudents = () => {
   );
 };
 
-export default CertifiedStudents;
+export default Students;

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import Robotron from "../Robotron";
+import Robotron from "./Robotron";
 
 interface Ad {
   image: string;

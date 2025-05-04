@@ -11,11 +11,11 @@ router.post('/sign-in', handleSignIn); // sign in/login route
 router.post('/google', handleGoogleAuth); // google signin route
 router.post('/verify-code', handleVerifyCode);// verify code route
 router.post('/resend-code', handleResendCode); // resend code route
-router.put('/interests-adsource', verifyJwt, handleInterestsAndAdSource); // update users with interests and advert sources from welcome page
+router.put('/interests-adsource', verifyJwt('strict'), handleInterestsAndAdSource); // update users with interests and advert sources from welcome page
 router.delete('/logout', handleLogout); // logout
 router.post('/mail-code', handleMailGenCode); // generate code for forgotten password
 router.put('/change-password', handleChangePassword); // change password from forgotten password
-router.post('/register-instructor', verifyJwt, handleInstructorRegister); // sign up instructor
+router.post('/register-instructor', verifyJwt('strict'), handleInstructorRegister); // sign up instructor
 
 router.get('/test-mail', async (req, res) => {
     // sendEmail('okenwavictor003@gmail.com', 'Hi we are just testing a mail', "This is just the body");

@@ -28,6 +28,7 @@ import { useUpdatePassword } from "@/api/hooks/user/useNewPassword";
 import { themeFormSchema } from "../../lib/utils";
 import { useChangeTheme } from "@/api/hooks/user/useChangeTheme";
 import CustomRadioGroup from "@/components/form/CustomRadioGroup";
+import ComingSoon from "@/components/ComingSoon";
 
 const ProfileSection = () => {
   const { user } = useApp();
@@ -40,7 +41,7 @@ const ProfileSection = () => {
       flag: "🇳🇬",
     }
   );
-  const [, setDialCode] = useState(country?.dialCode || '');
+  const [, setDialCode] = useState(country?.dialCode || "");
   const formSchema = updateProfileSchema();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,7 +49,7 @@ const ProfileSection = () => {
       profile: null,
       cover: null,
       country: user.country,
-      phone: user.phone? parsePhoneNumber(user.phone).nationalNumber : '',
+      phone: user.phone ? parsePhoneNumber(user.phone).nationalNumber : "",
       residentialAddress: user.residentialAddress,
       ...user.handles,
       about: user.about,
@@ -61,6 +62,7 @@ const ProfileSection = () => {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const cleanedValues = Object.fromEntries(
+        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
         Object.entries(values).filter(([_, v]) => v != null && v != "") // Filters out null and undefined
       );
 
@@ -88,7 +90,7 @@ const ProfileSection = () => {
   return (
     <section>
       <img
-        src={`http://localhost:3000/uploads/profile/${user.profile}`}
+        // src={`http://localhost:3000/uploads/profile/${user.profile}`}
         alt="no image"
       />
       <Form {...form}>
@@ -391,7 +393,7 @@ const Settings = () => {
           </TabsContent>
 
           <TabsContent value="payment">
-            Payment setup not supported yet
+            <ComingSoon />
           </TabsContent>
           <TabsContent value="password">
             <PasswordChangeSection />
@@ -423,7 +425,9 @@ const Settings = () => {
                 <CreditCard /> Payment
               </div>
             </AccordionTrigger>
-            <AccordionContent className="p-5 flex flex-col gap-3"></AccordionContent>
+            <AccordionContent className="p-5 flex flex-col gap-3">
+              <ComingSoon />
+            </AccordionContent>
           </AccordionItem>
         </Accordion>
 

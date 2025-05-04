@@ -1,5 +1,5 @@
 import { AffiliateMarketingSvg } from "@/assets/svg";
-import { ArrowLeftSquareIcon, BookOpenText, Trophy, BookUserIcon, CreditCardIcon, HomeIcon, InfoIcon, LayoutDashboard, PhoneIcon, Settings, SheetIcon, UsersIcon, UsersRoundIcon, Wallet2, Clapperboard, BarChart2, Calendar, MessageSquare } from "lucide-react";
+import { ArrowLeftSquareIcon, BookOpenText, Trophy, BookUserIcon, HomeIcon, LayoutDashboard, PhoneIcon, Settings, UsersIcon, UsersRoundIcon, Clapperboard, BarChart2, Calendar, MessageSquare } from "lucide-react";
 
 export const customButtonDefinitions = {
   // button variant custom definitions
@@ -70,7 +70,7 @@ export const navLinks: NavLinks[] = [
     onlyUser: false,
     onlyGuest: false,
     onlySmallScreen: false,
-  },{
+  }, {
     href: "/account/leader-board",
     label: "Leader Board",
     icon: Trophy,
@@ -171,22 +171,22 @@ export const instructorDashboardLinks = [
 ];
 
 export const categories = [
-    { label: "Web Development", value: "web-development" },
-    { label: "Mobile Development", value: "mobile-development" },
-    { label: "Data Science", value: "data-science" },
-    { label: "Machine Learning", value: "machine-learning" },
-    { label: "Artificial Intelligence", value: "artificial-intelligence" },
-    { label: "Cloud Computing", value: "cloud-computing" },
-    { label: "DevOps", value: "devops" },
-    { label: "Cybersecurity", value: "cybersecurity" },
-    { label: "UI/UX Design", value: "ui-ux-design" },
-    { label: "Digital Marketing", value: "digital-marketing" },
-    { label: "Business", value: "business" },
-    { label: "Finance", value: "finance" },
-    { label: "Language", value: "language" },
-    { label: "Music", value: "music" },
-    { label: "Photography", value: "photography" },
-    { label: "Other", value: "other" }
+  { label: "Web Development", value: "web-development" },
+  { label: "Mobile Development", value: "mobile-development" },
+  { label: "Data Science", value: "data-science" },
+  { label: "Machine Learning", value: "machine-learning" },
+  { label: "Artificial Intelligence", value: "artificial-intelligence" },
+  { label: "Cloud Computing", value: "cloud-computing" },
+  { label: "DevOps", value: "devops" },
+  { label: "Cybersecurity", value: "cybersecurity" },
+  { label: "UI/UX Design", value: "ui-ux-design" },
+  { label: "Digital Marketing", value: "digital-marketing" },
+  { label: "Business", value: "business" },
+  { label: "Finance", value: "finance" },
+  { label: "Language", value: "language" },
+  { label: "Music", value: "music" },
+  { label: "Photography", value: "photography" },
+  { label: "Other", value: "other" }
 ];
 
 export const timeZones = [
@@ -218,34 +218,34 @@ export const timeZones = [
 ];
 
 export const languages = [
-    { label: "English", value: "english" },
-    { label: "Spanish", value: "spanish" },
-    { label: "French", value: "french" },
-    { label: "German", value: "german" },
-    { label: "Chinese", value: "chinese" },
-    { label: "Japanese", value: "japanese" },
-    { label: "Korean", value: "korean" },
-    { label: "Arabic", value: "arabic" },
-    { label: "Hindi", value: "hindi" },
-    { label: "Portuguese", value: "portuguese" },
-    { label: "Russian", value: "russian" },
-    { label: "Italian", value: "italian" },
-    { label: "Dutch", value: "dutch" },
-    { label: "Other", value: "other" }
+  { label: "English", value: "english" },
+  { label: "Spanish", value: "spanish" },
+  { label: "French", value: "french" },
+  { label: "German", value: "german" },
+  { label: "Chinese", value: "chinese" },
+  { label: "Japanese", value: "japanese" },
+  { label: "Korean", value: "korean" },
+  { label: "Arabic", value: "arabic" },
+  { label: "Hindi", value: "hindi" },
+  { label: "Portuguese", value: "portuguese" },
+  { label: "Russian", value: "russian" },
+  { label: "Italian", value: "italian" },
+  { label: "Dutch", value: "dutch" },
+  { label: "Other", value: "other" }
 ];
 
 export const certifications = [
-    { label: "Google Certified Educator", value: "google-certified-educator" },
-    { label: "Microsoft Certified Trainer", value: "microsoft-certified-trainer" },
-    { label: "AWS Certified Instructor", value: "aws-certified-instructor" },
-    { label: "Adobe Certified Instructor", value: "adobe-certified-instructor" },
-    { label: "Cisco Certified Instructor", value: "cisco-certified-instructor" },
-    { label: "Other", value: "other" }
+  { label: "Google Certified Educator", value: "google-certified-educator" },
+  { label: "Microsoft Certified Trainer", value: "microsoft-certified-trainer" },
+  { label: "AWS Certified Instructor", value: "aws-certified-instructor" },
+  { label: "Adobe Certified Instructor", value: "adobe-certified-instructor" },
+  { label: "Cisco Certified Instructor", value: "cisco-certified-instructor" },
+  { label: "Other", value: "other" }
 ];
 
 export const radioGroupData = [
-    { label: "Yes", value: "yes" },
-    { label: "No", value: "no" }
+  { label: "Yes", value: "yes" },
+  { label: "No", value: "no" }
 ];
 
 // TODO: Add a map to check categories and show in 

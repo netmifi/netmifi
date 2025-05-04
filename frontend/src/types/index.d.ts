@@ -52,6 +52,12 @@ declare interface Comments {
   }[];
 }
 
+declare interface SearchHistory {
+  readonly id: string; // MongoDB ObjectId
+  query: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
 declare interface Course {
   readonly id: string; // MongoDB ObjectId
   slug: string;
@@ -254,7 +260,7 @@ declare interface LayoutPageProps {
 declare interface SelfPageLayoutProps {
   className: string | undefined;
   title: string;
-  data: (Blog & Course)[];
+  data: Course[];
   type: "blog" | "course";
 }
 
@@ -297,12 +303,12 @@ declare interface CustomMultiSelectProps
   extends Omit<CustomFormFieldProps, "isPasswordVisible"> {
   options: string[];
   variant?:
-    | "default"
-    | "secondary"
-    | "destructive"
-    | "inverted"
-    | null
-    | undefined;
+  | "default"
+  | "secondary"
+  | "destructive"
+  | "inverted"
+  | null
+  | undefined;
   maxCount?: number;
   animation?: number;
   modalPopover?: boolean;
@@ -506,8 +512,8 @@ declare interface ReviewCardProps {
   rating: number;
 }
 
-type RatingTranslation =
-  | "no rating" //0
+declare type RatingTranslation =
+  "no rating" //0
   | "very poor" // 0.5
   | "poor" // 1
   | "fair" // 1.5
@@ -590,16 +596,16 @@ declare interface CustomTableTooltipProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
 }
-export type LearningPreference =
-  | "storytelling"
+declare type LearningPreference =
+  "storytelling"
   | "audio"
   | "video"
   | "interactive";
 
-export type LearningPattern = "video" | "audio" | "written" | "gamification";
+declare type LearningPattern = "video" | "audio" | "written" | "gamification";
 
-export type InteractiveElementType =
-  | "drag-and-drop"
+declare type InteractiveElementType =
+  "drag-and-drop"
   | "flashcards"
   | "click-to-reveal"
   | "quiz";
@@ -676,4 +682,16 @@ declare interface DataDisplayToggleProps {
   className?: ClassValue;
   display: "grid" | "list";
   setDisplay: React.Dispatch<React.SetStateAction<"list" | "grid">>;
+}
+
+
+declare interface DashboardCardProps {
+  count: number;
+  label: string;
+  link: string;
+  icon: React.ReactNode;
+  isMoney?: boolean;
+  isWithdrawal?: boolean;
+  description?: string;
+  trend?: string;
 }

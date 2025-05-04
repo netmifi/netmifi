@@ -2,32 +2,96 @@ const express = require('express');
 const router = express.Router();
 const verifyJwt = require('../middlewares/verifyJwt');
 const verifyRoles = require('../middlewares/verifyRole');
-// const authMiddleware = require('../middlewares/authMiddleware');
+
+// Destructure all user controller methods
+const {
+    getProfile,
+    updateProfile,
+    updatePassword,
+    changeTheme,
+    getProgress,
+    getCourseProgress,
+    repeatCourse,
+    promoteUser,
+    demoteUser,
+    searchUsers,
+    getLeaderboard,
+    getAchievements,
+    updateUserXP
+} = require('../controllers/userController');
 
 // User profile routes
-router.get('/profile', verifyJwt, require('../controllers/userController').getProfile);
-router.put('/profile', verifyJwt, require('../controllers/userController').updateProfile);
-router.put('/password', verifyJwt, require('../controllers/userController').updatePassword);
-router.put('/theme', verifyJwt, require('../controllers/userController').updateTheme);
+router.get(
+    '/profile',
+    verifyJwt('strict'),
+    getProfile
+);
+router.put(
+    '/profile',
+    verifyJwt('strict'),
+    updateProfile
+);
+router.put(
+    '/update-password',
+    verifyJwt('strict'),
+    updatePassword
+);
+router.post(
+    '/change-theme',
+    verifyJwt('strict'),
+    changeTheme
+);
 
 // User progress routes
-router.get('/progress', verifyJwt, require('../controllers/userController').getProgress);
-router.get('/progress/:courseId', verifyJwt, require('../controllers/userController').getCourseProgress);
-router.post('/progress/:courseId/repeat', verifyJwt, require('../controllers/userController').repeatCourse);
+router.get(
+    '/progress',
+    verifyJwt('strict'),
+    getProgress
+);
+router.get(
+    '/progress/:courseId',
+    verifyJwt('strict'),
+    getCourseProgress
+);
+router.post(
+    '/progress/:courseId/repeat',
+    verifyJwt('strict'),
+    repeatCourse
+);
 
 // User level management routes
-router.post('/promote', verifyJwt, verifyRoles('admin'), require('../controllers/userController').promoteUser);
-router.post('/demote', verifyJwt, verifyRoles('admin'), require('../controllers/userController').demoteUser);
+router.post(
+    '/promote',
+    verifyJwt('strict'),
+    verifyRoles('admin'),
+    promoteUser
+);
+router.post(
+    '/demote',
+    verifyJwt('strict'),
+    verifyRoles('admin'),
+    demoteUser
+);
 
 // User search and discovery routes
-router.get('/search', require('../controllers/userController').searchUsers);
-router.get('/leaderboard', require('../controllers/userController').getLeaderboard);
-router.get('/achievements', verifyJwt, require('../controllers/userController').getAchievements);
-
-// Protected routes
-// router.use(authMiddleware);
+router.get(
+    '/search',
+    searchUsers
+);
+router.get(
+    '/leaderboard',
+    getLeaderboard
+);
+router.get(
+    '/achievements',
+    verifyJwt('strict'),
+    getAchievements
+);
 
 // Update user XP
-router.post('/xp', require('../controllers/userController').updateUserXP);
+router.post(
+    '/xp',
+    updateUserXP
+);
 
 module.exports = router;

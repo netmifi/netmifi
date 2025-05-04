@@ -1,5 +1,5 @@
 import CustomTable from "@/components/CustomTable";
-import ViewFollower from "@/components/instructor_dashboard/ViewFollower";
+import ViewFollower from "@/components/dashboard/ViewFollower";
 import React from "react";
 const followers = [
   {

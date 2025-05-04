@@ -31,14 +31,14 @@ import Profile from "./pages/account/Profile";
 import Settings from "./pages/account/Settings";
 import SignInstructor from "./pages/auth/welcome/SignInstructor";
 import TestPage from "./pages/TestPage";
-import InstructorDashboard from "./pages/instructor_dashboard/Dashboard";
+import InstructorDashboard from "./pages/dashboard/Dashboard";
 import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutletLayout";
-import MyEarnings from "./pages/instructor_dashboard/Analytics";
-import Students from "./pages/instructor_dashboard/Students";
-import CertifiedStudents from "./pages/instructor_dashboard/CertifiedStudents";
-import Followers from "./pages/instructor_dashboard/Followers";
-import DashboardCourses from "./pages/instructor_dashboard/Courses";
-import CreateCourse from "./pages/instructor_dashboard/Courses/CreateCourse";
+import Analytics from "./pages/dashboard/Analytics";
+import Students from "./pages/dashboard/Students";
+import CertifiedStudents from "./pages/dashboard/CertifiedStudents";
+import Followers from "./pages/dashboard/Followers";
+import DashboardCourses from "./pages/dashboard/Courses";
+import CreateCourse from "./pages/dashboard/CreateCourse";
 import ResetScroll from "./components/ResetScroll";
 import RequireAuth from "./components/RequireAuth";
 import AppLoading from "./components/AppLoading";
@@ -85,7 +85,10 @@ const App = () => {
                 {/* COURSES ROUTE */}
                 <Route path="courses" element={<Courses />}>
                   <Route path="top" element={<TopCourses page="self" />} />
-                  <Route path="recent" element={<RecentCourses page="self" />} />
+                  <Route
+                    path="recent"
+                    element={<RecentCourses page="self" />}
+                  />
                   <Route path="course/:slug" element={<CoursePreview />} />
                   <Route path="my-courses" element={<MyCourses />} />
                   <Route path="my-courses/:slug" element={<LearnPlay />} />
@@ -153,8 +156,10 @@ const App = () => {
                       <Route index element={<Students />} />
                       <Route path="certified" element={<CertifiedStudents />} />
                     </Route>
-                    <Route path="analytics" element={<MyEarnings />} />
-                    <Route path="followers" element={<Followers />} />
+                    <Route path="analytics" element={<Analytics />} />
+                    <Route path="followers" element={<ComingSoon />} />
+                    <Route path="schedule" element={<ComingSoon />} />
+                    <Route path="reviews" element={<ComingSoon />} />
                   </Route>
                 </Route>
 

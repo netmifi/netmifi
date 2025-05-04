@@ -9,7 +9,7 @@ import CourseCompletion from "@/components/courses/CourseCompletion";
 import CourseProgress from "@/components/courses/CourseProgress";
 import CourseHeader from "@/components/courses/CourseHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ComingSoon from "@/components/ui/ComingSoon";
+import ComingSoon from "@/components/ComingSoon";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -38,10 +38,8 @@ const LearnPlay = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [sectionXp, setSectionXp] = useState(0);
   const [courseData, setCourseData] = useState<Course | null>(null);
-  const [
-    learningPreference,
-    setLearningPreference,
-  ] = useState<LearningPreference | null>(null);
+  const [learningPreference, setLearningPreference] =
+    useState<LearningPreference | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [completedSections, setCompletedSections] = useState<number[]>([]);
   const [showCompletionScreen, setShowCompletionScreen] = useState(false);

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { tempClips } from "@/constants/temp";
 import ReelsPlayer from "./ReelsPlayer";
-import ComingSoon from "../ui/ComingSoon";
+import ComingSoon from "../ComingSoon";
 
 const ClipPlayer = () => {
   const { clipId } = useParams();
@@ -33,23 +33,21 @@ const ClipPlayer = () => {
   }, []);
 
   return (
-    <ComingSoon />
-    // <div
-    //   ref={containerRef}
-    //   className="flex flex-col items-center scrollbar-hide gap-3 w-full h-screen overflow-y-scroll snap-y snap-mandatory bg-black"
-    // >
-    //   {tempClips.map((clip, index) => (
-    //     <div
-    //       key={clip.id}
-    //       data-index={index}
-    //       className="snap-start w-full h-screen"
-    //     >
-          
-          
-    //       <ReelsPlayer clip={clip} isActive={index === activeIndex} />
-    //     </div>
-    //   ))}
-    // </div>
+    // <ComingSoon />
+    <div
+      ref={containerRef}
+      className="flex flex-col items-center scrollbar-hide gap-3 w-full h-screen overflow-y-scroll snap-y snap-mandatory bg-black"
+    >
+      {tempClips.map((clip, index) => (
+        <div
+          key={clip.id}
+          data-index={index}
+          className="snap-start w-full h-screen"
+        >
+          <ReelsPlayer clip={clip} isActive={index === activeIndex} />
+        </div>
+      ))}
+    </div>
   );
 };
 

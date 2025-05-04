@@ -1,9 +1,9 @@
 import { aboutHero } from "@/assets/images";
 import { testVid, testVid1, testVid2 } from "@/assets/videos";
 import CustomTable from "@/components/CustomTable";
-import EditCourse from "@/components/instructor_dashboard/EditCourse";
-import ViewCourse from "@/components/instructor_dashboard/ViewCourse";
-import ViewStudent from "@/components/instructor_dashboard/ViewStudent";
+import EditCourse from "@/components/dashboard/EditCourse";
+import ViewCourse from "@/components/dashboard/ViewCourse";
+import ViewStudent from "@/components/dashboard/ViewStudent";
 import React from "react";
 
 const courses = [
