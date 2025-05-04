@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/netmifi/netmifi#readme",
   "dependencies": {
+    "@radix-ui/react-collapsible": "^1.1.8",
     "uuid": "^11.1.0"
   }
 }

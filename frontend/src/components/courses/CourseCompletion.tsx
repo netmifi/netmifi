@@ -1,35 +1,31 @@
-import { Trophy } from "lucide-react";
+import { Star, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Star } from "lucide-react";
+import Rating from "react-rating";
 
 interface CourseCompletionProps {
   courseTitle: string;
   totalXp: number;
   onBackToCourses: () => void;
+  onSeeLearderBoard: () => void;
   onRestartCourse: () => void;
   isOpen: boolean;
   onClose: () => void;
   onFeedbackSubmit: () => void;
   feedback: string;
   setFeedback: (value: string) => void;
-  rating: string;
-  setRating: (value: string) => void;
+  rating: number;
+  setRating: (value: number) => void;
 }
 
 const CourseCompletion = ({
   courseTitle,
   totalXp,
   onBackToCourses,
+  onSeeLearderBoard,
   onRestartCourse,
   isOpen,
   onClose,
@@ -59,23 +55,29 @@ const CourseCompletion = ({
           </div>
 
           <div className="space-y-4 flex flex-col items-center justify-center text-sm">
-            <h3 className="text-sm font-semibold">How was your learning experience?</h3>
-            
+            <h3 className="text-sm font-semibold">
+              How was your learning experience?
+            </h3>
+
             <div className="space-y-">
-              <RadioGroup
-                value={rating}
-                onValueChange={setRating}
-                className="flex gap-"
-              >
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <div key={value} className="flex items-center">
-                    <RadioGroupItem value={value.toString()} id={`rating-${value}`} className="hidden" />
-                    <Label htmlFor={`rating-${value}`} className="flex items-center">
-                      <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
+              <div className="flex items-center">
+                <Rating
+                  start={0}
+                  stop={5}
+                  fractions={2}
+                  initialRating={parseFloat(rating)} // This sets the initial state from props
+                  onChange={(value) => setRating(value.toString())} // This updates state when user rates
+                  emptySymbol={
+                    <Star size={26} className="fill-none text-yellow-500" />
+                  }
+                  fullSymbol={
+                    <Star
+                      size={26}
+                      className="fill-yellow-500 text-yellow-500"
+                    />
+                  }
+                />
+              </div>
             </div>
 
             <div className="space-y-3 w-full">
@@ -90,11 +92,14 @@ const CourseCompletion = ({
           </div>
 
           <div className="flex justify- center gap-4">
-            <Button className={'bg-white text-black h-9 px-2'}  onClick={onFeedbackSubmit}>
+            <Button
+              className={"bg-white text-black h-9 px-2"}
+              onClick={onFeedbackSubmit}
+            >
               Submit Feedback & Continue
             </Button>
-            <Button variant="outline"  onClick={onRestartCourse}>
-              Restart Course
+            <Button variant="outline" onClick={onSeeLearderBoard}>
+              See LearderBoard
             </Button>
           </div>
         </div>
@@ -103,4 +108,4 @@ const CourseCompletion = ({
   );
 };
 
-export default CourseCompletion; 
+export default CourseCompletion;

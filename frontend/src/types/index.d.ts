@@ -76,6 +76,7 @@ declare interface Course {
   progress?: number;
   collection?: string[];
   isFavorite?: boolean;
+  views?: number;
   sections?: LearningSection[];
   learningObjectives?: string[];
   requirements?: string[];

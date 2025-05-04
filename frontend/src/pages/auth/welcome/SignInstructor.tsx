@@ -329,52 +329,52 @@ const SignInstructor = () => {
           {activeStep === 1 && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Personal Information</h2>
-              <CustomContactField
-                form={form}
-                name="phone"
-                control={form.control}
-                placeholder="Enter your phone number"
+          <CustomContactField
+            form={form}
+            name="phone"
+            control={form.control}
+            placeholder="Enter your phone number"
                 label="Phone Number"
-                setDialCode={setDialCode}
-                setCountry={setCountry}
-                isRequired
-              />
-              <CustomFormField
-                name="residentialAddress"
-                control={form.control}
+            setDialCode={setDialCode}
+            setCountry={setCountry}
+            isRequired
+          />
+          <CustomFormField
+            name="residentialAddress"
+            control={form.control}
                 placeholder="Enter your residential address"
                 label="Residential Address"
-                isRequired
-              />
+            isRequired
+          />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <CustomFormField
-                  name="facebook"
-                  control={form.control}
+              <CustomFormField
+                name="facebook"
+                control={form.control}
                   placeholder="https://facebook.com/your-handle"
                   label="Facebook"
-                  URLIcon={<FaFacebookF />}
-                />
-                <CustomFormField
-                  name="instagram"
-                  control={form.control}
+                URLIcon={<FaFacebookF />}
+              />
+              <CustomFormField
+                name="instagram"
+                control={form.control}
                   placeholder="https://instagram.com/your-handle"
                   label="Instagram"
-                  URLIcon={<FaInstagram />}
-                />
-                <CustomFormField
-                  name="tiktok"
-                  control={form.control}
+                URLIcon={<FaInstagram />}
+              />
+              <CustomFormField
+                name="tiktok"
+                control={form.control}
                   placeholder="https://tiktok.com/your-handle"
                   label="TikTok"
-                  URLIcon={<FaTiktok />}
-                />
-                <CustomFormField
-                  name="youtube"
-                  control={form.control}
+                URLIcon={<FaTiktok />}
+              />
+              <CustomFormField
+                name="youtube"
+                control={form.control}
                   placeholder="https://youtube.com/your-handle"
                   label="YouTube"
-                  URLIcon={<FaYoutube />}
-                />
+                URLIcon={<FaYoutube />}
+              />
               </div>
             </div>
           )}
@@ -383,21 +383,21 @@ const SignInstructor = () => {
           {activeStep === 2 && (
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Teaching Experience</h2>
-              <CustomFormSelect
-                name="niche"
-                control={form.control}
-                placeholder="Select your area of expertise"
-                options={categories}
+          <CustomFormSelect
+            name="niche"
+            control={form.control}
+            placeholder="Select your area of expertise"
+            options={categories}
                 label="Area of Expertise"
-                isRequired
-              />
-              <CustomRadioGroup
-                control={form.control}
+            isRequired
+          />
+            <CustomRadioGroup
+              control={form.control}
                 name="taughtBefore"
                 label="Have you taught online before?"
-                group={radioGroupData}
-                isRequired
-              />
+              group={radioGroupData}
+              isRequired
+            />
               {taughtBefore === 'yes' && (
                 <CustomFormField
                   name="teachingExperience"
@@ -422,14 +422,14 @@ const SignInstructor = () => {
                 label="Preferred Teaching Style"
                 isRequired
               />
-              <CustomRadioGroup
-                control={form.control}
+            <CustomRadioGroup
+              control={form.control}
                 name="mentoredPreviously"
                 label="Have you been a mentor before?"
-                group={radioGroupData}
-                isRequired
-              />
-            </div>
+              group={radioGroupData}
+              isRequired
+            />
+          </div>
           )}
 
           {/* Step 3: Availability */}
@@ -449,7 +449,7 @@ const SignInstructor = () => {
               />
               <CustomFormSelect
                 name="availability.timeZone"
-                control={form.control}
+                    control={form.control}
                 placeholder="Select your time zone"
                 options={timeZones}
                 label="Time Zone"
@@ -457,7 +457,7 @@ const SignInstructor = () => {
               />
               <CustomFormSelect
                 name="availability.preferredHours"
-                control={form.control}
+                    control={form.control}
                 placeholder="Select preferred hours"
                 options={[
                   { label: "Morning (6AM-12PM)", value: "morning" },
@@ -490,12 +490,12 @@ const SignInstructor = () => {
                 options={certifications}
                 label="Certifications"
               />
-              <CustomFormField
+            <CustomFormField
                 name="about"
-                control={form.control}
+              control={form.control}
                 placeholder="Tell us about yourself"
                 label="About You"
-                type="textarea"
+              type="textarea"
                 // isRequired
               />
               <CustomFormField

@@ -28,7 +28,7 @@ const CustomFormField = ({
   disabled = false,
   hidden = false,
   readOnly = false,
-  isRequired = false,
+  isOptional = false,
   isCurrency = false,
   URLIcon,
 }: CustomFormFieldProps) => {
@@ -63,7 +63,7 @@ const CustomFormField = ({
             {!isNotLabeled && (
               <FormLabel className="capitalize flex gap-1">
                 {label || splitCamelCaseToWords(name)}
-                {isRequired && <FaAsterisk className="text-red" />}
+                {isOptional && <FaAsterisk className="text-destructive" />}
               </FormLabel>
             )}
 

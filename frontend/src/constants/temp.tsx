@@ -6,6 +6,86 @@ import {
 } from "@/assets/svg";
 
 import { profile } from "@/assets/images";
+import { Blog, Clip, PurchasedCourse } from "@/types";
+import { ReactNode } from "react";
+
+// Type definitions
+interface Instructor {
+  id: string;
+  name: string;
+  area: string;
+  profile: string;
+  courses: number;
+  students: number;
+  certificates: number;
+  averageRating: number;
+  isFollowing: boolean;
+  isVerified: boolean;
+  date: string;
+}
+
+interface Section {
+  lectures: ReactNode;
+  duration: ReactNode;
+  id: string;
+  title: string;
+  learningObjectives: string[];
+  summary: {
+    textbook: string;
+    storytelling: string;
+    narrationScript: string;
+  };
+  videoTimestamp: {
+    start: number;
+    end: number;
+  };
+  videoUrl: string;
+  audioUrl: string;
+  interactiveElements: {
+    type: string;
+    content: {
+      question: string;
+      options?: string[];
+      correctAnswer?: string;
+      explanation: string;
+    };
+  }[];
+  quizQuestions: {
+    question: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+  }[];
+  xpReward: number;
+}
+
+interface Course {
+  instructorBio: string;
+  id: string;
+  slug: string;
+  type: string;
+  price: number;
+  oldPrice: number;
+  rating: number;
+  reviews: number;
+  category: string;
+  thumbnail: string;
+  title: string;
+  videoURL: string;
+  instructorId: string;
+  instructorName: string;
+  instructorProfileImage: string;
+  instructorProfileURL: string;
+  isVerified: boolean;
+  isFollowing: boolean;
+  date: string;
+  views: number;
+  description: string;
+  learningPatterns: string[];
+  learningObjectives: string[];
+  requirements: string[];
+  sections: Section[];
+}
 
 const tempInstructors: Instructor[] = [
   {
@@ -261,7 +341,9 @@ const tempCourses: Course[] = [
             explanation: "create-react-app is the official tool for creating new React projects with a pre-configured build setup."
           }
         ],
-        xpReward: 100
+        xpReward: 100,
+        lectures: undefined,
+        duration: undefined
       },
       {
         id: "section-2",
@@ -331,9 +413,550 @@ const tempCourses: Course[] = [
             explanation: "Props are read-only in React. If you need mutable state, use the useState hook or state in class components."
           }
         ],
-        xpReward: 150
+        xpReward: 150,
+        lectures: undefined,
+        duration: undefined
+      },
+      {
+        id: "section-3",
+        title: "State and Hooks",
+        learningObjectives: [
+          "Understand React state management",
+          "Learn about useState and useEffect hooks",
+          "Master custom hooks"
+        ],
+        summary: {
+          textbook: "State management is crucial in React applications. Hooks provide a way to use state and other React features in functional components. In this section, we'll explore the most commonly used hooks and how to create custom ones.",
+          storytelling: "Think of state as the memory of your application. Just like how you remember things, your app needs to remember data and update it when needed. Hooks are like special tools that help your components remember and manage this data.",
+          narrationScript: "Welcome to the world of hooks! These powerful tools will help you manage state and side effects in your React components. Let's dive in and learn how to use them effectively."
+        },
+        videoTimestamp: {
+          start: 2401,
+          end: 3600
+        },
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
+        audioUrl: "https://example.com/react-hooks-audio.mp3",
+        interactiveElements: [
+          {
+            type: "drag-and-drop",
+            content: {
+              question: "Match the hooks with their purposes",
+              options: [
+                "useState",
+                "useEffect",
+                "useContext",
+                "useReducer"
+              ],
+              correctAnswer: "useState:Manage state,useEffect:Handle side effects,useContext:Share data,useReducer:Complex state logic",
+              explanation: "Each hook serves a specific purpose in React applications."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What does the useState hook return?",
+            options: [
+              "A state value and a function to update it",
+              "Just the state value",
+              "Just the update function",
+              "A promise"
+            ],
+            correctAnswer: "A state value and a function to update it",
+            explanation: "useState returns an array with two elements: the current state value and a function to update it."
+          },
+          {
+            question: "When does useEffect run?",
+            options: [
+              "After every render",
+              "Only on the first render",
+              "Only when specified dependencies change",
+              "All of the above"
+            ],
+            correctAnswer: "All of the above",
+            explanation: "useEffect can run after every render, only on mount, or when specific dependencies change, depending on how it's configured."
+          }
+        ],
+        xpReward: 200,
+        lectures: undefined,
+        duration: undefined
+      },
+      {
+        id: "section-4",
+        title: "Advanced React Patterns",
+        learningObjectives: [
+          "Learn about higher-order components",
+          "Understand render props pattern",
+          "Master context API"
+        ],
+        summary: {
+          textbook: "Advanced React patterns help you write more maintainable and reusable code. In this section, we'll explore patterns like Higher-Order Components, Render Props, and the Context API.",
+          storytelling: "Think of these patterns as blueprints for building complex features. Just like how architects use different designs for different buildings, React developers use different patterns for different scenarios.",
+          narrationScript: "Ready to level up your React skills? In this section, we'll explore advanced patterns that will make your code more powerful and maintainable."
+        },
+        videoTimestamp: {
+          start: 3601,
+          end: 4800
+        },
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
+        audioUrl: "https://example.com/react-patterns-audio.mp3",
+        interactiveElements: [
+          {
+            type: "code-challenge",
+            content: {
+              question: "Implement a Higher-Order Component",
+              explanation: "Create a HOC that adds loading state to any component."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What is the main purpose of a Higher-Order Component?",
+            options: [
+              "To reuse component logic",
+              "To create new components",
+              "To handle events",
+              "To manage state"
+            ],
+            correctAnswer: "To reuse component logic",
+            explanation: "HOCs are functions that take a component and return a new component with additional functionality."
+          },
+          {
+            question: "What is the Context API used for?",
+            options: [
+              "Sharing data between components",
+              "Handling form submissions",
+              "Managing component state",
+              "Creating animations"
+            ],
+            correctAnswer: "Sharing data between components",
+            explanation: "Context provides a way to pass data through the component tree without having to pass props manually at every level."
+          }
+        ],
+        xpReward: 250,
+        lectures: undefined,
+        duration: undefined
+      },
+      {
+        id: "section-5",
+        title: "React Performance Optimization",
+        learningObjectives: [
+          "Learn about React.memo",
+          "Understand useMemo and useCallback",
+          "Master code splitting"
+        ],
+        summary: {
+          textbook: "Performance optimization is crucial for creating fast and responsive React applications. In this section, we'll learn about various techniques to optimize React performance.",
+          storytelling: "Think of performance optimization as tuning a car. Just like how you need to adjust different parts to get the best performance, we need to optimize different aspects of our React application.",
+          narrationScript: "Let's make your React applications lightning fast! In this section, we'll explore various techniques to optimize performance and create better user experiences."
+        },
+        videoTimestamp: {
+          start: 4801,
+          end: 6000
+        },
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
+        audioUrl: "https://example.com/react-performance-audio.mp3",
+        interactiveElements: [
+          {
+            type: "performance-challenge",
+            content: {
+              question: "Optimize a slow component",
+              explanation: "Identify and fix performance issues in a given component."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What does React.memo do?",
+            options: [
+              "Prevents unnecessary re-renders",
+              "Creates new components",
+              "Manages state",
+              "Handles events"
+            ],
+            correctAnswer: "Prevents unnecessary re-renders",
+            explanation: "React.memo is a higher-order component that memoizes the rendered output of a component, preventing unnecessary re-renders."
+          },
+          {
+            question: "When should you use useMemo?",
+            options: [
+              "For expensive calculations",
+              "For simple calculations",
+              "For all calculations",
+              "Never"
+            ],
+            correctAnswer: "For expensive calculations",
+            explanation: "useMemo should be used for expensive calculations that you want to cache between renders."
+          }
+        ],
+        xpReward: 300,
+        lectures: undefined,
+        duration: undefined
       }
-    ]
+    ],
+    views: 1300,
+    instructorBio: ""
+  },
+  {
+    id: "6528fe75a49e4d8f7c1a1018",
+    slug: "Advanced-React-Patterns",
+    type: "paid",
+    price: 100,
+    oldPrice: 0,
+    rating: 5.0,
+    reviews: 120000,
+    category: "programming",
+    thumbnail: "https://img.youtube.com/vi/bMknfKXIFA8/maxresdefault.jpg",
+    title: "Advanced React Patterns",
+    videoURL: "https://www.youtube.com/watch?v=bMknfKXIFA8",
+    instructorId: "6528fe75a49e4d8f7c1a9002",
+    instructorName: "Free CodeCamp",
+    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQGx1K8g3Xjv3Z5U1z9Q3z5U1z9Q3z5U1z9Q3z5=s88-c-k-c0x00ffffff-no-rj",
+    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
+    isVerified: true,
+    isFollowing: true,
+    date: "1 year ago",
+    description: "Learn React from scratch in this comprehensive course. Perfect for beginners looking to master modern frontend development.",
+    learningPatterns: ["video", "audio", "written"],
+    learningObjectives: [
+      "Understand React fundamentals and component-based architecture",
+      "Master state management and hooks in React applications",
+      "Build real-world applications with React and modern tooling",
+      "Learn best practices for React development and deployment"
+    ],
+    requirements: [
+      "Basic knowledge of HTML, CSS, and JavaScript",
+      "Familiarity with ES6+ syntax",
+      "Node.js and npm installed on your computer",
+      "A code editor (VS Code recommended)"
+    ],
+    sections: [
+      {
+        id: "section-1",
+        title: "React Patterns",
+        learningObjectives: [
+          "Understand what React is and why it's popular",
+          "Set up your development environment",
+          "react patterns basics"
+        ],
+        summary: {
+          textbook: "React is a JavaScript library for building user interfaces. It was developed by Facebook and has become one of the most popular frontend frameworks. In this section, we'll set up our development environment and create our first React component.",
+          storytelling: "Imagine you're building a house. Just as you need a solid foundation and building blocks, React provides the foundation and components to build modern web applications. Let's start by laying our foundation.",
+          narrationScript: "Welcome to React! In this section, we'll explore what makes React special and why it has revolutionized web development. Think of React components as LEGO blocks - they're reusable, modular, and can be combined to create complex structures."
+        },
+        videoTimestamp: {
+          start: 0,
+          end: 1200
+        },
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
+        audioUrl: "https://example.com/react-intro-audio.mp3",
+        interactiveElements: [
+          {
+            type: "quiz",
+            content: {
+              question: "What is React primarily used for?",
+              options: [
+                "Building user interfaces",
+                "Database management",
+                "Server configuration",
+                "Mobile app development"
+              ],
+              correctAnswer: "Building user interfaces",
+              explanation: "React is primarily a JavaScript library for building user interfaces. While it can be used in mobile development through React Native, its main purpose is UI development."
+            }
+          },
+          {
+            type: "drag-and-drop",
+            content: {
+              question: "Match the React concepts with their descriptions",
+              options: [
+                "Component",
+                "Props",
+                "State",
+                "JSX"
+              ],
+              correctAnswer: "Component:Reusable UI piece,Props:Data passed to components,State:Internal component data,JSX:HTML-like syntax in JavaScript",
+              explanation: "These are the fundamental concepts in React that you'll use throughout your development journey."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What is a React component?",
+            options: [
+              "A reusable piece of UI",
+              "A database table",
+              "A CSS file",
+              "A JavaScript variable"
+            ],
+            correctAnswer: "A reusable piece of UI",
+            explanation: "Components are the building blocks of React applications. They are reusable pieces of UI that can contain their own content, logic, and styling."
+          },
+          {
+            question: "Which tool is commonly used to create a new React project?",
+            options: [
+              "create-react-app",
+              "new-react-project",
+              "start-react",
+              "init-react"
+            ],
+            correctAnswer: "create-react-app",
+            explanation: "create-react-app is the official tool for creating new React projects with a pre-configured build setup."
+          }
+        ],
+        xpReward: 100,
+        lectures: undefined,
+        duration: undefined
+      },
+      {
+        id: "section-2",
+        title: "Components and Props",
+        learningObjectives: [
+          "Understand component composition",
+          "Learn how to pass and use props",
+          "Master component reusability"
+        ],
+        summary: {
+          textbook: "Components are the core building blocks of React applications. They accept inputs called props and return React elements that describe what should appear on the screen. Props allow you to pass data from parent to child components.",
+          storytelling: "Think of components as different departments in a company. Just like departments communicate and share resources, components communicate through props to build a complete application.",
+          narrationScript: "Components are like LEGO blocks that we can customize and reuse. Props are like instructions that come with each block, telling it how to look and behave."
+        },
+        videoTimestamp: {
+          start: 1201,
+          end: 2400
+        },
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
+        audioUrl: "https://example.com/react-components-audio.mp3",
+        interactiveElements: [
+          {
+            type: "click-to-reveal",
+            content: {
+              question: "Component Lifecycle",
+              options: [
+                "Mounting",
+                "Updating",
+                "Unmounting"
+              ],
+              explanation: "Click each phase to learn more about the component lifecycle."
+            }
+          },
+          {
+            type: "flashcards",
+            content: {
+              question: "Props vs State",
+              options: [
+                "Props: Read-only data passed to components",
+                "State: Mutable data managed within a component"
+              ],
+              explanation: "Understanding the difference between props and state is crucial for React development."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What is the correct way to pass a prop to a component?",
+            options: [
+              "<Component propName={value} />",
+              "<Component {propName=value} />",
+              "<Component propName='value' />",
+              "All of the above"
+            ],
+            correctAnswer: "<Component propName={value} />",
+            explanation: "Props are passed to components using JSX attributes. For JavaScript values, use curly braces {}."
+          },
+          {
+            question: "Can you modify props inside a component?",
+            options: [
+              "Yes, anytime",
+              "No, props are read-only",
+              "Only in class components",
+              "Only with special permissions"
+            ],
+            correctAnswer: "No, props are read-only",
+            explanation: "Props are read-only in React. If you need mutable state, use the useState hook or state in class components."
+          }
+        ],
+        xpReward: 150,
+        lectures: undefined,
+        duration: undefined
+      },
+      {
+        id: "section-3",
+        title: "State and Hooks",
+        learningObjectives: [
+          "Understand React state management",
+          "Learn about useState and useEffect hooks",
+          "Master custom hooks"
+        ],
+        summary: {
+          textbook: "State management is crucial in React applications. Hooks provide a way to use state and other React features in functional components. In this section, we'll explore the most commonly used hooks and how to create custom ones.",
+          storytelling: "Think of state as the memory of your application. Just like how you remember things, your app needs to remember data and update it when needed. Hooks are like special tools that help your components remember and manage this data.",
+          narrationScript: "Welcome to the world of hooks! These powerful tools will help you manage state and side effects in your React components. Let's dive in and learn how to use them effectively."
+        },
+        videoTimestamp: {
+          start: 2401,
+          end: 3600
+        },
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
+        audioUrl: "https://example.com/react-hooks-audio.mp3",
+        interactiveElements: [
+          {
+            type: "drag-and-drop",
+            content: {
+              question: "Match the hooks with their purposes",
+              options: [
+                "useState",
+                "useEffect",
+                "useContext",
+                "useReducer"
+              ],
+              correctAnswer: "useState:Manage state,useEffect:Handle side effects,useContext:Share data,useReducer:Complex state logic",
+              explanation: "Each hook serves a specific purpose in React applications."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What does the useState hook return?",
+            options: [
+              "A state value and a function to update it",
+              "Just the state value",
+              "Just the update function",
+              "A promise"
+            ],
+            correctAnswer: "A state value and a function to update it",
+            explanation: "useState returns an array with two elements: the current state value and a function to update it."
+          },
+          {
+            question: "When does useEffect run?",
+            options: [
+              "After every render",
+              "Only on the first render",
+              "Only when specified dependencies change",
+              "All of the above"
+            ],
+            correctAnswer: "All of the above",
+            explanation: "useEffect can run after every render, only on mount, or when specific dependencies change, depending on how it's configured."
+          }
+        ],
+        xpReward: 200,
+        lectures: undefined,
+        duration: undefined
+      },
+      {
+        id: "section-4",
+        title: "Advanced React Patterns",
+        learningObjectives: [
+          "Learn about higher-order components",
+          "Understand render props pattern",
+          "Master context API"
+        ],
+        summary: {
+          textbook: "Advanced React patterns help you write more maintainable and reusable code. In this section, we'll explore patterns like Higher-Order Components, Render Props, and the Context API.",
+          storytelling: "Think of these patterns as blueprints for building complex features. Just like how architects use different designs for different buildings, React developers use different patterns for different scenarios.",
+          narrationScript: "Ready to level up your React skills? In this section, we'll explore advanced patterns that will make your code more powerful and maintainable."
+        },
+        videoTimestamp: {
+          start: 3601,
+          end: 4800
+        },
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
+        audioUrl: "https://example.com/react-patterns-audio.mp3",
+        interactiveElements: [
+          {
+            type: "code-challenge",
+            content: {
+              question: "Implement a Higher-Order Component",
+              explanation: "Create a HOC that adds loading state to any component."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What is the main purpose of a Higher-Order Component?",
+            options: [
+              "To reuse component logic",
+              "To create new components",
+              "To handle events",
+              "To manage state"
+            ],
+            correctAnswer: "To reuse component logic",
+            explanation: "HOCs are functions that take a component and return a new component with additional functionality."
+          },
+          {
+            question: "What is the Context API used for?",
+            options: [
+              "Sharing data between components",
+              "Handling form submissions",
+              "Managing component state",
+              "Creating animations"
+            ],
+            correctAnswer: "Sharing data between components",
+            explanation: "Context provides a way to pass data through the component tree without having to pass props manually at every level."
+          }
+        ],
+        xpReward: 250,
+        lectures: undefined,
+        duration: undefined
+      },
+      {
+        id: "section-5",
+        title: "React Performance Optimization",
+        learningObjectives: [
+          "Learn about React.memo",
+          "Understand useMemo and useCallback",
+          "Master code splitting"
+        ],
+        summary: {
+          textbook: "Performance optimization is crucial for creating fast and responsive React applications. In this section, we'll learn about various techniques to optimize React performance.",
+          storytelling: "Think of performance optimization as tuning a car. Just like how you need to adjust different parts to get the best performance, we need to optimize different aspects of our React application.",
+          narrationScript: "Let's make your React applications lightning fast! In this section, we'll explore various techniques to optimize performance and create better user experiences."
+        },
+        videoTimestamp: {
+          start: 4801,
+          end: 6000
+        },
+        videoUrl: "https://youtu.be/wDchsz8nmbo",
+        audioUrl: "https://example.com/react-performance-audio.mp3",
+        interactiveElements: [
+          {
+            type: "performance-challenge",
+            content: {
+              question: "Optimize a slow component",
+              explanation: "Identify and fix performance issues in a given component."
+            }
+          }
+        ],
+        quizQuestions: [
+          {
+            question: "What does React.memo do?",
+            options: [
+              "Prevents unnecessary re-renders",
+              "Creates new components",
+              "Manages state",
+              "Handles events"
+            ],
+            correctAnswer: "Prevents unnecessary re-renders",
+            explanation: "React.memo is a higher-order component that memoizes the rendered output of a component, preventing unnecessary re-renders."
+          },
+          {
+            question: "When should you use useMemo?",
+            options: [
+              "For expensive calculations",
+              "For simple calculations",
+              "For all calculations",
+              "Never"
+            ],
+            correctAnswer: "For expensive calculations",
+            explanation: "useMemo should be used for expensive calculations that you want to cache between renders."
+          }
+        ],
+        xpReward: 300,
+        lectures: undefined,
+        duration: undefined
+      }
+    ],
+    views: 140,
+    instructorBio: ""
   },
 ];
 

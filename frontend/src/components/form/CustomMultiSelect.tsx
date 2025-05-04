@@ -74,7 +74,7 @@ const CustomMultiSelect = ({
             </FormLabel>
             <FormControl>
               <MultiSelect
-                options={options.map(option => typeof option === 'object' ? option.value : option)}
+                options={options}
                 onValueChange={field.onChange}
                 defaultValue={field.value}
                 placeholder={placeholder}
