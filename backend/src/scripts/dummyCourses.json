@@ -1,0 +1,334 @@
+[
+  {
+    "userId": "60d0fe4f5311236168a109ca",
+    "title": "Introduction to Python",
+    "category": "Programming",
+    "description": "Learn the basics of Python programming.",
+    "price": 0,
+    "oldPrice": 5000,
+    "mentorshipAvailability": "no",
+    "mentorshipAvailabilityDays": [],
+    "from": null,
+    "to": null,
+    "thumbnail": "https://img.freepik.com/python-course.jpg",
+    "introVideo": "https://youtube.com/python-intro",
+    "slugUrl": "introduction-to-python",
+    "sections": [
+      {
+        "title": "Getting Started",
+        "type": "video",
+        "description": "Introduction to Python and setup.",
+        "video": "https://youtube.com/python-intro",
+        "contentUrl": "https://youtube.com/python-intro",
+        "duration": 10,
+        "quiz": null,
+        "xpReward": 10
+      },
+      {
+        "title": "Variables and Data Types",
+        "type": "video",
+        "description": "Learn about variables and data types.",
+        "video": "https://youtube.com/python-variables",
+        "contentUrl": "https://youtube.com/python-variables",
+        "duration": 15,
+        "quiz": null,
+        "xpReward": 15
+      }
+    ]
+  },
+  {
+    "userId": "60d0fe4f5311236168a109cb",
+    "title": "Web Development with HTML & CSS",
+    "category": "Web Development",
+    "description": "Build beautiful websites with HTML and CSS.",
+    "price": 12000,
+    "oldPrice": 15000,
+    "mentorshipAvailability": "yes",
+    "mentorshipAvailabilityDays": ["Monday", "Wednesday"],
+    "from": "14:00",
+    "to": "16:00",
+    "thumbnail": "https://img.freepik.com/html-css-course.jpg",
+    "introVideo": "https://youtube.com/html-css-intro",
+    "slugUrl": "web-development-html-css",
+    "sections": [
+      {
+        "title": "HTML Basics",
+        "type": "video",
+        "description": "Learn HTML structure.",
+        "video": "https://youtube.com/html-basics",
+        "contentUrl": "https://youtube.com/html-basics",
+        "duration": 12,
+        "quiz": null,
+        "xpReward": 10
+      },
+      {
+        "title": "CSS Fundamentals",
+        "type": "video",
+        "description": "Learn CSS styling.",
+        "video": "https://youtube.com/css-fundamentals",
+        "contentUrl": "https://youtube.com/css-fundamentals",
+        "duration": 18,
+        "quiz": null,
+        "xpReward": 15
+      }
+    ]
+  },
+  {
+    "userId": "60d0fe4f5311236168a109cc",
+    "title": "JavaScript Essentials",
+    "category": "Programming",
+    "description": "Master the basics of JavaScript.",
+    "price": 8000,
+    "oldPrice": 10000,
+    "mentorshipAvailability": "no",
+    "mentorshipAvailabilityDays": [],
+    "from": null,
+    "to": null,
+    "thumbnail": "https://img.freepik.com/js-course.jpg",
+    "introVideo": "https://youtube.com/js-intro",
+    "slugUrl": "javascript-essentials",
+    "sections": [
+      {
+        "title": "Introduction to JavaScript",
+        "type": "video",
+        "description": "What is JavaScript?",
+        "video": "https://youtube.com/js-intro",
+        "contentUrl": "https://youtube.com/js-intro",
+        "duration": 10,
+        "quiz": null,
+        "xpReward": 10
+      },
+      {
+        "title": "Variables and Functions",
+        "type": "video",
+        "description": "Learn about variables and functions.",
+        "video": "https://youtube.com/js-variables",
+        "contentUrl": "https://youtube.com/js-variables",
+        "duration": 20,
+        "quiz": null,
+        "xpReward": 20
+      }
+    ]
+  },
+  {
+    "userId": "60d0fe4f5311236168a109cd",
+    "title": "React for Beginners",
+    "category": "Web Development",
+    "description": "Start building web apps with React.",
+    "price": 25000,
+    "oldPrice": 30000,
+    "mentorshipAvailability": "yes",
+    "mentorshipAvailabilityDays": ["Friday"],
+    "from": "10:00",
+    "to": "12:00",
+    "thumbnail": "https://img.freepik.com/react-course.jpg",
+    "introVideo": "https://youtube.com/react-intro",
+    "slugUrl": "react-for-beginners",
+    "sections": [
+      {
+        "title": "React Overview",
+        "type": "video",
+        "description": "What is React?",
+        "video": "https://youtube.com/react-overview",
+        "contentUrl": "https://youtube.com/react-overview",
+        "duration": 8,
+        "quiz": null,
+        "xpReward": 8
+      },
+      {
+        "title": "JSX and Components",
+        "type": "video",
+        "description": "Learn JSX and components.",
+        "video": "https://youtube.com/react-jsx",
+        "contentUrl": "https://youtube.com/react-jsx",
+        "duration": 15,
+        "quiz": null,
+        "xpReward": 15
+      }
+    ]
+  },
+  {
+    "userId": "60d0fe4f5311236168a109ce",
+    "title": "Git & GitHub Crash Course",
+    "category": "DevOps",
+    "description": "Version control with Git and GitHub.",
+    "price": 0,
+    "oldPrice": 7000,
+    "mentorshipAvailability": "no",
+    "mentorshipAvailabilityDays": [],
+    "from": null,
+    "to": null,
+    "thumbnail": "https://img.freepik.com/git-course.jpg",
+    "introVideo": "https://youtube.com/git-intro",
+    "slugUrl": "git-github-crash-course",
+    "sections": [
+      {
+        "title": "Git Basics",
+        "type": "video",
+        "description": "Learn Git fundamentals.",
+        "video": "https://youtube.com/git-basics",
+        "contentUrl": "https://youtube.com/git-basics",
+        "duration": 12,
+        "quiz": null,
+        "xpReward": 12
+      },
+      {
+        "title": "GitHub Workflow",
+        "type": "video",
+        "description": "Collaborate with GitHub.",
+        "video": "https://youtube.com/github-workflow",
+        "contentUrl": "https://youtube.com/github-workflow",
+        "duration": 18,
+        "quiz": null,
+        "xpReward": 18
+      }
+    ]
+  },
+  {
+    "userId": "60d0fe4f5311236168a109cf",
+    "title": "SQL for Beginners",
+    "category": "Database",
+    "description": "Learn SQL and manage databases.",
+    "price": 6000,
+    "oldPrice": 9000,
+    "mentorshipAvailability": "no",
+    "mentorshipAvailabilityDays": [],
+    "from": null,
+    "to": null,
+    "thumbnail": "https://img.freepik.com/sql-course.jpg",
+    "introVideo": "https://youtube.com/sql-intro",
+    "slugUrl": "sql-for-beginners",
+    "sections": [
+      {
+        "title": "Introduction to Databases",
+        "type": "video",
+        "description": "What is a database?",
+        "video": "https://youtube.com/sql-intro",
+        "contentUrl": "https://youtube.com/sql-intro",
+        "duration": 10,
+        "quiz": null,
+        "xpReward": 10
+      },
+      {
+        "title": "Basic SQL Queries",
+        "type": "video",
+        "description": "Learn SELECT, INSERT, UPDATE.",
+        "video": "https://youtube.com/sql-queries",
+        "contentUrl": "https://youtube.com/sql-queries",
+        "duration": 20,
+        "quiz": null,
+        "xpReward": 20
+      }
+    ]
+  },
+  {
+    "userId": "60d0fe4f5311236168a109d0",
+    "title": "Linux Command Line",
+    "category": "Operating Systems",
+    "description": "Master the Linux terminal.",
+    "price": 5000,
+    "oldPrice": 8000,
+    "mentorshipAvailability": "no",
+    "mentorshipAvailabilityDays": [],
+    "from": null,
+    "to": null,
+    "thumbnail": "https://img.freepik.com/linux-course.jpg",
+    "introVideo": "https://youtube.com/linux-intro",
+    "slugUrl": "linux-command-line",
+    "sections": [
+      {
+        "title": "Terminal Basics",
+        "type": "video",
+        "description": "Introduction to the terminal.",
+        "video": "https://youtube.com/linux-terminal",
+        "contentUrl": "https://youtube.com/linux-terminal",
+        "duration": 10,
+        "quiz": null,
+        "xpReward": 10
+      },
+      {
+        "title": "File Management",
+        "type": "video",
+        "description": "Managing files and directories.",
+        "video": "https://youtube.com/linux-files",
+        "contentUrl": "https://youtube.com/linux-files",
+        "duration": 15,
+        "quiz": null,
+        "xpReward": 15
+      }
+    ]
+  },
+  {
+    "userId": "60d0fe4f5311236168a109d1",
+    "title": "Machine Learning Basics",
+    "category": "Data Science",
+    "description": "An introduction to machine learning concepts.",
+    "price": 35000,
+    "oldPrice": 40000,
+    "mentorshipAvailability": "yes",
+    "mentorshipAvailabilityDays": ["Tuesday"],
+    "from": "13:00",
+    "to": "15:00",
+    "thumbnail": "https://img.freepik.com/ml-course.jpg",
+    "introVideo": "https://youtube.com/ml-intro",
+    "slugUrl": "machine-learning-basics",
+    "sections": [
+      {
+        "title": "What is Machine Learning?",
+        "type": "video",
+        "description": "Overview of ML.",
+        "video": "https://youtube.com/ml-intro",
+        "contentUrl": "https://youtube.com/ml-intro",
+        "duration": 12,
+        "quiz": null,
+        "xpReward": 12
+      },
+      {
+        "title": "Types of ML",
+        "type": "video",
+        "description": "Supervised vs Unsupervised.",
+        "video": "https://youtube.com/ml-types",
+        "contentUrl": "https://youtube.com/ml-types",
+        "duration": 18,
+        "quiz": null,
+        "xpReward": 18
+      }
+    ]
+  },
+  {
+    "userId": "60d0fe4f5311236168a109d2",
+    "title": "Data Analysis with Excel",
+    "category": "Data Analysis",
+    "description": "Analyze data using Microsoft Excel.",
+    "price": 0,
+    "oldPrice": 6000,
+    "mentorshipAvailability": "no",
+    "mentorshipAvailabilityDays": [],
+    "from": null,
+    "to": null,
+    "thumbnail": "https://img.freepik.com/excel-course.jpg",
+    "introVideo": "https://youtube.com/excel-intro",
+    "slugUrl": "data-analysis-excel",
+    "sections": [
+      {
+        "title": "Excel Basics",
+        "type": "video",
+        "description": "Getting started with Excel.",
+        "video": "https://youtube.com/excel-basics",
+        "contentUrl": "https://youtube.com/excel-basics",
+        "duration": 10,
+        "quiz": null,
+        "xpReward": 10
+      },
+      {
+        "title": "Data Visualization",
+        "type": "video",
+        "description": "Creating charts and graphs.",
+        "video": "https://youtube.com/excel-charts",
+        "contentUrl": "https://youtube.com/excel-charts",
+        "duration": 20,
+        "quiz": null,
+        "xpReward": 20
+      }
+    ]
+  }]

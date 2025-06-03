@@ -5,8 +5,8 @@ const { Schema } = mongoose;
 const quizQuestionSchema = new Schema({
   id: { type: String, required: true },
   text: { type: String, required: true },
-  type: { 
-    type: String, 
+  type: {
+    type: String,
     required: true,
     enum: ['MULTIPLE_CHOICE', 'TRUE_FALSE']
   },
@@ -26,29 +26,40 @@ const quizSchema = new Schema({
 
 // Section Schema
 const sectionSchema = new Schema({
-  id: { type: String, required: true },
   title: { type: String, required: true },
-  type: { 
-    type: String, 
+  type: {
+    type: String,
     required: true,
+    default: 'video',
     enum: ['video', 'audio', 'interactive', 'storytelling', 'quiz']
   },
+  description: { type: String, required: false },
+  video: { type: String, required: false }, // Will store the file path for video
   contentUrl: { type: String },
-  description: { type: String, required: true },
   duration: { type: Number, required: true }, // in minutes
   quiz: quizSchema,
   xpReward: { type: Number, default: 0 },
-  order: { type: Number, required: true }
 }, { _id: false });
 
 // Course Schema
 const courseSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
+  category: { type: String, required: true },
   description: { type: String, required: true },
-  instructor: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  thumbnail: { type: String },
-  price: { type: Number, required: true },
+  price: { type: Number, default: 0, required: true },
+  oldPrice: { type: Number, required: false },
+  mentorshipAvailability: { type: String, enum: ['yes', 'no'], default: 'no', required: false },
+  mentorshipAvailabilityDays: { type: [String], required: false }, // array of days
+  from: { type: String, required: false }, // Could store time as a string (e.g., '14:00')
+  to: { type: String, required: false },
+
+  // File uploads
+  thumbnail: { type: String, required: true }, // Path to thumbnail file
+  introVideo: { type: String, required: true }, // Path to intro video file
+  slugUrl: { type: String, required: true },
   sections: [sectionSchema],
+
   enrolledUsers: [{
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
     enrolledAt: { type: Date, default: Date.now },
@@ -62,19 +73,11 @@ const courseSchema = new Schema({
       lastAttempt: { type: Date }
     }]
   }],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
-});
-
-// Update timestamps on save
-courseSchema.pre('save', function(next) {
-  this.updatedAt = Date.now();
-  next();
-});
+}, { timestamps: true });
 
 // Indexes
-courseSchema.index({ 
-  title: 'text', 
+courseSchema.index({
+  title: 'text',
   description: 'text'
 }, {
   weights: {
