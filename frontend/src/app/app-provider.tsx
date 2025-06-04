@@ -65,7 +65,59 @@ export function AppProvider({
   const [isAppLoading, setIsAppLoading] = useState(true);
   const [user, setUser] = useState(() => {
     const cookieUser = Cookies.get("user");
-    return cookieUser ? JSON.parse(cookieUser) : null;
+    return cookieUser ? JSON.parse(cookieUser) : {
+  "id": "679e693fc8625e04bf583fb4",
+  "firstName": "Test",
+  "lastName": "Bot",
+  "username": "testbot",
+  "email": "testbot@test.com",
+  "profile": "soxevabeh-1739742111418.jpg",
+  "cover": "soxevabeh-1739742111546.png",
+  "phone": "+2347017986713",
+  "country": {
+    "name": "Nigeria",
+    "dialCode": "+234",
+    "code": "NG",
+    "flag": "🇳🇬"
+  },
+  "about": "I am awesome and I am better than ever",
+  "residentialAddress": null,
+  "isEmailVerified": true,
+  "theme": "light",
+  "handles": {
+    "facebook": "https://www.facebook.com/test",
+    "instagram": "https://www.instagram.com/@test",
+    "tiktok": "",
+    "youtube": "",
+    "website": ""
+  },
+  "cart": [],
+  "searchHistory": [
+    {
+      "query": "ab",
+      "createdAt": "2025-04-25T06:02:43.102Z",
+      "updatedAt": "2025-04-25T06:02:43.102Z",
+      "id": "680b25835479ada74eb92c1a"
+    }
+  ],
+  "interests": [
+    "article writing",
+    "content creation",
+    "copywriting",
+    "graphics design",
+    "email marketing",
+    "digital photography",
+    "video editing",
+    "technical writing",
+    "UI/UX design",
+    "sound editing",
+    "content marketing strategy",
+    "videography",
+    "voiceover work"
+  ],
+  "createdAt": "2025-02-01T18:34:39.373Z",
+  "updatedAt": "2025-05-27T09:38:25.039Z"
+};
   });
   const [isAuth, setIsAuth] = useState(
     user && Object.values(user).length > 0 ? true : false
