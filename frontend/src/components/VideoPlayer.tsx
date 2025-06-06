@@ -64,28 +64,29 @@ import CustomElementClick from "./CustomElementClick";
 
 type ReactPlayerProps = React.ComponentProps<typeof ReactPlayer>;
 
-// interface PlayerTooltipProps {
-//   onClick: () => void
-//   children: React.ReactNode
-//   hoverLabel: string
-//   disabled?: boolean
-// }
+interface PlayerTooltipProps {
+  onClick: () => void
+  children: React.ReactNode
+  hoverLabel: string
+  disabled?: boolean
+}
 
-// interface VideoPlayerProps {
-//   className?: string
-//   thumbnail?: string
-//   videoUrl?: string
-//   videoCollection?: string[]
-//   currentCourseVideo?: string
-//   setCurrentCourseVideo?: (url: string) => void
-//   onCourseComplete?: () => void
-//   title?: string
-//   subtitles?: {
-//     src: string
-//     label: string
-//     language: string
-//   }[]
-// }
+interface VideoPlayerProps {
+  className?: string;
+  thumbnail?: string;
+  videoUrl?: string;
+  videoCollection?: number;
+  currentCourseVideo?: string;
+  setCurrentCourseVideo?: (url: string) => void;
+  onCourseComplete?: () => void;
+  onEnded?: () => void;
+  title?: string;
+  subtitles?: {
+    src: string;
+    label: string;
+    language: string;
+  }[];
+}
 
 export function PlayerTooltip({
   onClick,

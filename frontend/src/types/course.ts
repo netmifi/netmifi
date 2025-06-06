@@ -11,36 +11,76 @@ export enum QuestionType {
 }
 
 export interface QuizQuestion {
-  id: string;
-  text: string;
-  type: QuestionType;
+  question: string;
   options: string[];
   correctAnswer: number;
-  explanation?: string;
 }
 
 export interface Quiz {
-  id: string;
-  title: string;
-  description: string;
-  passingScore: number;
   questions: QuizQuestion[];
 }
 
 export interface Section {
-  id: string;
+  _id: string;
+  title: string;
+  content: string;
+  videoUrl?: string;
+  duration?: number;
+  order: number;
+  quiz?: Quiz;
+}
+
+export interface CourseProgress {
+  completedSections: string[];
+  lastAccessed: Date;
+  completed: boolean;
+}
+
+export interface CourseEnrollment {
+  student: string;
+  progress: CourseProgress;
+}
+
+export interface CourseReview {
+  user: string;
+  rating: number;
+  comment: string;
+  createdAt: Date;
+}
+
+export interface Course {
+  _id: string;
   title: string;
   description: string;
-  contentType: ContentType;
-  content: {
-    videoUrl?: string;
-    audioUrl?: string;
-    storyContent?: string;
-    quiz?: Quiz;
+  instructor: {
+    _id: string;
+    name: string;
+    email: string;
   };
-  order: number;
-  xpReward: number;
+  category: string;
+  price: number;
+  thumbnail: string;
+  sections: Section[];
+  enrolledStudents: CourseEnrollment[];
   isPublished: boolean;
+  isDisabled: boolean;
+  rating: number;
+  reviews: CourseReview[];
+  xpReward: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CourseListResponse {
+  courses: Course[];
+  total: number;
+  page: number;
+  totalPages: number;
+}
+
+export interface QuizSubmissionResponse {
+  score: number;
+  passed: boolean;
 }
 
 export interface CourseSection {
@@ -65,17 +105,6 @@ export interface TextContent {
   id: string;
   title: string;
   content: string;
-}
-
-export interface Course {
-  id: string;
-  title: string;
-  description: string;
-  instructor: string;
-  price: number;
-  sections: CourseSection[];
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface CourseDraft extends Omit<Course, 'id' | 'createdAt' | 'updatedAt'> {

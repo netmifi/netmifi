@@ -1,13 +1,29 @@
-import { Video, Headphones, Book, Gamepad2 } from "lucide-react";
+import { Headphones } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import VideoPlayer from "@/components/VideoPlayer";
-import { LearningPreference } from "@/types/index";
+
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+}
+
+interface Section {
+  id: string;
+  title: string;
+  videoUrl?: string;
+  audioUrl?: string;
+  content?: string;
+  quizQuestions?: QuizQuestion[];
+}
 
 interface ContentRendererProps {
-  section: any;
-  learningPreference: LearningPreference;
+  section: Section | null;
+  sections: Section[];
+  learningPreference: string;
   isCompleted: boolean;
   onComplete: () => void;
+  onVideoComplete: (sectionId: string) => void;
 }
 
 const ContentRenderer = ({
@@ -16,8 +32,53 @@ const ContentRenderer = ({
   learningPreference,
   isCompleted,
   onComplete,
+  onVideoComplete,
 }: ContentRendererProps) => {
+  if (!section) {
+    return (
+      <div className="flex items-center justify-center h-full text-white">
+        <p>No content available for this section</p>
+      </div>
+    );
+  }
+
   switch (learningPreference) {
+    case "media":
+      return (
+        <div className="p-6 bg-gray-100 rounded-lg dark:bg-gray-800">
+          <div className="aspect- video bg-black rounded-lg">z
+            <VideoPlayer
+              key={section.id}
+              videoUrl={section.videoUrl}
+              title={section.title}
+              videoCollection={sections.length}
+              onEnded={() => {
+                onVideoComplete(section.id);
+                if (!isCompleted) {
+                  // onComplete();
+                }
+              }}
+              className="w-full h-full"
+            />
+          </div>
+          <div className="flex items-center gap-4 mb-4">
+            <Headphones className="w-6 h-6" />
+            <h3 className="text-lg font-medium">{section.title}</h3>
+          </div>
+            <audio
+              key={section.id}
+              src={section.audioUrl}
+              controls
+              className="w-full"
+              onEnded={() => {
+                if (!isCompleted) {
+                  onComplete();
+                }
+                onVideoComplete(section.id);
+              }}
+            />
+        </div>
+      );
     case "video":
       return (
         <div className="aspect-video bg-black rounded-lg">
@@ -28,8 +89,9 @@ const ContentRenderer = ({
               title={section.title}
               videoCollection={sections.length}
               onEnded={() => {
+                onVideoComplete(section.id);
                 if (!isCompleted) {
-                  onComplete();
+                  // onComplete();
                 }
               }}
               className="w-full h-full"
@@ -58,6 +120,7 @@ const ContentRenderer = ({
                 if (!isCompleted) {
                   onComplete();
                 }
+                onVideoComplete(section.id);
               }}
             />
           ) : (
@@ -89,44 +152,53 @@ const ContentRenderer = ({
           <h3 className="text-lg font-medium">{section.title}</h3>
           {section.quizQuestions && section.quizQuestions.length > 0 ? (
             <div className="space-y-4">
-              {section.quizQuestions.map((question: any, index: number) => (
-                <div
-                  key={index}
-                  className="p-4 bg-gray-100 rounded-lg dark:bg-gray-800"
-                >
-                  <p className="font-medium mb-2">{question.question}</p>
-                  <div className="space-y-2">
-                    {question.options.map(
-                      (option: string, optIndex: number) => (
-                        <Button
-                          key={optIndex}
-                          variant="outline"
-                          className="w-full justify-start"
-                          onClick={() => {
-                            if (option === question.correctAnswer) {
-                              if (!isCompleted) {
-                                onComplete();
-                              }
-                            }
-                          }}
-                        >
-                          {option}
-                        </Button>
-                      )
-                    )}
+              {section.quizQuestions.map(
+                (question: QuizQuestion, index: number) => (
+                  <div
+                    key={index}
+                    className="p-4 bg-gray-100 rounded-lg dark:bg-gray-800"
+                  >
+                    <p className="font-medium mb-2">{question.question}</p>
+                    <div className="space-y-2">
+                      {question.options.map(
+                        (option: string, optIndex: number) => (
+                          <div
+                            key={optIndex}
+                            className="flex items-center gap-2"
+                          >
+                            <input
+                              type="radio"
+                              name={`question-${index}`}
+                              id={`option-${index}-${optIndex}`}
+                              value={optIndex}
+                            />
+                            <label htmlFor={`option-${index}-${optIndex}`}>
+                              {option}
+                            </label>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
+              {!isCompleted && (
+                <Button onClick={onComplete} className="mt-4">
+                  Submit Answers
+                </Button>
+              )}
             </div>
           ) : (
-            <div className="text-center py-4">
-              <p>No interactive content available for this section</p>
-            </div>
+            <p>No quiz questions available for this section</p>
           )}
         </div>
       );
     default:
-      return <div>Select a learning preference to continue</div>;
+      return (
+        <div className="flex items-center justify-center h-full text-white">
+          <p>Unsupported learning preference</p>
+        </div>
+      );
   }
 };
 

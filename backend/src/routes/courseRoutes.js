@@ -1,120 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const verifyJwt = require('../middlewares/verifyJwt');
-const verifyRoles = require('../middlewares/verifyRole');
+const { auth } = require('../middleware/auth');
+const courseController = require('../controllers/courseController');
 
-const {
-    createCourse,
-    updateCourse,
-    deleteCourse,
-    addSection,
-    updateSection,
-    deleteSection,
-    enrollCourse,
-    unenrollCourse,
-    completeSection,
-    submitQuiz,
-    completeCourse,
-    updateQuiz,
-    getCourses,
-    getCourse,
-    getSections,
-    getProgress
-} = require('../controllers/courseController');
+// Course Management Routes
+router.post('/', auth, courseController.createCourse);
+router.put('/:id', auth, courseController.updateCourse);
+router.delete('/:id', auth, courseController.deleteCourse);
 
-// Course management routes
-router.post(
-    '/create',
-    verifyJwt('strict'),
-    verifyRoles('instructor'),
-    createCourse
-);
-router.put(
-    '/:id',
-    verifyJwt('strict'),
-    verifyRoles('instructor'),
-    updateCourse
-);
-router.delete(
-    '/:id',
-    verifyJwt('strict'),
-    verifyRoles('instructor'),
-    deleteCourse
-);
+// Section Management Routes
+router.post('/:id/sections', auth, courseController.addSection);
+router.put('/:id/sections/:sectionId', auth, courseController.updateSection);
+router.delete('/:id/sections/:sectionId', auth, courseController.deleteSection);
 
-// Course content routes
-router.post(
-    '/:id/sections',
-    verifyJwt('strict'),
-    verifyRoles('instructor'),
-    addSection
-);
-router.put(
-    '/:id/sections/:sectionId',
-    verifyJwt('strict'),
-    verifyRoles('instructor'),
-    updateSection
-);
-router.delete(
-    '/:id/sections/:sectionId',
-    verifyJwt('strict'),
-    verifyRoles('instructor'),
-    deleteSection
-);
+// Course Enrollment Routes
+router.post('/:id/enroll', auth, courseController.enrollCourse);
+router.delete('/:id/enroll', auth, courseController.unenrollCourse);
 
-// Course enrollment routes
-router.post(
-    '/:id/enroll',
-    verifyJwt('strict'),
-    enrollCourse
-);
-router.post(
-    '/:id/unenroll',
-    verifyJwt('strict'),
-    unenrollCourse
-);
+// Course Progress Routes
+router.post('/:id/sections/:sectionId/complete', auth, courseController.completeSection);
+router.post('/:id/sections/:sectionId/quiz', auth, courseController.submitQuiz);
+router.put('/:id/sections/:sectionId/quiz', auth, courseController.updateQuiz);
 
-// Course progress routes
-router.post(
-    '/:id/sections/:sectionId/complete',
-    verifyJwt('strict'),
-    completeSection
-);
-router.post(
-    '/:id/sections/:sectionId/quiz/submit',
-    verifyJwt('strict'),
-    submitQuiz
-);
-router.post(
-    '/:id/complete',
-    verifyJwt('strict'),
-    completeCourse
-);
+// Course Retrieval Routes
+router.get('/', courseController.getCourses);
+router.get('/:id', courseController.getCourse);
+router.get('/:id/sections', courseController.getSections);
+router.get('/:id/progress', auth, courseController.getProgress);
 
-// Quiz routes
-router.put(
-    '/:id/sections/:sectionId/quiz',
-    verifyJwt('strict'),
-    updateQuiz
-);
-
-// Course retrieval routes
-router.get(
-    '/',
-    getCourses
-);
-router.get(
-    '/:id',
-    getCourse
-);
-router.get(
-    '/:id/sections',
-    getSections
-);
-router.get(
-    '/:id/progress',
-    verifyJwt('strict'),
-    getProgress
-);
+// Course Completion Route
+router.post('/:id/complete', auth, courseController.completeCourse);
 
 module.exports = router;

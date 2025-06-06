@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { tempLeaderboard, currentUserEntry } from "@/constants/temp";
+import { useApp } from "@/app/app-provider";
 
 interface LeaderboardEntry {
   userId: string;
@@ -33,10 +34,11 @@ interface Leaderboard {
 }
 
 const LeaderBoard: React.FC = () => {
+  const { user } = useApp();
   const navigate = useNavigate();
   const [selectedRank, setSelectedRank] = useState<string>("all");
   const [leaderboard, setLeaderboard] = useState<Leaderboard>(tempLeaderboard);
-  const [currentUser, setCurrentUser] = useState<LeaderboardEntry>(currentUserEntry);
+  const [currentUser, setCurrentUser] = useState<LeaderboardEntry>(user);
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -52,7 +54,9 @@ const LeaderBoard: React.FC = () => {
       }
 
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const hours = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
       const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
 
       return `${days}d ${hours}h ${minutes}m`;
@@ -93,14 +97,15 @@ const LeaderBoard: React.FC = () => {
 
   const getLevelProgress = (xp: number) => {
     const levelThresholds = [0, 200, 400, 600, 800, 1000];
-    const currentLevel = levelThresholds.findIndex((threshold) => xp < threshold) - 1;
+    const currentLevel =
+      levelThresholds.findIndex((threshold) => xp < threshold) - 1;
     const nextLevelXP = levelThresholds[currentLevel + 1];
     const currentLevelXP = levelThresholds[currentLevel];
     return ((xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
   };
 
   const formatLastActive = (date: Date) => {
-      const now = new Date();
+    const now = new Date();
     const diff = now.getTime() - new Date(date).getTime();
     const minutes = Math.floor(diff / (1000 * 60));
     const hours = Math.floor(minutes / 60);
@@ -127,22 +132,25 @@ const LeaderBoard: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-background p-4 rounded-lg shadow">
               <h3 className="text-lg font-semibold mb-2">Your Rank</h3>
-              <p className="text-2xl font-bold">{currentUser.rank}</p>
+              <p className="text-2xl font-bold">{currentUser?.rank}</p>
             </div>
             <div className="bg-background p-4 rounded-lg shadow">
               <h3 className="text-lg font-semibold mb-2">Your Level</h3>
-              <p className="text-2xl font-bold">{currentUser.level}</p>
-              <Progress value={getLevelProgress(currentUser.xp)} className="mt-2" />
+              <p className="text-2xl font-bold">{currentUser?.level}</p>
+              <Progress
+                value={getLevelProgress(currentUser?.xp)}
+                className="mt-2"
+              />
             </div>
             <div className="bg-background p-4 rounded-lg shadow">
               <h3 className="text-lg font-semibold mb-2">XP</h3>
-              <p className="text-2xl font-bold">{currentUser.xp}</p>
-                  </div>
+              <p className="text-2xl font-bold">{currentUser?.xp}</p>
+            </div>
             <div className="bg-background p-4 rounded-lg shadow">
               <h3 className="text-lg font-semibold mb-2">Streak</h3>
-              <p className="text-2xl font-bold">{currentUser.streak} days</p>
+              <p className="text-2xl font-bold">{currentUser?.streak} days</p>
             </div>
-                            </div>
+          </div>
         </CardContent>
       </Card>
 
@@ -163,10 +171,16 @@ const LeaderBoard: React.FC = () => {
           <TabsTrigger value="elite" onClick={() => setSelectedRank("elite")}>
             Elite
           </TabsTrigger>
-          <TabsTrigger value="unstoppable" onClick={() => setSelectedRank("unstoppable")}>
+          <TabsTrigger
+            value="unstoppable"
+            onClick={() => setSelectedRank("unstoppable")}
+          >
             Unstoppable
           </TabsTrigger>
-          <TabsTrigger value="champion" onClick={() => setSelectedRank("champion")}>
+          <TabsTrigger
+            value="champion"
+            onClick={() => setSelectedRank("champion")}
+          >
             Champion
           </TabsTrigger>
         </TabsList>
@@ -174,22 +188,31 @@ const LeaderBoard: React.FC = () => {
         <TabsContent value={selectedRank}>
           <div className="space-y-4">
             {filteredEntries.map((entry, index) => (
-              <Card key={entry.userId} className={entry.userId === currentUser.userId ? "border-primary" : ""}>
+              <Card
+                key={entry.userId}
+                className={
+                  entry.userId === currentUser.userId ? "border-primary" : ""
+                }
+              >
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <span className="text-lg font-bold w-8">{index + 1}</span>
                       <Avatar>
-                        <AvatarImage src={entry.profileImage} alt={entry.username} />
+                        <AvatarImage
+                          src={entry.profileImage}
+                          alt={entry.username}
+                        />
                         <AvatarFallback>{entry.username[0]}</AvatarFallback>
                       </Avatar>
                       <div>
                         <p className="font-semibold">{entry.username}</p>
                         <p className="text-sm text-muted-foreground">
-                          Level {entry.level} • {entry.completedCourses} courses completed
-                            </p>
-                          </div>
-                        </div>
+                          Level {entry.level} • {entry.completedCourses} courses
+                          completed
+                        </p>
+                      </div>
+                    </div>
                     <div className="flex items-center space-x-4">
                       <div className="text-right">
                         <p className="font-bold">{entry.score} XP</p>
@@ -197,17 +220,22 @@ const LeaderBoard: React.FC = () => {
                           {entry.quizAccuracy}% quiz accuracy
                         </p>
                       </div>
-                      <Badge className={getRankColor(entry.rank)}>{entry.rank}</Badge>
+                      <Badge className={getRankColor(entry.rank)}>
+                        {entry.rank}
+                      </Badge>
                     </div>
                   </div>
                   <div className="mt-2">
-                    <Progress value={getLevelProgress(entry.xp)} className="h-2" />
-            </div>
+                    <Progress
+                      value={getLevelProgress(entry.xp)}
+                      className="h-2"
+                    />
+                  </div>
                   <p className="text-xs text-muted-foreground mt-1">
                     Last active: {formatLastActive(entry.lastActive)}
                   </p>
-        </CardContent>
-      </Card>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </TabsContent>

@@ -130,7 +130,7 @@ const Recommendations = () => {
         </CarouselContent>
       </Carousel>
 
-      <div className="flex flex-wrap gap-5 max-md:justify-center">
+      <div className="flex flex-wrap flex-grow overflow-y-auto gap-3 max-md:justify-center">
         {data.length > 0 ? (
           data.map((datum) => <CourseCard key={datum.id} course={datum} />)
         ) : (

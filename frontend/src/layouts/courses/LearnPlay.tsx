@@ -14,6 +14,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Quiz } from "@/components/learning/content/Quiz";
+import QuizComponent from "@/components/courses/QuizComponent";
+import { QuizEditor } from "@/components/instructor/steps/QuizEditor";
 
 interface Section {
   id: string;
@@ -99,7 +102,7 @@ const LearnPlay = () => {
           return;
         }
         setCourseData(foundCourse);
-        setLearningPreference("video");
+        setLearningPreference("media");
       }
 
       setIsLoading(false);
@@ -175,6 +178,7 @@ const LearnPlay = () => {
     toast.success(`You earned ${xpGained} XP! Total XP: ${updatedUser.xp}`);
 
     setCompletedSections((prev) => [...prev, currentSection]);
+    setShowQuiz(false)
 
     if (currentSection < courseData.sections.length - 1) {
       setCurrentSection((prev) => prev + 1);
@@ -294,6 +298,7 @@ const LearnPlay = () => {
 
     const updatedSections = courseData.sections.map(section => {
       if (section.id === sectionId) {
+        console.log('video complete is set to true')
         return { ...section, isVideoCompleted: true };
       }
       return section;
@@ -387,20 +392,20 @@ const LearnPlay = () => {
             </Card>
           ) : (
             <ContentRenderer
-              key={courseData.sections[currentSection].id}
+              key={courseData.sections[currentSection]?.id}
               section={courseData.sections[currentSection]}
               sections={courseData.sections}
               learningPreference={learningPreference}
               isCompleted={completedSections.includes(currentSection)}
-              onVideoComplete={() => handleVideoComplete(courseData.sections[currentSection].id)}
+              onVideoComplete={handleVideoComplete}
               onComplete={() => {
                 if (courseData?.sections[currentSection].quizQuestions) {
                   // Check if video is completed before showing quiz
-                  // if (courseData.sections[currentSection].videoUrl && 
-                  //     !courseData.sections[currentSection].isVideoCompleted) {
-                  //   toast.error("Please complete watching the video before taking the quiz");
-                  //   return;
-                  // }
+                  if (courseData.sections[currentSection].videoUrl && 
+                      !courseData.sections[currentSection].isVideoCompleted) {
+                    toast.error("Please complete watching the video before taking the quiz");
+                    return;
+                  }
                   setShowQuiz(true);
                 } else {
                   handleSectionComplete();
@@ -419,15 +424,25 @@ const LearnPlay = () => {
             isLastSection={currentSection === courseData.sections.length - 1}
             onSectionClick={handleSectionClick}
           />
+          {/* TODO */}
+          {/* <QuizComponent
+            sections={courseData.sections}
+            currentSection={currentSection}
+            completedSections={completedSections}
+            onNextSection={handleNextSection}
+            isLastSection={currentSection === courseData.sections.length - 1}
+            onSectionClick={handleSectionClick}
+          /> */}
+          {/* <Quiz courseId={courseData.id} sectionId={courseData.sections[currentSection]?.id}/> */}
         </div>
       </div>
 
       <CourseCompletion
         courseTitle={courseData.title}
         totalXp={totalCourseXp}
-        onBackToCourses={() => navigate("/account/leaderboard")}
+        onBackToCourses={() => navigate("/account/leader-board")}
         onRestartCourse={handleRestartCourse}
-        onSeeLearderBoard={() => navigate("/account/leaderboard")}
+        onSeeLearderBoard={() => navigate("/account/leader-board")}
         isOpen={showCompletionScreen}
         onClose={handleCloseCompletion}
         onFeedbackSubmit={handleFeedbackSubmit}

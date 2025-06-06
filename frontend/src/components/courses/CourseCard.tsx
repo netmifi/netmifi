@@ -10,18 +10,8 @@ import {
   PlayCircle,
   Star,
   Users,
-  Award,
-  ChevronDown,
-  ChevronUp,
-  Watch,
   View,
-  Section,
   ListVideo,
-  List,
-  LayoutList,
-  Layout,
-  Grid,
-  LayoutGrid,
 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
