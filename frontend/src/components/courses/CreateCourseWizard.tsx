@@ -27,6 +27,7 @@ import {
   Video,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import CustomFileField from "../form/CustomFileField";
 
 const courseFormSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -57,7 +58,8 @@ const CreateCourseWizard = ({
   const [selectedMedia, setSelectedMedia] = useState<"image" | "video" | null>(
     null
   );
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [thumbProgress, setThumbProgress] = useState<number>(0);
+  const [vidProgress, setVidProgress] = useState<number>(0);
 
   const form = useForm<z.infer<typeof courseFormSchema>>({
     resolver: zodResolver(courseFormSchema),
@@ -121,10 +123,10 @@ const CreateCourseWizard = ({
 
   const handleFileUpload = async (file: File, type: "image" | "video") => {
     try {
-      setUploadProgress(0);
+      setVidProgress(0);
       // Simulate upload progress
       const interval = setInterval(() => {
-        setUploadProgress((prev) => {
+        setVidProgress((prev) => {
           if (prev >= 100) {
             clearInterval(interval);
             return 100;
@@ -500,16 +502,16 @@ const CreateCourseWizard = ({
                         Upload a cover image for your course
                       </p>
 
-                      {uploadProgress > 0 && uploadProgress < 100 && (
+                      {thumbProgress > 0 && thumbProgress < 100 && (
                         <div className="mt-4">
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
                               className="bg-red-600 h-2 rounded-full transition-all duration-300"
-                              style={{ width: `${uploadProgress}%` }}
+                              style={{ width: `${thumbProgress}%` }}
                             />
                           </div>
                           <p className="text-sm text-gray-500 mt-2">
-                            Uploading... {uploadProgress}%
+                            Uploading... {thumbProgress}%
                           </p>
                         </div>
                       )}
@@ -546,16 +548,16 @@ const CreateCourseWizard = ({
                         Upload a short video introducing your course
                       </p>
 
-                      {uploadProgress > 0 && uploadProgress < 100 && (
+                      {vidProgress > 0 && vidProgress < 100 && (
                         <div className="mt-4">
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
                               className="bg-red-600 h-2 rounded-full transition-all duration-300"
-                              style={{ width: `${uploadProgress}%` }}
+                              style={{ width: `${vidProgress}%` }}
                             />
                           </div>
                           <p className="text-sm text-gray-500 mt-2">
-                            Uploading... {uploadProgress}%
+                            Uploading... {vidProgress}%
                           </p>
                         </div>
                       )}
@@ -576,6 +578,33 @@ const CreateCourseWizard = ({
                     />
                   </div>
                 </div>
+                <CustomFileField
+                  
+                  name={'course-intro-video'}
+                  label={
+                    <>
+                      <ImageIcon className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+                      <h3 className="font-medium">Course Thumbnail</h3>
+                      <p className="text-sm text-gray-500">
+                        Upload a cover image for your course
+                      </p>
+
+                      {thumbProgress > 0 && thumbProgress < 100 && (
+                        <div className="mt-4">
+                          <div className="w-full bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-red-600 h-2 rounded-full transition-all duration-300"
+                              style={{ width: `${thumbProgress}%` }}
+                            />
+                          </div>
+                          <p className="text-sm text-gray-500 mt-2">
+                            Uploading... {thumbProgress}%
+                          </p>
+                        </div>
+                      )}
+                    </>
+                  }
+                />
               </div>
             )}
 

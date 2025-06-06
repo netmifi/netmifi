@@ -1,14 +1,27 @@
 const Course = require('../models/Course');
 const User = require('../models/User');
 const Leaderboard = require('../models/Leaderboard');
+const { uploadToCloudinary } = require('../utils/cloudinary');
+const { calculateXP } = require('../utils/xpCalculator');
 
 // Course Management
-exports.createCourse = async (req, res) => {
+const createCourse = async (req, res) => {
   try {
+    const { title, description, category, price, thumbnail, xpReward } = req.body;
+    
+    // Upload thumbnail to cloudinary
+    const thumbnailResult = await uploadToCloudinary(thumbnail, 'course-thumbnails');
+    
     const course = new Course({
-      ...req.body,
-      userId: req.user.id
+      title,
+      description,
+      instructor: req.user._id,
+      category,
+      price,
+      thumbnail: thumbnailResult.secure_url,
+      xpReward
     });
+
     await course.save();
     res.status(201).json(course);
   } catch (error) {
@@ -16,106 +29,116 @@ exports.createCourse = async (req, res) => {
   }
 };
 
-exports.updateCourse = async (req, res) => {
+const updateCourse = async (req, res) => {
   try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    if (updates.thumbnail) {
+      const thumbnailResult = await uploadToCloudinary(updates.thumbnail, 'course-thumbnails');
+      updates.thumbnail = thumbnailResult.secure_url;
+    }
+
     const course = await Course.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.id },
-      req.body,
+      { _id: id, instructor: req.user._id },
+      { $set: updates },
       { new: true }
     );
+
     if (!course) {
-      return res.status(404).json({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Course not found or unauthorized' });
     }
+
     res.json(course);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-exports.deleteCourse = async (req, res) => {
+const deleteCourse = async (req, res) => {
   try {
-    const course = await Course.findOneAndDelete({
-      _id: req.params.id,
-      userId: req.user.id
-    });
+    const { id } = req.params;
+    const course = await Course.findOneAndUpdate(
+      { _id: id, instructor: req.user._id },
+      { $set: { isDisabled: true } },
+      { new: true }
+    );
+
     if (!course) {
-      return res.status(404).json({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Course not found or unauthorized' });
     }
-    res.json({ message: 'Course deleted successfully' });
+
+    res.json({ message: 'Course disabled successfully' });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
 // Section Management
-exports.addSection = async (req, res) => {
+const addSection = async (req, res) => {
   try {
-    const course = await Course.findOne({
-      _id: req.params.id,
-      userId: req.user.id
-    });
+    const { id } = req.params;
+    const { title, content, videoUrl, duration, order, quiz } = req.body;
+
+    const course = await Course.findOne({ _id: id, instructor: req.user._id });
     if (!course) {
-      return res.status(404).json({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Course not found or unauthorized' });
     }
 
     const newSection = {
-      ...req.body,
-      id: Date.now().toString(),
-      order: course.sections.length + 1
+      title,
+      content,
+      videoUrl,
+      duration,
+      order,
+      quiz
     };
 
     course.sections.push(newSection);
     await course.save();
-    res.status(201).json(newSection);
+
+    res.status(201).json(course.sections[course.sections.length - 1]);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-exports.updateSection = async (req, res) => {
+const updateSection = async (req, res) => {
   try {
-    const course = await Course.findOne({
-      _id: req.params.id,
-      userId: req.user.id
-    });
+    const { id, sectionId } = req.params;
+    const updates = req.body;
+
+    const course = await Course.findOne({ _id: id, instructor: req.user._id });
     if (!course) {
-      return res.status(404).json({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Course not found or unauthorized' });
     }
 
-    const sectionIndex = course.sections.findIndex(
-      section => section.id === req.params.sectionId
-    );
+    const sectionIndex = course.sections.findIndex(s => s._id.toString() === sectionId);
     if (sectionIndex === -1) {
       return res.status(404).json({ message: 'Section not found' });
     }
 
-    course.sections[sectionIndex] = {
-      ...course.sections[sectionIndex],
-      ...req.body
-    };
-
+    course.sections[sectionIndex] = { ...course.sections[sectionIndex].toObject(), ...updates };
     await course.save();
+
     res.json(course.sections[sectionIndex]);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-exports.deleteSection = async (req, res) => {
+const deleteSection = async (req, res) => {
   try {
-    const course = await Course.findOne({
-      _id: req.params.id,
-      userId: req.user.id
-    });
+    const { id, sectionId } = req.params;
+
+    const course = await Course.findOne({ _id: id, instructor: req.user._id });
     if (!course) {
-      return res.status(404).json({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Course not found or unauthorized' });
     }
 
-    course.sections = course.sections.filter(
-      section => section.id !== req.params.sectionId
-    );
-
+    course.sections = course.sections.filter(s => s._id.toString() !== sectionId);
     await course.save();
+
     res.json({ message: 'Section deleted successfully' });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -123,154 +146,131 @@ exports.deleteSection = async (req, res) => {
 };
 
 // Course Enrollment
-exports.enrollCourse = async (req, res) => {
+const enrollCourse = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
-        if (!course) {
-            return res.status(404).json({ message: 'Course not found' });
-        }
-
-    const user = await User.findById(req.user.id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const { id } = req.params;
+    const course = await Course.findById(id);
+    
+    if (!course || course.isDisabled) {
+      return res.status(404).json({ message: 'Course not found or disabled' });
     }
 
-    // Check if user is already enrolled
-    const isEnrolled = course.enrolledUsers.some(
-      enrolled => enrolled.userId.toString() === req.user.id
+    const isAlreadyEnrolled = course.enrolledStudents.some(
+      enrollment => enrollment.student.toString() === req.user._id.toString()
     );
-    if (isEnrolled) {
+
+    if (isAlreadyEnrolled) {
       return res.status(400).json({ message: 'Already enrolled in this course' });
     }
 
-        course.enrolledUsers.push({
-      userId: req.user.id,
-      progress: 0,
-      currentSection: 0,
-      completedSections: [],
-      quizScores: [],
-      enrolledAt: new Date()
-        });
+    course.enrolledStudents.push({
+      student: req.user._id,
+      progress: {
+        completedSections: [],
+        lastAccessed: new Date(),
+        completed: false
+      }
+    });
 
-        await course.save();
-    res.json({ message: 'Enrolled successfully' });
-    } catch (error) {
+    await course.save();
+    res.json({ message: 'Successfully enrolled in the course' });
+  } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-exports.unenrollCourse = async (req, res) => {
+const unenrollCourse = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
+    const { id } = req.params;
+    const course = await Course.findById(id);
+    
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
 
-    course.enrolledUsers = course.enrolledUsers.filter(
-      enrolled => enrolled.userId.toString() !== req.user.id
+    course.enrolledStudents = course.enrolledStudents.filter(
+      enrollment => enrollment.student.toString() !== req.user._id.toString()
     );
 
     await course.save();
-    res.json({ message: 'Unenrolled successfully' });
+    res.json({ message: 'Successfully unenrolled from the course' });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
 // Course Progress
-exports.completeSection = async (req, res) => {
+const completeSection = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
-        if (!course) {
-            return res.status(404).json({ message: 'Course not found' });
-        }
+    const { id, sectionId } = req.params;
+    const course = await Course.findById(id);
+    
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
 
-    const userProgress = course.enrolledUsers.find(
-      enrolled => enrolled.userId.toString() === req.user.id
+    const enrollment = course.enrolledStudents.find(
+      e => e.student.toString() === req.user._id.toString()
     );
-    if (!userProgress) {
+
+    if (!enrollment) {
       return res.status(404).json({ message: 'Not enrolled in this course' });
     }
 
-    const sectionIndex = parseInt(req.params.sectionId);
-    if (!userProgress.completedSections.includes(sectionIndex)) {
-      userProgress.completedSections.push(sectionIndex);
-      userProgress.progress = (userProgress.completedSections.length / course.sections.length) * 100;
+    if (!enrollment.progress.completedSections.includes(sectionId)) {
+      enrollment.progress.completedSections.push(sectionId);
+      enrollment.progress.lastAccessed = new Date();
+      
+      // Check if all sections are completed
+      if (enrollment.progress.completedSections.length === course.sections.length) {
+        enrollment.progress.completed = true;
+        // Award XP to the user
+        const user = await User.findById(req.user._id);
+        user.xp += course.xpReward;
+        await user.save();
+      }
+
+      await course.save();
     }
 
-        await course.save();
-    res.json(userProgress);
-    } catch (error) {
+    res.json({ message: 'Section marked as completed' });
+  } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-exports.submitQuiz = async (req, res) => {
+const submitQuiz = async (req, res) => {
   try {
     const { id, sectionId } = req.params;
     const { answers } = req.body;
-    const userId = req.user.id;
-
-    // Get course and section
+    
     const course = await Course.findById(id);
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
 
-    const section = course.sections.id(sectionId);
+    const section = course.sections.find(s => s._id.toString() === sectionId);
     if (!section) {
       return res.status(404).json({ message: 'Section not found' });
     }
 
-    // Check if section has a quiz
-    if (!section.quiz) {
-      return res.status(400).json({ message: 'Section does not have a quiz' });
-    }
-
-    // Calculate score
     let score = 0;
-    const totalQuestions = section.quiz.questions.length;
-
-    for (let i = 0; i < totalQuestions; i++) {
-      const question = section.quiz.questions[i];
-      const userAnswer = answers[i];
-
-      if (question.type === 'MULTIPLE_CHOICE') {
-        if (userAnswer === question.correctAnswer) {
-          score++;
-        }
-      } else if (question.type === 'TRUE_FALSE') {
-        if (userAnswer === question.correctAnswer) {
-          score++;
-        }
+    section.quiz.questions.forEach((question, index) => {
+      if (answers[index] === question.correctAnswer) {
+        score++;
       }
-    }
-
-    const percentageScore = (score / totalQuestions) * 100;
-    const passed = percentageScore >= section.quiz.passingScore;
-
-    // Update section progress
-    if (passed) {
-      section.completed = true;
-      section.progress = 100;
-      await course.save();
-    }
-
-    // Return results
-    res.json({
-      score: percentageScore,
-      passed,
-      correctAnswers: score,
-      totalQuestions
     });
 
+    const passThreshold = Math.ceil(section.quiz.questions.length * 0.7);
+    const passed = score >= passThreshold;
+
+    res.json({ score, passed });
   } catch (error) {
-    console.error('Error submitting quiz:', error);
-    res.status(500).json({ message: 'Error submitting quiz' });
+    res.status(400).json({ message: error.message });
   }
 };
 
-exports.updateQuiz = async (req, res) => {
+const updateQuiz = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
     if (!course) {
@@ -297,40 +297,54 @@ exports.updateQuiz = async (req, res) => {
 };
 
 // Course Retrieval
-exports.getCourses = async (req, res) => {
+const getCourses = async (req, res) => {
   try {
-    const { category, difficulty, search } = req.query;
-    let query = {};
+    const { category, instructor, search, page = 1, limit = 10 } = req.query;
+    const query = { isDisabled: false, isPublished: true };
 
     if (category) query.category = category;
-    if (difficulty) query.difficulty = difficulty;
+    if (instructor) query.instructor = instructor;
     if (search) {
       query.$text = { $search: search };
     }
 
     const courses = await Course.find(query)
-      .populate('userId', 'firstName lastName username profile')
-      .sort('-createdAt');
-    res.json(courses);
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate('instructor', 'name email')
+      .sort({ createdAt: -1 });
+
+    const total = await Course.countDocuments(query);
+
+    res.json({
+      courses,
+      total,
+      page: parseInt(page),
+      totalPages: Math.ceil(total / limit)
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-exports.getCourse = async (req, res) => {
+const getCourse = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id)
-      .populate('userId', 'firstName lastName username profile');
-    if (!course) {
+    const { id } = req.params;
+    const course = await Course.findById(id)
+      .populate('instructor', 'name email')
+      .populate('enrolledStudents.student', 'name email');
+
+    if (!course || course.isDisabled) {
       return res.status(404).json({ message: 'Course not found' });
     }
+
     res.json(course);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-exports.getSections = async (req, res) => {
+const getSections = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
     if (!course) {
@@ -342,28 +356,31 @@ exports.getSections = async (req, res) => {
   }
 };
 
-exports.getProgress = async (req, res) => {
+const getProgress = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
+    const { id } = req.params;
+    const course = await Course.findById(id);
+    
     if (!course) {
       return res.status(404).json({ message: 'Course not found' });
     }
 
-    const userProgress = course.enrolledUsers.find(
-      enrolled => enrolled.userId.toString() === req.user.id
+    const enrollment = course.enrolledStudents.find(
+      e => e.student.toString() === req.user._id.toString()
     );
-    if (!userProgress) {
+
+    if (!enrollment) {
       return res.status(404).json({ message: 'Not enrolled in this course' });
     }
 
-    res.json(userProgress);
+    res.json(enrollment.progress);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
 // Course Completion
-exports.completeCourse = async (req, res) => {
+const completeCourse = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
@@ -396,4 +413,23 @@ exports.completeCourse = async (req, res) => {
     console.error('Error completing course:', error);
     res.status(500).json({ message: 'Error completing course' });
   }
+};
+
+module.exports = {
+  createCourse,
+  updateCourse,
+  deleteCourse,
+  addSection,
+  updateSection,
+  deleteSection,
+  enrollCourse,
+  unenrollCourse,
+  completeSection,
+  submitQuiz,
+  completeCourse,
+  updateQuiz,
+  getCourses,
+  getCourse,
+  getSections,
+  getProgress
 };

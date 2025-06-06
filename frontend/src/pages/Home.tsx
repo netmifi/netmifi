@@ -10,28 +10,29 @@ import Newsletter from "@/components/Newsletter";
 // import PostAvatar from "@/components/PostAvatar";
 // import Robotron from "@/components/Robotron";
 import { Button } from "@/components/ui/button";
-import {
-  tempInstructors as instructors,
-  tempClips as clips,
-  tempCourses as courses,
-} from "@/constants/temp";
 import RecentCourses from "@/layouts/courses/RecentCourses";
 import TopCourses from "@/layouts/courses/TopCourses";
 // import { ArrowDownIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 // import { Calendar } from "@/components/ui/calendar";
 // import { ChevronRight } from "lucide-react";
 // import { FaPersonChalkboard } from "react-icons/fa6";
 // import AnalyticsSidebar from "@/components/UserActivityPanel";
 // import UserActivityPanel from "@/components/UserActivityPanel";
-import ClipsCarousel from "@/components/courses/ClipsCarousel";
-import { getCoursesByUserNiches, getQuickAndEasyCourses } from "@/lib/utils";
+// import ClipsCarousel from "@/components/courses/ClipsCarousel";
+// import { getCoursesByUserNiches, getQuickAndEasyCourses } from "@/lib/utils";
 import { AdCarousel } from "@/components/AdCarousel";
 // import CountUp from "react-countup";
+import { useCourse } from "@/hooks/useCourse";
+import { LoadingFallback } from "@/components/Fallback";
+import { useInstructor } from "@/hooks/useInstructors";
 
 const Home = () => {
   const { isAuth, user } = useApp();
+  const { courses, loading: coursesLoading, fetchCourses } = useCourse();
+  const { instructors, fetchInstructors} = useInstructor()
+  
   const greetingPhrases = [
     "Hi",
     "Hi There",
@@ -41,39 +42,16 @@ const Home = () => {
     "Great to See You",
     "Welcome Back",
   ];
-  const quickCourses = getQuickAndEasyCourses(clips);
-  const interests = Array.isArray(user?.interests) ? user?.interests : [];
-  const nicheCourses = getCoursesByUserNiches(courses, interests);
 
   const [greeting, setGreeting] = useState("");
-  // const [date, setDate] = useState<Date | undefined>(new Date());
 
   useEffect(() => {
     const rand = Math.floor(Math.random() * greetingPhrases.length);
     setGreeting(greetingPhrases[rand]);
+    fetchCourses();
+    fetchInstructors();
   }, []);
 
-  const exploreSectionRef = useRef<HTMLElement>(null);
-  // const handleHandleExplore = () => {
-  //   exploreSectionRef?.current?.scrollIntoView({ behavior: "smooth" });
-  // };
-  // const [isCountEnded, setIsCountEnded] = useState(false);
-
-  //  TODO: MAKE A SWING COUNTER
-  // const netmifiNumbers = [
-  //   {
-  //     count: 152020,
-  //     label: "students",
-  //   },
-  //   {
-  //     count: 28020,
-  //     label: "online courses",
-  //   },
-  //   {
-  //     count: 6820,
-  //     label: "certified",
-  //   },
-  // ];
 
   const ads = [
     {
@@ -102,6 +80,10 @@ const Home = () => {
     },
   ];
 
+  if (coursesLoading ) {
+    return <LoadingFallback />;
+  }
+
   return (
     <div className="flex">
       <main className="md:gap-3 max-w-full gap-2 px-2 md:px-4 flex flex-col">
@@ -122,16 +104,15 @@ const Home = () => {
 
         <section
           className=" flex flex-col gap-6 md:gap-16"
-          ref={exploreSectionRef}
         >
-          <TopCourses page="child" />
+          <TopCourses page="child" courses={courses} />
 
           {/* TODO uncomment this line when clips feature is ready */}
-          <div>
+          {/* <div>
             <ClipsCarousel data={clips} />
-          </div>
+          </div> */}
 
-          <RecentCourses page="child" />
+          <RecentCourses page="child" courses={courses} />
 
           <div className="flex flex-col gap-7 md:hidden ">
             <div className="flex flex-col gap-2">
@@ -143,7 +124,7 @@ const Home = () => {
             </div>
 
             <div className="grid md:flex md:flex-wrap grid-cols-2 md:justify-around gap-2">
-              {instructors.slice(0, 4).map((instructor) => (
+              {instructors?.slice(0, 4).map((instructor) => (
                 <InstructorCard
                   className="md:min-h-40 col-span-full"
                   key={instructor.id}

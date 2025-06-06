@@ -1,4 +1,33 @@
-import CourseCard from "./CourseCard";
+// import { Course } from "@/types/course";
+// import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+// import CourseCard from "./CourseCard";
+
+// interface CourseCarouselProps {
+//   title: string;
+//   data: Course[];
+// }
+
+// const CourseCarousel = ({ title, data }: CourseCarouselProps) => {
+//   if (!data.length) return null;
+
+//   return (
+//     <div className="flex flex-col gap-4">
+//       <h2 className="text-xl font-semibold">{title}</h2>
+//       <Carousel className="w-full">
+//         <CarouselContent>
+//           {data.map((course) => (
+//             <CarouselItem key={course._id} className="md:basis-1/2 lg:basis-1/3">
+//               <CourseCard course={course} />
+//             </CarouselItem>
+//           ))}
+//         </CarouselContent>
+//         <CarouselPrevious />
+//         <CarouselNext />
+//       </Carousel>
+//     </div>
+//   );
+// };
+
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -10,18 +39,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-
-interface CourseCarouselProps {
-  title: string;
-  link?: string;
-  data?: Course[];
-  className?: string;
-}
+import CourseCard from "./CourseCard";
 
 const CourseCarousel = ({
   title,
   link,
-  data = tempCourses,
+  data,
   className = "",
 }: CourseCarouselProps) => {
   return (
@@ -43,7 +66,7 @@ const CourseCarousel = ({
     loop: true,
   }} className="relative">
         <CarouselContent className="flex items-stretch ">
-          {data.map((course) => (
+          {tempCourses.map((course) => (
             <CarouselItem
               key={course.id}
               className="flex w-fit max-w-fit flex-col min-h-[100%] basis-full sm:basis-4/5 md:basis-1/2 lg:basis-1/3"

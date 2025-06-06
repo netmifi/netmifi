@@ -22,6 +22,15 @@ interface InstructorStats {
   studentSatisfaction: number;
   engagementRate: number;
   recentCourses: Array<{
+    type: any;
+    category: any;
+    videoURL: any;
+    instructorName: any;
+    instructorProfileImage: any;
+    instructorProfileURL: any;
+    isVerified: any;
+    isFollowing: any;
+    date: any;
     id: string;
     title: string;
     thumbnail: string;

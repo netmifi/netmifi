@@ -1,11 +1,5 @@
 import { ThemeProvider } from "@/app/theme-provider";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Courses from "./pages/Courses";
@@ -42,29 +36,21 @@ import InstructorDashboardOutletLayout from "./layouts/InstructorDashboardOutlet
 import Analytics from "./pages/dashboard/Analytics";
 import Students from "./pages/dashboard/Students";
 import CertifiedStudents from "./pages/dashboard/CertifiedStudents";
-import Followers from "./pages/dashboard/Followers";
+// import Followers from "./pages/dashboard/Followers";
 import DashboardCourses from "./pages/dashboard/Courses";
-import CreateCourse from "./pages/dashboard/CreateCourse";
+// import CreateCourse from "./pages/dashboard/Courses/CreateCourse";
 import ResetScroll from "./components/ResetScroll";
 import RequireAuth from "./components/RequireAuth";
 import AppLoading from "./components/AppLoading";
 import { PageProgressStart } from "./layouts/RouterProgress";
 import LayoutWithProgress from "./layouts/LayoutWithProgress";
 import SearchResults from "./pages/SearchResults";
-import ClipPlayer from "./components/courses/ClipsPlayer";
-import { CourseProcessor } from "./services/courseProcessor";
-import { useLayoutEffect } from "react";
+// import ClipPlayer from "./components/courses/ClipsPlayer";
+import CourseProcessorPage from "./pages/CourseProcessorPage";
 import ComingSoon from "./components/ComingSoon";
+import CreateCourse from "./pages/dashboard/CreateCourse";
 
 const App = () => {
-  //   const location = useLocation();
-
-  //   useLayoutEffect(() => {
-  //     // Scroll to the top of the page when the route changes
-  //     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  //   }, [location.pathname]);
-  // };
-
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <Router>
@@ -109,12 +95,11 @@ const App = () => {
                   <Route path="my-courses" element={<MyCourses />} />
                   <Route path="my-courses/:slug" element={<LearnPlay />} />
                   <Route path="learn/:slug" element={<LearnPlay />} />
-                  {/* <Route path="process/:slug" element={<CourseProcessor />} /> */}
-                  {/* You can keep course clips separate */}
-                  <Route path="clips/:slug" element={<ClipPlayer />} />
+                  <Route path="process/:slug" element={<CourseProcessorPage />} />
+                  <Route path="clips/:slug" element={<ComingSoon />} />
                 </Route>
-                <Route path="clips" element={<ClipPlayer />} />
-                <Route path="clips/:slug" element={<ClipPlayer />} />
+                <Route path="clips" element={<ComingSoon />} />
+                <Route path="clips/:slug" element={<ComingSoon />} />
 
                 {/* !!! PRICING ROUTE HAS BEEN SUSPENDED !!! */}
                 {/* <Route path="pricing" element={<h1>Pricing</h1>} /> */}

@@ -6,6 +6,87 @@ import {
 } from "@/assets/svg";
 
 import { profile } from "@/assets/images";
+import { Blog, Clip, PurchasedCourse } from "@/types";
+import { ReactNode } from "react";
+
+// Type definitions
+interface Instructor {
+  id: string;
+  name: string;
+  area: string;
+  profile: string;
+  courses: number;
+  students: number;
+  certificates: number;
+  averageRating: number;
+  isFollowing: boolean;
+  isVerified: boolean;
+  date: string;
+}
+
+interface Section {
+  lectures: ReactNode;
+  duration: ReactNode;
+  id: string;
+  title: string;
+  learningObjectives: string[];
+  summary: {
+    textbook: string;
+    storytelling: string;
+    narrationScript: string;
+  };
+  videoTimestamp: {
+    start: number;
+    end: number;
+  };
+  videoUrl: string;
+  audioUrl: string;
+  interactiveElements: {
+    type: string;
+    content: {
+      question: string;
+      options?: string[];
+      correctAnswer?: string;
+      explanation: string;
+    };
+  }[];
+  quizQuestions: {
+    question: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+  }[];
+  xpReward: number;
+  isVideoCompleted?: boolean;
+}
+
+interface Course {
+  instructorBio: string;
+  id: string;
+  slug: string;
+  type: string;
+  price: number;
+  oldPrice: number;
+  rating: number;
+  reviews: number;
+  category: string;
+  thumbnail: string;
+  title: string;
+  videoURL: string;
+  instructorId: string;
+  instructorName: string;
+  instructorProfileImage: string;
+  instructorProfileURL: string;
+  isVerified: boolean;
+  isFollowing: boolean;
+  date: string;
+  views: number;
+  description: string;
+  learningPatterns: string[];
+  learningObjectives: string[];
+  requirements: string[];
+  sections: Section[];
+}
 
 const tempInstructors: Instructor[] = [
   {
@@ -268,6 +349,9 @@ const tempCourses: Course[] = [
           },
         ],
         xpReward: 100,
+        lectures: undefined,
+        duration: undefined,
+        isVideoCompleted: false,
       },
       {
         id: "section-2",
@@ -341,8 +425,13 @@ const tempCourses: Course[] = [
           },
         ],
         xpReward: 150,
+        lectures: undefined,
+        duration: undefined,
+        isVideoCompleted: false,
       },
     ],
+    instructorBio: "",
+    views: 0,
   },
   {
     id: "6528fe75a49e4d8f7c1a1002",
@@ -374,678 +463,42 @@ const tempCourses: Course[] = [
     ],
     requirements: ["No prior programming experience"],
     sections: [],
+    instructorBio: "",
+    views: 0,
   },
   {
-    id: "6528fe75a49e4d8f7c1a1017",
-    slug: "knife-skills-culinary-course",
+    id: "6528fe75a49e4d8f7c1a1021",
+    slug: "beginner-guitar-course",
     type: "free",
     price: 0,
     oldPrice: 0,
-    rating: 4.8,
-    reviews: 510000,
-    category: "culinary",
-    thumbnail: "https://img.youtube.com/vi/7vBkaOykdJs/maxresdefault.jpg",
-    title: "Knife Skills: A Beginner’s Guide for Home Cooks",
-    videoURL: "https://www.youtube.com/watch?v=7vBkaOykdJs",
-    instructorId: "UC8jq0cDgkRz_8RWCW4N0e8Q",
-    instructorName: "America's Test Kitchen",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQKnifeSkillChef=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/AmericasTestKitchen",
-    isVerified: true,
-    isFollowing: false,
-    date: "2.2 years ago",
-    description: "Learn to handle, sharpen, and use kitchen knives with confidence and safety.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Hold a knife correctly",
-      "Master basic cuts: dice, julienne, chiffonade",
-      "Knife maintenance and safety"
-    ],
-    requirements: [],
-    sections: []
-  },
-    {
-    id: "6528fe75a49e4d8f7c1a1018",
-    slug: "basic-electronics-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.5,
-    reviews: 330000,
-    category: "electronics",
-    thumbnail: "https://img.youtube.com/vi/HOFp8bHTN30/maxresdefault.jpg",
-    title: "Basic Electronics Tutorial for Beginners",
-    videoURL: "https://www.youtube.com/watch?v=HOFp8bHTN30",
-    instructorId: "UCsXVk37bltHxD1rDPwtNM8Q",
-    instructorName: "All About Circuits",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLTElectroAvatar=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/AllAboutCircuits",
-    isVerified: true,
-    isFollowing: false,
-    date: "1.9 years ago",
-    description: "A solid intro to voltage, current, resistance, Ohm's law, and basic circuits.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Understand how electricity flows",
-      "Learn how to read a circuit diagram",
-      "Use multimeters and breadboards"
-    ],
-    requirements: [],
-    sections: []
-  },
-    {
-    id: "6528fe75a49e4d8f7c1a1019",
-    slug: "master-public-speaking-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.6,
-    reviews: 880000,
-    category: "communication",
-    thumbnail: "https://img.youtube.com/vi/UyN3ns4XJ7Q/maxresdefault.jpg",
-    title: "Master the Art of Public Speaking",
-    videoURL: "https://www.youtube.com/watch?v=UyN3ns4XJ7Q",
-    instructorId: "UC7TTtOQKkUjvazwG-v9BD_w",
-    instructorName: "Skillopedia",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLTSkillopedia=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Skillopedia",
-    isVerified: true,
-    isFollowing: false,
-    date: "3.7 years ago",
-    description: "A practical, psychology-backed course on public speaking, confidence, and stage presence.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Overcome stage fright",
-      "Structure persuasive talks",
-      "Use voice and body language effectively"
-    ],
-    requirements: [],
-    sections: []
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1003",
-    slug: "nodejs-and-expressjs-full-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.5,
-    reviews: 3800000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/Oe421EPjeBE/maxresdefault.jpg",
-    title: "Node.js and Express.js - Full Course",
-    videoURL: "https://www.youtube.com/watch?v=Oe421EPjeBE",
-    instructorId: "UC8butISFwT-Wl7EV0hUK0BQ",
-    instructorName: "freeCodeCamp.org",
-    instructorProfileImage:
-      "https://yt3.ggpht.com/ytc/AKedOLT-UC8butISFwT-Wl7EV0hUK0BQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: false,
-    date: "4 years ago",
-    description:
-      "Node.js and Express.js - Full Course. Covers building REST APIs, middleware, routing, and best practices.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Set up Node.js development environment",
-      "Create RESTful APIs with Express",
-      "Handle middleware and routing",
-    ],
-    requirements: ["Basic JavaScript knowledge"],
-    sections: [],
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1004",
-    slug: "learn-html-full-tutorial-for-beginners",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.4,
-    reviews: 2500000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/kUMe1FH4CHE/maxresdefault.jpg",
-    title: "Learn HTML – Full Tutorial for Beginners",
-    videoURL: "https://www.youtube.com/watch?v=kUMe1FH4CHE",
-    instructorId: "UC8butISFwT-Wl7EV0hUK0BQ",
-    instructorName: "freeCodeCamp.org",
-    instructorProfileImage:
-      "https://yt3.ggpht.com/ytc/AKedOLT-UC8butISFwT-Wl7EV0hUK0BQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: false,
-    date: "3 years ago",
-    description:
-      "Learn HTML in this complete course for beginners. This is an all-in-one beginner tutorial to help you learn web development skills.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Understand HTML tags and structure",
-      "Build semantic web pages",
-      "Embed media and links",
-    ],
-    requirements: ["No prerequisites"],
-    sections: [],
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1005",
-    slug: "css-tutorial-full-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.4,
-    reviews: 1800000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/OXGznpKZ_sA/maxresdefault.jpg",
-    title: "CSS Tutorial – Full Course for Beginners",
-    videoURL: "https://www.youtube.com/watch?v=OXGznpKZ_sA",
-    instructorId: "UC8butISFwT-Wl7EV0hUK0BQ",
-    instructorName: "freeCodeCamp.org",
-    instructorProfileImage:
-      "https://yt3.ggpht.com/ytc/AKedOLT-UC8butISFwT-Wl7EV0hUK0BQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: false,
-    date: "3 years ago",
-    description:
-      "In this in-depth course, you will learn about all the key features of CSS. This is the most comprehensive CSS course we've published to date.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Master CSS selectors and properties",
-      "Use Flexbox and Grid layouts",
-      "Create responsive designs",
-    ],
-    requirements: ["Basic HTML knowledge"],
-    sections: [],
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1006",
-    slug: "sql-tutorial-for-beginners",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.5,
+    rating: 4.9,
     reviews: 1200000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/-fW2X7fh7Yg/maxresdefault.jpg",
-    title:
-      "SQL Tutorial for Beginners (and Technical Interview Questions Solved)",
-    videoURL: "https://www.youtube.com/watch?v=-fW2X7fh7Yg",
-    instructorId: "UC8butISFwT-Wl7EV0hUK0BQ",
-    instructorName: "freeCodeCamp.org",
+    category: "music",
+    thumbnail: "https://img.youtube.com/vi/5mg8t6niF24/maxresdefault.jpg",
+    title: "Learn to Play Guitar for Absolute Beginners",
+    videoURL: "https://www.youtube.com/watch?v=5mg8t6niF24",
+    instructorId: "UCcIZivxjU3Od7JrHJVgXCRA",
+    instructorName: "Justin Guitar",
     instructorProfileImage:
-      "https://yt3.ggpht.com/ytc/AKedOLT-UC8butISFwT-Wl7EV0hUK0BQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
+      "https://yt3.ggpht.com/ytc/AKedOLJustGuitar=s88-c-k-c0x00ffffff-no-rj",
+    instructorProfileURL: "https://www.youtube.com/user/JustinSandercoe",
     isVerified: true,
     isFollowing: false,
-    date: "2 years ago",
+    date: "6.2 years ago",
     description:
-      "SQL Tutorial for Beginners (and Technical Interview Questions Solved). Covers SELECT, JOINs, aggregations and more.",
+      "An easy and fun step-by-step course for anyone picking up a guitar for the first time.",
     learningPatterns: ["video"],
     learningObjectives: [
-      "Write basic and complex SQL queries",
-      "Understand JOINs and subqueries",
-      "Optimize queries for performance",
+      "Basic chords and strumming",
+      "Simple rhythm patterns",
+      "Play your first song",
     ],
-    requirements: ["Basic understanding of databases"],
+    requirements: ["Acoustic or electric guitar"],
     sections: [],
+    instructorBio: "",
+    views: 0,
   },
-  {
-    id: "6528fe75a49e4d8f7c1a1007",
-    slug: "learn-git-full-course-for-beginners",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.3,
-    reviews: 1000000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/zTjRZNkhiEU/maxresdefault.jpg",
-    title: "Learn Git – Full Course for Beginners",
-    videoURL: "https://www.youtube.com/watch?v=zTjRZNkhiEU",
-    instructorId: "UC8butISFwT-Wl7EV0hUK0BQ",
-    instructorName: "freeCodeCamp.org",
-    instructorProfileImage:
-      "https://yt3.ggpht.com/ytc/AKedOLT-UC8butISFwT-Wl7EV0hUK0BQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: false,
-    date: "1 year ago",
-    description:
-      "Learn Git – Full Course for Beginners. Covers cloning, branching, merging, rebasing and GitHub workflows.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Initialize and clone repositories",
-      "Work with branches and merges",
-      "Collaborate via GitHub",
-    ],
-    requirements: ["No prerequisites"],
-    sections: [],
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1008",
-    slug: "docker-tutorial-for-beginners",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.2,
-    reviews: 500000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/fqMOX6JJhGo/maxresdefault.jpg",
-    title: "Docker Tutorial for Beginners [FULL COURSE in 3 Hours]",
-    videoURL: "https://www.youtube.com/watch?v=fqMOX6JJhGo",
-    instructorId: "UC4U5tNjQ7h3vq1jXyHpefdQ",
-    instructorName: "TechWorld with Nana",
-    instructorProfileImage:
-      "https://yt3.ggpht.com/ytc/AKedOLT-UC4U5tNjQ7h3vq1jXyHpefdQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/TechWorldwithNana",
-    isVerified: true,
-    isFollowing: false,
-    date: "6 years ago",
-    description:
-      "A Full DevOps Course on How to Run Applications in Containers. Covers images, containers, Dockerfiles, and Compose.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Understand Docker architecture",
-      "Write Dockerfiles and compose files",
-      "Manage container lifecycles",
-    ],
-    requirements: ["Basic Linux/CLI knowledge"],
-    sections: [],
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1009",
-    slug: "typescript-full-course-for-beginners",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.5,
-    reviews: 800000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/gieEQFIfgYc/maxresdefault.jpg",
-    title:
-      "TypeScript Full Course for Beginners | Complete All-in-One Tutorial",
-    videoURL: "https://www.youtube.com/watch?v=gieEQFIfgYc",
-    instructorId: "UC8butISFwT-Wl7EV0hUK0BQ",
-    instructorName: "freeCodeCamp.org",
-    instructorProfileImage:
-      "https://yt3.ggpht.com/ytc/AKedOLT-UC8butISFwT-Wl7EV0hUK0BQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: false,
-    date: "2 years ago",
-    description:
-      "TypeScript Full Course for Beginners. Covers types, interfaces, classes, and generics in TS.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Use TypeScript types and interfaces",
-      "Implement classes and inheritance",
-      "Leverage generics and advanced TS features",
-    ],
-    requirements: ["Basic JavaScript knowledge"],
-    sections: [],
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1010",
-    slug: "cs50-full-computer-science-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.8,
-    reviews: 1000000,
-    category: "computer-science",
-    thumbnail: "https://img.youtube.com/vi/8mAITcNt710/maxresdefault.jpg",
-    title: "CS50 – Harvard University's Introduction to Computer Science",
-    videoURL: "https://www.youtube.com/watch?v=8mAITcNt710",
-    instructorId: "UCcabW7890RKJzL968QWEykA",
-    instructorName: "CS50",
-    instructorProfileImage:
-      "https://yt3.ggpht.com/ytc/AKedOLT-UCcabW7890RKJzL968QWEykA=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL:
-      "https://www.youtube.com/channel/UCcabW7890RKJzL968QWEykA",
-    isVerified: true,
-    isFollowing: false,
-    date: "2 years ago",
-    description:
-      "Learn the basics of computer science from Harvard University. This is CS50, an introduction to the intellectual enterprises of computer science and the art of programming.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Understand basic algorithms and data structures",
-      "Write programs in C, Python, SQL and JavaScript",
-      "Explore memory, security and web development",
-    ],
-    requirements: ["No prerequisites"],
-    sections: [],
-  },  {
-    id: "6528fe75a49e4d8f7c1a1011",
-    slug: "angular-for-beginners-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.6,
-    reviews: 1700000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/JWhRMyyF7nc/maxresdefault.jpg",
-    title: "Angular for Beginners Course [Full Front End Tutorial with TypeScript]",
-    videoURL: "https://www.youtube.com/watch?v=JWhRMyyF7nc",
-    instructorId: "UC8butISFwT-Wl7EV0hUK0BQ",
-    instructorName: "freeCodeCamp.org",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLT-UC8butISFwT-Wl7EV0hUK0BQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: false,
-    date: "1.7 years ago", // published ~1.7 years ago :contentReference[oaicite:0]{index=0}
-    description: "An 18-hour deep dive into Angular and TypeScript, perfect for building real-world front-end apps.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Set up Angular projects with the CLI",
-      "Build and compose Angular components",
-      "Use services, routing, and Forms"
-    ],
-    requirements: [
-      "Basic HTML/CSS/JavaScript",
-      "Familiarity with ES6+ syntax"
-    ],
-    sections: []
-  }, {
-      id: "6528fe75a49e4d8f7c1a1017",
-      slug: "knife-skills-culinary-course",
-      type: "free",
-      price: 0,
-      oldPrice: 0,
-      rating: 4.8,
-      reviews: 510000,
-      category: "culinary",
-      thumbnail: "https://img.youtube.com/vi/7vBkaOykdJs/maxresdefault.jpg",
-      title: "Knife Skills: A Beginner’s Guide for Home Cooks",
-      videoURL: "https://www.youtube.com/watch?v=7vBkaOykdJs",
-      instructorId: "UC8jq0cDgkRz_8RWCW4N0e8Q",
-      instructorName: "America's Test Kitchen",
-      instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQKnifeSkillChef=s88-c-k-c0x00ffffff-no-rj",
-      instructorProfileURL: "https://www.youtube.com/c/AmericasTestKitchen",
-      isVerified: true,
-      isFollowing: false,
-      date: "2.2 years ago",
-      description: "Learn to handle, sharpen, and use kitchen knives with confidence and safety.",
-      learningPatterns: ["video"],
-      learningObjectives: [
-        "Hold a knife correctly",
-        "Master basic cuts: dice, julienne, chiffonade",
-        "Knife maintenance and safety"
-      ],
-      requirements: [],
-      sections: []
-    },
-      {
-      id: "6528fe75a49e4d8f7c1a1018",
-      slug: "basic-electronics-course",
-      type: "free",
-      price: 0,
-      oldPrice: 0,
-      rating: 4.5,
-      reviews: 330000,
-      category: "electronics",
-      thumbnail: "https://img.youtube.com/vi/HOFp8bHTN30/maxresdefault.jpg",
-      title: "Basic Electronics Tutorial for Beginners",
-      videoURL: "https://www.youtube.com/watch?v=HOFp8bHTN30",
-      instructorId: "UCsXVk37bltHxD1rDPwtNM8Q",
-      instructorName: "All About Circuits",
-      instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLTElectroAvatar=s88-c-k-c0x00ffffff-no-rj",
-      instructorProfileURL: "https://www.youtube.com/c/AllAboutCircuits",
-      isVerified: true,
-      isFollowing: false,
-      date: "1.9 years ago",
-      description: "A solid intro to voltage, current, resistance, Ohm's law, and basic circuits.",
-      learningPatterns: ["video"],
-      learningObjectives: [
-        "Understand how electricity flows",
-        "Learn how to read a circuit diagram",
-        "Use multimeters and breadboards"
-      ],
-      requirements: [],
-      sections: []
-    },
-      {
-      id: "6528fe75a49e4d8f7c1a1019",
-      slug: "master-public-speaking-course",
-      type: "free",
-      price: 0,
-      oldPrice: 0,
-      rating: 4.6,
-      reviews: 880000,
-      category: "communication",
-      thumbnail: "https://img.youtube.com/vi/UyN3ns4XJ7Q/maxresdefault.jpg",
-      title: "Master the Art of Public Speaking",
-      videoURL: "https://www.youtube.com/watch?v=UyN3ns4XJ7Q",
-      instructorId: "UC7TTtOQKkUjvazwG-v9BD_w",
-      instructorName: "Skillopedia",
-      instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLTSkillopedia=s88-c-k-c0x00ffffff-no-rj",
-      instructorProfileURL: "https://www.youtube.com/c/Skillopedia",
-      isVerified: true,
-      isFollowing: false,
-      date: "3.7 years ago",
-      description: "A practical, psychology-backed course on public speaking, confidence, and stage presence.",
-      learningPatterns: ["video"],
-      learningObjectives: [
-        "Overcome stage fright",
-        "Structure persuasive talks",
-        "Use voice and body language effectively"
-      ],
-      requirements: [],
-      sections: []
-    },
-  {
-    id: "6528fe75a49e4d8f7c1a1012",
-    slug: "vue-js-crash-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.5,
-    reviews: 1182161,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/Wy9q22isx3U/maxresdefault.jpg",
-    title: "Vue JS Crash Course (2019)",
-    videoURL: "https://www.youtube.com/watch?v=Wy9q22isx3U",
-    instructorId: "UC29ju8bIPH5as8OGnQzwJyA",
-    instructorName: "Traversy Media",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQy06...=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/TraversyMedia",
-    isVerified: true,
-    isFollowing: false,
-    date: "6.3 years ago", // published ~6.3 years ago :contentReference[oaicite:1]{index=1}
-    description: "Learn Vue.js fundamentals—components, directives, lifecycle hooks—in under 1 hour.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Understand Vue reactivity and data binding",
-      "Create and compose Vue components",
-      "Use Vue Router and Vuex basics"
-    ],
-    requirements: [
-      "JavaScript fundamentals",
-      "Basic HTML/CSS"
-    ],
-    sections: []
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1013",
-    slug: "python-django-full-course",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.7,
-    reviews: 4900000,
-    category: "programming",
-    thumbnail: "https://img.youtube.com/vi/F5mRW0jo-U4/maxresdefault.jpg",
-    title: "Python Django Web Framework – Full Course for Beginners",
-    videoURL: "https://www.youtube.com/watch?v=F5mRW0jo-U4",
-    instructorId: "UC8butISFwT-Wl7EV0hUK0BQ",
-    instructorName: "freeCodeCamp.org",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLT-UC8butISFwT-Wl7EV0hUK0BQ=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/Freecodecamp",
-    isVerified: true,
-    isFollowing: false,
-    date: "6.3 years ago", // published ~6.3 years ago :contentReference[oaicite:2]{index=2}
-    description: "A complete 4-hour introduction to building web apps with Django, covering models, views, templates, and auth.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Define Django models and migrations",
-      "Build views and templates",
-      "Implement user authentication"
-    ],
-    requirements: [
-      "Basic Python knowledge",
-      "Familiarity with databases"
-    ],
-    sections: []
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1014",
-    slug: "build-flutter-app-with-dart",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.6,
-    reviews: 2100000,
-    category: "mobile-development",
-    thumbnail: "https://img.youtube.com/vi/x0uinJvhNxI/maxresdefault.jpg",
-    title: "Build a Flutter App with Google's Flutter & Dart",
-    videoURL: "https://www.youtube.com/watch?v=x0uinJvhNxI",
-    instructorId: "UCwXdFgeE9KYzlDdR7TG9cMw",
-    instructorName: "Flutter",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLT-UCwXdFgeE9KYzlDdR7TG9cMw=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/FlutterDev",
-    isVerified: true,
-    isFollowing: false,
-    date: "5.8 years ago", // published ~5.8 years ago :contentReference[oaicite:3]{index=3}
-    description: "A step-by-step 5-hour tutorial to build cross-platform Flutter apps using Dart.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Build layouts with Widgets",
-      "Manage state in Flutter",
-      "Deploy to Android and iOS"
-    ],
-    requirements: [
-      "Basic programming concepts",
-      "Familiarity with OOP"
-    ],
-    sections: []
-  },
-  {
-    id: "6528fe75a49e4d8f7c1a1015",
-    slug: "kubernetes-full-course-beginners",
-    type: "free",
-    price: 0,
-    oldPrice: 0,
-    rating: 4.4,
-    reviews: 820000,
-    category: "devops",
-    thumbnail: "https://img.youtube.com/vi/X48VuDVv0do/maxresdefault.jpg",
-    title: "Kubernetes Tutorial for Beginners [FULL COURSE in 4 Hours]",
-    videoURL: "https://www.youtube.com/watch?v=X48VuDVv0do",
-    instructorId: "UC4AWMdvWDQyQZmJd0nzfvtA",
-    instructorName: "The Net Ninja",
-    instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLT-UC4AWMdvWDQyQZmJd0nzfvtA=s88-c-k-c0x00ffffff-no-rj",
-    instructorProfileURL: "https://www.youtube.com/c/TheNetNinja",
-    isVerified: true,
-    isFollowing: false,
-    date: "4.5 years ago", // published ~4.5 years ago :contentReference[oaicite:4]{index=4}
-    description: "Hands-on 4-hour Kubernetes course: pods, services, deployments, and real-world demos.",
-    learningPatterns: ["video"],
-    learningObjectives: [
-      "Deploy and scale containers",
-      "Manage config maps and secrets",
-      "Use Helm and Operators"
-    ],
-    requirements: [
-      "Docker basics",
-      "Linux command-line"
-    ],
-    sections: []
-  },
-    {
-      id: "6528fe75a49e4d8f7c1a1016",
-      slug: "personal-finance-101-course",
-      type: "free",
-      price: 0,
-      oldPrice: 0,
-      rating: 4.7,
-      reviews: 920000,
-      category: "personal-finance",
-      thumbnail: "https://img.youtube.com/vi/vXU8kUjv6Kw/maxresdefault.jpg",
-      title: "Personal Finance 101: Everything You Need to Know",
-      videoURL: "https://www.youtube.com/watch?v=vXU8kUjv6Kw",
-      instructorId: "UCpKoN-9wP9Qg3xKeQ9N8b7w",
-      instructorName: "Two Cents",
-      instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLQTwoCentsImage=s88-c-k-c0x00ffffff-no-rj",
-      instructorProfileURL: "https://www.youtube.com/c/TwoCentsPBS",
-      isVerified: true,
-      isFollowing: false,
-      date: "3.4 years ago",
-      description: "A practical crash course covering budgeting, saving, investing, and building wealth.",
-      learningPatterns: ["video"],
-      learningObjectives: [
-        "Create a working budget",
-        "Understand credit scores and debt",
-        "Basics of investing and saving for retirement"
-      ],
-      requirements: [],
-      sections: []
-    },
-     
-      {
-      id: "6528fe75a49e4d8f7c1a1020",
-      slug: "time-management-mastery-course",
-      type: "free",
-      price: 0,
-      oldPrice: 0,
-      rating: 4.4,
-      reviews: 260000,
-      category: "productivity",
-      thumbnail: "https://img.youtube.com/vi/oTugjssqOT0/maxresdefault.jpg",
-      title: "Time Management Mastery in 1 Hour",
-      videoURL: "https://www.youtube.com/watch?v=oTugjssqOT0",
-      instructorId: "UC3fXjUFIw43nQ5U0YBd1nWg",
-      instructorName: "Productivity Guy",
-      instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLProductivityGuy=s88-c-k-c0x00ffffff-no-rj",
-      instructorProfileURL: "https://www.youtube.com/c/ProductivityGuy",
-      isVerified: true,
-      isFollowing: false,
-      date: "4.1 years ago",
-      description: "Learn to plan, prioritize, and execute with focus using proven productivity techniques.",
-      learningPatterns: ["video"],
-      learningObjectives: [
-        "Apply the Eisenhower Matrix",
-        "Use Pomodoro and batching",
-        "Avoid burnout and task overload"
-      ],
-      requirements: [],
-      sections: []
-    },
-      {
-      id: "6528fe75a49e4d8f7c1a1021",
-      slug: "beginner-guitar-course",
-      type: "free",
-      price: 0,
-      oldPrice: 0,
-      rating: 4.9,
-      reviews: 1200000,
-      category: "music",
-      thumbnail: "https://img.youtube.com/vi/5mg8t6niF24/maxresdefault.jpg",
-      title: "Learn to Play Guitar for Absolute Beginners",
-      videoURL: "https://www.youtube.com/watch?v=5mg8t6niF24",
-      instructorId: "UCcIZivxjU3Od7JrHJVgXCRA",
-      instructorName: "Justin Guitar",
-      instructorProfileImage: "https://yt3.ggpht.com/ytc/AKedOLJustGuitar=s88-c-k-c0x00ffffff-no-rj",
-      instructorProfileURL: "https://www.youtube.com/user/JustinSandercoe",
-      isVerified: true,
-      isFollowing: false,
-      date: "6.2 years ago",
-      description: "An easy and fun step-by-step course for anyone picking up a guitar for the first time.",
-      learningPatterns: ["video"],
-      learningObjectives: [
-        "Basic chords and strumming",
-        "Simple rhythm patterns",
-        "Play your first song"
-      ],
-      requirements: ["Acoustic or electric guitar"],
-      sections: []
-    }
 ];
 
 const tempBlogs: Blog[] = [
@@ -1054,7 +507,8 @@ const tempBlogs: Blog[] = [
     category: "Technology",
     thumbnail: ContactUsSvg,
     title: "The Future of Web Development",
-    body: "In this blog post, we will explore the latest trends and technologies shaping the future of web development...",
+    body:
+      "In this blog post, we will explore the latest trends and technologies shaping the future of web development...",
     posterName: "John Doe",
     posterProfileImage: CoursesSvg,
     posterProfileURL: "https://www.example.com/johndoe",
@@ -1112,7 +566,8 @@ const tempBlogs: Blog[] = [
     category: "Travel",
     thumbnail: CoursesSvg,
     title: "Exploring the Hidden Gems of Italy",
-    body: "Italy is known for its iconic landmarks, but there are also many hidden gems waiting to be discovered...",
+    body:
+      "Italy is known for its iconic landmarks, but there are also many hidden gems waiting to be discovered...",
     posterName: "Jane Smith",
     posterProfileImage: "https://via.placeholder.com/100x100",
     posterProfileURL: "https://www.example.com/janesmith",
@@ -1283,7 +738,8 @@ const tempBlogs: Blog[] = [
     category: "Food",
     thumbnail: CoursesSvg,
     title: "The Best Vegan Recipes for Beginners",
-    body: "Going vegan doesn't have to be difficult! This blog post features delicious and easy vegan recipes...",
+    body:
+      "Going vegan doesn't have to be difficult! This blog post features delicious and easy vegan recipes...",
     posterName: "Sarah Lee",
     posterProfileImage: profile,
     posterProfileURL: "https://www.example.com/sarahlee",
@@ -1341,7 +797,8 @@ const tempBlogs: Blog[] = [
     category: "Lifestyle",
     thumbnail: AboutUsSvg,
     title: "Building a Minimacollection Wardrobe",
-    body: "Decluttering your closet can be a liberating experience. Learn tips on creating a minimacollection wardrobe...",
+    body:
+      "Decluttering your closet can be a liberating experience. Learn tips on creating a minimacollection wardrobe...",
     posterName: "Michael Chen",
     posterProfileImage: EmailMarketingSvg,
     posterProfileURL: "https://www.example.com/michaelchen",
@@ -1399,7 +856,8 @@ const tempBlogs: Blog[] = [
     category: "Business",
     thumbnail: "https://via.placeholder.com/150x150",
     title: "The Power of Effective Communication in the Workplace",
-    body: "Communication is key to success in any business. This blog post explores strategies for effective communication...",
+    body:
+      "Communication is key to success in any business. This blog post explores strategies for effective communication...",
     posterName: "David Miller",
     posterProfileImage: AboutUsSvg,
     posterProfileURL: "https://www.example.com/davidmiller",
@@ -1457,7 +915,8 @@ const tempBlogs: Blog[] = [
     category: "Photography",
     thumbnail: "https://via.placeholder.com/150x150",
     title: "Capturing Stunning Landscapes: Photography Tips for Beginners",
-    body: "The world is full of breathtaking landscapes waiting to be captured. This blog post provides tips for beginners...",
+    body:
+      "The world is full of breathtaking landscapes waiting to be captured. This blog post provides tips for beginners...",
     posterName: "Sarah Lee",
     posterProfileImage: "https://via.placeholder.com/100x100",
     posterProfileURL: "https://www.example.com/sarahlee",
@@ -1515,7 +974,8 @@ const tempBlogs: Blog[] = [
     category: "Health & Fitness",
     thumbnail: "https://via.placeholder.com/150x150",
     title: "Developing a Sustainable Exercise Routine",
-    body: "Exercise is essential for a healthy lifestyle, but consistency is key. Learn tips for building a sustainable routine...",
+    body:
+      "Exercise is essential for a healthy lifestyle, but consistency is key. Learn tips for building a sustainable routine...",
     posterName: "Emily Jones",
     posterProfileImage: "https://via.placeholder.com/100x100",
     posterProfileURL: "https://www.example.com/emilyjones",
@@ -1573,7 +1033,8 @@ const tempBlogs: Blog[] = [
     category: "Music",
     thumbnail: "https://via.placeholder.com/150x150",
     title: "The History of Jazz Music: From Its Roots to Modern Day",
-    body: "Jazz music is a rich and vibrant genre with a long history. This blog post explores the evolution of jazz...",
+    body:
+      "Jazz music is a rich and vibrant genre with a long history. This blog post explores the evolution of jazz...",
     posterName: "William Brown",
     posterProfileImage: "https://via.placeholder.com/100x100",
     posterProfileURL: "https://www.example.com/williambrown",
@@ -1631,7 +1092,8 @@ const tempBlogs: Blog[] = [
     category: "Entertainment",
     thumbnail: "https://via.placeholder.com/150x150",
     title: "The Best Board Games for Family Game Night",
-    body: "Board games are a fantastic way to connect with family and friends. This blog post recommends some of the best board games...",
+    body:
+      "Board games are a fantastic way to connect with family and friends. This blog post recommends some of the best board games...",
     posterName: "Olivia Rodriguez",
     posterProfileImage: "https://via.placeholder.com/100x100",
     posterProfileURL: "https://www.example.com/oliviarodriguez",
@@ -1689,7 +1151,8 @@ const tempBlogs: Blog[] = [
     category: "Science",
     thumbnail: "https://via.placeholder.com/150x150",
     title: "The Wonders of the Natural World: Exploring Biodiversity",
-    body: "Our planet is teeming with diverse life forms. This blog post explores the concept of biodiversity...",
+    body:
+      "Our planet is teeming with diverse life forms. This blog post explores the concept of biodiversity...",
     posterName: "Christopher Lee",
     posterProfileImage: "https://via.placeholder.com/100x100",
     posterProfileURL: "https://www.example.com/christopherlee",

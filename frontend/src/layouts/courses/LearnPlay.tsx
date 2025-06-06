@@ -11,10 +11,12 @@ import CourseHeader from "@/components/courses/CourseHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComingSoon from "@/components/ComingSoon";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Quiz } from "@/components/learning/content/Quiz";
+import QuizComponent from "@/components/courses/QuizComponent";
+import { QuizEditor } from "@/components/instructor/steps/QuizEditor";
 
 interface Section {
   id: string;
@@ -27,6 +29,8 @@ interface Section {
     options: string[];
     correctAnswer: string;
   }>;
+  videoDuration?: number;
+  isVideoCompleted?: boolean;
 }
 
 const LearnPlay = () => {
@@ -46,8 +50,9 @@ const LearnPlay = () => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, string>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
-  const [feedback, setFeedback] = useState("");
-  const [rating, setRating] = useState("");
+  const [feedback, setFeedback] = useState('');
+  const [rating, setRating] = useState(0);
+  const [videoProgress, setVideoProgress] = useState<Record<string, number>>({});
 
   // const [totalVideos] = useState<string[]>([
   //   "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
@@ -97,7 +102,7 @@ const LearnPlay = () => {
           return;
         }
         setCourseData(foundCourse);
-        setLearningPreference("video");
+        setLearningPreference("media");
       }
 
       setIsLoading(false);
@@ -147,9 +152,17 @@ const LearnPlay = () => {
       );
     }
   };
-
+  
   const handleSectionComplete = () => {
     if (!courseData?.sections) return;
+
+    const currentSectionData = courseData.sections[currentSection];
+    
+    // Check if video is completed
+    if (currentSectionData.videoUrl && !currentSectionData.isVideoCompleted) {
+      toast.error("Please complete watching the video before proceeding");
+      return;
+    }
 
     // Check if section is already completed
     if (completedSections.includes(currentSection)) {
@@ -161,20 +174,17 @@ const LearnPlay = () => {
     setSectionXp((prev) => prev + xpGained);
     setTotalCourseXp((prev) => prev + xpGained);
 
-    // Update the leaderboard with the new XP
     const updatedUser = updateCurrentUserXP(xpGained);
     toast.success(`You earned ${xpGained} XP! Total XP: ${updatedUser.xp}`);
 
-    // Mark section as completed
     setCompletedSections((prev) => [...prev, currentSection]);
+    setShowQuiz(false)
 
-    // Move to next section or show completion screen
     if (currentSection < courseData.sections.length - 1) {
       setCurrentSection((prev) => prev + 1);
-      setSectionXp(0); // Reset section XP for the new section
+      setSectionXp(0);
     } else {
       setShowCompletionScreen(true);
-      // Add completion bonus XP
       const completionBonus = 50;
       const finalUpdate = updateCurrentUserXP(completionBonus);
       setTotalCourseXp((prev) => prev + completionBonus);
@@ -205,13 +215,50 @@ const LearnPlay = () => {
       return;
     }
 
+    // Check if video is completed for the current section
+    const currentSectionData = courseData.sections[currentSection];
+    if (currentSectionData.videoUrl && !currentSectionData.isVideoCompleted) {
+      toast.error("Please complete watching the video before moving to another section");
+      return;
+    }
+
     setCurrentSection(index);
-    // Reset section XP when navigating to a new section
     setSectionXp(0);
   };
 
+  // const handleVideoProgress = (progress: number, sectionId: string) => {
+  //   setVideoProgress(prev => ({
+  //     ...prev,
+  //     [sectionId]: progress
+  //   }));
+
+  //   // Mark video as completed if watched 95% or more
+  //   if (progress >= 0.95) {
+  //     const updatedSections = courseData?.sections.map(section => {
+  //       if (section.id === sectionId) {
+  //         return { ...section, isVideoCompleted: true };
+  //       }
+  //       return section;
+  //     });
+
+  //     if (updatedSections && courseData) {
+  //       setCourseData({
+  //         ...courseData,
+  //         sections: updatedSections
+  //       });
+  //     }
+  //   }
+  // };
+
   const handleQuizSubmit = () => {
     if (!courseData?.sections[currentSection].quizQuestions) return;
+
+    // Check if video is completed
+    const currentSectionData = courseData.sections[currentSection];
+    if (currentSectionData.videoUrl && !currentSectionData.isVideoCompleted) {
+      toast.error("Please complete watching the video before taking the quiz");
+      return;
+    }
 
     const questions = courseData.sections[currentSection].quizQuestions;
     let correctAnswers = 0;
@@ -244,6 +291,25 @@ const LearnPlay = () => {
     // Here you would typically send the feedback to your backend
     toast.success("Thank you for your feedback!");
     handleCloseCompletion();
+  };
+
+  const handleVideoComplete = (sectionId: string) => {
+    if (!courseData?.sections) return;
+
+    const updatedSections = courseData.sections.map(section => {
+      if (section.id === sectionId) {
+        console.log('video complete is set to true')
+        return { ...section, isVideoCompleted: true };
+      }
+      return section;
+    });
+
+    if (courseData) {
+      setCourseData({
+        ...courseData,
+        sections: updatedSections
+      });
+    }
   };
 
   if (isLoading) {
@@ -306,13 +372,13 @@ const LearnPlay = () => {
                               <Label htmlFor={`option-${index}-${optIndex}`}>
                                 {option}
                               </Label>
-                            </div>
+                </div>
                           ))}
                         </RadioGroup>
-                      </div>
+                </div>
                     )
-                  )}
-                  <Button
+              )}
+            <Button
                     onClick={handleQuizSubmit}
                     disabled={
                       Object.keys(quizAnswers).length !==
@@ -320,7 +386,7 @@ const LearnPlay = () => {
                     }
                   >
                     Submit Quiz
-                  </Button>
+            </Button>
                 </div>
               </CardContent>
             </Card>
@@ -331,13 +397,21 @@ const LearnPlay = () => {
               sections={courseData.sections}
               learningPreference={learningPreference}
               isCompleted={completedSections.includes(currentSection)}
+              onVideoComplete={handleVideoComplete}
               onComplete={() => {
-                if (courseData.sections[currentSection].quizQuestions) {
+                if (courseData?.sections[currentSection].quizQuestions) {
+                  // Check if video is completed before showing quiz
+                  if (courseData.sections[currentSection].videoUrl && 
+                      !courseData.sections[currentSection].isVideoCompleted) {
+                    toast.error("Please complete watching the video before taking the quiz");
+                    return;
+                  }
                   setShowQuiz(true);
                 } else {
                   handleSectionComplete();
                 }
               }}
+              // onVideoProgress={handleVideoProgress}
             />
           )}
         </div>
@@ -350,14 +424,25 @@ const LearnPlay = () => {
             isLastSection={currentSection === courseData.sections.length - 1}
             onSectionClick={handleSectionClick}
           />
+          {/* TODO */}
+          {/* <QuizComponent
+            sections={courseData.sections}
+            currentSection={currentSection}
+            completedSections={completedSections}
+            onNextSection={handleNextSection}
+            isLastSection={currentSection === courseData.sections.length - 1}
+            onSectionClick={handleSectionClick}
+          /> */}
+          {/* <Quiz courseId={courseData.id} sectionId={courseData.sections[currentSection]?.id}/> */}
         </div>
       </div>
 
       <CourseCompletion
         courseTitle={courseData.title}
         totalXp={totalCourseXp}
-        onBackToCourses={() => navigate("/account/leaderboard")}
+        onBackToCourses={() => navigate("/account/leader-board")}
         onRestartCourse={handleRestartCourse}
+        onSeeLearderBoard={() => navigate("/account/leader-board")}
         isOpen={showCompletionScreen}
         onClose={handleCloseCompletion}
         onFeedbackSubmit={handleFeedbackSubmit}

@@ -31,14 +31,24 @@ const CourseHeader = ({
           <span className="text-sm text-gray-500">/ {totalXp} XP</span>
         </div>
         <div className="flex items-center gap-2">
+          {learningPreference === "media" && (
+            <>
+              <Video className="w-5 h-5" />
+              <Headphones className="w-5 h-5" />
+            </>
+          )}
           {learningPreference === "video" && <Video className="w-5 h-5" />}
           {learningPreference === "audio" && <Headphones className="w-5 h-5" />}
-          {learningPreference === "storytelling" && <Book className="w-5 h-5" />}
-          {learningPreference === "interactive" && <Gamepad2 className="w-5 h-5" />}
+          {learningPreference === "storytelling" && (
+            <Book className="w-5 h-5" />
+          )}
+          {learningPreference === "interactive" && (
+            <Gamepad2 className="w-5 h-5" />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default CourseHeader; 
+export default CourseHeader;

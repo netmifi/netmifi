@@ -82,6 +82,7 @@ declare interface Course {
   progress?: number;
   collection?: string[];
   isFavorite?: boolean;
+  views?: number;
   sections?: LearningSection[];
   learningObjectives?: string[];
   requirements?: string[];
@@ -161,7 +162,15 @@ declare interface Instructor {
   isVerified: boolean;
   date: string;
 }
+declare interface InstructorProgress{
 
+}
+declare interface InstructorListResponse{
+  instructors: Array;
+  page: number;
+  total: number;
+  totalPages: number;
+}
 declare interface MemberCardProp {
   className?: string;
   title: string;
@@ -217,6 +226,7 @@ declare interface CourseCarouselProps {
   title: string;
   link?: string;
   data: Course[];
+  className?: string;
 }
 declare interface InstructorCarouselProps {
   title: string;

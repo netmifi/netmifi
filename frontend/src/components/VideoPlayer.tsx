@@ -64,28 +64,29 @@ import CustomElementClick from "./CustomElementClick";
 
 type ReactPlayerProps = React.ComponentProps<typeof ReactPlayer>;
 
-// interface PlayerTooltipProps {
-//   onClick: () => void
-//   children: React.ReactNode
-//   hoverLabel: string
-//   disabled?: boolean
-// }
+interface PlayerTooltipProps {
+  onClick: () => void
+  children: React.ReactNode
+  hoverLabel: string
+  disabled?: boolean
+}
 
-// interface VideoPlayerProps {
-//   className?: string
-//   thumbnail?: string
-//   videoUrl?: string
-//   videoCollection?: string[]
-//   currentCourseVideo?: string
-//   setCurrentCourseVideo?: (url: string) => void
-//   onCourseComplete?: () => void
-//   title?: string
-//   subtitles?: {
-//     src: string
-//     label: string
-//     language: string
-//   }[]
-// }
+interface VideoPlayerProps {
+  className?: string;
+  thumbnail?: string;
+  videoUrl?: string;
+  videoCollection?: number;
+  currentCourseVideo?: string;
+  setCurrentCourseVideo?: (url: string) => void;
+  onCourseComplete?: () => void;
+  onEnded?: () => void;
+  title?: string;
+  subtitles?: {
+    src: string;
+    label: string;
+    language: string;
+  }[];
+}
 
 export function PlayerTooltip({
   onClick,
@@ -515,8 +516,8 @@ const VideoPlayer = ({
   };
 
   return (
-    <div
-      className={cn(
+            <div
+              className={cn(
         "relative w-full bg-black group",
         {
           "absolute top-0 left-0 w-full h-full z-50": isCinemaMode,
@@ -526,43 +527,43 @@ const VideoPlayer = ({
       )}
     >
       <div className="relative aspect-video">
-        <ReactPlayer
+                  <ReactPlayer
           ref={videoPlayerRef}
-          url={currentVideo}
-          width="100%"
+                    url={currentVideo}
+                    width="100%"
           height={`${isCinemaMode ?"100%": "70%"}`}
           playing={isPlaying}
-          loop={loop}
-          volume={volume}
-          playbackRate={playBackSpeed}
+                    loop={loop}
+                    volume={volume}
+                    playbackRate={playBackSpeed}
           onProgress={handleProgress}
           onDuration={handleDuration}
           onReady={handleReady}
           onEnded={onEnded}
           onPlay={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
-          onBuffer={handleBuffering}
-          onBufferEnd={handleBufferingEnd}
-          config={{
-            file: {
-              attributes: {
+                    onBuffer={handleBuffering}
+                    onBufferEnd={handleBufferingEnd}
+                    config={{
+                      file: {
+                        attributes: {
                 controlsList: "nodownload",
-                crossOrigin: "anonymous",
-              },
+                          crossOrigin: "anonymous",
+                        },
               tracks: subtitles.map((subtitle) => ({
-                kind: "subtitles",
-                src: subtitle.src,
-                srcLang: subtitle.language,
-                label: subtitle.label,
+                                kind: "subtitles",
+                                src: subtitle.src,
+                                srcLang: subtitle.language,
+                                label: subtitle.label,
                 default: selectedSubtitle === subtitle.src,
               })),
-            },
-          }}
-        />
+                      },
+                    }}
+                  />
 
         {/* Controls overlay */}
-        <div
-          className={cn(
+                    <div
+                      className={cn(
             "absolute inset-0 flex flex-col justify-between p-4 transition-opacity duration-300",
             {
               "opacity-0 group-hover:opacity-100":
@@ -578,9 +579,9 @@ const VideoPlayer = ({
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
               {title && <span className="text-white font-medium">{title}</span>}
-            </div>
+                    </div>
             <div className="flex items-center gap-2">{extendedControls()}</div>
-          </div>
+                    </div>
 
           {/* Center controls */}
           <div className="flex items-center justify-center gap-6">
@@ -590,28 +591,28 @@ const VideoPlayer = ({
                   "animate-pulse": stepBack15s,
                 })}
               />
-            </PlayerTooltip>
-            <PlayerTooltip
+                          </PlayerTooltip>
+                          <PlayerTooltip
               hoverLabel={isPlaying ? "Pause" : "Play"}
-              onClick={handlePlayPause}
+                            onClick={handlePlayPause}
             >
               {isPlaying ? (
                 <Pause className={defaultIconClass("size-12")} />
               ) : (
                 <Play className={defaultIconClass("size-12")} />
-              )}
-            </PlayerTooltip>
-            <PlayerTooltip
+                            )}
+                          </PlayerTooltip>
+                          <PlayerTooltip
               hoverLabel="15s"
               onClick={handleStepForward10s}
             >
               <FaRedo
                 className={cn(defaultIconClass("size-8"), {
                   "animate-pulse": stepForward10s,
-                })}
-              />
-            </PlayerTooltip>
-          </div>
+                              })}
+                            />
+                          </PlayerTooltip>
+                        </div>
 
           {/* Bottom controls */}
           <div className="flex flex-col gap-2">
@@ -631,10 +632,10 @@ const VideoPlayer = ({
                   <span className="text-white text-sm">
                     {convertToReadableTime(duration)}
                   </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <PlayerTooltip
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                          <PlayerTooltip
                   hoverLabel={
                     isCinemaMode ? "Cinema Mode" : "Cinema Mode"
                   }
@@ -645,7 +646,7 @@ const VideoPlayer = ({
                   ) : (
                     <Maximize2 className={defaultIconClass()} />
                   )}
-                </PlayerTooltip>
+                          </PlayerTooltip>
                 {/* <PlayerTooltip
                   hoverLabel="Fullscreen"
                   onClick={handleFullscreen}
@@ -654,10 +655,10 @@ const VideoPlayer = ({
                 </PlayerTooltip> */}
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
   );
 };
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 // Quiz Question Schema
@@ -16,13 +16,16 @@ const quizQuestionSchema = new Schema({
 }, { _id: false });
 
 // Quiz Schema
-const quizSchema = new Schema({
-  id: { type: String, required: true },
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  passingScore: { type: Number, required: true, default: 70 },
-  questions: [quizQuestionSchema]
-}, { _id: false });
+const quizSchema = new Schema(
+  {
+    id: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    passingScore: { type: Number, required: true, default: 70 },
+    questions: [quizQuestionSchema],
+  },
+  { _id: false }
+);
 
 // Section Schema
 const sectionSchema = new Schema({
@@ -84,9 +87,15 @@ courseSchema.index({
     title: 10,
     description: 3
   }
-});
+);
 
 courseSchema.index({ title: 1 });
 courseSchema.index({ price: 1 });
+// Indexes for better query performance
+courseSchema.index({ title: "text", description: "text" });
+courseSchema.index({ category: 1 });
+courseSchema.index({ instructor: 1 });
+courseSchema.index({ isPublished: 1 });
+courseSchema.index({ isDisabled: 1 });
 
-module.exports = mongoose.model('Course', courseSchema);
+module.exports = mongoose.model("Course", courseSchema);

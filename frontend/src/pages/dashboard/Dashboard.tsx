@@ -204,7 +204,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Button
             asChild
-            className="h-24 flex flex-col gap-2"
+            className="h-24 flex flex-col gap-2 text-white font-bold bg-red-800 hover:bg-red-900 transition-colors duration-300"
             onClick={() => navigate("/dashboard/courses/create")}
           >
             <div>
@@ -213,7 +213,7 @@ const Dashboard = () => {
             </div>
           </Button>
           <Button
-            className="h-24 flex flex-col gap-2"
+            className="h-24 flex flex-col gap-2 text-white font-bold bg-red-800 hover:bg-red-900 transition-colors duration-300"
             onClick={() => handleComingSoon("Live Sessions")}
           >
             <Calendar className="size-6" />
@@ -221,7 +221,7 @@ const Dashboard = () => {
           </Button>
           <Button
             asChild
-            className="h-24 flex flex-col gap-2"
+            className="h-24 flex flex-col gap-2 text-white font-bold bg-red-800 hover:bg-red-900 transition-colors duration-300"
             onClick={() => navigate("/dashboard/analytics")}
           >
             <div>
@@ -261,7 +261,7 @@ const Dashboard = () => {
               isVerified={course.isVerified}
               isFollowing={course.isFollowing}
               date={course.date}
-              viewMode="grid"
+              viewMode="list"
             />
           ))}
         </div>

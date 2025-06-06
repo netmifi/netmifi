@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const cartSchema = new Schema(
     {
@@ -96,7 +98,9 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true,
+        lowercase: true
     },
     googleId: {
         type: String,
@@ -105,7 +109,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        minlength: 7,
+        minlength: 6,
         required: function () { return !this.googleId; }, // Conditional requirement if the sign up is coming from google
         trim: true
     },
@@ -194,6 +198,26 @@ const userSchema = new Schema({
             expiresIn: Date,
         },
     },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }],
+    avatar: {
+        type: String
+    },
+    bio: {
+        type: String
+    },
+    achievements: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Achievement'
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 }, {
     toJSON: {
         transform: function (doc, ret) {
@@ -244,4 +268,49 @@ userSchema.statics.clearExpiredCodes = async function () {
     );
 };
 
-module.exports = mongoose.model('User', userSchema);
+userSchema.statics.clearExpiredCodes = async function () {
+    const now = new Date();
+    await this.updateMany(
+        { 'generatedCode.expiresIn': { $lte: now } },
+        { $unset: { generatedCode: '' } }
+    );
+};
+
+// Hash password before saving
+userSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 8);
+    }
+    next();
+});
+
+// Generate auth token
+userSchema.methods.generateAuthToken = async function() {
+    const token = jwt.sign({ id: this._id.toString() }, process.env.JWT_SECRET);
+    this.tokens = this.tokens.concat({ token });
+    await this.save();
+    return token;
+};
+
+// Remove token
+userSchema.methods.removeToken = async function(token) {
+    this.tokens = this.tokens.filter(t => t.token !== token);
+    await this.save();
+};
+
+// Find user by credentials
+userSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new Error('Invalid login credentials');
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        throw new Error('Invalid login credentials');
+    }
+    return user;
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

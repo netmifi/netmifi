@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn, getFirstLettersForProfile } from "@/lib/utils";
+import { PostAvatarProps } from "@/types";
 import { Verified } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
@@ -32,7 +33,7 @@ const PostAvatar = ({
       </NavLink>
       {!onlyAvatar && (
         <div className="flex flex-col">
-          <div className="capitalize text-low-contrast text-sm md:text-base font-bold">
+          <div className="capitalize text-low-contrast text-sm md:text-sm font-bold">
             {Title}
           </div>
           <NavLink
