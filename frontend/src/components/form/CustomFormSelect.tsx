@@ -14,24 +14,6 @@ import {
 } from "@/components/ui/select";
 import { cn, splitCamelCaseToWords } from "@/lib/utils";
 
-interface SelectOption {
-  label: string;
-  value: string;
-}
-
-interface CustomFormSelectProps {
-  control: any;
-  name: string;
-  placeholder?: string;
-  defaultOption?: string;
-  defaultValue?: string;
-  hidden?: boolean;
-  isNotLabeled?: boolean;
-  options: string[] | SelectOption[];
-  label?: string;
-  isRequired?: boolean;
-}
-
 const CustomFormSelect = ({
   control,
   name,
@@ -40,9 +22,7 @@ const CustomFormSelect = ({
   defaultValue = "",
   hidden = false,
   isNotLabeled = false,
-  options,
-  label,
-  isRequired = false,
+  options, // select options
 }: CustomFormSelectProps) => {
   return (
     <FormField
@@ -59,32 +39,26 @@ const CustomFormSelect = ({
             })}
             // className="flex w-full gap-1 flex-col bg-secondary ring-2 ring-secondary rounded-lg p-2 focus-within:ring-destructive focus-within:bg-primary-foreground"
           >
-            {!isNotLabeled && (
-              <FormLabel className="text-xs capitalize flex gap-1">
-                {label || splitCamelCaseToWords(name)}
-                {isRequired && <span className="text-destructive">*</span>}
-              </FormLabel>
-            )}
+            <FormLabel className="text-xs capitalize">
+              {splitCamelCaseToWords(name)}
+            </FormLabel>
             <Select
               onValueChange={field.onChange}
               value={field.value || defaultValue || defaultOption}
+
             >
               <SelectTrigger className="py-5 text-gray-500 bg-transparent border-none p-0 h-auto focus:ring-0 focus:ring-offset-0">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
 
               <SelectContent>
-                {options.map((option, index) => {
-                  const optionValue = typeof option === 'string' ? option : option.value;
-                  const optionLabel = typeof option === 'string' ? option : option.label;
-                  return (
-                    <SelectItem key={index} value={optionValue}>
-                      <span className="flex items-center capitalize">
-                        {optionLabel}
-                      </span>
-                    </SelectItem>
-                  );
-                })}
+                {options.map((option, index) => (
+                  <SelectItem key={index} value={option}>
+                    <span className="flex items-center capitalize">
+                      {option}
+                    </span>
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
