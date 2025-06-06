@@ -18,7 +18,7 @@ const Robotron = ({
         className
       )}
     >
-      <h1 className={cn(" md:text-2xl text-sm capitalize", titleClassName)}>
+      <h1 className={cn(" md:text-2xl text-sm capitalize text-white", titleClassName)}>
         {title}
       </h1>
       <div className="flex max-sm:flex-wrap justify-between w-full">

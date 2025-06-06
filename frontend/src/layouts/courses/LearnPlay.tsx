@@ -392,7 +392,7 @@ const LearnPlay = () => {
             </Card>
           ) : (
             <ContentRenderer
-              key={courseData.sections[currentSection]?.id}
+              key={courseData?.sections[currentSection]}
               section={courseData.sections[currentSection]}
               sections={courseData.sections}
               learningPreference={learningPreference}

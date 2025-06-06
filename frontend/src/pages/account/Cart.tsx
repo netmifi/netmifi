@@ -5,13 +5,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ArrowLeftIcon, ArrowRight, XCircle } from "lucide-react";
 import { logoText, logoTextWhite } from "@/assets/logo";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-
 import mutationErrorHandler from "@/api/handlers/mutationErrorHandler";
 import { useInstructorRegister } from "@/api/hooks/auth/useInstructorRegister";
 import CustomContactField from "@/components/form/CustomContactField";
@@ -28,13 +21,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
-import { Modal } from "@/components/ui/checkoutmodal";
-import CustomCard from "@/components/CustomCard";
-import NavSearch from "@/components/navbar/NavSearch";
-import NavbarPopover from "@/components/navbar/NavbarPopover";
-import AppSidebar, { NavSkeleton } from "@/layouts/navbar/user/AppSidebar";
-import GuestNavbar from "@/layouts/navbar/guest/Index";
-import { Sidebar } from "@/components/ui/sidebar";
+import { Modal } from "@/components/payments/CheckoutModal";
 import { FaNairaSign } from "react-icons/fa6";
 import { useRemoveFromCart } from "@/api/hooks/cart/useRemoveFromCart";
 import {
@@ -43,14 +30,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-
-
 const CartItem = ({
   item,
   setTotalPrice,
 }: {
-    item: { id: string; title: string; price: number; instructorName: string };
-  setTotalPrice: React.Dispatch<React.SetStateAction<number>>
+  item: { id: string; title: string; price: number; instructorName: string };
+  setTotalPrice: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const mutation = useRemoveFromCart();
   const [isAccepted, setIsAccepted] = useState<CheckedState>(false);
@@ -67,8 +52,7 @@ const CartItem = ({
 
   useEffect(() => {
     if (isAccepted) setTotalPrice((prev: number) => prev + item.price);
-    else
-      setTotalPrice((prev: number) => (prev !== 0 ? prev - item.price : 0));
+    else setTotalPrice((prev: number) => (prev !== 0 ? prev - item.price : 0));
   }, [isAccepted, setTotalPrice, item.price]);
 
   return (
@@ -216,12 +200,19 @@ const Cart = () => {
                   >
                     <div className="flex flex-col gap-3 ">
                       {user.cart && user.cart.length > 0 ? (
-                        user.cart.map((item: { id: string; title: string; price: number; instructorName: string; }) => (
-                          <CartItem
-                            item={item}
-                            setTotalPrice={setTotalPrice}
-                          />
-                        ))
+                        user.cart.map(
+                          (item: {
+                            id: string;
+                            title: string;
+                            price: number;
+                            instructorName: string;
+                          }) => (
+                            <CartItem
+                              item={item}
+                              setTotalPrice={setTotalPrice}
+                            />
+                          )
+                        )
                       ) : (
                         <p>No item(s) to display on cart</p>
                       )}
@@ -234,10 +225,10 @@ const Cart = () => {
                             NGN {totalPrice.toLocaleString()}
                           </p>
                         </div>
-                        <div className="flex justify-between w-full">
+                        {/* <div className="flex justify-between w-full">
                           <p className="text-xs">Vat </p>
                           <p className="text-sm"> NGN {vat.toLocaleString()}</p>
-                        </div>
+                        </div> */}
                         <hr />
                         <div className="flex justify-between font-bold w-full">
                           <p className="text-xs">Total</p>
@@ -250,6 +241,8 @@ const Cart = () => {
                           <Modal
                             isOpen={showModal}
                             onClose={closeModal}
+                            total={totalPrice}
+                            itemsPaidFor={user.cart}
                             trigger={
                               <Button
                                 disabled={
@@ -268,28 +261,6 @@ const Cart = () => {
                               </Button>
                             }
                             header="How do you like to pay?"
-                            body={
-                              <div className="grid md:grid-cols-2 gap-x-6 gap-y-2 grid-cols-1">
-                                <CustomCard
-                                  logo={
-                                    <svg
-                                      width="29"
-                                      height="26"
-                                      viewBox="0 0 29 26"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M28.4121 4.67746L15.1366 0.103592C14.7264 -0.0345307 14.2742 -0.0345307 13.8639 0.103592L0.58793 4.67746C0.415233 4.73555 0.266419 4.83951 0.161363 4.97543C0.056308 5.11136 1.38358e-05 5.27279 0 5.43816L0 7.3125C0 7.76141 0.405547 8.125 0.90625 8.125H28.0938C28.5945 8.125 29 7.76141 29 7.3125V5.43816C29 5.09945 28.7655 4.79629 28.4121 4.67746ZM3.625 9.75V17.875H2.71875C2.21805 17.875 1.8125 18.2386 1.8125 18.6875V21.125H27.1875V18.6875C27.1875 18.2386 26.782 17.875 26.2812 17.875H25.375V9.75H21.75V17.875H16.3125V9.75H12.6875V17.875H7.25V9.75H3.625ZM28.0938 22.75H0.90625C0.405547 22.75 0 23.1136 0 23.5625V25.1875C0 25.6364 0.405547 26 0.90625 26H28.0938C28.5945 26 29 25.6364 29 25.1875V23.5625C29 23.1136 28.5945 22.75 28.0938 22.75Z"
-                                        fill="#9E0000"
-                                      />
-                                    </svg>
-                                  }
-                                  title="Bank Transfer"
-                                  description="Transfer to Netmifi account"
-                                />
-                              </div>
-                            }
                           />
                         </div>
                         <div className="items-center flex flex-col">

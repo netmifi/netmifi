@@ -234,8 +234,6 @@ const userSchema = new Schema({
     timestamps: true
 });
 
-// This is a TTL index on the generatedCode.expiresIn field
-userSchema.index({ 'generatedCode.expiresIn': 1 }, { expireAfterSeconds: 0 });
 userSchema.index({
     firstName: 'text',
     lastName: 'text',
@@ -261,6 +259,22 @@ userSchema.index({ email: 1 })
 userSchema.index({ role: 1 })
 userSchema.index({ level: 1 })
 userSchema.index({ rank: 1 })
+
+userSchema.statics.clearExpiredCodes = async function () {
+    const now = new Date();
+    await this.updateMany(
+        { 'generatedCode.expiresIn': { $lte: now } },
+        { $unset: { generatedCode: '' } }
+    );
+};
+
+userSchema.statics.clearExpiredCodes = async function () {
+    const now = new Date();
+    await this.updateMany(
+        { 'generatedCode.expiresIn': { $lte: now } },
+        { $unset: { generatedCode: '' } }
+    );
+};
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {

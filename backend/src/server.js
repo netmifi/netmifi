@@ -16,7 +16,6 @@ const courseRoutes = require('./routes/courseRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const limiter = require('./middlewares/limiter');
 const corsOptions = require('./config/corsOptions');
-const autoDeleteExpiredCodes = require('./scripts/autoDeleteExpiredCodes');
 const path = require('path');
 const verifyJwt = require('./middlewares/verifyJwt');
 const app = express();
@@ -74,7 +73,6 @@ app.use('/payments', paymentRoutes);
 
 mongoose.connect(dbURI)
     .then(() => {
-        autoDeleteExpiredCodes();
         app.listen(PORT, () => console.log(`App running on http://localhost:${PORT}`))
     })
     .catch((reason) => console.log(`Database connection error ${reason}`));
