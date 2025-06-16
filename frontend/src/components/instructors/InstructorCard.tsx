@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Rating from "react-rating";
 import { BookOpen, Star } from "lucide-react";
 import { FaCertificate, FaUserGraduate } from "react-icons/fa6";
 import {
@@ -74,15 +73,7 @@ const InstructorCard = ({ className, instructor }: InstructorCardProps) => {
           <span className="text-sm font-montserrat font-semibold">
             {instructor.averageRating || 0}
           </span>
-          <Rating
-            start={0}
-            stop={5}
-            fractions={2}
-            initialRating={instructor.averageRating || 0}
-            emptySymbol={<Star size={14} />}
-            fullSymbol={<Star size={14} className="fill-yellow-500" />}
-            readonly={true}
-          />
+       
         </CardFooter>
 
         <div className="flex flex-col justify-evenly hover-item-container">

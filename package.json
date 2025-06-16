@@ -1,10 +1,20 @@
 {
   "name": "netmifi",
   "version": "1.0.0",
-  "description": "",
+  "description": "Vite frontend and Node.js backend monorepo with TurboRepo",
+  "private": true,
+    "engines": {
+    "node": ">=22.14.0",
+    "pnpm": ">=9.6.0"
+  },
+  "packageManager": "pnpm@10.6.3",
   "main": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "install-all": "pnpm install"
   },
   "repository": {
     "type": "git",
@@ -18,5 +28,12 @@
   "homepage": "https://github.com/netmifi/netmifi#readme",
   "dependencies": {
     "uuid": "^11.1.0"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "devDependencies": {
+    "turbo": "^2.5.4"
   }
 }

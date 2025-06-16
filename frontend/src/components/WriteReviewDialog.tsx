@@ -17,7 +17,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "./ui/form";
 import CustomFormField from "./form/CustomFormField";
-import Rating from "react-rating";
 
 const WriteReviewDialog = ({ child, postId }: RateDialogProps) => {
   const formSchema = reviewFormSchema();
@@ -59,7 +58,7 @@ const WriteReviewDialog = ({ child, postId }: RateDialogProps) => {
 
         <Form {...form}>
           <form className="flex flex-col gap-3">
-            <Rating
+            {/* <Rating
               start={0}
               stop={5}
               fractions={2}
@@ -67,7 +66,7 @@ const WriteReviewDialog = ({ child, postId }: RateDialogProps) => {
               emptySymbol={<Star />}
               fullSymbol={<Star className="fill-yellow-500" />}
               onClick={(value) => handleRatingClick(value)}
-            />
+            /> */}
 
             <CustomFormField
               control={form.control}

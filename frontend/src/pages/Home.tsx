@@ -28,6 +28,7 @@ import { NavLink } from "react-router-dom";
 import ClipsCarousel from "@/components/courses/ClipsCarousel";
 import { getCoursesByUserNiches, getQuickAndEasyCourses } from "@/lib/utils";
 import { AdCarousel } from "@/components/AdCarousel";
+import VideoPlayer  from "@/components/VideoPlayer"
 // import CountUp from "react-countup";
 
 const Home = () => {
@@ -115,6 +116,12 @@ const Home = () => {
             </div>
           </section>
         )}
+
+          <VideoPlayer
+            videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            onCourseComplete={()=>{}}
+            title="Big Buck Bunny - Sample Course"
+          />
 
         <section className=" relative">
           <AdCarousel ads={ads} />

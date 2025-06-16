@@ -6,7 +6,6 @@ import {
   AlertDialogTitle,
 } from "../ui/alert-dialog";
 import VideoPlayer from "../VideoPlayer";
-import Rating from "react-rating";
 import {
   Accordion,
   AccordionContent,
@@ -127,18 +126,6 @@ const ViewCourse = ({
             <label className="text-xs sm:text-sm font-bold">Rating</label>
 
             <div className="w-full flex justify-between">
-              <Rating
-                start={0}
-                stop={5}
-                fractions={2}
-                initialRating={datum?.rating || 0}
-                emptySymbol={<StarIcon className="size-4  text-primary" />}
-                fullSymbol={
-                  <StarIcon className="size-4 fill-red text-primary" />
-                }
-                readonly={true}
-              />
-
               <span className="text-sm font-bold">{datum?.rating}</span>
             </div>
           </fieldset>

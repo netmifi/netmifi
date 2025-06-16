@@ -7,7 +7,6 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import Rating from "react-rating";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Ellipsis, Flag, Star } from "lucide-react";
 import { Button } from "./ui/button";
@@ -54,7 +53,7 @@ const ReviewCard = ({
         </CardHeader>
 
         <CardFooter>
-          <Rating
+          {/* <Rating
             start={0}
             stop={5}
             fractions={2}
@@ -63,7 +62,7 @@ const ReviewCard = ({
             fullSymbol={<Star className="fill-yellow-500" />}
             readonly={true}
             className="ml-auto"
-          />
+          /> */}
         </CardFooter>
       </CardContent>
     </Card>
