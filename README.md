@@ -60,5 +60,4 @@ The backend is built using Node.js with the following key libraries:
 This project uses MongoDB for data storage. For installing MongoDB Compass (ideal for offline machines), please refer to this [YouTube video](https://youtu.be/gB6WLkSrtJk).
 
 ## Environment Variables
-To view or request the environment variable settings, please refer to this Google Document:  
-[Environment Variables Document](https://docs.google.com/document/d/1r3eqYQSELndVlbU_-MZZrr3xGZfoGgciFwKxZ9BG5o/edit?usp=drivesdk)
+To view or request the environment variable settings, please refer to the owner of this repository.
